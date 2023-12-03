@@ -5,6 +5,10 @@
     "npm": "^9",
     "node": "^18"
   },
+  "maintainers": [
+    "https://github.com/RuggeroVisintin",
+    "https://github.com/Scrice994"
+  ],
   "description": "",
   "main": "index.js",
   "scripts": {
