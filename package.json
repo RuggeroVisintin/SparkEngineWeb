@@ -1,6 +1,10 @@
 {
   "name": "sparkengineweb",
   "version": "0.0.1",
+  "engines": {
+    "npm": "^9",
+    "node": "^18"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
