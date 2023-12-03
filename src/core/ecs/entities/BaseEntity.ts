@@ -1,6 +1,7 @@
-import { BaseComponent, IComponent } from "../components";
+import { BaseComponent } from "../components";
+import { IEntity } from "./IEntity";
 
-export class BaseEntity {
+export class BaseEntity implements IEntity {
     private components: Map<string, BaseComponent> = new Map();
 
     public addComponent<Component extends BaseComponent>(key: string, component: Component): void {
