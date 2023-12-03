@@ -1,0 +1,23 @@
+on:
+    push:
+    workflow_dispatch:
+
+jobs:
+    commit:
+      runs-on: ubuntu-latest
+  
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 18
+  
+        - name: install
+          run: npm ci
+  
+        - name: test
+          run: npm run test:unit
+  
+        - name: build
+          run: npm run build
+  
