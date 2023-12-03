@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme",
   "devDependencies": {
-    "typescript": "^5.3.2",
     "@commitlint/config-conventional": "^18.4.3",
     "commitlint": "^18.4.3",
     "husky": "^8.0.3",
