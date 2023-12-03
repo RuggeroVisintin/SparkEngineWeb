@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/RuggeroVisintin/SparkEngineWeb/issues"
   },
-  "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme"
+  "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme",
+  "devDependencies": {
+    "typescript": "^5.3.2"
+  }
 }
