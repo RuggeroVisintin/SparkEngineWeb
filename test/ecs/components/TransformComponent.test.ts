@@ -1,6 +1,6 @@
-import { TransformComponent } from "../../../../src"
+import { TransformComponent } from "../../../src"
 
-describe('core/ecs/components/TransformComponent', () => {
+describe('ecs/components/TransformComponent', () => {
     describe('constructor', () => {
         it('Should default position to 0,0 if not defined', () => {
             const transformComponent = new TransformComponent();

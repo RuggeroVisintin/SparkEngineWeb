@@ -1,6 +1,6 @@
-import { BaseComponent, BaseEntity } from "../../../../src";
+import { BaseComponent, BaseEntity } from "../../../src";
 
-describe('core/ecs/entities/BaseEntity', () => {
+describe('ecs/entities/BaseEntity', () => {
     const baseEntity = new BaseEntity();
 
     describe('.addComponent()', () => {

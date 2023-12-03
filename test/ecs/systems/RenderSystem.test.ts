@@ -1,6 +1,6 @@
-import { RenderSystem, ShapeComponent } from "../../../../src"
+import { RenderSystem, ShapeComponent } from "../../../src"
 
-describe('core/ecs/systems/RenderSystem', () => {
+describe('systems/RenderSystem', () => {
     describe('.registerComponent()', () => {
         const renderSystem = new RenderSystem();
         const myTestShape = new ShapeComponent();
