@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/RuggeroVisintin/SparkEngineWeb/issues"
   },
-  "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme"
+  "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme",
+  "devDependencies": {
+    "@commitlint/config-conventional": "^18.4.3",
+    "commitlint": "^18.4.3",
+    "husky": "^8.0.3"
+  }
 }
