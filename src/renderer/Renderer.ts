@@ -1,9 +1,17 @@
 import { RenderCommand } from './RenderCommand';
 
 export class Renderer {
-    public readonly commandBuffer: RenderCommand[] = [];
+    private _commandBuffer: RenderCommand[] = [];
+
+    public get commandBuffer(): RenderCommand[] {
+        return this._commandBuffer;
+    }
 
     public pushRenderCommand(command: RenderCommand): void {
-        this.commandBuffer.push(command);
+        this._commandBuffer.push(command);
+    }
+
+    public endFrame(): void {
+        this._commandBuffer = [];
     }
 }
