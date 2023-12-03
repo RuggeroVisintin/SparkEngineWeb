@@ -1,1 +1,2 @@
-console.log('RUN')
+export * from './core';
+export * from './ecs';
