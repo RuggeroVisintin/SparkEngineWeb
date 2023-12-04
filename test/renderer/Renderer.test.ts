@@ -16,4 +16,36 @@ describe('renderer/Renderer', () => {
             expect(renderer.commandBuffer).toContain(renderCommand);
         });
     });
+
+    describe('.endFrame()', () => {
+        it('Should execute queued rendering commands', () => {
+            const renderCommand = {
+                renderCommandID: RenderCommandID.RC_DrawPrimitive,
+                primitiveType: PrimitiveType.Rectangle,
+                position: [0, 0],
+                size: [0, 0]
+            };
+
+            // TODO: implement execute interface in renderCommand with gfx as Dependency
+            // To abstract the logic of how A command is executed from the renderer
+
+            renderer.pushRenderCommand(renderCommand);
+            renderer.endFrame();
+        })
+
+        it('Should clear the command buffer', () => {
+            const renderCommand = {
+                renderCommandID: RenderCommandID.RC_DrawPrimitive,
+                primitiveType: PrimitiveType.Rectangle,
+                position: [0, 0],
+                size: [0, 0]
+            };
+
+            renderer.pushRenderCommand(renderCommand);
+            renderer.endFrame();
+
+            expect(renderer.commandBuffer).toEqual([]);
+            
+        });
+    });
 });
