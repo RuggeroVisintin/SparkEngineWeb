@@ -18,13 +18,16 @@ describe('renderer/Renderer', () => {
     });
 
     describe('.endFrame()', () => {
-        it.skip('Should execute queued rendering commands', () => {
+        it('Should execute queued rendering commands', () => {
             const renderCommand = {
                 renderCommandID: RenderCommandID.RC_DrawPrimitive,
                 primitiveType: PrimitiveType.Rectangle,
                 position: [0, 0],
                 size: [0, 0]
             };
+
+            // TODO: implement execute interface in renderCommand with gfx as Dependency
+            // To abstract the logic of how A command is executed from the renderer
 
             renderer.pushRenderCommand(renderCommand);
             renderer.endFrame();
