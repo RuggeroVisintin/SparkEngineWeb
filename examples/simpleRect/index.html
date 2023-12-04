@@ -6,8 +6,9 @@
     <script>
         const context = document.getElementById('canvas').getContext('2d')
         const device = new SparkEngine.CanvasDevice();
-        device.drawRect(context, 10, 10, 25, 25);
-        device.fill(context);
+
+        const renderer = new SparkEngine.Renderer(device);
+        // renderer.push
     </script>
 </body>
 

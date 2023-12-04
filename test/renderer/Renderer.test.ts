@@ -1,16 +1,17 @@
-import { RenderCommandID, PrimitiveType,Renderer } from "../../src";
+import { PrimitiveType,Renderer, DrawPrimitiveCommand, CanvasDevice } from "../../src";
 
 describe('renderer/Renderer', () => {
-    const renderer = new Renderer();
+    const device = new CanvasDevice();
+    const ctx = new CanvasRenderingContext2D();
+    const renderer = new Renderer(device);
 
     describe('.pushRenderCommand()', () => {
         it('Should push a render command into the rendering queue', () => {
-            const renderCommand = {
-                renderCommandID: RenderCommandID.RC_DrawPrimitive,
-                primitiveType: PrimitiveType.Rectangle,
-                position: [0, 0],
-                size: [0, 0]
-            };
+            const renderCommand = new DrawPrimitiveCommand(
+                PrimitiveType.Rectangle,
+                [0, 0],
+                [0, 0]
+            )
 
             renderer.pushRenderCommand(renderCommand);
             expect(renderer.commandBuffer).toContain(renderCommand);
@@ -19,30 +20,28 @@ describe('renderer/Renderer', () => {
 
     describe('.endFrame()', () => {
         it('Should execute queued rendering commands', () => {
-            const renderCommand = {
-                renderCommandID: RenderCommandID.RC_DrawPrimitive,
-                primitiveType: PrimitiveType.Rectangle,
-                position: [0, 0],
-                size: [0, 0]
-            };
+            const renderCommand = new DrawPrimitiveCommand(
+                PrimitiveType.Rectangle,
+                [0, 0],
+                [0, 0]
+            );
 
             // TODO: implement execute interface in renderCommand with gfx as Dependency
             // To abstract the logic of how A command is executed from the renderer
 
             renderer.pushRenderCommand(renderCommand);
-            renderer.endFrame();
+            renderer.endFrame(ctx);
         })
 
         it('Should clear the command buffer', () => {
-            const renderCommand = {
-                renderCommandID: RenderCommandID.RC_DrawPrimitive,
-                primitiveType: PrimitiveType.Rectangle,
-                position: [0, 0],
-                size: [0, 0]
-            };
+            const renderCommand = new DrawPrimitiveCommand(
+                PrimitiveType.Rectangle,
+                [0, 0],
+                [0, 0]
+            )
 
             renderer.pushRenderCommand(renderCommand);
-            renderer.endFrame();
+            renderer.endFrame(ctx);
 
             expect(renderer.commandBuffer).toEqual([]);
             
