@@ -1,5 +1,4 @@
 import { CanvasDevice } from '../platform';
-import { CanvasContext2D } from '../platform/gfx/CanvasContext2D';
 import { RenderCommand } from './RenderCommand';
 
 /**
@@ -22,8 +21,15 @@ export class Renderer {
         this._commandBuffer.push(command);
     }
 
-    public endFrame(context: CanvasRenderingContext2D): void {
-        this._commandBuffer.forEach(command => command.execute(context, this.device));
+    public endFrame(ctx: CanvasRenderingContext2D): void {
+        this.device.clear(ctx);
+
+        this._commandBuffer.forEach(command => {
+            this.device.begin(ctx);
+            command.execute(ctx, this.device)
+            this.device.end(ctx);
+        });
+
         this._commandBuffer = [];
     }
 }

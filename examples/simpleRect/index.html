@@ -8,7 +8,34 @@
         const device = new SparkEngine.CanvasDevice();
 
         const renderer = new SparkEngine.Renderer(device);
-        // renderer.push
+
+        let pos = 0;
+        const drawFrame = () => {
+            console.time();
+            pos++;
+            pos = pos % 60;
+
+            renderer.pushRenderCommand(new SparkEngine.DrawPrimitiveCommand(
+                SparkEngine.PrimitiveType.Rectangle,
+                [pos, pos],
+                [70, 70],
+                true,
+                'green'
+            ));
+
+            renderer.pushRenderCommand(new SparkEngine.DrawPrimitiveCommand(
+                SparkEngine.PrimitiveType.Rectangle,
+                [100, 100],
+                [25, 25],
+                false,
+                'blue'
+            ));
+
+            renderer.endFrame(context);
+            console.timeEnd();
+        }
+
+        setInterval(drawFrame, 33);
     </script>
 </body>
 
