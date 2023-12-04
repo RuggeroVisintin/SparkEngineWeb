@@ -16,20 +16,12 @@ export class CanvasDevice {
     }
 
     public fill(ctx: CanvasRenderingContext2D, color?: string): void {
-        const oldStyle = ctx.fillStyle;
-
         color && (ctx.fillStyle = color);
         ctx.fill();
-
-        ctx.fillStyle = oldStyle;
     }
 
     public stroke(ctx: CanvasRenderingContext2D, color?: string): void {
-        const oldStyle = ctx.strokeStyle;
-
         color && (ctx.strokeStyle = color);
         ctx.stroke();
-
-        ctx.strokeStyle = oldStyle;
     }
 }
