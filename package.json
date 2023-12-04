@@ -12,6 +12,7 @@
   "description": "",
   "private": true,
   "scripts": {
+    "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development --watch",
     "clean": "npx tsc --build --clean",
     "test": "jest",
