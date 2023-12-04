@@ -1,5 +1,4 @@
 import { CanvasDevice } from "../platform";
-import { CanvasContext2D } from "../platform/gfx/CanvasContext2D";
 
 export enum RenderCommandID {
     RC_DrawPrimitive = 0
