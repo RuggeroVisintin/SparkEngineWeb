@@ -1,0 +1,14 @@
+<html>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
+    <script>
+        const context = document.getElementById('canvas').getContext('2d')
+        const device = new SparkEngine.CanvasDevice();
+        device.drawRect(context, 10, 10, 25, 25);
+        device.fill(context);
+    </script>
+</body>
+
+</html>
