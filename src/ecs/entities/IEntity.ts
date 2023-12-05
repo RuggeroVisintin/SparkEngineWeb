@@ -2,5 +2,5 @@ import { IComponent } from "../components";
 
 export interface IEntity {
     addComponent(key: string, component: IComponent): void;
-    getComponent(key: string): IComponent | undefined;
+    getComponent<T extends IComponent>(key: string): T | undefined;
 }

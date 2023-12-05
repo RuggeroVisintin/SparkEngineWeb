@@ -5,4 +5,8 @@ export class BaseComponent implements IComponent {
     public getContainer(): IEntity {
         throw new Error("Method not implemented.");
     }
+
+    public setContainer(): IEntity {
+        throw new Error("Method not implemented.");
+    }
 }
