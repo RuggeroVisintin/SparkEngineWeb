@@ -8,28 +8,22 @@
         const device = new SparkEngine.CanvasDevice();
 
         const renderer = new SparkEngine.Renderer(device);
+        const renderSystem = new SparkEngine.RenderSystem(renderer);
+
+        const firstRect = new SparkEngine.ShapeComponent();
+        firstRect.transform.size = { width: 50, height: 25 };
+        renderSystem.registerComponent(firstRect);
 
         let pos = 0;
+
         const drawFrame = () => {
             pos++;
             pos = pos % 60;
 
-            renderer.pushRenderCommand(new SparkEngine.DrawPrimitiveCommand(
-                SparkEngine.PrimitiveType.Rectangle,
-                [pos, pos],
-                [70, 70],
-                true,
-                'green'
-            ));
+            firstRect.transform.position = { x: pos, y: pos };
 
-            renderer.pushRenderCommand(new SparkEngine.DrawPrimitiveCommand(
-                SparkEngine.PrimitiveType.Rectangle,
-                [100, 100],
-                [25, 25],
-                false,
-                'blue'
-            ));
 
+            renderSystem.update();
             renderer.endFrame(context);
         }
 
