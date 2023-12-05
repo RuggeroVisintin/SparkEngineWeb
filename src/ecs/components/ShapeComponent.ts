@@ -9,8 +9,10 @@ import { TransformComponent } from "./TransformComponent";
 export class ShapeComponent extends BaseComponent {
     public shapeType: PrimitiveType = PrimitiveType.Rectangle;
 
-    private get transform(): TransformComponent {
-        return new TransformComponent();
+    private defaultTransform = new TransformComponent();
+
+    public get transform(): TransformComponent {
+        return this.defaultTransform;
     }
 
     public draw(renderer: Renderer): void {
