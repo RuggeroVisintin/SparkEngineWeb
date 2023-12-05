@@ -26,11 +26,12 @@ describe('renderer/Renderer', () => {
                 [0, 0]
             );
 
-            // TODO: implement execute interface in renderCommand with gfx as Dependency
-            // To abstract the logic of how A command is executed from the renderer
+            const spy = jest.spyOn(renderCommand, 'execute');
 
             renderer.pushRenderCommand(renderCommand);
             renderer.endFrame(ctx);
+
+            expect(spy).toHaveBeenCalled();
         })
 
         it('Should clear the command buffer', () => {
