@@ -1,4 +1,4 @@
-import { RenderSystem, ShapeComponent } from "../../../src"
+import { RenderSystem, ShapeComponent } from "../../../../src"
 
 describe('systems/RenderSystem', () => {
     describe('.registerComponent()', () => {

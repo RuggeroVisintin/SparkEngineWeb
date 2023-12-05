@@ -1,4 +1,4 @@
-import { TransformComponent } from "../../../src"
+import { TransformComponent } from "../../../../src"
 
 describe('ecs/components/TransformComponent', () => {
     describe('constructor', () => {

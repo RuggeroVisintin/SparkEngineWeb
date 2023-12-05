@@ -2,7 +2,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  testMatch: ['<rootDir>/test/**/*.test.ts'],
+  testMatch: ['<rootDir>/test/unit/**/*.test.ts'],
   setupFiles: [
     "jest-canvas-mock"
   ]
