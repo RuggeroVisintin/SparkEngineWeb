@@ -4,7 +4,8 @@ on:
     workflow_dispatch:
 
 jobs:
-    commit:
+    build:
+      name: Build
       runs-on: ubuntu-latest
   
       steps:
@@ -21,7 +22,23 @@ jobs:
   
         - name: build
           run: npm run build
-    test:
+    test_unit:
+      name: Build
+      runs-on: ubuntu-latest
+  
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 18
+  
+        - name: install
+          run: npm ci
+  
+        - name: test
+          run: npm run test
+    test_visual:
+      name: Visual Testing
       timeout-minutes: 60
       runs-on: ubuntu-latest
       steps:
