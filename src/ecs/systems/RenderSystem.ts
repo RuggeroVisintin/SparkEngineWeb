@@ -14,6 +14,8 @@ export class RenderSystem implements ISystem {
     }
 
     public update(): void {
-        this.components.forEach(component => component.draw(this.renderer));
+        this.components
+            .sort((prevComponent, currentComponent) => currentComponent.transform.depthIndex - prevComponent.transform.depthIndex)
+            .forEach(component => component.draw(this.renderer));
     }
 }
