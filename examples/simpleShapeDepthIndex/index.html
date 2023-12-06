@@ -17,6 +17,7 @@
         const secondRect = new SparkEngine.ShapeComponent();
         secondRect.transform.size = { width: 20, height: 20 };
         secondRect.transform.depthIndex = 1;
+        secondRect.material.diffuseColor = 'green';
         renderSystem.registerComponent(secondRect);
 
         let pos = 0;
