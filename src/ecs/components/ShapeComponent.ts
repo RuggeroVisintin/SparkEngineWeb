@@ -28,7 +28,9 @@ export class ShapeComponent extends BaseComponent {
         renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,
             [position.x, position.y],
-            [size.width, size.height]
+            [size.width, size.height],
+            true,
+            this.material.diffuseColor,
         ));
     }
 }
