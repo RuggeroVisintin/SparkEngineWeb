@@ -101,5 +101,5 @@
   "exclude": [
     "./test",
     "playwright.config.ts"
-  ]
+  ],
 }

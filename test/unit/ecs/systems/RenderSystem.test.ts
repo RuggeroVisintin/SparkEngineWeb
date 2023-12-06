@@ -1,6 +1,8 @@
 import { CanvasDevice, RenderSystem, Renderer, ShapeComponent } from "../../../../src";
 
 describe('systems/RenderSystem', () => {
+
+
     describe('.registerComponent()', () => {
         const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
         const myTestShape = new ShapeComponent();
@@ -13,9 +15,14 @@ describe('systems/RenderSystem', () => {
     })
 
     describe('.update()', () => {
-        const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
+
+        afterEach(() => {
+            jest.clearAllMocks();
+            jest.resetAllMocks();
+        })
 
         it('Should draw renderable object', () => {
+            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
             const drawSpy = jest.spyOn(ShapeComponent.prototype, 'draw');
 
             renderSystem.registerComponent(new ShapeComponent());
@@ -24,9 +31,26 @@ describe('systems/RenderSystem', () => {
             renderSystem.update();
 
             expect(drawSpy).toHaveBeenCalledTimes(2);
+            drawSpy.mockRestore();
         });
 
-        it.todo('Should render objects based on their depthIndex in reverse order (0 rendered last)')
+        it('Should render objects based on their depthIndex in reverse order (0 rendered last)', () => {
+            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
+            const component = new ShapeComponent();
+            const component2 = new ShapeComponent();
+            
+            component2.transform.depthIndex = 1;
+
+            renderSystem.registerComponent(component);
+            renderSystem.registerComponent(component2);
+
+            const drawSpy = jest.spyOn(component, 'draw');
+            const drawSpy2 = jest.spyOn(component2, 'draw');
+
+            renderSystem.update();
+            
+            expect(drawSpy2).toHaveBeenCalledBefore(drawSpy);
+        });
 
         it.todo('Should render object based on their transparency (transparent last)')
     })

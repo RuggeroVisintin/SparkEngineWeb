@@ -5,5 +5,11 @@ module.exports = {
   testMatch: ['<rootDir>/test/unit/**/*.test.ts'],
   setupFiles: [
     "jest-canvas-mock"
-  ]
+  ],
+  setupFilesAfterEnv: ["jest-extended/all"],
+  globals: {
+    'ts-jest': {
+      tsConfig: './test/unit/tsconfig.json'
+    }
+  }
 };
