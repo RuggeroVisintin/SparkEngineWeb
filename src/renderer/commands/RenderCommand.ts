@@ -1,4 +1,4 @@
-import { CanvasDevice } from "../platform";
+import { CanvasDevice } from "../../platform";
 
 export enum RenderCommandID {
     RC_DrawPrimitive = 0

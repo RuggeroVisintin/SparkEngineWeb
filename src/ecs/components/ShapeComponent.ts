@@ -1,5 +1,4 @@
-import { Renderer } from "../../renderer";
-import { DrawPrimitiveCommand, PrimitiveType } from "../../renderer/RenderCommand";
+import { Renderer, DrawPrimitiveCommand, PrimitiveType} from "../../renderer";
 import { BaseComponent } from "./BaseComponent";
 import { MaterialComponent } from "./MaterialComponent";
 import { TransformComponent } from "./TransformComponent";

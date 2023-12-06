@@ -1,2 +1,2 @@
 export * from './Renderer';
-export * from './RenderCommand';
+export * from './commands';

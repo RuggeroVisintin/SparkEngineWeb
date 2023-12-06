@@ -1,5 +1,5 @@
 import { CanvasDevice } from "../../platform";
-import { PrimitiveType, RenderCommand, RenderCommandID } from "../RenderCommand";
+import { PrimitiveType, RenderCommand, RenderCommandID } from "./RenderCommand";
 
 /**
  * Draws a primitive (Rectangle)
