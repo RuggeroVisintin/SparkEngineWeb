@@ -15,4 +15,34 @@ describe('ecs/components/ShapeComponent', () => {
             )]);
         })
     })
+
+    describe('.transform', () => {
+        it('Should retrieve the component default transform when no container entity is defined', () => {
+            const shapeComponent = new ShapeComponent();
+            shapeComponent.transform.depthIndex = 2;
+
+            expect(shapeComponent.transform).toEqual({
+                position: { x: 0, y: 0 },
+                size: { width: 0, height: 0 },
+                depthIndex: 2
+            })
+        
+        })
+
+        it.todo('Should retrieve the transform from container entity when defined')
+    });
+
+    describe('.material', () => {
+        it('Should retrieve the component default material when no container entity is defined', () => {
+            const shapeComponent = new ShapeComponent();
+            shapeComponent.material.diffuseColor = 'red';
+
+            expect(shapeComponent.material).toEqual({
+                diffuseColor: 'red'
+            })
+        });
+
+        it.todo('Should retrieve the material from container entity when defined');
+    })
+
 })
