@@ -1,7 +1,8 @@
 import { CanvasDevice } from "../../platform";
 
 export enum RenderCommandID {
-    RC_DrawPrimitive = 0
+    RC_DrawPrimitive = 0,
+    RC_SetBlendingMethodCommand = 1
 }
 
 export enum PrimitiveType {
@@ -10,5 +11,5 @@ export enum PrimitiveType {
 
 export interface RenderCommand {
     renderCommandID: RenderCommandID;
-    execute(ctx: CanvasRenderingContext2D, device: CanvasDevice): void;
+    execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void;
 }

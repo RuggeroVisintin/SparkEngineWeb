@@ -22,14 +22,14 @@ export class DrawPrimitiveCommand implements RenderCommand {
         public readonly color: string = '#d16cd8'
     ) { }
     
-    public execute(ctx: CanvasRenderingContext2D, device: CanvasDevice): void {
+    public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {
         this.primitiveType === PrimitiveType.Rectangle
-            && device.drawRect(ctx, this.position[0], this.position[1], this.size[0], this.size[1]);
+            && gfx.drawRect(ctx, this.position[0], this.position[1], this.size[0], this.size[1]);
 
         if (this.fill) {
-            device.fill(ctx, this.color);
+            gfx.fill(ctx, this.color);
         } else {
-            device.stroke(ctx, this.color);
+            gfx.stroke(ctx, this.color);
         }
     }
 }
