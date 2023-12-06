@@ -1,3 +1,8 @@
+export enum BlendMethod {
+    BM_Overwrite = 'source-over',
+    BM_Add = 'lighter'
+}
+
 export class CanvasDevice {
     public begin(ctx: CanvasRenderingContext2D): void {
         ctx.beginPath();
@@ -23,5 +28,9 @@ export class CanvasDevice {
     public stroke(ctx: CanvasRenderingContext2D, color?: string): void {
         color && (ctx.strokeStyle = color);
         ctx.stroke();
+    }
+
+    public setBlendMethod(ctx: CanvasRenderingContext2D, method: BlendMethod): void {
+        ctx.globalCompositeOperation = method;
     }
 }
