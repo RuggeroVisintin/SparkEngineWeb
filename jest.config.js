@@ -7,9 +7,9 @@ module.exports = {
     "jest-canvas-mock"
   ],
   setupFilesAfterEnv: ["jest-extended/all"],
-  globals: {
-    'ts-jest': {
-      tsConfig: './test/unit/tsconfig.json'
-    }
-  }
+  // globals: {
+  //   'ts-jest': {
+  //     tsConfig: './test/unit/tsconfig.json'
+  //   }
+  // }
 };
