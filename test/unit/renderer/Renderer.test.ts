@@ -1,4 +1,5 @@
-import { PrimitiveType,Renderer, DrawPrimitiveCommand, CanvasDevice } from "../../../src";
+import { PrimitiveType,Renderer, CanvasDevice } from "../../../src";
+import { DrawPrimitiveCommand } from "../../../src/renderer/commands";
 
 describe('renderer/Renderer', () => {
     const device = new CanvasDevice();
