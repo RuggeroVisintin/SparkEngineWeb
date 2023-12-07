@@ -1,6 +1,7 @@
 import { Renderer } from "../../renderer";
 import { DrawPrimitiveCommand, PrimitiveType } from "../../renderer/RenderCommand";
 import { BaseComponent } from "./BaseComponent";
+import { MaterialComponent } from "./MaterialComponent";
 import { TransformComponent } from "./TransformComponent";
 
 /**
@@ -10,9 +11,14 @@ export class ShapeComponent extends BaseComponent {
     public shapeType: PrimitiveType = PrimitiveType.Rectangle;
 
     private defaultTransform = new TransformComponent();
+    private defaultMaterial = new MaterialComponent();
 
     public get transform(): TransformComponent {
         return this.defaultTransform;
+    }
+
+    public get material(): MaterialComponent {
+        return this.defaultMaterial;
     }
 
     public draw(renderer: Renderer): void {
@@ -22,7 +28,9 @@ export class ShapeComponent extends BaseComponent {
         renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,
             [position.x, position.y],
-            [size.width, size.height]
+            [size.width, size.height],
+            true,
+            this.material.diffuseColor,
         ));
     }
 }
