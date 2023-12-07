@@ -1,5 +1,5 @@
 import { CanvasDevice } from '../platform';
-import { RenderCommand } from './RenderCommand';
+import { RenderCommand } from './commands';
 
 /**
  * The renderer is responsible for collecting renderCommands and

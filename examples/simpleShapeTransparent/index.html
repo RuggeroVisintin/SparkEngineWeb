@@ -1,0 +1,42 @@
+<html>
+
+<body>
+    <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
+    <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
+    <script>
+        const context = document.getElementById('canvas').getContext('2d')
+        const device = new SparkEngine.CanvasDevice();
+
+        const renderer = new SparkEngine.Renderer(device);
+        const renderSystem = new SparkEngine.RenderSystem(renderer);
+
+        const firstRect = new SparkEngine.ShapeComponent();
+        firstRect.transform.size = { width: 50, height: 25 };
+        firstRect.material.diffuseColor = 'rgba(173, 123, 100, 0.75)';
+        firstRect.material.opacity = 75;
+        renderSystem.registerComponent(firstRect);
+
+        const secondRect = new SparkEngine.ShapeComponent();
+        secondRect.transform.size = { width: 20, height: 20 };
+        secondRect.transform.depthIndex = 0;
+        secondRect.material.diffuseColor = 'green';
+        renderSystem.registerComponent(secondRect);
+
+        let pos = 0;
+
+        const drawFrame = () => {
+            pos++;
+            pos = pos % 60;
+
+            firstRect.transform.position = { x: pos, y: pos };
+
+
+            renderSystem.update();
+            renderer.endFrame(context);
+        }
+
+        setInterval(drawFrame, 33);
+    </script>
+</body>
+
+</html>

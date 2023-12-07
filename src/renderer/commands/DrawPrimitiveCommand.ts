@@ -1,17 +1,6 @@
-import { CanvasDevice } from "../platform";
-
-export enum RenderCommandID {
-    RC_DrawPrimitive = 0
-}
-
-export enum PrimitiveType {
-    Rectangle = 0
-}
-
-export interface RenderCommand {
-    renderCommandID: RenderCommandID;
-    execute(ctx: CanvasRenderingContext2D, device: CanvasDevice): void;
-}
+import { Color } from "../../core";
+import { CanvasDevice } from "../../platform";
+import { PrimitiveType, RenderCommand, RenderCommandID } from "./RenderCommand";
 
 /**
  * Draws a primitive (Rectangle)
@@ -31,17 +20,17 @@ export class DrawPrimitiveCommand implements RenderCommand {
         public readonly position: [number, number],
         public readonly size: [number, number],
         public readonly fill: boolean = true,
-        public readonly color: string = '#d16cd8'
+        public readonly color: string = Color.fromHex('#d16cd8').toString()
     ) { }
     
-    public execute(ctx: CanvasRenderingContext2D, device: CanvasDevice): void {
+    public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {
         this.primitiveType === PrimitiveType.Rectangle
-            && device.drawRect(ctx, this.position[0], this.position[1], this.size[0], this.size[1]);
+            && gfx.drawRect(ctx, this.position[0], this.position[1], this.size[0], this.size[1]);
 
         if (this.fill) {
-            device.fill(ctx, this.color);
+            gfx.fill(ctx, this.color);
         } else {
-            device.stroke(ctx, this.color);
+            gfx.stroke(ctx, this.color);
         }
     }
 }
