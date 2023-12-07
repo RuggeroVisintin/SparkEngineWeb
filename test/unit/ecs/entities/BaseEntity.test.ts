@@ -1,8 +1,12 @@
 import { BaseComponent, BaseEntity } from "../../../../src";
 
 describe('ecs/entities/BaseEntity', () => {
-    const baseEntity = new BaseEntity();
+    let baseEntity = new BaseEntity();
 
+    beforeEach(() => {
+        baseEntity = new BaseEntity();
+    });
+    
     describe('.addComponent()', () => {
         it('Should add component to entity', () => {
             const testComponent = new BaseComponent();
@@ -10,6 +14,13 @@ describe('ecs/entities/BaseEntity', () => {
             baseEntity.addComponent('testComponent', testComponent);
             expect(baseEntity.getComponent<BaseComponent>('testComponent')).toEqual(testComponent);
         });
+
+        it('Should set the entity as container of the given component', () => {
+            const testComponent = new BaseComponent();
+
+            baseEntity.addComponent('testComponent', testComponent);
+            expect(testComponent.getContainer()).toEqual(baseEntity);
+        })
     })
 
     describe('.getComponent()', () => { 

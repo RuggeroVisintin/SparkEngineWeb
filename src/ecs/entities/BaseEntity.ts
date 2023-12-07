@@ -6,6 +6,7 @@ export class BaseEntity implements IEntity {
 
     public addComponent(key: string, component: IComponent): void {
         this.components.set(key, component);
+        component.setContainer(this);
     }
 
     public getComponent<Component extends IComponent>(key: string): Component | undefined {
