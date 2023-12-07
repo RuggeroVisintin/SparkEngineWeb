@@ -16,9 +16,13 @@ jobs:
   
         - name: install
           run: npm ci
+        
+        - name: eslint
+          run: npm run lint
           
         - name: build
           run: npm run build
+  
     test_unit:
       name: Unit Tests
       runs-on: ubuntu-latest
