@@ -66,4 +66,30 @@ describe('core/Color', () => {
             expect(color.b).toBe(200);
         })
     })
+
+    describe('set a()', () => {
+        it('Should cap the upper value to 100', () => {
+            color.a = 324;
+
+            expect(color.a).toBe(100);
+        })
+
+        it('Should cap the lower value to 0', () => {
+            color.a = -123;
+
+            expect(color.b).toBe(0);
+        })
+
+        it('Should assign the given value', () => {
+            color.a = 200;
+
+            expect(color.a).toBe(100);
+        })
+    })
+
+    describe('.toString()', () => {
+        it('Should convert a color into a rgba() like string', () => {
+            expect(new Color(255, 0, 0, 100).toString()).toBe('rgba(255, 0, 0, 1)')
+        })
+    })
 })
