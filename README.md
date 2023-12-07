@@ -10,8 +10,8 @@ That being said, it will be an iterative journey and we won't bump the major ver
 
 **Requirements**
 
-* Node ^18
-* NPM ^9
+* Node ^20
+* NPM ^10
 
 Run `npm i` to install packages. After that, you are good to go
 
