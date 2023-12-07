@@ -1,3 +1,4 @@
+import { Color } from "../../core";
 import { CanvasDevice } from "../../platform";
 import { PrimitiveType, RenderCommand, RenderCommandID } from "./RenderCommand";
 
@@ -19,7 +20,7 @@ export class DrawPrimitiveCommand implements RenderCommand {
         public readonly position: [number, number],
         public readonly size: [number, number],
         public readonly fill: boolean = true,
-        public readonly color: string = '#d16cd8'
+        public readonly color: string = Color.fromHex('#d16cd8').toString()
     ) { }
     
     public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {

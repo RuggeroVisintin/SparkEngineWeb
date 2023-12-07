@@ -29,7 +29,7 @@ export class ShapeComponent extends BaseComponent {
             [position.x, position.y],
             [size.width, size.height],
             true,
-            this.material.diffuseColor,
+            this.material.diffuseColor.toString(),
         ));
     }
 }
