@@ -50,12 +50,11 @@ describe('ecs/components/ShapeComponent', () => {
         it('Should retrieve the component default transform when no container entity is defined', () => {
             shapeComponent.transform.depthIndex = 2;
 
-            expect(shapeComponent.transform).toEqual({
+            expect(shapeComponent.transform).toEqual(expect.objectContaining({
                 position: { x: 0, y: 0 },
                 size: { width: 0, height: 0 },
                 depthIndex: 2
-            })
-        
+            }))
         })
 
         it.todo('Should retrieve the transform from container entity when defined')

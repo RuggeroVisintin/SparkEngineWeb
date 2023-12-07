@@ -2,11 +2,13 @@ import { IEntity } from "../entities";
 import { IComponent } from "./IComponent";
 
 export class BaseComponent implements IComponent {
-    public getContainer(): IEntity {
-        throw new Error("Method not implemented.");
+    private _container: IEntity | null = null;
+
+    public getContainer(): IEntity | null {
+        return this._container;
     }
 
-    public setContainer(): IEntity {
-        throw new Error("Method not implemented.");
+    public setContainer(container: IEntity) {
+        this._container = container;
     }
 }
