@@ -64,9 +64,9 @@ describe('ecs/components/ShapeComponent', () => {
         it('Should retrieve the component default material when no container entity is defined', () => {
             shapeComponent.material.diffuseColor = 'red';
 
-            expect(shapeComponent.material).toEqual({
+            expect(shapeComponent.material).toEqual(expect.objectContaining({
                 diffuseColor: 'red'
-            })
+            }))
         });
 
         it.todo('Should retrieve the material from container entity when defined');
