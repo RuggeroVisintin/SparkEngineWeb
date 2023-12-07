@@ -26,9 +26,7 @@ export class RenderSystem implements ISystem {
         opaqueComponents
             .sort((prevComponent, currentComponent) => currentComponent.transform.depthIndex - prevComponent.transform.depthIndex)
             .forEach(component => component.draw(this.renderer));
-        
-        // Set additive blending for transparent objects
-        
+                
         transparentComponents
             .forEach(component => component.draw(this.renderer))
     }
