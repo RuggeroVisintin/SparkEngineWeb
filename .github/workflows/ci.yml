@@ -70,10 +70,14 @@ jobs:
         - uses: actions/setup-node@v3
           with:
             node-version: 20
-        - name: Install dependencies
-          run: npm ci
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - uses: google-github-actions/release-please-action@v4
+          with:
+            # this assumes that you have created a personal access token
+            # (PAT) and configured it as a GitHub action secret named
+            # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
+            token: ${{ secrets.GITHUB_TOKEN }}
+            config-file: release-please-config.json
+            manifest-file: .release-please-manifest.json
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
 
