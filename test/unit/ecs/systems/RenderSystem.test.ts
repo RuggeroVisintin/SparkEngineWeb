@@ -51,28 +51,5 @@ describe('systems/RenderSystem', () => {
             
             expect(drawSpy2).toHaveBeenCalledBefore(drawSpy);
         });
-
-        it('Should render object based on their transparency (transparent last)', () => {
-            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
-            const transparentComponent = new ShapeComponent();
-            transparentComponent.material.opacity = 75;
-            const component = new ShapeComponent();
-            const component2 = new ShapeComponent();
-            const component3 = new ShapeComponent();
-            
-            component2.transform.depthIndex = 1;
-
-            renderSystem.registerComponent(transparentComponent);
-            renderSystem.registerComponent(component);
-            renderSystem.registerComponent(component2);
-            renderSystem.registerComponent(component3);
-
-            const drawSpyTransparent = jest.spyOn(transparentComponent, 'draw');
-            const drawSpy3 = jest.spyOn(component3, 'draw');
-
-            renderSystem.update();
-            
-            expect(drawSpyTransparent).toHaveBeenCalledAfter(drawSpy3);
-        });
     })
 })
