@@ -22,7 +22,6 @@ jobs:
           
         - name: build
           run: npm run build
-  
     test_unit:
       name: Unit Tests
       runs-on: ubuntu-latest
@@ -59,4 +58,19 @@ jobs:
             name: playwright-report
             path: playwright-report/
             retention-days: 30
-  
+    publish:
+      name: Publish
+      timeout-minutes: 2
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
+        - name: Publish
+          run: npx semantic-version
+      needs: [test_unit, test_visual, build]
+        
+        
