@@ -20,6 +20,7 @@
         ],
         "default-param-last": "error",
         "eqeqeq": "error",
-        "no-eval": "error"
+        "no-eval": "error",
+        "no-implied-eval": "error"
     }
 }
