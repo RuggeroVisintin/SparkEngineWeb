@@ -15,11 +15,11 @@ export class ShapeComponent extends BaseComponent {
     private defaultMaterial = new MaterialComponent();
 
     public get transform(): TransformComponent {
-        return this.defaultTransform;
+        return this.getContainer()?.getComponent('TransformComponent') ?? this.defaultTransform;
     }
 
     public get material(): MaterialComponent {
-        return this.defaultMaterial;
+        return this.getContainer()?.getComponent('MaterialComponent') ?? this.defaultMaterial;
     }
 
     public draw(renderer: Renderer): void {

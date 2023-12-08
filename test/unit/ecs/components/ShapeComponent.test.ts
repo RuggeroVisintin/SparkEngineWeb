@@ -1,4 +1,4 @@
-import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent } from "../../../../src";
+import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent } from "../../../../src";
 
 describe('ecs/components/ShapeComponent', () => {
     let renderer = new Renderer(new CanvasDevice());
@@ -57,7 +57,19 @@ describe('ecs/components/ShapeComponent', () => {
             }))
         })
 
-        it.todo('Should retrieve the transform from container entity when defined')
+        it('Should retrieve the transform from container entity when defined', () => {
+            const transformComponent = new TransformComponent();
+            transformComponent.depthIndex = 4;
+
+            const shapeComponent = new ShapeComponent();
+            const entity = new BaseEntity()
+            entity.addComponent(shapeComponent);
+            entity.addComponent(transformComponent);
+
+            expect(shapeComponent.transform).toEqual(expect.objectContaining({
+                depthIndex: 4
+            }))
+        })
     });
 
     describe('.material', () => {
@@ -70,7 +82,19 @@ describe('ecs/components/ShapeComponent', () => {
             }))
         });
 
-        it.todo('Should retrieve the material from container entity when defined');
+        it('Should retrieve the material from container entity when defined', () => {
+            const materialComponent = new MaterialComponent();
+            materialComponent.opacity = 40;
+
+            const shapeComponent = new ShapeComponent();
+            const entity = new BaseEntity()
+            entity.addComponent(shapeComponent);
+            entity.addComponent(materialComponent);
+
+            expect(shapeComponent.material).toEqual(expect.objectContaining({
+                opacity: 40
+            }))
+        });
     })
 
 })
