@@ -1,3 +1,4 @@
+import { Type } from "../../core";
 import { Renderer, DrawPrimitiveCommand, PrimitiveType} from "../../renderer";
 import { BaseComponent } from "./BaseComponent";
 import { MaterialComponent } from "./MaterialComponent";
@@ -6,6 +7,7 @@ import { TransformComponent } from "./TransformComponent";
 /**
  * Represents a primitive Shape like rectangle, circle, etc
  */
+@Type('ShapeComponent')
 export class ShapeComponent extends BaseComponent {
     public shapeType: PrimitiveType = PrimitiveType.Rectangle;
 

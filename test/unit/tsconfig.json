@@ -5,6 +5,8 @@
         "baseUrl": "../../",
         "esModuleInterop": true,
         "strict": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "strictBindCallApply": true,

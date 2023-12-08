@@ -11,14 +11,14 @@ describe('ecs/entities/BaseEntity', () => {
         it('Should add component to entity', () => {
             const testComponent = new BaseComponent();
 
-            baseEntity.addComponent('testComponent', testComponent);
-            expect(baseEntity.getComponent<BaseComponent>('testComponent')).toEqual(testComponent);
+            baseEntity.addComponent(testComponent);
+            expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toEqual(testComponent);
         });
 
         it('Should set the entity as container of the given component', () => {
             const testComponent = new BaseComponent();
 
-            baseEntity.addComponent('testComponent', testComponent);
+            baseEntity.addComponent(testComponent);
             expect(testComponent.getContainer()).toEqual(baseEntity);
         })
     })
@@ -26,9 +26,9 @@ describe('ecs/entities/BaseEntity', () => {
     describe('.getComponent()', () => { 
         it('Should retrieve a specific component given a specific key', () => {
             const testComponent = new BaseComponent();
-            baseEntity.addComponent('testComponent', testComponent);
+            baseEntity.addComponent( testComponent);
 
-            expect(baseEntity.getComponent<BaseComponent>('testComponent')).toEqual(testComponent);
+            expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toEqual(testComponent);
         })
     })
 })
