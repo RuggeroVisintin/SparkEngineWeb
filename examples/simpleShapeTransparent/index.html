@@ -14,11 +14,12 @@
         firstRect.transform.size = { width: 50, height: 25 };
         firstRect.material.diffuseColor = 'rgba(173, 123, 100, 0.75)';
         firstRect.material.opacity = 75;
+        firstRect.transform.depthIndex = 0;
         renderSystem.registerComponent(firstRect);
 
         const secondRect = new SparkEngine.ShapeComponent();
         secondRect.transform.size = { width: 20, height: 20 };
-        secondRect.transform.depthIndex = 0;
+        secondRect.transform.depthIndex = 1;
         secondRect.material.diffuseColor = 'green';
         renderSystem.registerComponent(secondRect);
 
