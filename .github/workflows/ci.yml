@@ -7,7 +7,6 @@ jobs:
     build:
       name: Build
       runs-on: ubuntu-latest
-  
       steps:
         - uses: actions/checkout@v3
         - uses: actions/setup-node@v3
@@ -62,6 +61,8 @@ jobs:
       name: Publish
       timeout-minutes: 2
       runs-on: ubuntu-latest
+      permissions: 
+        packages: write
       steps:
         - uses: actions/checkout@v3
         - uses: actions/setup-node@v3
@@ -71,6 +72,8 @@ jobs:
           run: npm ci
         - name: Publish
           run: npx semantic-release
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
 
