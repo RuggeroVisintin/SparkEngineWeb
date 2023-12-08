@@ -77,6 +77,7 @@ jobs:
             token: ${{ secrets.GITHUB_TOKEN }}
             config-file: release-please-config.json
             manifest-file: .release-please-manifest.json
+            skip-github-pull-request: true
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
 
