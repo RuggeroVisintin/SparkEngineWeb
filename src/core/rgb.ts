@@ -1,16 +1,14 @@
-export class Color {
+export class Rgb {
     private _r: number = 0;
     private _g: number = 0;
     private _b: number = 0;
-    private _a: number = 100;
 
     constructor(
-        r = 0, g = 0, b = 0, a = 100
+        r = 0, g = 0, b = 0
     ) {
         this.r = r;
         this.g = g;
         this.b = b;
-        this.a = a;
     }
 
     public set r(value: number) {
@@ -37,12 +35,15 @@ export class Color {
         return this._b;
     }
 
-    public set a(value: number) {
-        this._a - this.capAlpha(value);
+    static fromHex(hex: string): Rgb {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+        return result ?
+            new Rgb(parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)) : new Rgb();
     }
 
-    public get a(): number {
-        return this._a;
+    public toRgbaString(alpha?: number): string {
+        return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.capAlpha(alpha || 100) / 100})`;
     }
 
     private capRgb(value: number): number {
@@ -63,17 +64,5 @@ export class Color {
         }
 
         return value;
-    }
-
-    static fromHex(hex: string): Color {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-        return result ?
-            new Color(parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)) : new Color();
-    }
-    
-
-    public toString(): string {
-        return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a / 100})`;
     }
 }

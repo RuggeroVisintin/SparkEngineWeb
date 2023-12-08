@@ -1,4 +1,4 @@
-import { CanvasDevice, Color, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent } from "../../../../src";
+import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent } from "../../../../src";
 
 describe('ecs/components/ShapeComponent', () => {
     let renderer = new Renderer(new CanvasDevice());
@@ -32,7 +32,7 @@ describe('ecs/components/ShapeComponent', () => {
         })
 
         it('Should push the current material in the render command', () => { 
-            const color = new Color(255, 0, 0, 1);
+            const color = new Rgb(255, 0, 0);
             shapeComponent.material.diffuseColor = color;
             shapeComponent.draw(renderer);
 
@@ -62,7 +62,7 @@ describe('ecs/components/ShapeComponent', () => {
 
     describe('.material', () => {
         it('Should retrieve the component default material when no container entity is defined', () => {
-            const color = new Color(255, 0, 0, 1);
+            const color = new Rgb(255, 0, 0);
             shapeComponent.material.diffuseColor = color;
 
             expect(shapeComponent.material).toEqual(expect.objectContaining({

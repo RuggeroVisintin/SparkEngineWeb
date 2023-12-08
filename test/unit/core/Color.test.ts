@@ -1,10 +1,10 @@
-import { Color } from "../../../src"
+import { Rgb } from "../../../src"
 
 describe('core/Color', () => {
-    let color = new Color();
+    let color = new Rgb();
 
     afterEach(() => {
-        color = new Color();
+        color = new Rgb();
     })
 
     describe('set r()', () => {
@@ -67,29 +67,13 @@ describe('core/Color', () => {
         })
     })
 
-    describe('set a()', () => {
-        it('Should cap the upper value to 100', () => {
-            color.a = 324;
-
-            expect(color.a).toBe(100);
-        })
-
-        it('Should cap the lower value to 0', () => {
-            color.a = -123;
-
-            expect(color.b).toBe(0);
-        })
-
-        it('Should assign the given value', () => {
-            color.a = 200;
-
-            expect(color.a).toBe(100);
-        })
-    })
-
     describe('.toString()', () => {
         it('Should convert a color into a rgba() like string', () => {
-            expect(new Color(255, 0, 0, 100).toString()).toBe('rgba(255, 0, 0, 1)')
+            expect(new Rgb(255, 0, 0).toRgbaString(100)).toBe('rgba(255, 0, 0, 1)')
+        });
+
+        it('Should cap the alpha value to 1 max', () => {
+            expect(new Rgb(255, 0, 0).toRgbaString(234)).toBe('rgba(255, 0, 0, 1)')
         })
     })
 })

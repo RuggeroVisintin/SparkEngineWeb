@@ -1,4 +1,4 @@
-import { Color } from "../../core";
+import { Rgb } from "../../core";
 import { CanvasDevice } from "../../platform";
 import { PrimitiveType, RenderCommand, RenderCommandID } from "./RenderCommand";
 
@@ -20,10 +20,12 @@ export class DrawPrimitiveCommand implements RenderCommand {
         public readonly position: [number, number],
         public readonly size: [number, number],
         public readonly fill: boolean = true,
-        public readonly color: string = Color.fromHex('#d16cd8').toString()
+        public readonly color: string = Rgb.fromHex('#d16cd8').toRgbaString(),
     ) { }
     
     public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {
+        console.log('DRAW', this.color);
+
         this.primitiveType === PrimitiveType.Rectangle
             && gfx.drawRect(ctx, this.position[0], this.position[1], this.size[0], this.size[1]);
 
