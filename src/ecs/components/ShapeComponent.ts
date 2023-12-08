@@ -23,15 +23,15 @@ export class ShapeComponent extends BaseComponent {
     }
 
     public draw(renderer: Renderer): void {
-        const position = this.transform.position;
-        const size = this.transform.size;
+        const { position, size } = this.transform;
+        const { opacity } = this.material;
 
         renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,
             [position.x, position.y],
             [size.width, size.height],
             true,
-            this.material.diffuseColor.toRgbaString(),
+            this.material.diffuseColor.toRgbaString(opacity),
         ));
     }
 }
