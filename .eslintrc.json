@@ -12,5 +12,14 @@
         "jest-extended"
     ],
     "rules": {
+        "camelcase": "error",
+        "default-case-last": "error",
+        "curly": [
+            "error",
+            "multi-line"
+        ],
+        "default-param-last": "error",
+        "eqeqeq": "error",
+        "no-eval": "error"
     }
 }
