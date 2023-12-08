@@ -72,5 +72,7 @@ jobs:
         - name: Publish
           run: npx semantic-version
       needs: [test_unit, test_visual, build]
+      if: github.ref_name == 'main'
+
         
         
