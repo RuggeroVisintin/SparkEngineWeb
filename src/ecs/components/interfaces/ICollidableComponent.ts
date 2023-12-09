@@ -1,5 +1,9 @@
 import { IComponent } from "./IComponent";
 
+export type CollisionCallback = (collider: ICollidableComponent) => void;
+
 export interface ICollidableComponent extends IComponent {
-    onCollision(collider: ICollidableComponent): void;
+    onCollisionCb: CollisionCallback | undefined;
+
+    update(): void;
 }
