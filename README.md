@@ -1,10 +1,10 @@
 # Spark Engine Web
 
-Spark Engine Web is a lightweight browser based web engine we are building for fun.
+Spark Engine Web is a lightweight browser based web game engine we are building for fun.
 
 We are building the engine with Security and performance in mind, to provide the best possible experience to our engine's users and contributors.
 
-That being said, it will be an iterative journey and we won't bump the major version until we will feel confident to have reached our goal.
+That being said, it will be an iterative journey and we won't bump the major version until we won't feel confident to have reached our goal.
 
 ## Getting Started
 
