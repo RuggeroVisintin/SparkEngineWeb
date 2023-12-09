@@ -24,8 +24,6 @@ export class DrawPrimitiveCommand implements RenderCommand {
     ) { }
     
     public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {
-        console.log('DRAW', this.color);
-
         this.primitiveType === PrimitiveType.Rectangle
             && gfx.drawRect(ctx, this.position[0], this.position[1], this.size[0], this.size[1]);
 
