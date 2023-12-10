@@ -1,3 +1,4 @@
+import { Physx } from "../../physx";
 import { ICollidableComponent } from "../components";
 import { ISystem } from "./ISystem";
 
@@ -6,13 +7,15 @@ export class PhysicsSystem implements ISystem {
     // In the future we need to switch to more efficient algorithms like AABBTree
     public readonly components: ICollidableComponent[] = [];
 
+    constructor(
+        private readonly physx: Physx
+    ) { }
+
     registerComponent(component: ICollidableComponent): void {
-        throw new Error("Method not implemented.");
+        this.components.push(component);
     }
 
     update(): void {
-        // register the position of all the elements into the physx engine
-
-        // call simulateStep on every CollidableComponent
+        this.components.forEach(component => component.update(this.physx));
     }
 }
