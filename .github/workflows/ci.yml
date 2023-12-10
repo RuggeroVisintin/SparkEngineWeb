@@ -73,6 +73,12 @@ jobs:
             # (PAT) and configured it as a GitHub action secret named
             # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
             token: ${{ secrets.GITHUB_TOKEN }}
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 20
+        - name: install
+          run: npm ci
         - name: build docs
           # if: ${{ steps.release.outputs.release_created }}
           run: |
