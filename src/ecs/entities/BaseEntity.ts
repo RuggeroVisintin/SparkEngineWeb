@@ -1,5 +1,5 @@
 import { typeOf } from "../../core";
-import { IComponent } from "../components";
+import { ICollidableComponent, IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
 export class BaseEntity implements IEntity {
@@ -18,4 +18,6 @@ export class BaseEntity implements IEntity {
     public getComponent<Component extends IComponent>(type: string): Component | undefined {
         return this.components.get(type) as Component;
     }
+
+    public onCollision(component: ICollidableComponent): void {}
 }

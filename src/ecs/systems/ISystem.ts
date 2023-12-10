@@ -1,6 +1,6 @@
-import { BaseComponent } from "../components";
+import { IComponent } from "../components";
 
 export interface ISystem {
-    registerComponent(component: BaseComponent): void;
+    registerComponent(component: IComponent): void;
     update(): void;
 }

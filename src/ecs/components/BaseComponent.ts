@@ -1,6 +1,6 @@
 import { Type } from "../../core";
 import { IEntity } from "../entities";
-import { IComponent } from "./IComponent";
+import { IComponent } from "./interfaces";
 
 @Type('BaseComponent')
 export class BaseComponent implements IComponent {
