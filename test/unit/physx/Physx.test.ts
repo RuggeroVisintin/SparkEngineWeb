@@ -46,6 +46,30 @@ describe('physx/Physx', () => {
             expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
         })
 
+        it('Should trigger the Physics object callback if a reverse collision is detected', () => {
+            const physicsObject: PhysicalObjectCallbackAggregate = {
+                object: {
+                    aabb: [19, 70, 20, 2,]
+                },
+                onCollisionCallback: jest.fn(() => { }),
+            };
+
+            const physicsObject2: PhysicalObjectCallbackAggregate = {
+                object: {
+                    aabb: [0, 0, 20, 150]
+                },
+                onCollisionCallback: jest.fn(() => { }),
+            };
+
+            physx.pushPhysicalObject(physicsObject);
+            physx.pushPhysicalObject(physicsObject2);
+
+            physx.simulate();
+            
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
+            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+        })
+
         it('Should not trigger a collision for object that are not colliding', () => {
             const physicsObject: PhysicalObjectCallbackAggregate = {
                 object: {
