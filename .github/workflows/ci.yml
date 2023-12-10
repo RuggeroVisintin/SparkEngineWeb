@@ -81,19 +81,19 @@ jobs:
         - name: install
           run: npm ci
         - name: build docs
-          # if: ${{ steps.release.outputs.release_created }}
+          if: ${{ steps.release.outputs.release_created }}
           run: |
             npm run build:docs
         - name: Setup Pages
-          # if: ${{ steps.release.outputs.release_created }}
+          if: ${{ steps.release.outputs.release_created }}
           uses: actions/configure-pages@v4
         - name: upload docs artifact
-          # if: ${{ steps.release.outputs.release_created }}
+          if: ${{ steps.release.outputs.release_created }}
           uses: actions/upload-pages-artifact@v2
           with: 
             path: "docs/"
         - name: deploy docs artifact
-          # if: ${{ steps.release.outputs.release_created }}
+          if: ${{ steps.release.outputs.release_created }}
           uses: actions/deploy-pages@v3
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
