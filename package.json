@@ -14,6 +14,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development --watch",
+    "build:docs": "jsdoc -c jsdoc.conf.json",
     "clean": "npx tsc --build --clean",
     "test": "jest",
     "lint": "eslint . --ext .ts"
@@ -35,6 +36,7 @@
     "@types/node": "^20.10.3",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
+    "better-docs": "^2.7.3",
     "commitlint": "^18.4.3",
     "eslint": "^8.55.0",
     "eslint-plugin-jest-extended": "^2.0.0",
