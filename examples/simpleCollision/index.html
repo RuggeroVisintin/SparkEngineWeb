@@ -17,8 +17,8 @@
         firstGameObject.transform.size = { width: 20, height: 150 };
         firstGameObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         const firstGameObjectBB = new SparkEngine.BoundingBoxComponent();
+        firstGameObjectBB.matchContainerTransform = true;
         firstGameObject.addComponent(firstGameObjectBB);
-        firstGameObjectBB.aabb = { ...firstGameObject.transform.position, ...firstGameObject.transform.size }
 
         const secondGameObject = new SparkEngine.GameObject();
         secondGameObject.transform.size = { width: 20, height: 150 };
@@ -26,16 +26,18 @@
         secondGameObject.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
 
         secondGameObjectBB = new SparkEngine.BoundingBoxComponent();
+        secondGameObjectBB.matchContainerTransform = true;
         secondGameObject.addComponent(secondGameObjectBB);
-        secondGameObjectBB.aabb = { ...secondGameObject.transform.position, ...secondGameObject.transform.size }
 
         const pingPongBall = new SparkEngine.GameObject();
         pingPongBall.transform.size = { width: 20, height: 20 };
         pingPongBall.transform.position = { x: 140, y: 70 };
         pingPongBall.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
-        const pingPongBoundingBox = new SparkEngine.BoundingBoxComponent()
-        pingPongBall.addComponent(pingPongBoundingBox);
-        pingPongBoundingBox.aabb = { ...pingPongBall.transform.position, ...pingPongBall.transform.size }
+
+        const pingPongBB = new SparkEngine.BoundingBoxComponent()
+        pingPongBB.matchContainerTransform = true;
+
+        pingPongBall.addComponent(pingPongBB);
 
         renderSystem.registerComponent(firstGameObject.shape);
         renderSystem.registerComponent(secondGameObject.shape);
@@ -43,18 +45,17 @@
 
         physicsSystem.registerComponent(firstGameObjectBB);
         physicsSystem.registerComponent(secondGameObjectBB);
-        physicsSystem.registerComponent(pingPongBoundingBox);
+        physicsSystem.registerComponent(pingPongBB);
 
         let velocity = 5;
 
-        pingPongBoundingBox.onCollisionCb = () => {
+        pingPongBB.onCollisionCb = () => {
             velocity *= -1;
             pingPongBall.transform.position.x += velocity;
         }
 
         const drawFrame = () => {
             pingPongBall.transform.position.x += velocity;
-            pingPongBoundingBox.aabb.x = pingPongBall.transform.position.x;
 
             physicsSystem.update();
             physx.simulate();
