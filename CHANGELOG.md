@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.1...sparkengineweb-v0.1.2) (2023-12-10)
+
+
+### Features
+
+* **physx:** add Physics engine and BoundingBoxComponent for collision detection ([0546f1c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/0546f1c7ac2e79d32b5467d067b87868af91dfbb))
+
+
+### Bug Fixes
+
+* remove generating pr in ci ([693637e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/693637ee0475c979530da17ec71d277cb031d71f))
+
 ## [0.1.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.0...sparkengineweb-v0.1.1) (2023-12-08)
 
 
