@@ -1,4 +1,4 @@
-import { BoundingBoxComponent, ICollidableComponent, Physx } from "../../../../src";
+import { BaseEntity, BoundingBoxComponent, GameObject, ICollidableComponent, Physx } from "../../../../src";
 
 describe('ecs/components/BoundingBoxComponent', () => {
     let bbComponent = new BoundingBoxComponent();
@@ -7,6 +7,69 @@ describe('ecs/components/BoundingBoxComponent', () => {
     afterEach(() => {
         bbComponent = new BoundingBoxComponent();
         physx = new Physx();
+    })
+
+    describe('get aabb()', () => {
+        it.each([
+            {
+                aabb: { x: 0, y: 0, width: 0, height: 0 },
+                expected: { x: 0, y: 0, width: 0, height: 0 }
+            },
+            {
+                aabb: { x: 5, y: 10, width: 15, height: 5 },
+                expected: { x: 5, y: 10, width: 15, height: 5 }
+            }
+        ])('Should return the default aabb by default', (test) => {
+            bbComponent.aabb = test.aabb;
+            expect(bbComponent.aabb).toEqual(test.expected);
+        })
+
+        it('Should return the container entity AABB if .matchContainerTransform is true', () => {
+            const parentEntity = new GameObject();
+            parentEntity.addComponent(bbComponent);
+
+            bbComponent.matchContainerTransform = true;
+            
+            parentEntity.transform.position = { x: 15, y: 25 };
+            parentEntity.transform.size = { width: 10, height: 10 };
+
+            expect(bbComponent.aabb).toEqual({
+                x: 15, y: 25, width: 10, height: 10
+            })
+        });
+
+        it('Should return the default AABB if .matchContainerTransform is true but parent container is null', () => {
+            bbComponent.matchContainerTransform = true;
+            bbComponent.aabb.x = 555;
+            
+            expect(bbComponent.aabb).toEqual({
+                x: 555, y: 0, width: 0, height: 0
+            })
+        });
+
+        it('Should return the default AABB if .matchContainerTransform is false', () => { 
+            const parentEntity = new GameObject();
+            parentEntity.addComponent(bbComponent);
+            
+            bbComponent.matchContainerTransform = false;
+            bbComponent.aabb.x = 555;
+
+            expect(bbComponent.aabb).toEqual({
+                x: 555, y: 0, width: 0, height: 0
+            }) 
+        })
+
+        it('Should return the default AABB if .matchContainerTransform is true but parent container transform is null', () => {
+            const parentEntity = new BaseEntity();
+            parentEntity.addComponent(bbComponent);
+
+            bbComponent.matchContainerTransform = true;
+            bbComponent.aabb.x = 555;
+            
+            expect(bbComponent.aabb).toEqual({
+                x: 555, y: 0, width: 0, height: 0
+            })
+        })
     })
 
     describe('.update()', () => {
@@ -24,15 +87,15 @@ describe('ecs/components/BoundingBoxComponent', () => {
             expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
                 object: {
                     aabb: test.expected
-                }, 
+                },
                 onCollisionCallback: expect.any(Function)
             }]));
         });
 
 
         it('Should trigger the onCollision callback when a collision is registered', () => {
-            const cbBBComponentA = jest.fn(() => {});
-            const cbBBComponentB = jest.fn(() => {});
+            const cbBBComponentA = jest.fn(() => { });
+            const cbBBComponentB = jest.fn(() => { });
 
             bbComponent.aabb.x = 5;
             bbComponent.aabb.y = 5;
@@ -53,5 +116,5 @@ describe('ecs/components/BoundingBoxComponent', () => {
             expect(cbBBComponentA).toHaveBeenCalled();
             expect(cbBBComponentB).toHaveBeenCalled();
         })
-    })
+    });
 })

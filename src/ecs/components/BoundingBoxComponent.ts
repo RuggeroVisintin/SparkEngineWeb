@@ -1,6 +1,7 @@
 import { Type } from "../../core";
 import { PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
+import { TransformComponent } from "./TransformComponent";
 import { CollisionCallback, ICollidableComponent } from "./interfaces";
 
 interface AABB {
@@ -12,11 +13,18 @@ interface AABB {
 
 @Type('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {
-    public onCollisionCb: CollisionCallback | undefined;
     private defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 }; 
 
+    public onCollisionCb: CollisionCallback | undefined;
+    public matchContainerTransform: boolean = false;
+
     public get aabb(): AABB { 
-        return this.defaultAABB;
+        const container = this.getContainer();
+        const containerTransform = container ? container.getComponent<TransformComponent>('TransformComponent') : undefined;
+
+        return this.matchContainerTransform && containerTransform
+            ? { ...containerTransform.position, ...containerTransform.size }
+            : this.defaultAABB
     }
 
     public set aabb(value: AABB) { 
