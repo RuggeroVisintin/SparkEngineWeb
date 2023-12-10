@@ -5,9 +5,13 @@ dist/
 src/**/*.js
 src/**/*.d.ts
 
+.vscode
 .DS_Store
+
+docs/
+
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-.vscode
+
