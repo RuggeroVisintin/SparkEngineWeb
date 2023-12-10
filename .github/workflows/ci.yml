@@ -72,6 +72,16 @@ jobs:
             # (PAT) and configured it as a GitHub action secret named
             # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
             token: ${{ secrets.GITHUB_TOKEN }}
+        - name: build docs
+          if: ${{ steps.release.outputs.release_created }}
+          run: |
+            npm run build:docs
+        - name: upload docs artifact
+          if: ${{ steps.release.outputs.release_created }}
+          uses: actions/upload-pages-artifact@v2
+        - name: deploy docs artifact
+          if: ${{ steps.release.outputs.release_created }}
+          uses: actions/deploy-pages@v3
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
 
