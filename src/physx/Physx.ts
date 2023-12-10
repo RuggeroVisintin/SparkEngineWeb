@@ -18,10 +18,14 @@ export interface PhysicalObjectCallbackAggregate {
 }
 
 export class Physx {
-    public readonly physicalWorld: PhysicalObjectCallbackAggregate[] = [];
+    private _physicalWorld: PhysicalObjectCallbackAggregate[] = [];
+
+    public get physicalWorld(): PhysicalObjectCallbackAggregate[] {
+        return this._physicalWorld;
+    }
 
     public pushPhysicalObject(object: PhysicalObjectCallbackAggregate): void {
-        this.physicalWorld.push(object);
+        this._physicalWorld.push(object);
     }
 
     public simulate(): void {
@@ -32,6 +36,8 @@ export class Physx {
                 }
             })
         });
+
+        this._physicalWorld = [];
     }
 
     private checkCollision(objectA: PhysicsObject, objectB: PhysicsObject): boolean {
