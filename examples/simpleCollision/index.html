@@ -45,10 +45,11 @@
         physicsSystem.registerComponent(secondGameObjectBB);
         physicsSystem.registerComponent(pingPongBoundingBox);
 
-        let velocity = 1;
+        let velocity = 5;
 
         pingPongBoundingBox.onCollisionCb = () => {
             velocity *= -1;
+            pingPongBall.transform.position.x += velocity;
         }
 
         const drawFrame = () => {
