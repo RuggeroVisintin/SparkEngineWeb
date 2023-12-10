@@ -89,6 +89,8 @@ jobs:
         - name: upload docs artifact
           # if: ${{ steps.release.outputs.release_created }}
           uses: actions/upload-pages-artifact@v2
+          with: 
+            path: "docs/"
         - name: deploy docs artifact
           # if: ${{ steps.release.outputs.release_created }}
           uses: actions/deploy-pages@v3
