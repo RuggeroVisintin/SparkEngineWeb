@@ -76,6 +76,9 @@ jobs:
           if: ${{ steps.release.outputs.release_created }}
           run: |
             npm run build:docs
+        - name: Setup Pages
+          if: ${{ steps.release.outputs.release_created }}
+          uses: actions/configure-pages@v4
         - name: upload docs artifact
           if: ${{ steps.release.outputs.release_created }}
           uses: actions/upload-pages-artifact@v2
