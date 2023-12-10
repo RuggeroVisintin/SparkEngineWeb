@@ -10,12 +10,20 @@ describe('ecs/components/BoundingBoxComponent', () => {
     })
 
     describe('.update()', () => {
-        it('Should register the component in the Physx world', () => {
+        
+        it.each([{
+            aabb: { x: 0, y: 0, width: 0, height: 0 },
+            expected: [0, 0, 0, 0]
+        }, {
+            aabb: { x: 5, y: 10, width: 15, height: 5 },
+            expected: [5, 10, 15, 5]
+        }])('Should register the component in the Physx world', (test) => {
             bbComponent.update(physx);
+            bbComponent.aabb = test.aabb;
 
             expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
                 object: {
-                    aabb: [0, 0, 0, 0]
+                    aabb: test.expected
                 }, 
                 onCollisionCallback: expect.any(Function)
             }]));

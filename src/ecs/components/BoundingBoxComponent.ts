@@ -19,10 +19,14 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
         return this.defaultAABB;
     }
 
+    public set aabb(value: AABB) { 
+        this.defaultAABB = value;
+    }
+
     public update(physx: Physx): void {
         physx.pushPhysicalObject({
             object: {
-                aabb: [this.aabb.x, this.aabb.y, this.aabb.height, this.aabb.width]
+                aabb: [this.aabb.x, this.aabb.y, this.aabb.width, this.aabb.height]
             },
             onCollisionCallback: (object: PhysicsObject) => this.onCollision(object),
         });
