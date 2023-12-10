@@ -1,7 +1,7 @@
-import { Physx } from "../../../physx";
+import { PhysicsObject, Physx } from "../../../physx";
 import { IComponent } from "./IComponent";
 
-export type CollisionCallback = (collider: ICollidableComponent) => void;
+export type CollisionCallback = (collider: PhysicsObject) => void;
 
 export interface ICollidableComponent extends IComponent {
     onCollisionCb: CollisionCallback | undefined;
