@@ -65,6 +65,7 @@ jobs:
         contents: write
         pull-requests: write
         pages: write
+        id-token: write
       steps:
         - uses: google-github-actions/release-please-action@v4
           id: release
