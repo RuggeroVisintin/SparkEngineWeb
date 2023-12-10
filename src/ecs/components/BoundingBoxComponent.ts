@@ -19,6 +19,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
     public matchContainerTransform: boolean = false;
 
     public get aabb(): AABB { 
+
         const container = this.getContainer();
         const containerTransform = container ? container.getComponent<TransformComponent>('TransformComponent') : undefined;
 

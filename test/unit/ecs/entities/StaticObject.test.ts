@@ -17,5 +17,9 @@ describe('ecs/entities/StaticObject', () => {
                 aabb: { x: 0, y: 0, width: 0, height: 0 },
             }));
         })
+
+        it('Should register this entity as a container of its default components', () => {
+            expect(staticObject.boundingBox.getContainer()).toBe(staticObject);
+        })
     })
 })
