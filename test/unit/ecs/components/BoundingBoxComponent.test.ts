@@ -18,8 +18,8 @@ describe('ecs/components/BoundingBoxComponent', () => {
             aabb: { x: 5, y: 10, width: 15, height: 5 },
             expected: [5, 10, 15, 5]
         }])('Should register the component in the Physx world', (test) => {
-            bbComponent.update(physx);
             bbComponent.aabb = test.aabb;
+            bbComponent.update(physx);
 
             expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
                 object: {
