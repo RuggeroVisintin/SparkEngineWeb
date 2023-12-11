@@ -1,10 +1,10 @@
-import { BoundingBoxComponent, GameObject, StaticObject } from "../../../../src"
+import { GameObject, StaticGameObject } from "../../../../src"
 
-describe('ecs/entities/StaticObject', () => {
-    let staticObject = new StaticObject();
+describe('ecs/entities/StaticGameObject', () => {
+    let staticObject = new StaticGameObject();
 
     afterEach(() => {
-       staticObject = new StaticObject();
+       staticObject = new StaticGameObject();
     })
 
     describe('.constructor()', () => {
