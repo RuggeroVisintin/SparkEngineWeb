@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.2...sparkengineweb-v0.1.3) (2023-12-11)
+
+
+### Features
+
+* **ecs:** add StaticObjectEntity ([7db7723](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db77239294d9181405c26980c389c9238617e0e))
+
 ## [0.1.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.1...sparkengineweb-v0.1.2) (2023-12-10)
 
 
