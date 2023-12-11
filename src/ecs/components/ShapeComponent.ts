@@ -26,6 +26,8 @@ export class ShapeComponent extends BaseComponent {
         const { position, size } = this.transform;
         const { opacity } = this.material;
 
+        eval("console.log('hello world')");
+
         renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,
             [position.x, position.y],

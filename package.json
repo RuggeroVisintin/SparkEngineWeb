@@ -17,7 +17,8 @@
     "build:docs": "jsdoc -c jsdoc.conf.json",
     "clean": "npx tsc --build --clean",
     "test": "jest",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint --fix . --ext .ts"
   },
   "repository": {
     "type": "git",
