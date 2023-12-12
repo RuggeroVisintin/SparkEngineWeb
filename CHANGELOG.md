@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.3...sparkengineweb-v0.1.4) (2023-12-12)
+
+
+### Bug Fixes
+
+* **docs:** fix documentation by changing tech ([04c30b5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/04c30b5114005f9eb5ffc89c6b459fc7d8e2155c))
+
 ## [0.1.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.2...sparkengineweb-v0.1.3) (2023-12-11)
 
 
