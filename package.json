@@ -15,7 +15,7 @@
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development --watch",
     "build:docs": "npx typedoc src/index.ts",
-    "clean": "npx tsc --build --declaration tsconfig.doc.json  --clean",
+    "clean": "npx tsc --build --declaration --clean",
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts"
