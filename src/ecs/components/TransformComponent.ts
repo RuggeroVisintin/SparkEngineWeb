@@ -1,10 +1,5 @@
-import { Type } from "../../core";
+import { Type, Vec2 } from "../../core";
 import { BaseComponent } from "./BaseComponent";
-
-interface Position2D {
-    x: number;
-    y: number;
-}
 
 interface Size2D {
     width: number;
@@ -13,7 +8,7 @@ interface Size2D {
 
 @Type('TransformComponent')
 export class TransformComponent extends BaseComponent {
-    public position: Position2D = { x: 0, y: 0 };
+    public position: Vec2 = new Vec2();
     public size: Size2D = { width: 0, height: 0 };
     public depthIndex: number = 0;   
 }
