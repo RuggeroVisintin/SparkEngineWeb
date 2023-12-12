@@ -1,4 +1,4 @@
-import { BaseEntity, BoundingBoxComponent, GameObject, ICollidableComponent, Physx } from "../../../../src";
+import { BaseEntity, BoundingBoxComponent, GameObject, ICollidableComponent, Physx, Vec2 } from "../../../../src";
 
 describe('ecs/components/BoundingBoxComponent', () => {
     let bbComponent = new BoundingBoxComponent();
@@ -30,7 +30,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
             bbComponent.matchContainerTransform = true;
             
-            parentEntity.transform.position = { x: 15, y: 25 };
+            parentEntity.transform.position = new Vec2(15, 25);
             parentEntity.transform.size = { width: 10, height: 10 };
 
             expect(bbComponent.aabb).toEqual({
