@@ -9,7 +9,8 @@
     },
     "plugins": [
         "@typescript-eslint",
-        "jest-extended"
+        "jest-extended",
+        "eslint-plugin-tsdoc"
     ],
     "rules": {
         "camelcase": "error",
