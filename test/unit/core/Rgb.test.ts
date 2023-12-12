@@ -1,6 +1,6 @@
 import { Rgb } from "../../../src"
 
-describe('core/Color', () => {
+describe('core/Rgb', () => {
     let color = new Rgb();
 
     afterEach(() => {
