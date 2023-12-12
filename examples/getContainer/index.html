@@ -44,7 +44,7 @@
             pos++;
             pos = pos % 60;
 
-            baseEntity.getComponent('TransformComponent').position = { x: pos, y: pos };
+            baseEntity.getComponent('TransformComponent').position = new SparkEngine.Vec2(pos, pos);
 
             renderSystem.update();
             renderer.endFrame(context);

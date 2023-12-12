@@ -20,13 +20,13 @@
 
         const rightWall = new SparkEngine.StaticObject();
         rightWall.transform.size = { width: 20, height: 150 };
-        rightWall.transform.position = { x: 280, y: 0 };
+        rightWall.transform.position = new SparkEngine.Vec2(280, 0);
         rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
         rightWall.boundingBox.matchContainerTransform = true;
 
         const pingPongBall = new SparkEngine.GameObject();
         pingPongBall.transform.size = { width: 20, height: 20 };
-        pingPongBall.transform.position = { x: 140, y: 70 };
+        pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
         pingPongBall.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
 
         const pingPongBB = new SparkEngine.BoundingBoxComponent()
