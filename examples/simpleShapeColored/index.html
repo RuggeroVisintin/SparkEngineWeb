@@ -27,8 +27,8 @@
             pos++;
             pos = pos % 60;
 
-            firstRect.transform.position = { x: pos, y: pos };
-
+            firstRect.transform.position.x = pos;
+            firstRect.transform.position.y = pos;
 
             renderSystem.update();
             renderer.endFrame(context);
