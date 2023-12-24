@@ -1,4 +1,4 @@
 export * from './BaseEntity';
 export * from './IEntity';
 export * from './GameObject';
-export * from './StaticGameObject';
+export * from './StaticObject';

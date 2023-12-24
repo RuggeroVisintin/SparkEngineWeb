@@ -1,10 +1,10 @@
-import { GameObject, StaticGameObject } from "../../../../src"
+import { GameObject, StaticObject } from "../../../../src"
 
-describe('ecs/entities/StaticGameObject', () => {
-    let staticObject = new StaticGameObject();
+describe('ecs/entities/StaticObject', () => {
+    let staticObject = new StaticObject();
 
     afterEach(() => {
-       staticObject = new StaticGameObject();
+       staticObject = new StaticObject();
     })
 
     describe('.constructor()', () => {
