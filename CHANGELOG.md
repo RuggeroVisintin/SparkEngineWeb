@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.4...sparkengineweb-v0.2.0) (2023-12-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ecs:** TransformComponent.position needs to be an instance of Vec2 now
+
+### Features
+
+* **math:** add negate operation to Vec2 ([4134e81](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/4134e81882d579ccb46bc9219197c60692993077))
+* **math:** add vec2 math utility ([893de02](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/893de02f14a4cda279b6445569b9fb9db14ae599))
+
+
+### Code Refactoring
+
+* **ecs:** replace transform position plain object with Vec2 ([45d3dd6](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/45d3dd6d4611d19433072e64869201f3486731d4))
+
 ## [0.1.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.3...sparkengineweb-v0.1.4) (2023-12-12)
 
 
