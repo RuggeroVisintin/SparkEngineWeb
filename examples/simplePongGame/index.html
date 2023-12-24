@@ -1,0 +1,96 @@
+<html>
+
+<body>
+    <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
+    <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
+    <script>
+        const context = document.getElementById('canvas').getContext('2d')
+        const device = new SparkEngine.CanvasDevice();
+
+        const renderer = new SparkEngine.Renderer(device);
+        const renderSystem = new SparkEngine.RenderSystem(renderer);
+
+        const physx = new SparkEngine.Physx();
+        const physicsSystem = new SparkEngine.PhysicsSystem(physx);
+
+        const baseColor = new SparkEngine.Rgb(0, 0, 0);
+        const raquetteSpeed = 5;
+
+        const leftRaquetteController = new SparkEngine.InputComponent();
+
+        const leftRaquette = new SparkEngine.StaticObject();
+        leftRaquette.transform.size = { width: 10, height: 30 };
+        leftRaquette.transform.position.y = 60;
+        leftRaquette.material.diffuseColor = baseColor;
+        leftRaquette.boundingBox.matchContainerTransform = true;
+        leftRaquette.addComponent(leftRaquetteController);
+
+        leftRaquetteController.onInputEventCb = (({ code, status }) => {
+            const parentTransform = leftRaquetteController.getContainer().getComponent('TransformComponent');
+
+            if (status === SparkEngine.KeyStatus.Down && code === 'KeyW') {
+                parentTransform.position.y -= raquetteSpeed;
+            } else if (status === SparkEngine.KeyStatus.Down && code === 'KeyS') {
+                parentTransform.position.y += raquetteSpeed;
+            }
+        });
+
+        const rightRaquetteController = new SparkEngine.InputComponent();
+
+        const rightRaquette = new SparkEngine.StaticObject();
+        rightRaquette.transform.size = { width: 10, height: 30 };
+        rightRaquette.transform.position = new SparkEngine.Vec2(290, 60);
+        rightRaquette.material.diffuseColor = baseColor;
+        rightRaquette.boundingBox.matchContainerTransform = true;
+        rightRaquette.addComponent(rightRaquetteController);
+
+        rightRaquetteController.onInputEventCb = (({ code, status }) => {
+            const parentTransform = rightRaquetteController.getContainer().getComponent('TransformComponent');
+
+            if (status === SparkEngine.KeyStatus.Down && code === 'ArrowUp') {
+                parentTransform.position.y -= raquetteSpeed;
+            } else if (status === SparkEngine.KeyStatus.Down && code === 'ArrowDown') {
+                parentTransform.position.y += raquetteSpeed;
+            }
+        });
+
+        const pingPongBall = new SparkEngine.GameObject();
+        pingPongBall.transform.size = { width: 10, height: 10 };
+        pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
+        pingPongBall.material.diffuseColor = baseColor;
+
+        const pingPongBB = new SparkEngine.BoundingBoxComponent()
+        pingPongBB.matchContainerTransform = true;
+
+        pingPongBall.addComponent(pingPongBB);
+
+        renderSystem.registerComponent(leftRaquette.shape);
+        renderSystem.registerComponent(rightRaquette.shape);
+        renderSystem.registerComponent(pingPongBall.shape);
+
+        physicsSystem.registerComponent(leftRaquette.boundingBox);
+        physicsSystem.registerComponent(rightRaquette.boundingBox);
+        physicsSystem.registerComponent(pingPongBB);
+
+        let velocity = 5;
+
+        pingPongBB.onCollisionCb = () => {
+            velocity *= -1;
+            pingPongBall.transform.position.x += velocity;
+        }
+
+        const drawFrame = () => {
+            pingPongBall.transform.position.x += velocity;
+
+            physicsSystem.update();
+            physx.simulate();
+
+            renderSystem.update();
+            renderer.endFrame(context);
+        }
+
+        setInterval(drawFrame, 33);
+    </script>
+</body>
+
+</html>
