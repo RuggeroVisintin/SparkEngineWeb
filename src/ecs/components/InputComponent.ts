@@ -1,15 +1,6 @@
 import { Type } from "../../core";
+import { KeyEvent, KeyStatus, KeyboardDevice } from "../../platform/inputs";
 import { BaseComponent } from "./BaseComponent";
-
-export enum KeyStatus {
-    Up,
-    Down
-};
-
-interface KeyEvent {
-    status: KeyStatus,
-    code: string
-}
 
 type OnInputEventTriggeredCallback = (event: KeyEvent) => void;
 
@@ -19,27 +10,15 @@ export class InputComponent extends BaseComponent {
 
     constructor() {
         super();
-
-        window.addEventListener("keydown", (e) => this.onKeyDown(e), true);
-
-        window.addEventListener("keyup", (e) => this.onKeyUp(e), true);
     }
 
-    private onKeyDown(event: KeyboardEvent): void {
-        if (!this.onInputEventCb) return;
-
-        this.onInputEventCb({
-            code: event.code,
-            status: KeyStatus.Down,
-        })
+    public update(inputDevice: KeyboardDevice): void {
+        inputDevice.pushInputListener((e) => this.onKeyUpdate(e));
     }
 
-    private onKeyUp(event: KeyboardEvent): void {
+    private onKeyUpdate(event: KeyEvent): void {
         if (!this.onInputEventCb) return;
 
-        this.onInputEventCb({
-            code: event.code,
-            status: KeyStatus.Up,
-        })
+        this.onInputEventCb(event);
     }
 }
