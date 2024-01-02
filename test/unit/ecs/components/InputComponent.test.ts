@@ -1,37 +1,22 @@
-import { InputComponent, KeyStatus } from "../../../../src";
+import { InputComponent, KeyEvent, KeyStatus, KeyboardDevice } from "../../../../src";
 
 describe('ecs/components/InputComponent', () => {
-    const inputComponent = new InputComponent();
+    let inputDevice = new KeyboardDevice();
+    let inputComponent = new InputComponent();
+    
+    beforeEach(() => {
+        inputDevice = new KeyboardDevice();
+        inputComponent = new InputComponent();
+    })
 
     describe('.update()', () => {
-        it('Should invoke the onInputEventCb when a key is pressed down', () => {
-            const onInputCb = jest.fn();
+        it('Should push a listener in the inputDevice', () => {
+            const onInputCb = jest.fn((e: KeyEvent) => { });
 
             inputComponent.onInputEventCb = onInputCb;
+            inputComponent.update(inputDevice);
 
-            const event = new KeyboardEvent('keydown', { code: 'KeyA' });
-            window.dispatchEvent(event);
-
-            expect(onInputCb).toHaveBeenCalledWith({
-                status: KeyStatus.Down,
-                code: 'KeyA'
-            });
+            expect(inputDevice.listeners.length).toBe(1);
         });
-
-        it('Should invoke the onInputEventCb when a key is released', () => {
-            const onInputCb = jest.fn();
-            
-            inputComponent.onInputEventCb = onInputCb;
-
-            const event = new KeyboardEvent('keyup', { code: 'KeyA' });
-            window.dispatchEvent(event);
-
-            expect(onInputCb).toHaveBeenCalledWith({
-                status: KeyStatus.Up,
-                code: 'KeyA'
-            });
-        });
-
-        it.todo('Should push an InputListener into the InputSystem');
     })
 })
