@@ -13,10 +13,14 @@
         const physx = new SparkEngine.Physx();
         const physicsSystem = new SparkEngine.PhysicsSystem(physx);
 
+        const inputs = new SparkEngine.KeyboardDevice();
+        const inputSystem = new SparkEngine.InputSystem(inputs);
+
         const baseColor = new SparkEngine.Rgb(0, 0, 0);
         const raquetteSpeed = 5;
 
         const leftRaquetteController = new SparkEngine.InputComponent();
+        inputSystem.registerComponent(leftRaquetteController);
 
         const leftRaquette = new SparkEngine.StaticObject();
         leftRaquette.transform.size = { width: 10, height: 30 };
@@ -36,6 +40,8 @@
         });
 
         const rightRaquetteController = new SparkEngine.InputComponent();
+        inputSystem.registerComponent(rightRaquetteController);
+
 
         const rightRaquette = new SparkEngine.StaticObject();
         rightRaquette.transform.size = { width: 10, height: 30 };
@@ -81,6 +87,8 @@
 
         const drawFrame = () => {
             pingPongBall.transform.position.x += velocity;
+
+            inputSystem.update();
 
             physicsSystem.update();
             physx.simulate();
