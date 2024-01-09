@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.0...sparkengineweb-v0.2.1) (2024-01-09)
+
+
+### Features
+
+* **platform:** add Keyboard Input device ([#61](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/61)) ([72b208d](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/72b208d00a4da9248833798a8d64e71bdf944231))
+
 ## [0.2.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.1.4...sparkengineweb-v0.2.0) (2023-12-12)
 
 
