@@ -10,5 +10,11 @@ interface Size2D {
 export class TransformComponent extends BaseComponent {
     public position: Vec2 = new Vec2();
     public size: Size2D = { width: 0, height: 0 };
-    public depthIndex: number = 0;   
+    public depthIndex: number = 0;
+    public velocity: Vec2 = new Vec2();
+
+    public update(): void {
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+    }
 }
