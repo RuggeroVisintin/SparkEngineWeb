@@ -20,4 +20,15 @@ describe('ecs/components/TransformComponent', () => {
             })
         })
     })
+
+    describe('.update()', () => {
+        it('Should apply the velocity to the position of the component', () => {
+            const transformComponent = new TransformComponent();
+            transformComponent.velocity.x = 3;
+            
+            transformComponent.update();
+
+            expect(transformComponent.position.x).toEqual(3);
+        })
+    })
 })
