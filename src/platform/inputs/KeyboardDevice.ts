@@ -31,15 +31,20 @@ export class KeyboardDevice {
     }
 
     public update(): void {
-        Object.entries(this._keyStatusMap).forEach(([key, value]) => {
-            this._listeners.forEach(listener => listener({
-                code: key,
-                status: value
-            }))
+        Object
+            .entries(this._keyStatusMap)
+            .forEach(([key, value]) => {
+                this._listeners.forEach(listener => listener({
+                    code: key,
+                    status: value
+                }))
         })
 
         // Empty listeners after every update
         this._listeners = [];
+
+        // Empty status map to avoid triggering the same key status over and over again
+        this._keyStatusMap = {};
     }
 
     private onKeyDown(e: KeyboardEvent): void {
@@ -47,6 +52,7 @@ export class KeyboardDevice {
     }
 
     private onKeyUp(e: KeyboardEvent): void {
+        // TODO: add released status when the key was donw the previous update
         this._keyStatusMap[e.code] = KeyStatus.Up;
     }
 }

@@ -75,13 +75,29 @@ describe('platform/inputs/KeyboardDevice', () => {
             })
         });
 
+        it('Should invoke the listener only for key whos status is changed since the last update', () => {
+            const callback = jest.fn((event: KeyEvent) => { });
+
+            keyboardDevice.pushInputListener(callback);
+
+            const event = new KeyboardEvent('keydown', { code: 'KeyA' });
+            window.dispatchEvent(event);
+
+            keyboardDevice.update();
+
+            keyboardDevice.pushInputListener(callback);
+            keyboardDevice.update();
+
+            expect(callback).toHaveBeenCalledOnce();
+        })
+
         it('Should cleanup all listeners after an update', () => {
-            const callback = jest.fn((event: KeyEvent) => {});
+            const callback = jest.fn((event: KeyEvent) => { });
 
             keyboardDevice.pushInputListener(callback);
             keyboardDevice.update();
 
             expect(keyboardDevice.listeners).toBeEmpty();
-        })
+        });
     })
 })
