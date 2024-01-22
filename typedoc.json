@@ -1,0 +1,8 @@
+{
+    "navigation": {
+        "includeCategories": true,
+        "includeGroups": false,
+        "includeFolders": false
+    },
+    "categorizeByGroup": false
+}
