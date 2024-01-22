@@ -81,7 +81,7 @@ jobs:
         - name: install
           run: npm ci
         - name: build docs
-          if: ${{ steps.release.outputs.release_created }}
+          if: ${{ steps.release.outputs.prs_created ||  !steps.release.outputs.prs_created && !steps.release.outputs.releases_created }}
           run: |
             npm run build:docs
         - name: Setup Pages
