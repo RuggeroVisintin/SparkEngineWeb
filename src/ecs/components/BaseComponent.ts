@@ -2,6 +2,9 @@ import { Type } from "../../core";
 import { IEntity } from "../entities";
 import { IComponent } from "./interfaces";
 
+
+
+/** @category components */
 @Type('BaseComponent')
 export class BaseComponent implements IComponent {
     private _container: IEntity | null = null;

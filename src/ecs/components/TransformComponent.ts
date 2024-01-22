@@ -1,11 +1,17 @@
 import { Type, Vec2 } from "../../core";
 import { BaseComponent } from "./BaseComponent";
 
+
 interface Size2D {
+    /**
+     * @category Components
+     */
     width: number;
     height: number;
 }
-
+/**
+ * @category Components
+ */
 @Type('TransformComponent')
 export class TransformComponent extends BaseComponent {
     public position: Vec2 = new Vec2();

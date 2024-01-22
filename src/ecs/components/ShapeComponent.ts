@@ -6,6 +6,8 @@ import { TransformComponent } from "./TransformComponent";
 
 /**
  * Represents a primitive Shape like rectangle, circle, etc
+ * 
+ * @category Components
  */
 @Type('ShapeComponent')
 export class ShapeComponent extends BaseComponent {

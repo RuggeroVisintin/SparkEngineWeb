@@ -4,6 +4,9 @@ import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
 import { CollisionCallback, ICollidableComponent } from "./interfaces";
 
+/**
+ * @category Components
+ */
 interface AABB {
     x: number;
     y: number;
@@ -11,6 +14,9 @@ interface AABB {
     height: number;
 }
 
+/**
+ * @category Components
+ */
 @Type('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {
     private defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 }; 

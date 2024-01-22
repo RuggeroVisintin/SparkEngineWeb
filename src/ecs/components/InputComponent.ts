@@ -4,6 +4,9 @@ import { BaseComponent } from "./BaseComponent";
 
 type OnInputEventTriggeredCallback = (event: KeyEvent) => void;
 
+/**
+ * @category Components
+ */
 @Type('InputComponent')
 export class InputComponent extends BaseComponent {
     public onInputEventCb: OnInputEventTriggeredCallback | undefined;
