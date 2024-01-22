@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.1...sparkengineweb-v0.2.2) (2024-01-22)
+
+
+### Features
+
+* **ecs:** add velocity to the transform component ([#63](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/63)) ([c88b6cd](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/c88b6cd5541cba785bcaf8ab40f029b4505378cd))
+
 ## [0.2.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.0...sparkengineweb-v0.2.1) (2024-01-09)
 
 
