@@ -4,7 +4,7 @@ import { IComponent } from "./interfaces";
 
 
 
-/** @category components */
+/** @category Components */
 @Type('BaseComponent')
 export class BaseComponent implements IComponent {
     private _container: IEntity | null = null;
