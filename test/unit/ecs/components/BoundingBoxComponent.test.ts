@@ -86,7 +86,8 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
             expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
                 object: {
-                    aabb: test.expected
+                    aabb: test.expected,
+                    isContainer: false
                 },
                 onCollisionCallback: expect.any(Function)
             }]));
@@ -115,6 +116,36 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
             expect(cbBBComponentA).toHaveBeenCalled();
             expect(cbBBComponentB).toHaveBeenCalled();
-        })
+        });
     });
+
+    describe('.isContainer', () => {
+        it('Should trigger the collision only when objects are outside the bounding box', () => {
+            const cbBBComponentA = jest.fn(() => { });
+            const cbBBComponentB = jest.fn(() => { });
+
+            bbComponent.aabb.x = 5;
+            bbComponent.aabb.y = 5;
+            bbComponent.aabb.height = 5;
+            bbComponent.aabb.width = 5;
+            bbComponent.onCollisionCb = cbBBComponentA;
+            bbComponent.isContainer = true;
+
+            const bbComponentB = new BoundingBoxComponent();
+            bbComponentB.aabb.x = 10;
+            bbComponent.aabb.y = 10;
+            bbComponentB.aabb.width = 4;
+            bbComponentB.aabb.height = 4;
+ 
+            bbComponentB.onCollisionCb = cbBBComponentB;
+
+            bbComponent.update(physx);
+            bbComponentB.update(physx);
+
+            physx.simulate();
+
+            expect(cbBBComponentA).toHaveBeenCalled();
+            expect(cbBBComponentB).toHaveBeenCalled();
+        });
+    })
 })

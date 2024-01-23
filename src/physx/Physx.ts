@@ -1,6 +1,15 @@
+export type AABB = [number, number, number, number];
+
 export interface PhysicsObject {
     // x, y, w, h
-    aabb: [number, number, number, number];
+    aabb: AABB;
+
+    /**
+     * Set to true if the physx object should act as bounday for other objects to not transpass
+     * 
+     * @default false
+     */
+    isContainer?: boolean;
 }
 
 export interface PhysicalObjectCallbackAggregate {
@@ -32,8 +41,8 @@ export class Physx {
         this.physicalWorld.forEach((physicalObject, idx) => {
             this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
                 if (idx !== otherIdx && this.checkCollision(physicalObject.object, otherPhysicalObject.object)) {
-                    physicalObject.onCollisionCallback(physicalObject.object);
-                }
+                   physicalObject.onCollisionCallback(physicalObject.object);
+                };
             })
         });
 
@@ -44,6 +53,13 @@ export class Physx {
         const [x1, y1, w1, h1] = objectA.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
+        if (objectA.isContainer) {
+            return this.checkCollisionContainer(objectA, objectB);
+        } else if (objectB.isContainer) {
+            return this.checkCollisionContainer(objectB, objectA);
+        }
+
+        // normal collision detection
         if (
             x1 < x2 + w2 &&
             x1 + w1 > x2 &&
@@ -53,6 +69,22 @@ export class Physx {
             return true;
         }
 
+        return false;
+    }
+
+    private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): boolean {
+        const [x1, y1, w1, h1] = container.aabb;
+        const [x2, y2, w2, h2] = objectB.aabb;
+
+        if (
+            x2 + w2 > x1 + w1 ||
+            y2 + h2 > y1 + h1 ||
+            x2 < x1 ||
+            y2 < y1
+        ) {
+            return true
+        }
+        
         return false;
     }
 }
