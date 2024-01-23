@@ -23,6 +23,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
 
     public onCollisionCb: CollisionCallback | undefined;
     public matchContainerTransform: boolean = false;
+    public isContainer: boolean = false;
 
     public get aabb(): AABB { 
 
@@ -41,7 +42,8 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
     public update(physx: Physx): void {
         physx.pushPhysicalObject({
             object: {
-                aabb: [this.aabb.x, this.aabb.y, this.aabb.width, this.aabb.height]
+                aabb: [this.aabb.x, this.aabb.y, this.aabb.width, this.aabb.height],
+                isContainer: this.isContainer,
             },
             onCollisionCallback: (object: PhysicsObject) => this.onCollision(object),
         });
