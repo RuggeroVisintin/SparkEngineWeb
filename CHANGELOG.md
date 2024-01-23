@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.2...sparkengineweb-v0.2.3) (2024-01-23)
+
+
+### Features
+
+* **ecs:** add isConatiner property to bounding box ([#69](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/69)) ([20d3394](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/20d3394347cdff2976a44b057218b4e7758a2b56))
+
+
+### Bug Fixes
+
+* **physx:** send informations about the colliding object in the callback ([7a7533c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7a7533cef8f9e22aa231545fec637d2812cf7225))
+
 ## [0.2.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.1...sparkengineweb-v0.2.2) (2024-01-22)
 
 
