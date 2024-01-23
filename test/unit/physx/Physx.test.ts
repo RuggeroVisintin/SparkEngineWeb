@@ -42,8 +42,8 @@ describe('physx/Physx', () => {
 
             physx.simulate();
             
-            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
-            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
         })
 
         it('Should trigger the Physics object callback if a reverse collision is detected', () => {
@@ -66,8 +66,8 @@ describe('physx/Physx', () => {
 
             physx.simulate();
             
-            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
-            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
         });
 
         it('Should not trigger a collision for object that are not colliding', () => {
@@ -128,8 +128,8 @@ describe('physx/Physx', () => {
 
                 physx.simulate();
                 
-                expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
-                expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+                expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+                expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
             })
 
             it('Should not trigger a collision for physx objects inside the container', () => {

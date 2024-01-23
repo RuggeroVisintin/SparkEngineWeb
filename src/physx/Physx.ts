@@ -41,7 +41,7 @@ export class Physx {
         this.physicalWorld.forEach((physicalObject, idx) => {
             this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
                 if (idx !== otherIdx && this.checkCollision(physicalObject.object, otherPhysicalObject.object)) {
-                   physicalObject.onCollisionCallback(physicalObject.object);
+                   physicalObject.onCollisionCallback(otherPhysicalObject.object);
                 };
             })
         });

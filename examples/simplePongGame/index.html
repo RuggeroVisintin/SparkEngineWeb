@@ -24,6 +24,13 @@
         const leftRaquetteController = new SparkEngine.InputComponent();
         inputSystem.registerComponent(leftRaquetteController);
 
+        const worldBoundingBox = new SparkEngine.StaticObject();
+        worldBoundingBox.transform.size = { width: 300, height: 150 };
+        worldBoundingBox.boundingBox.isContainer = true;
+        worldBoundingBox.boundingBox.matchContainerTransform = true;
+        worldBoundingBox.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        worldBoundingBox.material.opacity = 75;
+
         const leftRaquette = new SparkEngine.StaticObject();
         leftRaquette.transform.size = { width: 10, height: 30 };
         leftRaquette.transform.position.y = 60;
@@ -79,16 +86,20 @@
         renderSystem.registerComponent(leftRaquette.shape);
         renderSystem.registerComponent(rightRaquette.shape);
         renderSystem.registerComponent(pingPongBall.shape);
+        // Uncomment to debug world bounding box
+        // renderSystem.registerComponent(worldBoundingBox.shape);
 
         physicsSystem.registerComponent(leftRaquette.boundingBox);
         physicsSystem.registerComponent(rightRaquette.boundingBox);
         physicsSystem.registerComponent(pingPongBB);
+        physicsSystem.registerComponent(worldBoundingBox.boundingBox);
 
         hierarchySystem.registerComponent(rightRaquette.transform);
         hierarchySystem.registerComponent(leftRaquette.transform);
         hierarchySystem.registerComponent(pingPongBall.transform);
+        hierarchySystem.registerComponent(worldBoundingBox.transform);
 
-        pingPongBB.onCollisionCb = () => {
+        pingPongBB.onCollisionCb = (other) => {
             pingPongBall.transform.velocity.x *= -1;
         }
 
