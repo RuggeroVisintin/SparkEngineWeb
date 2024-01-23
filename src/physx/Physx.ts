@@ -5,7 +5,7 @@ export interface PhysicsObject {
     aabb: AABB;
 
     /**
-     * Set to true if the physx object should act as bounday for other objects to not transpass
+     * Set to true if the PhysicsObject should act as a container for other objects to not escape from
      * 
      * @default false
      */
