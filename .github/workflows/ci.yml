@@ -66,6 +66,7 @@ jobs:
             filePath: .benchmark
             mode: recreate
             comment_tag: benchmark_comment
+            create_if_not_exists: true
 
     test_visual:
       name: Visual
