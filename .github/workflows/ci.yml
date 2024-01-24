@@ -59,7 +59,7 @@ jobs:
           run: |
             npm run test:perf:ci
             benchmark_report=$(cat .benchmark)
-            formatted_benchmark=$(echo "$benchmark_report" | tr '\n' '%0A')
+            formatted_benchmark=$(echo "$benchmark_report" | tr '\n' '\n')
             echo "perf_report=$formatted_benchmark" >> "$GITHUB_OUTPUT"
 
         - name: attach report
