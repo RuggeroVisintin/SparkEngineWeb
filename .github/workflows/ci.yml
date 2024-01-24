@@ -60,6 +60,7 @@ jobs:
             npm run test:perf:ci
 
         - name: attach report
+          if: github.event.number
           uses: thollander/actions-comment-pull-request@v2
           with:
             pr_number: ${{ github.event.number }}
