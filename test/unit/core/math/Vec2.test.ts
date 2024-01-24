@@ -23,7 +23,7 @@ describe('core/math/Vec2', () => {
     })
 
     describe('.getNegated()', () => {
-        it('Should return a new vector with the negated values', () => { 
+        it('Should return a new vector with the negated values', () => {
             const vec = new Vec2(1, 2);
             const negated = vec.getNegated();
             
@@ -43,5 +43,29 @@ describe('core/math/Vec2', () => {
                 y: 2
             });
         })
+    });
+
+    describe('.getNormalized()', () => {
+        it('Should return a normalized version of the vector', () => {
+            const vec = new Vec2(3, 4);
+            const normalized = vec.getNormalized();
+
+            expect(normalized).toEqual({
+                x: 0.6,
+                y: 0.8
+            });
+        })
     })
+
+    describe('.dot()', () => {
+        it('Should return the dot product of the vector with another vector', () => {
+            expect(new Vec2(1, 2).dot(new Vec2(3, 4))).toBe(11);
+        })
+    });
+
+    describe('.length', () => {
+        it('Should get the magnitude of the vector', () => {
+            expect(new Vec2(3, 4).length).toBe(5);
+        })
+    });
 })

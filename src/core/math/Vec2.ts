@@ -5,6 +5,11 @@ export class Vec2 {
     ) {
     }
 
+
+    public get length(): number {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+
     public negate(): void {
         this.x = -this.x;
         this.y = -this.y;
@@ -13,5 +18,14 @@ export class Vec2 {
     public getNegated(): Vec2 {
         // avoid reusing negate for better performance
         return new Vec2(-this.x, -this.y);
+    }
+
+    public getNormalized(): Vec2 {
+        const length = this.length;
+        return new Vec2(this.x / length, this.y / length);
+    }
+    
+    public dot(other: Vec2): number {
+        return this.x * other.x + this.y * other.y;
     }
 }
