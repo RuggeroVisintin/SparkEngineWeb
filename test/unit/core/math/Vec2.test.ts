@@ -11,6 +11,18 @@ describe('core/math/Vec2', () => {
         })
     })
 
+    describe('.from', () => {
+        it('Should return a new vector from an existing one', () => {
+            const vec = new Vec2(1, 2);
+            const newVec = Vec2.from(vec);
+
+            expect(newVec).toEqual({
+                x: 1,
+                y: 2
+            });
+        })
+    })
+
     describe('.negate()', () => {
         it('Should negate the vector in place', () => {
             const vec = new Vec2(1, 2);
@@ -80,5 +92,17 @@ describe('core/math/Vec2', () => {
                 y: 4
             });
         });
+    })
+
+    describe('.reflect()', () => {
+        it('Should reflect the vector in place', () => {
+            const vec = new Vec2(1, 2);
+            vec.reflect(new Vec2(1, 0));
+
+            expect(vec).toEqual({
+                x: -1,
+                y: 2
+            });
+        })
     })
 })

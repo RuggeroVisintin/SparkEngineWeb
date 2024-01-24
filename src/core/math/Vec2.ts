@@ -5,6 +5,10 @@ export class Vec2 {
     ) {
     }
 
+    public static from(other: Vec2): Vec2 {
+        return new Vec2(other.x, other.y);
+    }
+
     public static get UP(): Vec2 { 
         return new Vec2(0, 1);
     }
@@ -48,5 +52,15 @@ export class Vec2 {
     public multiply(scalar: number): void { 
         this.x *= scalar;
         this.y *= scalar;
+    }
+
+    public reflect(normal: Vec2): void {
+        const dot = this.dot(normal);
+
+        this.x -= 2 * dot * normal.x;
+        this.y -= 2 * dot * normal.y; 
+
+        // is it really needed
+        // this.multiply(1); // avoid floating point errors
     }
 }
