@@ -1,4 +1,4 @@
-import { Vec2 } from "../../../../src"
+import { Vec2 } from "../../../../src";
 
 describe('core/math/Vec2', () => {
     describe('constructor', () => {
@@ -68,4 +68,17 @@ describe('core/math/Vec2', () => {
             expect(new Vec2(3, 4).length).toBe(5);
         })
     });
+
+    describe('.multiply()', () => {
+        it('Should multiply the vector by the given scalar in place', () => {
+            const vec = new Vec2(1, 2);
+            
+            vec.multiply(2);
+
+            expect(vec).toEqual({
+                x: 2,
+                y: 4
+            });
+        });
+    })
 })

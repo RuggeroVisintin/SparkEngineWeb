@@ -37,10 +37,16 @@ export class Vec2 {
 
     public getNormalized(): Vec2 {
         const length = this.length;
+
         return new Vec2(this.x / length, this.y / length);
     }
     
     public dot(other: Vec2): number {
         return this.x * other.x + this.y * other.y;
+    }
+
+    public multiply(scalar: number): void { 
+        this.x *= scalar;
+        this.y *= scalar;
     }
 }
