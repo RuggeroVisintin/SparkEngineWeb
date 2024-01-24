@@ -53,7 +53,9 @@ jobs:
           id: perf_test
           run: |
             npm run test:perf:ci
-            echo "perf_report=$(cat .benchmark)" >> "$GITHUB_OUTPUT"
+            benchmark_report=$(cat .benchmark)
+            formatted_benchmark=$(echo "$benchmark_report" | tr '\n' '%0A')
+            echo "perf_report=$formatted_benchmark" >> "$GITHUB_OUTPUT"
 
         - name: attach report
           uses: thollander/actions-comment-pull-request@v2
