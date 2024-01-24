@@ -1,4 +1,4 @@
-import { BaseEntity, BoundingBoxComponent, GameObject, ICollidableComponent, Physx, Vec2 } from "../../../../src";
+import { BaseEntity, BoundingBoxComponent, GameObject, ICollidableComponent, Physx, StaticObject, Vec2 } from "../../../../src";
 
 describe('ecs/components/BoundingBoxComponent', () => {
     let bbComponent = new BoundingBoxComponent();
@@ -87,7 +87,8 @@ describe('ecs/components/BoundingBoxComponent', () => {
             expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
                 object: {
                     aabb: test.expected,
-                    isContainer: false
+                    isContainer: false,
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: expect.any(Function)
             }]));
@@ -117,6 +118,22 @@ describe('ecs/components/BoundingBoxComponent', () => {
             expect(cbBBComponentA).toHaveBeenCalled();
             expect(cbBBComponentB).toHaveBeenCalled();
         });
+
+        it('Should get the velocity from a parent entity when present', () => {
+            const entity = new StaticObject();
+            entity.transform.velocity = new Vec2(5, 5);
+            entity.boundingBox.aabb.width = 10;
+            entity.boundingBox.aabb.height = 10; 
+
+            entity.boundingBox.update(physx);
+
+            expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
+                object: expect.objectContaining({
+                    velocity: new Vec2(5, 5)
+                }),
+                onCollisionCallback: expect.any(Function)
+            }]));
+        })
     });
 
     describe('.isContainer', () => {
