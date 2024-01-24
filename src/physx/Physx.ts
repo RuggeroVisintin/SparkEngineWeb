@@ -21,6 +21,9 @@ export interface PhysicsObject {
 
 export interface onCollisionCallbackParams {
     otherObject: PhysicsObject;
+    simulationResult: {
+        velocity: Vec2
+    }
     // collisionPlane: Vec2;
 }
 
