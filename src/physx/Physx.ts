@@ -76,13 +76,20 @@ export class Physx {
         const [x1, y1, w1, h1] = container.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
-        if (
-            x2 + w2 > x1 + w1 ||
-            y2 + h2 > y1 + h1 ||
-            x2 < x1 ||
-            y2 < y1
-        ) {
-            return true
+        if (x2 + w2 > x1 + w1) {
+            return true;
+        }
+
+        if (y2 + h2 > y1 + h1) {
+            return true;
+        }
+
+        if(x2 < x1) {
+            return true;
+        }
+
+        if (y2 < y1) {
+            return true;
         }
         
         return false;
