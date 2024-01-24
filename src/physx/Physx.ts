@@ -61,14 +61,14 @@ export class Physx {
         this._physicalWorld = [];
     }
 
-    private checkCollision(objectA: PhysicsObject, objectB: PhysicsObject): boolean {
+    private checkCollision(objectA: PhysicsObject, objectB: PhysicsObject): Vec2 | null {
         const [x1, y1, w1, h1] = objectA.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
         if (objectA.isContainer) {
-            return !!this.checkCollisionContainer(objectA, objectB);
+            return this.checkCollisionContainer(objectA, objectB);
         } else if (objectB.isContainer) {
-            return !!this.checkCollisionContainer(objectB, objectA);
+            return this.checkCollisionContainer(objectB, objectA);
         }
 
         // normal collision detection
@@ -78,10 +78,10 @@ export class Physx {
             y1 < y2 + h2 &&
             y1 + h1 > y2
         ) {
-            return true;
+            return new Vec2();
         }
 
-        return false;
+        return null;
     }
 
     private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): Vec2 | null {
