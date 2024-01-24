@@ -18,6 +18,7 @@
     "clean": "npx tsc --build --declaration --clean",
     "test": "jest",
     "test:perf": "npx ts-node test/performance/bench.perf.ts",
+    "test:perf:ci": "npm run test:perf -- --no-color",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix . --ext .ts"
   },

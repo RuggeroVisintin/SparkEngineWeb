@@ -1,7 +1,10 @@
 name: Continuos Integration
 on:
     push:
+      branches:
+        - main
     workflow_dispatch:
+    pull_request:
 
 jobs:
     build:
@@ -39,6 +42,8 @@ jobs:
     test_perf:
       name: Performance Tests
       runs-on: ubuntu-latest
+      permissions:
+        pull-requests: write
 
       steps:
         - uses: actions/checkout@v3
@@ -50,7 +55,19 @@ jobs:
           run: npm ci
   
         - name: test
-          run: npm run test:perf
+          id: perf_test
+          run: |
+            npm run test:perf:ci
+
+        - name: attach report
+          uses: thollander/actions-comment-pull-request@v2
+          with:
+            pr_number: ${{ github.event.number }}
+            filePath: .benchmark
+            mode: recreate
+            comment_tag: benchmark_comment
+            create_if_not_exists: true
+
     test_visual:
       name: Visual
       timeout-minutes: 60

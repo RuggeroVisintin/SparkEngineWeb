@@ -9,6 +9,7 @@ src/**/*.d.ts
 .DS_Store
 
 docs/
+.benchmark
 
 /test-results/
 /playwright-report/
