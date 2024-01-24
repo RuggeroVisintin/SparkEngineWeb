@@ -1,4 +1,4 @@
-import { AABB, PhysicalObjectCallbackAggregate, PhysicsObject, Physx } from "../../../src"
+import { AABB, PhysicalObjectCallbackAggregate, PhysicsObject, Physx, Vec2 } from "../../../src"
 
 describe('physx/Physx', () => {
     let physx = new Physx();
@@ -11,7 +11,8 @@ describe('physx/Physx', () => {
         it('Should add the physicx object to the physics objects list', () => {
             const physicsObject: PhysicalObjectCallbackAggregate = {
                 object: {
-                    aabb: [10, 10, 25, 25]
+                    aabb: [10, 10, 25, 25],
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: (postSimulation) => {},
             };
@@ -25,14 +26,16 @@ describe('physx/Physx', () => {
         it('Should trigger the Physics object callback if a collision is detected', () => {
             const physicsObject: PhysicalObjectCallbackAggregate = {
                 object: {
-                    aabb: [10, 10, 25, 25]
+                    aabb: [10, 10, 25, 25],
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: jest.fn(() => { }),
             };
 
             const physicsObject2: PhysicalObjectCallbackAggregate = {
                 object: {
-                    aabb: [15, 15, 25, 25]
+                    aabb: [15, 15, 25, 25],
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: jest.fn(() => { }),
             };
@@ -49,14 +52,16 @@ describe('physx/Physx', () => {
         it('Should trigger the Physics object callback if a reverse collision is detected', () => {
             const physicsObject: PhysicalObjectCallbackAggregate = {
                 object: {
-                    aabb: [19, 70, 20, 2,]
+                    aabb: [19, 70, 20, 2],
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: jest.fn(() => { }),
             };
 
             const physicsObject2: PhysicalObjectCallbackAggregate = {
                 object: {
-                    aabb: [0, 0, 20, 150]
+                    aabb: [0, 0, 20, 150],
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: jest.fn(() => { }),
             };
@@ -73,14 +78,16 @@ describe('physx/Physx', () => {
         it('Should not trigger a collision for object that are not colliding', () => {
             const physicsObject: PhysicalObjectCallbackAggregate = {
                 object: {
-                    aabb: [10, 10, 25, 25]
+                    aabb: [10, 10, 25, 25],
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: jest.fn(() => { }),
             };
 
             const physicsObject2: PhysicalObjectCallbackAggregate = {
                 object: {
-                    aabb: [45, 45, 25, 25]
+                    aabb: [45, 45, 25, 25],
+                    velocity: new Vec2()
                 },
                 onCollisionCallback: jest.fn(() => { }),
             };
@@ -111,6 +118,7 @@ describe('physx/Physx', () => {
                 const physicsObject: PhysicalObjectCallbackAggregate = {
                     object: {
                         aabb: test.containerAabb,
+                        velocity: new Vec2(),
                         isContainer: true
                     },
                     onCollisionCallback: jest.fn(() => { }),
@@ -118,7 +126,8 @@ describe('physx/Physx', () => {
 
                 const physicsObject2: PhysicalObjectCallbackAggregate = {
                     object: {
-                        aabb: test.otherAabb
+                        aabb: test.otherAabb,
+                        velocity: new Vec2()
                     },
                     onCollisionCallback: jest.fn(() => { }),
                 };
@@ -136,14 +145,16 @@ describe('physx/Physx', () => {
                 const physicsObject: PhysicalObjectCallbackAggregate = {
                     object: {
                         aabb: [10, 10, 25, 25],
-                        isContainer: true
+                        isContainer: true,
+                        velocity: new Vec2()
                     },
                     onCollisionCallback: jest.fn(() => { }),
                 };
 
                 const physicsObject2: PhysicalObjectCallbackAggregate = {
                     object: {
-                        aabb: [15, 15, 5, 5]
+                        aabb: [15, 15, 5, 5],
+                        velocity: new Vec2()
                     },
                     onCollisionCallback: jest.fn(() => { }),
                 };

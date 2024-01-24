@@ -1,3 +1,5 @@
+import { Vec2 } from "../core";
+
 export type AABB = [number, number, number, number];
 
 export interface PhysicsObject {
@@ -5,11 +7,21 @@ export interface PhysicsObject {
     aabb: AABB;
 
     /**
+     * The velocity of a physics object
+     */
+    velocity: Vec2;
+
+    /**
      * Set to true if the PhysicsObject should act as a container for other objects to not escape from
      * 
      * @default false
      */
     isContainer?: boolean;
+}
+
+export interface onCollisionCallbackParams {
+    otherObject: PhysicsObject;
+    // collisionPlane: Vec2;
 }
 
 export interface PhysicalObjectCallbackAggregate {
@@ -23,7 +35,7 @@ export interface PhysicalObjectCallbackAggregate {
      * @param postSimulation 
      * @returns 
      */
-    onCollisionCallback: (postSimulation: PhysicsObject) => void;
+    onCollisionCallback: (other: PhysicsObject) => void;
 }
 
 export class Physx {
@@ -41,7 +53,7 @@ export class Physx {
         this.physicalWorld.forEach((physicalObject, idx) => {
             this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
                 if (idx !== otherIdx && this.checkCollision(physicalObject.object, otherPhysicalObject.object)) {
-                   physicalObject.onCollisionCallback(otherPhysicalObject.object);
+                    physicalObject.onCollisionCallback(otherPhysicalObject.object);
                 };
             })
         });
