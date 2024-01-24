@@ -58,16 +58,12 @@ jobs:
           id: perf_test
           run: |
             npm run test:perf:ci
-            benchmark_report=$(cat .benchmark)
-            formatted_benchmark=$(echo "$benchmark_report" | tr '\n' '\n')
-            echo "perf_report=$formatted_benchmark" >> "$GITHUB_OUTPUT"
 
         - name: attach report
           uses: thollander/actions-comment-pull-request@v2
           with:
             pr_number: ${{ github.event.number }}
-            message: |
-              ${{ steps.perf_test.outputs.perf_report }}
+            filePath: .benchmark
 
     test_visual:
       name: Visual
