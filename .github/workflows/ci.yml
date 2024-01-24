@@ -52,15 +52,15 @@ jobs:
         - name: test
           id: perf_test
           run: |
-            perf_report=$(npm run test:perf)
-            echo "perf_report=$perf_report" >> "$GITHUB_OUTPUT"
+            npm run test:perf:ci
+            echo "perf_report=$(cat .benchmark)" >> "$GITHUB_OUTPUT"
 
         - name: attach report
           uses: thollander/actions-comment-pull-request@v2
           with:
             message: |
               ${{ steps.perf_test.outputs.perf_report }}
-              
+
     test_visual:
       name: Visual
       timeout-minutes: 60
