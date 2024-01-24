@@ -127,32 +127,52 @@ export class Physx {
             // else is a vector facing down
             // new velocity is the reflection of the object original velocity related to the normal
             
-            if (xw2 - xw1 < yh2 - yh1) {
-                return new Vec2()
-            }
+            result = Vec2.from(objectB.velocity);
 
-            return new Vec2();
+            if (xw2 - xw1 < yh2 - yh1) {
+                result.reflect(Vec2.LEFT);
+            } else {
+                result.reflect(Vec2.DOWN);
+            }
         } else if (collisionQuadrant === CollisionQuadrant.BottomRight && (xw2 > xw1 || y2 < y1)) {
             // if xw2 - xw1 < y2 - y1
             // normal is a vector facing left
             // else a vector facing up
             // new velocity is the reflection of the object original velocity related to the normal
             
-            return new Vec2();
+            result = Vec2.from(objectB.velocity);
+
+            if (xw2 - xw1 < y2 - y1) {
+                result.reflect(Vec2.LEFT);
+            } else {
+                result.reflect(Vec2.UP);
+            }
         } else if (collisionQuadrant === CollisionQuadrant.BottomLeft && (x2 < x1 || y2 < y1)) {
             // if x2 - x1 > y2 - y1 - on the left the bigger positive number wins
             // normal is a vector facing right
             // else a vector facing up
             // new velocity is the reflection of the object original velocity related to the normal
             
-            return new Vec2();
+            result = Vec2.from(objectB.velocity);
+
+            if (x2 - x1 > y2 - y1) {
+                result.reflect(Vec2.RIGHT);
+            } else {
+                result.reflect(Vec2.UP);
+            }
         } else if (collisionQuadrant === CollisionQuadrant.TopLeft && (x2 < x1 || yh2 > yh1)) {
             // if x2 - x1 > yh2 - yh1 - on the left the bigger positive number wins
             // normal is a vector facing right
             // else a vector facing down
             // new velocity is the reflection of the object original velocity related to the normal
             
-            return new Vec2();
+            result = Vec2.from(objectB.velocity);
+
+            if (x2 - x1 > yh2 - yh1) {
+                result.reflect(Vec2.RIGHT);
+            } else {
+                result.reflect(Vec2.DOWN);
+            }
         }
         
         return result;
