@@ -115,7 +115,7 @@ jobs:
           run: npm ci
         - name: build docs
           id: docs
-          if: ${{ !steps.release.outputs.prs_created }}
+          if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}
           run: |
             npm run build:docs
             echo "docs_created=true" >> "$GITHUB_OUTPUT"
