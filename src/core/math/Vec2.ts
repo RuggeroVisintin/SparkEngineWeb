@@ -5,6 +5,21 @@ export class Vec2 {
     ) {
     }
 
+    public static get UP(): Vec2 { 
+        return new Vec2(0, 1);
+    }
+
+    public static get DOWN(): Vec2 {
+        return new Vec2(0, -1);
+    }
+
+    public static get LEFT(): Vec2 {
+        return new Vec2(-1, 0);
+    }
+
+    public static get RIGHT(): Vec2 {
+        return new Vec2(1, 0);
+    }
 
     public get length(): number {
         return Math.sqrt(this.x * this.x + this.y * this.y);

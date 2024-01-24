@@ -41,6 +41,13 @@ export interface PhysicalObjectCallbackAggregate {
     onCollisionCallback: (other: PhysicsObject) => void;
 }
 
+enum CollisionQuadrant {
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight
+}
+
 export class Physx {
     private _physicalWorld: PhysicalObjectCallbackAggregate[] = [];
 
@@ -91,22 +98,63 @@ export class Physx {
         const [x1, y1, w1, h1] = container.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
-        if (x2 + w2 > x1 + w1) {
-            return new Vec2();
-        }
+        const xw1 = x1 + w1;
+        const yh1 = y1 + h1;
+        const xw2 = x2 + w2;
+        const yh2 = y2 + h2;
 
-        if (y2 + h2 > y1 + h1) {
-            return new Vec2();
-        }
+        let result: Vec2 | null = null;
+        let collisionQuadrant: CollisionQuadrant | null = null;
 
-        if(x2 < x1) {
-            return new Vec2();
-        }
+        // another way might be to find the center of mass of each object and get the normal based on the 
+        // position of the objectB related to the center of mass of the container 
+        const containerCenterOfMass = new Vec2(x1 + w1 / 2, y1 + h1 / 2);
+        const objectBCenterOfMass = new Vec2(x2 + w2 / 2, y2 + h2 / 2);
 
-        if (y2 < y1) {
+        if (containerCenterOfMass.x <= objectBCenterOfMass.x && containerCenterOfMass.y <= objectBCenterOfMass.y) {
+            collisionQuadrant = CollisionQuadrant.TopRight;
+        } else if (objectBCenterOfMass.x < containerCenterOfMass.x && containerCenterOfMass.y <= objectBCenterOfMass.y) {
+            collisionQuadrant = CollisionQuadrant.TopLeft;
+        } else if(containerCenterOfMass.x <= objectBCenterOfMass.x && objectBCenterOfMass.y < containerCenterOfMass.y) {
+            collisionQuadrant = CollisionQuadrant.BottomRight;
+        } else {
+            collisionQuadrant = CollisionQuadrant.BottomLeft;
+        }
+        
+        if (collisionQuadrant === CollisionQuadrant.TopRight && (xw2 > xw1 || yh2 > yh1)) {
+            // if xw2 - xw1 < yh2 - yh1 - the smaller negative number wins as it's the one with the greatest collision area
+            // normal is a vector facing left
+            // else is a vector facing down
+            // new velocity is the reflection of the object original velocity related to the normal
+            
+            if (xw2 - xw1 < yh2 - yh1) {
+                return new Vec2()
+            }
+
+            return new Vec2();
+        } else if (collisionQuadrant === CollisionQuadrant.BottomRight && (xw2 > xw1 || y2 < y1)) {
+            // if xw2 - xw1 < y2 - y1
+            // normal is a vector facing left
+            // else a vector facing up
+            // new velocity is the reflection of the object original velocity related to the normal
+            
+            return new Vec2();
+        } else if (collisionQuadrant === CollisionQuadrant.BottomLeft && (x2 < x1 || y2 < y1)) {
+            // if x2 - x1 > y2 - y1 - on the left the bigger positive number wins
+            // normal is a vector facing right
+            // else a vector facing up
+            // new velocity is the reflection of the object original velocity related to the normal
+            
+            return new Vec2();
+        } else if (collisionQuadrant === CollisionQuadrant.TopLeft && (x2 < x1 || yh2 > yh1)) {
+            // if x2 - x1 > yh2 - yh1 - on the left the bigger positive number wins
+            // normal is a vector facing right
+            // else a vector facing down
+            // new velocity is the reflection of the object original velocity related to the normal
+            
             return new Vec2();
         }
         
-        return null;
+        return result;
     }
 }
