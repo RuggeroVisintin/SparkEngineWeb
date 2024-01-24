@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.3...sparkengineweb-v0.2.4) (2024-01-24)
+
+
+### Features
+
+* **core:** add vec2 math utils ([bf49313](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bf493130ea5a5aa83188812db8bc9e56e4017581))
+* **math:** add reflect and static from constructor ([6c371f1](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6c371f195ec386457610adcf8feeb7813ba2e351))
+* **physx:** add objects velocity ([#76](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/76)) ([2d22191](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2d2219168e05ea87e7099d4e6f336ca5568e0800))
+* **vec2:** add scalar multiplication ([8d0d87a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8d0d87a7ca85a84a023487e148bc739f4e673718))
+
 ## [0.2.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.2...sparkengineweb-v0.2.3) (2024-01-23)
 
 
