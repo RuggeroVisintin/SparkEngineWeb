@@ -1,4 +1,4 @@
-import { Physx } from '../../src/physx';
+import { Physx } from '../../src';
 const bench = require('fastbench');
 
 const physxEngine = new Physx();
