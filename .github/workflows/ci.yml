@@ -64,6 +64,7 @@ jobs:
           with:
             pr_number: ${{ github.event.number }}
             filePath: .benchmark
+            mode: recreate
 
     test_visual:
       name: Visual
