@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.4...sparkengineweb-v0.2.5) (2024-01-26)
+
+
+### Bug Fixes
+
+* **physx:** fix velocity not accounted in collisions ([953412a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/953412a69daa9c10f02a6ef52b65da545abbb294))
+
 ## [0.2.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.3...sparkengineweb-v0.2.4) (2024-01-24)
 
 
