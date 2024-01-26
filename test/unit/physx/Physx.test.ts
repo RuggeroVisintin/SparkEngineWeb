@@ -75,31 +75,31 @@ describe('physx/Physx', () => {
             expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
         });
 
-        // it('Should take the object velocity into collision account', () => {
-        //     const physicsObject: PhysicalObjectCallbackAggregate = {
-        //         object: {
-        //             aabb: [0, 100, 16, 150],
-        //             velocity: new Vec2(5)
-        //         },
-        //         onCollisionCallback: jest.fn(() => { }),
-        //     };
+        it('Should take the object velocity into collision account', () => {
+            const physicsObject: PhysicalObjectCallbackAggregate = {
+                object: {
+                    aabb: [0, 100, 16, 150],
+                    velocity: new Vec2(5)
+                },
+                onCollisionCallback: jest.fn(() => { }),
+            };
 
-        //     const physicsObject2: PhysicalObjectCallbackAggregate = {
-        //         object: {
-        //             aabb: [0, 100, 20, 150],
-        //             velocity: new Vec2()
-        //         },
-        //         onCollisionCallback: jest.fn(() => { }),
-        //     };
+            const physicsObject2: PhysicalObjectCallbackAggregate = {
+                object: {
+                    aabb: [0, 100, 20, 150],
+                    velocity: new Vec2()
+                },
+                onCollisionCallback: jest.fn(() => { }),
+            };
 
-        //     physx.pushPhysicalObject(physicsObject);
-        //     physx.pushPhysicalObject(physicsObject2);
+            physx.pushPhysicalObject(physicsObject);
+            physx.pushPhysicalObject(physicsObject2);
 
-        //     physx.simulate();
+            physx.simulate();
             
-        //     expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
-        //     expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
-        // })
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
+            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
+        })
 
         it.todo('Should calculate and include in the Physics object callback the new velocity resulting from the collision')
 
