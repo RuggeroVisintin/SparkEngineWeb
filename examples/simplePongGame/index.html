@@ -75,8 +75,8 @@
         const pingPongBall = new SparkEngine.GameObject();
         pingPongBall.transform.size = { width: 10, height: 10 };
         pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
-        pingPongBall.transform.velocity = new SparkEngine.Vec2(5);
-        pingPongBall.material.diffuseColor = baseColor;
+        pingPongBall.transform.velocity = new SparkEngine.Vec2(5.75);
+        pingPongBall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
 
         const pingPongBB = new SparkEngine.BoundingBoxComponent()
         pingPongBB.matchContainerTransform = true;
@@ -105,10 +105,12 @@
 
         const drawFrame = () => {
             inputSystem.update();
-            hierarchySystem.update();
-            physicsSystem.update();
 
+            physicsSystem.update();
             physx.simulate();
+
+            hierarchySystem.update();
+
             renderSystem.update();
             renderer.endFrame(context);
         }
