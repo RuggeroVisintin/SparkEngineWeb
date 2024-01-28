@@ -13,6 +13,8 @@ export interface PhysicsObject {
 
     /**
      * Set to true if the PhysicsObject should act as a container for other objects to not escape from
+     * A container is always consider as a static entity at the moment, i.e. its movement will be not taken into account
+     * in the physx math and could case janky results
      * 
      * @default false
      */
