@@ -1,6 +1,9 @@
 import { MaterialComponent, ShapeComponent, TransformComponent } from "../components";
 import { BaseEntity } from "./BaseEntity";
 
+/**
+ * @category Entities
+ */
 export class GameObject extends BaseEntity {
     public transform = new TransformComponent();
     public shape = new ShapeComponent();
