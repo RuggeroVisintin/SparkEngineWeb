@@ -7,6 +7,7 @@ export default bench([
     function addComponents(done: Function) {
         physxEngine.pushPhysicalObject({
             object: {
+                uuid: 'uuid',
                 aabb: [Math.random(), Math.random(), Math.random(), Math.random()],
                 velocity: new Vec2(Math.random(), Math.random())
             },
