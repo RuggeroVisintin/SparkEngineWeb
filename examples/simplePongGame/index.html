@@ -39,6 +39,8 @@
         leftRaquette.addComponent(leftRaquetteController);
 
         leftRaquetteController.onInputEventCb = (({ code, status }) => {
+            console.log('leftRaquetteController.onInputEventCb');
+
             const parentTransform = leftRaquetteController.getContainer().getComponent('TransformComponent');
 
             if (status === SparkEngine.KeyStatus.Down && code === 'KeyW') {
@@ -61,6 +63,7 @@
         rightRaquette.addComponent(rightRaquetteController);
 
         rightRaquetteController.onInputEventCb = (({ code, status }) => {
+            console.log('rightRaquetteController.onInputEventCb');
             const parentTransform = rightRaquetteController.getContainer().getComponent('TransformComponent');
 
             if (status === SparkEngine.KeyStatus.Down && code === 'ArrowUp') {
@@ -73,19 +76,31 @@
         });
 
         const pingPongBall = new SparkEngine.GameObject();
-        pingPongBall.transform.size = { width: 10, height: 10 };
-        pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
-        pingPongBall.transform.velocity = new SparkEngine.Vec2(3, 5);
-        pingPongBall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        const resetBall = () => {
+            pingPongBall.transform.size = { width: 10, height: 10 };
+            pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
+            pingPongBall.transform.velocity = new SparkEngine.Vec2(3, 5);
+            pingPongBall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        }
+
+        resetBall();
+
 
         const pingPongBB = new SparkEngine.BoundingBoxComponent()
         pingPongBB.matchContainerTransform = true;
-
         pingPongBall.addComponent(pingPongBB);
+
+
+        const rightGoal = new SparkEngine.StaticObject();
+        rightGoal.transform.size = { width: 10, height: 200 };
+        rightGoal.transform.position = new SparkEngine.Vec2(299);
+        rightGoal.boundingBox.matchContainerTransform = true;
+        rightGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0)
 
         renderSystem.registerComponent(leftRaquette.shape);
         renderSystem.registerComponent(rightRaquette.shape);
         renderSystem.registerComponent(pingPongBall.shape);
+        renderSystem.registerComponent(rightGoal.shape);
         // Uncomment to debug world bounding box
         // renderSystem.registerComponent(worldBoundingBox.shape);
 
@@ -93,16 +108,24 @@
         physicsSystem.registerComponent(rightRaquette.boundingBox);
         physicsSystem.registerComponent(pingPongBB);
         physicsSystem.registerComponent(worldBoundingBox.boundingBox);
+        physicsSystem.registerComponent(rightGoal.boundingBox);
 
         hierarchySystem.registerComponent(rightRaquette.transform);
         hierarchySystem.registerComponent(leftRaquette.transform);
         hierarchySystem.registerComponent(pingPongBall.transform);
         hierarchySystem.registerComponent(worldBoundingBox.transform);
+        hierarchySystem.registerComponent(rightGoal.transform);
 
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
             pingPongBall.transform.velocity = postSimulation.velocity;
+        }
+
+        rightGoal.boundingBox.onCollisionCb = ({ collider }) => {
+            if (collider.uuid === pingPongBB.uuid) {
+                resetBall();
+            }
         }
 
         const drawFrame = () => {
