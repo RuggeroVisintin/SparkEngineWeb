@@ -100,8 +100,6 @@
         hierarchySystem.registerComponent(worldBoundingBox.transform);
 
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
-            console.log('COLLISION', { ...pingPongBall.transform }, { ...collider }, { ...postSimulation })
-
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
             pingPongBall.transform.velocity = postSimulation.velocity;
