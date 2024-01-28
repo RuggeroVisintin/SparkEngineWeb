@@ -8,7 +8,7 @@ That being said, it will be an iterative journey and we won't bump the major ver
 
 ## Getting Started
 
-**Requirements**
+### Requirements
 
 * Node ^20
 * NPM ^10
@@ -17,8 +17,13 @@ Run `npm i` to install packages. After that, you are good to go
 
 ### Commands
 
-* `npm test` to run the test suite
+Here you can find the list of commands. **Commands with the :ci flag are reserved for the CI setup of the project and not recommended for normal use**
+
+* `npm test` to run the unit test suite
+* `npm run test:perf` to run the performance test suite
 * `npm run build` to build the engine
+* `npm run build:dev` to build the engine in development mode
+* `npm run build:docs` to build the documentation directory
 * `npm run clean` to clean the dist folder
 
 ## Usage
