@@ -23,8 +23,14 @@ export interface PhysicsObject {
 
 export interface OnCollisionCallbackParams {
     otherObject: PhysicsObject;
+
+    /**
+     * An object conatining the post simulation result
+     * 
+     * @property velocity - the new Velocity of the object after the collision assuming the object is in a vacuum
+     * @property position - the new Position of the object after the collision
+     */
     simulationResult: PhysicsObject;
-    // collisionPlane: Vec2;
 }
 
 export interface PhysicalObjectCallbackAggregate {
