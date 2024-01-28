@@ -95,26 +95,37 @@
         rightGoal.transform.size = { width: 10, height: 200 };
         rightGoal.transform.position = new SparkEngine.Vec2(299);
         rightGoal.boundingBox.matchContainerTransform = true;
-        rightGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0)
+        rightGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
+
+        const leftGoal = new SparkEngine.StaticObject();
+        leftGoal.transform.size = { width: 10, height: 200 };
+        leftGoal.transform.position = new SparkEngine.Vec2(-9);
+        leftGoal.boundingBox.matchContainerTransform = true;
+        leftGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
 
         renderSystem.registerComponent(leftRaquette.shape);
         renderSystem.registerComponent(rightRaquette.shape);
         renderSystem.registerComponent(pingPongBall.shape);
-        renderSystem.registerComponent(rightGoal.shape);
         // Uncomment to debug world bounding box
         // renderSystem.registerComponent(worldBoundingBox.shape);
+        // Uncomment to debug left goal
+        renderSystem.registerComponent(rightGoal.shape);
+        // Uncomment to debug right goal
+        renderSystem.registerComponent(leftGoal.shape);
 
         physicsSystem.registerComponent(leftRaquette.boundingBox);
         physicsSystem.registerComponent(rightRaquette.boundingBox);
         physicsSystem.registerComponent(pingPongBB);
         physicsSystem.registerComponent(worldBoundingBox.boundingBox);
         physicsSystem.registerComponent(rightGoal.boundingBox);
+        physicsSystem.registerComponent(leftGoal.boundingBox);
 
         hierarchySystem.registerComponent(rightRaquette.transform);
         hierarchySystem.registerComponent(leftRaquette.transform);
         hierarchySystem.registerComponent(pingPongBall.transform);
         hierarchySystem.registerComponent(worldBoundingBox.transform);
         hierarchySystem.registerComponent(rightGoal.transform);
+        hierarchySystem.registerComponent(leftGoal.transform);
 
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
@@ -123,6 +134,12 @@
         }
 
         rightGoal.boundingBox.onCollisionCb = ({ collider }) => {
+            if (collider.uuid === pingPongBB.uuid) {
+                resetBall();
+            }
+        }
+
+        leftGoal.boundingBox.onCollisionCb = ({ collider }) => {
             if (collider.uuid === pingPongBB.uuid) {
                 resetBall();
             }
