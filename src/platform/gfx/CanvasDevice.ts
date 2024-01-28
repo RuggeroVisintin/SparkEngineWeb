@@ -10,6 +10,8 @@ export class CanvasDevice {
     public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void { 
         const canvas = ctx.canvas;
 
+        if(!canvas) return;
+
         this.wRatio = width / canvas.width;
         this.hRatio = height / canvas.height;
 
