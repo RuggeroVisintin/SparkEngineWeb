@@ -91,17 +91,19 @@
         pingPongBall.addComponent(pingPongBB);
 
 
-        const rightGoal = new SparkEngine.StaticObject();
+        const rightGoal = new SparkEngine.TriggerEntity(pingPongBall);
         rightGoal.transform.size = { width: 10, height: 200 };
         rightGoal.transform.position = new SparkEngine.Vec2(299);
         rightGoal.boundingBox.matchContainerTransform = true;
         rightGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
+        rightGoal.onTriggerCB = resetBall;
 
-        const leftGoal = new SparkEngine.StaticObject();
+        const leftGoal = new SparkEngine.TriggerEntity(pingPongBall);
         leftGoal.transform.size = { width: 10, height: 200 };
         leftGoal.transform.position = new SparkEngine.Vec2(-9);
         leftGoal.boundingBox.matchContainerTransform = true;
         leftGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
+        leftGoal.onTriggerCB = resetBall;
 
         renderSystem.registerComponent(leftRaquette.shape);
         renderSystem.registerComponent(rightRaquette.shape);
@@ -131,18 +133,6 @@
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
             pingPongBall.transform.velocity = postSimulation.velocity;
-        }
-
-        rightGoal.boundingBox.onCollisionCb = ({ collider }) => {
-            if (collider.uuid === pingPongBB.uuid) {
-                resetBall();
-            }
-        }
-
-        leftGoal.boundingBox.onCollisionCb = ({ collider }) => {
-            if (collider.uuid === pingPongBB.uuid) {
-                resetBall();
-            }
         }
 
         const drawFrame = () => {

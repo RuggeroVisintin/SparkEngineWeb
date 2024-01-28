@@ -1,4 +1,4 @@
-import { BaseEntity, StaticObject, TriggerEntity } from "../../../../src"
+import { BaseEntity, StaticObject, TriggerEntity, Vec2 } from "../../../../src"
 
 describe('ecs/entities/TriggerEntity', () => {
     const otherEntity = new StaticObject();
@@ -18,6 +18,26 @@ describe('ecs/entities/TriggerEntity', () => {
         it('Should assign the target entity', () => {
             expect(triggerEntity.target).toBe(otherEntity);  
         })
+    })
+
+    describe('.onTriggerCB', () => {
+        it('Should be invoked when a collision between this entity and the target is detected', () => {
+            triggerEntity.onTriggerCB = jest.fn();
+            triggerEntity.boundingBox.onCollisionCb?.({
+                collider: {
+                    aabb: [1, 0, 1, 0],
+                    velocity: new Vec2(),
+                    uuid: otherEntity.boundingBox.uuid
+                },
+                postSimulation: {
+                    aabb: [1, 0, 1, 0],
+                    velocity: new Vec2(),
+                    uuid: triggerEntity.boundingBox.uuid
+                }
+            });
+
+            expect(triggerEntity.onTriggerCB).toHaveBeenCalled();
+        });
     })
 
 })
