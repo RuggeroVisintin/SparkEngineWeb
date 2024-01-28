@@ -113,7 +113,58 @@ describe('physx/Physx', () => {
             }));
         })
 
-        it.todo('Should calculate and include in the Physics object callback the new position resulting from the collision')
+        it.each([[
+            'case 1',
+            new Vec2(5),
+            [0, 100, 16, 150],
+            [20, 100, 20, 150],
+            [4, 100, 16, 150]
+        ], [
+            'case 2',
+            new Vec2(0, 5),
+            [0, 0, 16, 10],
+            [0, 13, 16, 10],
+            [0, 3, 16, 10]
+        ], [
+            'case 3',
+            new Vec2(0, -5),
+            [0, 13, 16, 10],
+            [0, 0, 16, 10],
+            [0, 10, 16, 10]
+        ], [
+            'case 4',
+            new Vec2(-5),
+            [13, 0, 10, 10],
+            [0, 0, 10, 10],
+            [10, 0, 10, 10]
+        ]])('Should calculate and include in the Physics object callback the new position resulting from the collision %s', (_, velocity, a, b, result) => {            
+            const physicsObject: PhysicalObjectCallbackAggregate = {
+                object: {
+                    aabb: <AABB>a,
+                    velocity: velocity
+                },
+                onCollisionCallback: jest.fn(() => { }),
+            };
+
+            const physicsObject2: PhysicalObjectCallbackAggregate = {
+                object: {
+                    aabb: <AABB>b,
+                    velocity: new Vec2()
+                },
+                onCollisionCallback: jest.fn(() => { }),
+            };
+
+            physx.pushPhysicalObject(physicsObject);
+            physx.pushPhysicalObject(physicsObject2);
+
+            physx.simulate();
+            
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                simulationResult: expect.objectContaining({
+                    aabb: result
+                })
+            }));
+        })
 
         it.todo('Should calculate and include in the Physics object callback the new velocity resulting from the collision')
 

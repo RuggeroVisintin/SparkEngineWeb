@@ -90,13 +90,17 @@ export class Physx {
 
         const x1v = x1 + objectA.velocity.x;
         const y1v = y1 + objectA.velocity.y;
-        const x2v = x2 + objectB.velocity.x;
-        const y2v = y2 + objectB.velocity.y;
-
         const xw1v = x1v + w1;
         const yh1v = y1v + h1;
+
+        const x2v = x2 + objectB.velocity.x;
+        const y2v = y2 + objectB.velocity.y;
         const xw2v = x2v + w2;
         const yh2v = y2v + h2;
+
+        const result: PhysicsObject = {
+            ...objectA
+        }
 
         // normal collision detection
         if (
@@ -105,7 +109,25 @@ export class Physx {
             y1v < yh2v &&
             yh1v > y2v
         ) {
-            return objectA;
+            const x1CollisionCount = xw2v - x1v;
+            const xw1CollisionCount = xw1v - x2v;
+            const y1CollisionCount = yh2v - y1v;
+            const yh1CollisionCount = yh1v - y2v;
+
+            const absoluteVelocityX = Math.abs(objectA.velocity.x);
+            const absoluteVelocityY = Math.abs(objectA.velocity.y);
+
+            if (objectA.velocity.x > 0 && absoluteVelocityX > absoluteVelocityY) {
+                result.aabb = [x1v - xw1CollisionCount, y1, w1 , h1];
+            } else if (objectA.velocity.x < 0 && absoluteVelocityX > absoluteVelocityY) {
+                result.aabb = [x1v + x1CollisionCount, y1, w1 , h1];
+            } else if (objectA.velocity.y > 0 && absoluteVelocityY > absoluteVelocityX) {
+                result.aabb = [x1, y1v - yh1CollisionCount, w1 , h1];
+            } else  if(objectA.velocity.y < 0 && absoluteVelocityY > absoluteVelocityX) {
+                result.aabb = [x1, y1v + y1CollisionCount, w1 , h1];
+            }  
+
+            return result;
         }
 
         return null;
