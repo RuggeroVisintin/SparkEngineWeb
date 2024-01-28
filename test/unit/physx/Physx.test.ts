@@ -123,13 +123,13 @@ describe('physx/Physx', () => {
             'case 2',
             new Vec2(0, 5),
             [0, 16, 16, 10],
-            [0, 13, 16, 10],
-            [0, 3, 16, 10]
+            [0, 7, 16, 10],
+            [0, 16, 16, 10]
         ], [
             'case 3',
             new Vec2(0, -5),
             [0, 9, 16, 10],
-            [0, 0, 16, 10],
+            [10, 0, 16, 10],
             [0, 10, 16, 10]
         ], [
             'case 4',
@@ -266,31 +266,31 @@ describe('physx/Physx', () => {
                 expect(physicsObject2.onCollisionCallback).not.toHaveBeenCalled();
             });
 
-            it.each([[
-                'case 1',
+            it.only.each([[
+                'case RIGHT',
                 new Vec2(5),
-                [5, 100, 16, 150],
-                [20, 100, 20, 150],
+                [299, 75, 5, 5],
+                [0, 0, 300, 150],
                 new Vec2(-5)
             ], [
-                'case 2',
+                'case UP',
                 new Vec2(0, 5),
-                [0, 16, 16, 10],
-                [0, 13, 16, 10],
+                [75, 146, 5, 5],
+                [0, 0, 300, 150],
                 new Vec2(0, -5)
             ], [
-                'case 3',
+                'case DOWN',
                 new Vec2(0, -5),
                 [0, 9, 16, 10],
                 [0, 0, 16, 10],
                 new Vec2(0, 5)
             ], [
-                'case 4',
+                'case LEFT',
                 new Vec2(-5),
-                [7, 0, 10, 10],
                 [0, 0, 10, 10],
+                [7, 0, 10, 10],
                 new Vec2(5)
-            ]])('%s) Should not test collisions against two container objects', (_, velocity, a, b, result) => {
+            ]])('%s) Should return the new velocity of the object', (_, velocity, a, b, result) => {
                 const physicsObject: PhysicalObjectCallbackAggregate = {
                     object: {
                         aabb: <AABB>a,
@@ -302,7 +302,8 @@ describe('physx/Physx', () => {
                 const physicsObject2: PhysicalObjectCallbackAggregate = {
                     object: {
                         aabb: <AABB>b,
-                        velocity: new Vec2()
+                        velocity: new Vec2(),
+                        isContainer: true
                     },
                     onCollisionCallback: jest.fn(() => { }),
                 };

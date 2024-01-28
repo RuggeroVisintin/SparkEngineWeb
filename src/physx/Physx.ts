@@ -105,29 +105,26 @@ export class Physx {
             y1 < yh2 &&
             yh1 > y2
         ) {
-            const absoluteVelocityX = Math.abs(objectA.velocity.x);
-            const absoluteVelocityY = Math.abs(objectA.velocity.y);
-
-            // TODO: review math, this works only assuming object are not rotated
-            if (objectA.velocity.x > 0 && absoluteVelocityX > absoluteVelocityY) {
+            // TODO: this method is much more precise but does not take into account objectB velocity yet
+            if (objectA.velocity.x > 0 && xw1 - objectA.velocity.x <= x2 && (yh1 - objectA.velocity.y > y2 || y1 + objectA.velocity.y > yh2)) {
                 const collisionCount = xw1 - x2;
                 result.aabb = [x1 - collisionCount, y1, w1, h1];
 
                 result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                 result.velocity.reflect(Vec2.LEFT);
-            } else if (objectA.velocity.x < 0 && absoluteVelocityX > absoluteVelocityY) {
+            } else if (objectA.velocity.x < 0 && x1 + objectA.velocity.x <= xw2 && (yh1 - objectA.velocity.y > y2 || y1 + objectA.velocity.y > yh2)) {
                 const collisionCount = xw2 - x1;
                 result.aabb = [x1 + collisionCount, y1, w1, h1];
                 result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                 
                 result.velocity.reflect(Vec2.RIGHT);
-            } else if (objectA.velocity.y > 0 && absoluteVelocityY > absoluteVelocityX) {
+            } else if (objectA.velocity.y > 0 && yh1 - objectA.velocity.y <= y2 && (xw1 - objectA.velocity.x > x2 || x1 + objectA.velocity.x > xw2)) {
                 const collisionCount = yh1 - y2;
                 result.aabb = [x1, y1 - collisionCount, w1, h1];
                 result.velocity = new Vec2(result.velocity.x, result.velocity.y);
 
                 result.velocity.reflect(Vec2.DOWN);
-            } else if (objectA.velocity.y < 0 && absoluteVelocityY > absoluteVelocityX) {
+            } else if (objectA.velocity.y < 0 && y1 + objectA.velocity.y <= yh2 && (xw1 - objectA.velocity.x > x2 || x1 + objectA.velocity.x > xw2)) {
                 const collisionCount = yh2 - y1;
                 result.aabb = [x1, y1 + collisionCount, w1, h1];
 
@@ -160,42 +157,25 @@ export class Physx {
             x2 < x1 ||
             y2 < y1
         ) {
-            const absoluteVelocityX = Math.abs(objectB.velocity.x);
-            const absoluteVelocityY = Math.abs(objectB.velocity.y);
 
-            console.log('absolute velocity', absoluteVelocityX, absoluteVelocityY)
+            const topCollisionCount = yh2 - yh1;
+            const bottomCollisionCount = y1 - y2;
+            const leftCollisionCount = x1 - x2;
+            const rightCollisionCount = xw2 - xw1;
 
-            // TODO: implement collision for containers
-
-            // if (objectB.velocity.x > 0 && absoluteVelocityX > absoluteVelocityY) {
-            //     const collisionCount = xw2 - xw1;
-            //     result.aabb = [x2 - collisionCount, y2, w2, h2];
-            //     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-            //     result.velocity.reflect(Vec2.LEFT);
-
-            //     console.log('LEFT')
-            // } else if (objectB.velocity.x < 0 && absoluteVelocityX > absoluteVelocityY) {
-            //     const collisionCount = x2 - x1;
-            //     result.aabb = [x2 + collisionCount, y2, w2, h2];                
-            //     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-            //     result.velocity.reflect(Vec2.RIGHT);
-
-            //     console.log('RIGHT')
-            // } else if (objectB.velocity.y > 0 && absoluteVelocityY > absoluteVelocityX) {
-            //     const collisionCount = yh1 - yh2;
-            //     result.aabb = [x2, y2 - collisionCount, w2, h2];
-            //     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-            //     result.velocity.reflect(Vec2.DOWN);
-
-            //     console.log('DOWN')
-            // } else if (objectB.velocity.y < 0 && absoluteVelocityY > absoluteVelocityX) {
-            //     const collisionCount = y2 - y1;
-            //     result.aabb = [x2, y2 + collisionCount, w2, h2];
-            //     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-            //     result.velocity.reflect(Vec2.UP);
-
-            //     console.log('UP')
-            // }  
+            if(rightCollisionCount > 0 && rightCollisionCount > topCollisionCount && rightCollisionCount > bottomCollisionCount) {
+                result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
+                result.velocity.reflect(Vec2.LEFT);
+            } else if (leftCollisionCount > 0 && leftCollisionCount > topCollisionCount && leftCollisionCount > bottomCollisionCount) {
+                result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
+                result.velocity.reflect(Vec2.RIGHT);
+            } else if (topCollisionCount > 0 && topCollisionCount > leftCollisionCount && topCollisionCount > rightCollisionCount) {
+                result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
+                result.velocity.reflect(Vec2.DOWN);
+            } else if (bottomCollisionCount > 0 && bottomCollisionCount > leftCollisionCount && bottomCollisionCount > rightCollisionCount) {                
+                result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
+                result.velocity.reflect(Vec2.UP);
+            }
 
             return result;
         }
