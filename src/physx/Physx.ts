@@ -102,7 +102,7 @@ export class Physx {
         if (
             x1 < xw2 &&
             xw1 > x2 &&
-            x1 < yh2 &&
+            y1 < yh2 &&
             yh1 > y2
         ) {
             const absoluteVelocityX = Math.abs(objectA.velocity.x);
@@ -110,16 +110,28 @@ export class Physx {
 
             if (objectA.velocity.x > 0 && absoluteVelocityX > absoluteVelocityY) {
                 const collisionCount = xw1 - x2;
-                result.aabb = [x1 - collisionCount, y1, w1 , h1];
+                result.aabb = [x1 - collisionCount, y1, w1, h1];
+                
+                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+                result.velocity.reflect(Vec2.LEFT);
             } else if (objectA.velocity.x < 0 && absoluteVelocityX > absoluteVelocityY) {
                 const collisionCount = xw2 - x1;
-                result.aabb = [x1 + collisionCount, y1, w1 , h1];
+                result.aabb = [x1 + collisionCount, y1, w1, h1];
+                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+                
+                result.velocity.reflect(Vec2.RIGHT);
             } else if (objectA.velocity.y > 0 && absoluteVelocityY > absoluteVelocityX) {
                 const collisionCount = yh1 - y2;
-                result.aabb = [x1, y1 - collisionCount, w1 , h1];
+                result.aabb = [x1, y1 - collisionCount, w1, h1];
+                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+
+                result.velocity.reflect(Vec2.DOWN);
             } else if (objectA.velocity.y < 0 && absoluteVelocityY > absoluteVelocityX) {
                 const collisionCount = yh2 - y1;
-                result.aabb = [x1, y1 + collisionCount, w1 , h1];
+                result.aabb = [x1, y1 + collisionCount, w1, h1];
+
+                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+                result.velocity.reflect(Vec2.UP);
             }  
 
             return result;
@@ -131,7 +143,6 @@ export class Physx {
     private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
         const [x1, y1, w1, h1] = container.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
-     
 
         const xw1 = x1 + w1;
         const yh1 = y1 + h1;

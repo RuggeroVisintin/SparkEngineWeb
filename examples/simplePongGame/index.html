@@ -102,7 +102,7 @@
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
-            pingPongBall.transform.velocity.x *= -1;
+            pingPongBall.transform.velocity = postSimulation.velocity;
         }
 
         const drawFrame = () => {
