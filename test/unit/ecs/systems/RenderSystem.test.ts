@@ -1,10 +1,8 @@
 import { CanvasDevice, RenderSystem, Renderer, ShapeComponent } from "../../../../src";
 
 describe('systems/RenderSystem', () => {
-
-
     describe('.registerComponent()', () => {
-        const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
+        const renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()));
         const myTestShape = new ShapeComponent();
 
         it('Should register the component into the RenderSystem components list', () => {
@@ -22,7 +20,7 @@ describe('systems/RenderSystem', () => {
         })
 
         it('Should draw renderable object', () => {
-            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
+            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()));
             const drawSpy = jest.spyOn(ShapeComponent.prototype, 'draw');
 
             renderSystem.registerComponent(new ShapeComponent());
@@ -35,7 +33,7 @@ describe('systems/RenderSystem', () => {
         });
 
         it('Should render objects based on their depthIndex in reverse order (0 rendered last)', () => {
-            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice()));
+            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()));
             const component = new ShapeComponent();
             const component2 = new ShapeComponent();
             
