@@ -18,6 +18,4 @@ export class BaseEntity implements IEntity {
     public getComponent<Component extends IComponent>(type: string): Component | undefined {
         return this.components.get(type) as Component;
     }
-
-    public onCollision(component: ICollidableComponent): void {}
 }
