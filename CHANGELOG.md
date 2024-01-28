@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.3.0...sparkengineweb-v0.3.1) (2024-01-28)
+
+
+### Features
+
+* **ecs:** add uuid to every component created ([7946b05](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7946b05e41d9e2086419db0424eaea7bb5ea00e9))
+* **phsyx:** pass through the uuid of the physical objects colliding ([09d5437](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/09d54375dc34fc0db93742dda3b5ae36a5c2fb09))
+
 ## [0.3.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.5...sparkengineweb-v0.3.0) (2024-01-28)
 
 
