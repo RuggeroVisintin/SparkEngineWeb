@@ -1,11 +1,11 @@
 import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent } from "../../../../src";
 
 describe('ecs/components/ShapeComponent', () => {
-    let renderer = new Renderer(new CanvasDevice());
+    let renderer: Renderer;
     let shapeComponent = new ShapeComponent();
         
-    afterEach(() => {
-        renderer = new Renderer(new CanvasDevice());
+    beforeEach(() => {
+        renderer = new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D());
         shapeComponent = new ShapeComponent();
     });
     

@@ -15,7 +15,13 @@ export class Renderer {
         return this._commandBuffer;
     }
 
-    public constructor(public readonly device: CanvasDevice) {}
+    public constructor(
+        public readonly device: CanvasDevice,
+        public readonly resolution: { width: number, height: number },
+        ctx: CanvasRenderingContext2D
+    ) { 
+        this.device.setResolution(ctx, this.resolution.width, this.resolution.height);
+    }
 
     public pushRenderCommand(command: RenderCommand): void {
         this._commandBuffer.push(command);

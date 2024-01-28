@@ -3,8 +3,8 @@ import {Canvas} from './__mocks__/canvas';
 const bench = require('fastbench');
 
 const device = new CanvasDevice();
-const renderer = new Renderer(device);
 const ctx = new Canvas().getContext();
+const renderer = new Renderer(device, {width: 1920, height: 1080}, ctx);
 
 export default bench([
     function RendererPushRenderCommand(done: Function) {
