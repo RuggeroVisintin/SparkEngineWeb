@@ -4,11 +4,11 @@ import { HierarchySystem, TransformComponent } from "../../src";
 const hierarchySystem = new HierarchySystem();
 
 export default bench([
-    function hierarchyRegisterComponent(done: Function) {
+    function HierarchyRegisterComponent(done: Function) {
         hierarchySystem.registerComponent(new TransformComponent());
         done();
     },
-    function hierarchyUpdate(done: Function) {
+    function HierarchyUpdate(done: Function) {
         hierarchySystem.update();
         done();
     }

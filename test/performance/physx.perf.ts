@@ -4,7 +4,7 @@ const bench = require('fastbench');
 const physxEngine = new Physx();
 
 export default bench([
-    function addComponents(done: Function) {
+    function PhysxAddComponents(done: Function) {
         physxEngine.pushPhysicalObject({
             object: {
                 uuid: 'uuid',
@@ -16,7 +16,7 @@ export default bench([
 
         done();
     },
-    function simulate(done: Function) {
+    function PhysxSimulate(done: Function) {
         physxEngine.simulate();
 
         done();

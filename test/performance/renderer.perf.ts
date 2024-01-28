@@ -7,7 +7,7 @@ const renderer = new Renderer(device);
 const ctx = new Canvas().getContext();
 
 export default bench([
-    function pushRenderCommand(done: Function) {
+    function RendererPushRenderCommand(done: Function) {
         renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,
             [Math.random(), Math.random()],
@@ -16,7 +16,7 @@ export default bench([
         ));
         done();
     },
-    function endFrame(done: Function) {
+    function RendererEndFrame(done: Function) {
         renderer.endFrame(ctx);
         done();
     }
