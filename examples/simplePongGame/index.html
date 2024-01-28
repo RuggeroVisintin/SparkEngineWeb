@@ -75,7 +75,7 @@
         const pingPongBall = new SparkEngine.GameObject();
         pingPongBall.transform.size = { width: 10, height: 10 };
         pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
-        pingPongBall.transform.velocity = new SparkEngine.Vec2(5.75);
+        pingPongBall.transform.velocity = new SparkEngine.Vec2(7.5);
         pingPongBall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
 
         const pingPongBB = new SparkEngine.BoundingBoxComponent()
@@ -99,17 +99,18 @@
         hierarchySystem.registerComponent(pingPongBall.transform);
         hierarchySystem.registerComponent(worldBoundingBox.transform);
 
-        pingPongBB.onCollisionCb = (other) => {
+        pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
+            pingPongBall.transform.position.x = postSimulation.aabb[0];
+            pingPongBall.transform.position.y = postSimulation.aabb[1];
             pingPongBall.transform.velocity.x *= -1;
         }
 
         const drawFrame = () => {
             inputSystem.update();
+            hierarchySystem.update();
 
             physicsSystem.update();
             physx.simulate();
-
-            hierarchySystem.update();
 
             renderSystem.update();
             renderer.endFrame(context);

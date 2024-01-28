@@ -116,25 +116,25 @@ describe('physx/Physx', () => {
         it.each([[
             'case 1',
             new Vec2(5),
-            [0, 100, 16, 150],
+            [5, 100, 16, 150],
             [20, 100, 20, 150],
             [4, 100, 16, 150]
         ], [
             'case 2',
             new Vec2(0, 5),
-            [0, 0, 16, 10],
+            [0, 16, 16, 10],
             [0, 13, 16, 10],
             [0, 3, 16, 10]
         ], [
             'case 3',
             new Vec2(0, -5),
-            [0, 13, 16, 10],
+            [0, 9, 16, 10],
             [0, 0, 16, 10],
             [0, 10, 16, 10]
         ], [
             'case 4',
             new Vec2(-5),
-            [13, 0, 10, 10],
+            [7, 0, 10, 10],
             [0, 0, 10, 10],
             [10, 0, 10, 10]
         ]])('Should calculate and include in the Physics object callback the new position resulting from the collision %s', (_, velocity, a, b, result) => {            

@@ -1,8 +1,8 @@
 import { Type, Vec2 } from "../../core";
-import { PhysicsObject, Physx } from "../../physx";
+import { Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
-import { CollisionCallback, ICollidableComponent } from "./interfaces";
+import { CollisionCallback, CollisionCallbackParams, ICollidableComponent } from "./interfaces";
 
 /**
  * @category Components
@@ -69,12 +69,16 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
                 velocity
             },
             onCollisionCallback: ({
-                otherObject
-            }) => this.onCollision(otherObject),
+                otherObject,
+                simulationResult
+            }) => this.onCollision({
+                collider: otherObject,
+                postSimulation: simulationResult,
+            }),
         });
     }
 
-    private onCollision(object: PhysicsObject) { 
-        this.onCollisionCb && this.onCollisionCb(object);
+    private onCollision(params: CollisionCallbackParams) { 
+        this.onCollisionCb && this.onCollisionCb(params);
     }
 }

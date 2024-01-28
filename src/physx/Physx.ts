@@ -88,13 +88,13 @@ export class Physx {
         const [x1, y1, w1, h1] = objectA.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
-        const x1v = x1 + objectA.velocity.x;
-        const y1v = y1 + objectA.velocity.y;
+        const x1v = x1;
+        const y1v = y1;
         const xw1v = x1v + w1;
         const yh1v = y1v + h1;
 
-        const x2v = x2 + objectB.velocity.x;
-        const y2v = y2 + objectB.velocity.y;
+        const x2v = x2;
+        const y2v = y2;
         const xw2v = x2v + w2;
         const yh2v = y2v + h2;
 
@@ -136,23 +136,19 @@ export class Physx {
     private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
         const [x1, y1, w1, h1] = container.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
+     
 
-        const x1v = x1 + container.velocity.x;
-        const y1v = y1 + container.velocity.y;
-        const x2v = x2 + objectB.velocity.x;
-        const y2v = y2 + objectB.velocity.y;
+        const xw1 = x1 + w1;
+        const yh1 = y1 + h1;
+        const xw2 = x2 + w2;
+        const yh2 = y2 + h2;
 
-        const xw1v = x1v + w1;
-        const yh1v = y1v + h1;
-        const xw2v = x2v + w2;
-        const yh2v = y2v + h2;
-
-        if (xw2v > xw1v || 
-            yh2v > yh1v || 
-            x2v < x1v ||
-            y2v < y1v
+        if (xw2 > xw1 || 
+            yh2 > yh1 || 
+            x2 < x1 ||
+            y2 < y1
         ) {
-            return container;
+            return objectB;
         }
         
 
