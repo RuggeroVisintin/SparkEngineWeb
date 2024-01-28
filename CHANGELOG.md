@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.3.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.5...sparkengineweb-v0.3.0) (2024-01-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **physx:** rename "simulationResult" property to "postSimulation"
+
+### Features
+
+* **phsyx:** add reflected velocity in collision detection ([585c57c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/585c57caf8507058486eee4a634a72f516b97a61))
+* **physx:** add reflected velocity from collision in non container collision ([bfc2500](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bfc25009a8b869e32d1b198eb7d834dfba295617))
+* **physx:** calculate post collision position with non container objects more precisely ([382dd15](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/382dd15dd806ad670a165701c119bdbad75b4b87))
+* **physx:** improved collision detection precision ([eab8341](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/eab8341b3aa7232af95d5a11d1eed1eeccf2469d))
+* **physx:** refine collision detection logic ([4d0f016](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/4d0f016faf955ce243b1b111ffecd19911997dec))
+
+
+### Code Refactoring
+
+* **physx:** rename "simulationResult" property to "postSimulation" ([1ab7000](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1ab700048f8c6d08e5d55daa6a31107fc4ed12d2))
+
 ## [0.2.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.2.4...sparkengineweb-v0.2.5) (2024-01-26)
 
 
