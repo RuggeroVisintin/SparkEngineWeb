@@ -30,7 +30,7 @@ export interface OnCollisionCallbackParams {
      * @property velocity - the new Velocity of the object after the collision assuming the object is in a vacuum
      * @property position - the new Position of the object after the collision
      */
-    simulationResult: PhysicsObject;
+    postSimulation: PhysicsObject;
 }
 
 export interface PhysicalObjectCallbackAggregate {
@@ -73,7 +73,7 @@ export class Physx {
                 if (idx !== otherIdx && simulationResult) {
                     physicalObject.onCollisionCallback({
                         otherObject: otherPhysicalObject.object,
-                        simulationResult
+                        postSimulation: simulationResult
                     });
                 };
             })

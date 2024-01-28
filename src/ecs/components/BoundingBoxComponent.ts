@@ -70,7 +70,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
             },
             onCollisionCallback: ({
                 otherObject,
-                simulationResult
+                postSimulation: simulationResult
             }) => this.onCollision({
                 collider: otherObject,
                 postSimulation: simulationResult,

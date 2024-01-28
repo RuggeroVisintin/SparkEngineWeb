@@ -160,7 +160,7 @@ describe('physx/Physx', () => {
             physx.simulate();
             
             expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
-                simulationResult: expect.objectContaining({
+                postSimulation: expect.objectContaining({
                     aabb: result
                 })
             }));
@@ -314,7 +314,7 @@ describe('physx/Physx', () => {
                 physx.simulate();
                 
                 expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
-                    simulationResult: expect.objectContaining({
+                    postSimulation: expect.objectContaining({
                         velocity: result
                     })
                 }));
