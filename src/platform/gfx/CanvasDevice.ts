@@ -4,6 +4,21 @@ export enum BlendMethod {
 }
 
 export class CanvasDevice {
+    private wRatio = 1;
+    private hRatio = 1;
+
+    public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void { 
+        const canvas = ctx.canvas;
+
+        this.wRatio = width / canvas.width;
+        this.hRatio = height / canvas.height;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.scale(this.wRatio, this.hRatio);
+    }
+
     public begin(ctx: CanvasRenderingContext2D): void {
         ctx.beginPath();
     }

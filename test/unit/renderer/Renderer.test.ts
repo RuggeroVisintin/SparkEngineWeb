@@ -2,7 +2,7 @@ import { PrimitiveType,Renderer, CanvasDevice } from "../../../src";
 import { DrawPrimitiveCommand } from "../../../src/renderer/commands";
 
 describe('renderer/Renderer', () => {
-    const device = new CanvasDevice();
+    const device = new CanvasDevice(new HTMLCanvasElement());
     const ctx = new CanvasRenderingContext2D();
     const renderer = new Renderer(device);
 

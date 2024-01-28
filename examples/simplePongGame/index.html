@@ -5,9 +5,9 @@
     <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
     <script>
         const context = document.getElementById('canvas').getContext('2d')
-        const device = new SparkEngine.CanvasDevice();
+        const device = new SparkEngine.CanvasDevice(context.canvas);
 
-        const renderer = new SparkEngine.Renderer(device);
+        const renderer = new SparkEngine.Renderer(device, { width: 1920, height: 1080 }, context);
         const renderSystem = new SparkEngine.RenderSystem(renderer);
 
         const physx = new SparkEngine.Physx();
