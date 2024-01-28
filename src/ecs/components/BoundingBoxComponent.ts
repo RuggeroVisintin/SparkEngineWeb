@@ -68,7 +68,9 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
                 isContainer: this.isContainer,
                 velocity
             },
-            onCollisionCallback: (object: PhysicsObject) => this.onCollision(object),
+            onCollisionCallback: ({
+                otherObject
+            }) => this.onCollision(otherObject),
         });
     }
 

@@ -19,12 +19,9 @@ export interface PhysicsObject {
     isContainer?: boolean;
 }
 
-export interface onCollisionCallbackParams {
+export interface OnCollisionCallbackParams {
     otherObject: PhysicsObject;
-    simulationResult: {
-        velocity: Vec2
-        position: Vec2
-    }
+    simulationResult: PhysicsObject;
     // collisionPlane: Vec2;
 }
 
@@ -39,7 +36,7 @@ export interface PhysicalObjectCallbackAggregate {
      * @param postSimulation 
      * @returns 
      */
-    onCollisionCallback: (other: PhysicsObject) => void;
+    onCollisionCallback: (params: OnCollisionCallbackParams) => void;
 }
 
 enum CollisionQuadrant {
@@ -63,8 +60,13 @@ export class Physx {
     public simulate(): void {
         this.physicalWorld.forEach((physicalObject, idx) => {
             this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
-                if (idx !== otherIdx && this.checkCollision(physicalObject.object, otherPhysicalObject.object)) {
-                    physicalObject.onCollisionCallback(otherPhysicalObject.object);
+                const simulationResult = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
+
+                if (idx !== otherIdx && simulationResult) {
+                    physicalObject.onCollisionCallback({
+                        otherObject: otherPhysicalObject.object,
+                        simulationResult
+                    });
                 };
             })
         });
@@ -72,7 +74,7 @@ export class Physx {
         this._physicalWorld = [];
     }
 
-    private checkCollision(objectA: PhysicsObject, objectB: PhysicsObject): Vec2 | null {
+    private checkCollision(objectA: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
         if (objectA.isContainer) {
             return this.checkCollisionContainer(objectA, objectB);
         } else if (objectB.isContainer) {
@@ -82,7 +84,7 @@ export class Physx {
         return this.checkCollisionClassic(objectA, objectB);
     }
 
-    private checkCollisionClassic(objectA: PhysicsObject, objectB: PhysicsObject): Vec2 | null {
+    private checkCollisionClassic(objectA: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
         const [x1, y1, w1, h1] = objectA.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
@@ -103,13 +105,13 @@ export class Physx {
             y1v < yh2v &&
             yh1v > y2v
         ) {
-            return new Vec2();
+            return objectA;
         }
 
         return null;
     }
 
-    private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): Vec2 | null {
+    private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
         const [x1, y1, w1, h1] = container.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
@@ -122,22 +124,15 @@ export class Physx {
         const yh1v = y1v + h1;
         const xw2v = x2v + w2;
         const yh2v = y2v + h2;
+
+        if (xw2v > xw1v || 
+            yh2v > yh1v || 
+            x2v < x1v ||
+            y2v < y1v
+        ) {
+            return container;
+        }
         
-        if (xw2v > xw1v) {
-            return new Vec2();
-        }
-
-        if (yh2v > yh1v) {
-            return new Vec2();
-        }
-
-        if(x2v < x1v) {
-            return new Vec2();
-        }
-
-        if (y2v < y1v) {
-            return new Vec2();
-        }
 
         return null;
     }

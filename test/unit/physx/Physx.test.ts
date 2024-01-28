@@ -45,8 +45,12 @@ describe('physx/Physx', () => {
 
             physx.simulate();
             
-            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
-            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                    otherObject: physicsObject2.object
+            }));
+            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                otherObject: physicsObject.object
+            }));
         })
 
         it('Should trigger the Physics object callback if a reverse collision is detected', () => {
@@ -71,8 +75,12 @@ describe('physx/Physx', () => {
 
             physx.simulate();
             
-            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
-            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                otherObject: physicsObject2.object
+            }));
+            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                otherObject: physicsObject.object
+            }));
         });
 
         it('Should take the object velocity into collision account', () => {
@@ -97,9 +105,15 @@ describe('physx/Physx', () => {
 
             physx.simulate();
             
-            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
-            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
+            expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                otherObject: physicsObject2.object
+            }));
+            expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                otherObject: physicsObject.object
+            }));
         })
+
+        it.todo('Should calculate and include in the Physics object callback the new position resulting from the collision')
 
         it.todo('Should calculate and include in the Physics object callback the new velocity resulting from the collision')
 
@@ -166,8 +180,12 @@ describe('physx/Physx', () => {
 
                 physx.simulate();
                 
-                expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(physicsObject2.object);
-                expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(physicsObject.object);
+                expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                    otherObject: physicsObject2.object
+                }));
+                expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                    otherObject: physicsObject.object
+                }));
             })
 
             it('Should not trigger a collision for physx objects inside the container', () => {
