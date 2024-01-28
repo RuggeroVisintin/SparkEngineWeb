@@ -3,6 +3,11 @@ import { Vec2 } from "../core";
 export type AABB = [number, number, number, number];
 
 export interface PhysicsObject {
+    /**
+     * The unique id of the object. Use it to identify with wich objects the collision is happening
+     */
+    uuid: string;
+
     // x, y, w, h
     aabb: AABB;
 
@@ -68,12 +73,12 @@ export class Physx {
     public simulate(): void {
         this.physicalWorld.forEach((physicalObject, idx) => {
             this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
-                const simulationResult = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
+                const postSimulationObject = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
 
-                if (idx !== otherIdx && simulationResult) {
+                if (idx !== otherIdx && postSimulationObject) {
                     physicalObject.onCollisionCallback({
                         otherObject: otherPhysicalObject.object,
-                        postSimulation: simulationResult
+                        postSimulation: postSimulationObject
                     });
                 };
             })

@@ -88,6 +88,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
                 object: {
                     aabb: test.expected,
                     isContainer: false,
+                    uuid: bbComponent.uuid,
                     velocity: new Vec2()
                 },
                 onCollisionCallback: expect.any(Function)
