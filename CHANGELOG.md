@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.3.1...sparkengineweb-v0.4.0) (2024-01-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **renderer:** Renderer requires new parameter to be succesfully created
+
+### Features
+
+* **renderer:** impelement resolution indipendent rendering - [#84](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/84) ([40047ca](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/40047ca4cbc9cb3d8277727245299bfdcc33ed40))
+
 ## [0.3.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.3.0...sparkengineweb-v0.3.1) (2024-01-28)
 
 
