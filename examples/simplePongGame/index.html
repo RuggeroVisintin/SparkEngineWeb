@@ -4,25 +4,17 @@
     <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
     <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
     <script>
-        const context = document.getElementById('canvas').getContext('2d')
-        const device = new SparkEngine.CanvasDevice(context.canvas);
-
-        const renderer = new SparkEngine.Renderer(device, { width: 1920, height: 1080 }, context);
-        const renderSystem = new SparkEngine.RenderSystem(renderer);
-
-        const physx = new SparkEngine.Physx();
-        const physicsSystem = new SparkEngine.PhysicsSystem(physx);
-
-        const inputs = new SparkEngine.KeyboardDevice();
-        const inputSystem = new SparkEngine.InputSystem(inputs);
-
-        const hierarchySystem = new SparkEngine.HierarchySystem();
+        const context = document.getElementById('canvas').getContext('2d');
+        const engine = new SparkEngine.GameEngine({
+            context,
+            framerate: 30,
+            resolution: { width: 1920, height: 1080 }
+        });
 
         const baseColor = new SparkEngine.Rgb(0, 0, 0);
         const raquetteSpeed = 5;
 
         const leftRaquetteController = new SparkEngine.InputComponent();
-        inputSystem.registerComponent(leftRaquetteController);
 
         const worldBoundingBox = new SparkEngine.StaticObject();
         worldBoundingBox.transform.size = { width: 300, height: 150 };
@@ -53,7 +45,6 @@
         });
 
         const rightRaquetteController = new SparkEngine.InputComponent();
-        inputSystem.registerComponent(rightRaquetteController);
 
         const rightRaquette = new SparkEngine.StaticObject();
         rightRaquette.transform.size = { width: 10, height: 30 };
@@ -105,29 +96,32 @@
         leftGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
         leftGoal.onTriggerCB = resetBall;
 
-        renderSystem.registerComponent(leftRaquette.shape);
-        renderSystem.registerComponent(rightRaquette.shape);
-        renderSystem.registerComponent(pingPongBall.shape);
+        engine.inputSystem.registerComponent(leftRaquetteController);
+        engine.inputSystem.registerComponent(rightRaquetteController);
+
+        engine.renderSystem.registerComponent(leftRaquette.shape);
+        engine.renderSystem.registerComponent(rightRaquette.shape);
+        engine.renderSystem.registerComponent(pingPongBall.shape);
         // Uncomment to debug world bounding box
         // renderSystem.registerComponent(worldBoundingBox.shape);
         // Uncomment to debug left goal
-        renderSystem.registerComponent(rightGoal.shape);
+        engine.renderSystem.registerComponent(rightGoal.shape);
         // Uncomment to debug right goal
-        renderSystem.registerComponent(leftGoal.shape);
+        engine.renderSystem.registerComponent(leftGoal.shape);
 
-        physicsSystem.registerComponent(leftRaquette.boundingBox);
-        physicsSystem.registerComponent(rightRaquette.boundingBox);
-        physicsSystem.registerComponent(pingPongBB);
-        physicsSystem.registerComponent(worldBoundingBox.boundingBox);
-        physicsSystem.registerComponent(rightGoal.boundingBox);
-        physicsSystem.registerComponent(leftGoal.boundingBox);
+        engine.physicsSystem.registerComponent(leftRaquette.boundingBox);
+        engine.physicsSystem.registerComponent(rightRaquette.boundingBox);
+        engine.physicsSystem.registerComponent(pingPongBB);
+        engine.physicsSystem.registerComponent(worldBoundingBox.boundingBox);
+        engine.physicsSystem.registerComponent(rightGoal.boundingBox);
+        engine.physicsSystem.registerComponent(leftGoal.boundingBox);
 
-        hierarchySystem.registerComponent(rightRaquette.transform);
-        hierarchySystem.registerComponent(leftRaquette.transform);
-        hierarchySystem.registerComponent(pingPongBall.transform);
-        hierarchySystem.registerComponent(worldBoundingBox.transform);
-        hierarchySystem.registerComponent(rightGoal.transform);
-        hierarchySystem.registerComponent(leftGoal.transform);
+        engine.hierarchySystem.registerComponent(rightRaquette.transform);
+        engine.hierarchySystem.registerComponent(leftRaquette.transform);
+        engine.hierarchySystem.registerComponent(pingPongBall.transform);
+        engine.hierarchySystem.registerComponent(worldBoundingBox.transform);
+        engine.hierarchySystem.registerComponent(rightGoal.transform);
+        engine.hierarchySystem.registerComponent(leftGoal.transform);
 
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
@@ -135,18 +129,7 @@
             pingPongBall.transform.velocity = postSimulation.velocity;
         }
 
-        const drawFrame = () => {
-            inputSystem.update();
-            hierarchySystem.update();
-
-            physicsSystem.update();
-            physx.simulate();
-
-            renderSystem.update();
-            renderer.endFrame(context);
-        }
-
-        setInterval(drawFrame, 33);
+        engine.run();
     </script>
 </body>
 
