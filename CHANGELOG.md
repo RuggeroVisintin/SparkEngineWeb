@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.0...sparkengineweb-v0.4.1) (2024-01-31)
+
+
+### Features
+
+* **game:** add GameEngine class ([6b247c9](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6b247c9650295bd57c5dd8f00ba5772de866a8bd))
+
 ## [0.4.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.3.1...sparkengineweb-v0.4.0) (2024-01-29)
 
 
