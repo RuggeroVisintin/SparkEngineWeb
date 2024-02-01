@@ -5,7 +5,6 @@ export class SoundSystem implements ISystem {
     public readonly components: SoundComponent[] = [];
 
     public registerComponent(component: SoundComponent): void {
-        // TODO: implement
         this.components.push(component);
     }
 
