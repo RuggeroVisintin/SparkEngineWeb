@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.1...sparkengineweb-v0.4.2) (2024-02-01)
+
+
+### Features
+
+* **ecs:** add sounds to entity components systems [[#52](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/52)][[#53](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/53)] ([#95](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/95)) ([44d0802](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/44d08025d780f88b93638db15080aac30e33ff4a))
+
+
+### Bug Fixes
+
+* **SoundComponent:** avoid flagging as non playing if not loaded ([f423223](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/f423223ddb19efd2647851ea7f3b5bdb64f25532))
+
 ## [0.4.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.0...sparkengineweb-v0.4.1) (2024-01-31)
 
 
