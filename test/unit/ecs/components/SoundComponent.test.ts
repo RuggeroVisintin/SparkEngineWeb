@@ -46,6 +46,21 @@ describe('ecs/components/SoundComponent', () => {
                 done();
             }, 10);
         });
+
+        it('Should not be playing anymore after the update', (done) => {
+            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
+            soundComponent.load();
+
+            setTimeout(() => {
+                jest.spyOn(soundComponent.asset!, 'play');
+
+                soundComponent.play();
+                soundComponent.update();
+
+                expect(soundComponent.isPlaying).toBe(false);
+                done();
+            }, 10);
+        })
     })
 
     describe('.load', () => {
