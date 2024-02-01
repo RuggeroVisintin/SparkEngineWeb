@@ -4,7 +4,7 @@ import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 
 /**
- * A sound components represent a sound that can be played
+ * Represents a sound that can be played
  * 
  * @category Components
  */
