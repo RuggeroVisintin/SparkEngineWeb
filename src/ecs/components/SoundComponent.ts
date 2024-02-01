@@ -8,7 +8,7 @@ export class SoundComponent extends BaseComponent {
     private _isPlaying = false;
 
     public get isPlaying(): boolean {
-        return this.isPlaying;
+        return this._isPlaying;
     }
 
     private _asset: Nullable<SoundAsset> = null;
@@ -25,11 +25,13 @@ export class SoundComponent extends BaseComponent {
     }
 
     public update(): void {
-        // TODO: Implement
+        if(!!this._asset && this.isPlaying === true) {
+            this._asset.play();
+        }
     }
 
     public play(): void {
-        // TODO: Implement
+        this._isPlaying = true;
     }
 
     public load(): void {
