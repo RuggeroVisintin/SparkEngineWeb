@@ -1,4 +1,4 @@
-import { HierarchySystem, InputSystem, PhysicsSystem, RenderSystem } from "../ecs";
+import { HierarchySystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { Physx } from "../physx";
 import { CanvasDevice, KeyboardDevice } from "../platform";
 import { Renderer } from "../renderer";
@@ -31,6 +31,7 @@ export class GameEngine {
     public readonly physicsSystem: PhysicsSystem;
     public readonly hierarchySystem: HierarchySystem;
     public readonly inputSystem: InputSystem;
+    public readonly soundSystem: SoundSystem;
 
     private readonly physx: Physx;
     private readonly renderer: Renderer;
@@ -52,6 +53,7 @@ export class GameEngine {
         this.physicsSystem = new PhysicsSystem(this.physx);
         this.hierarchySystem = new HierarchySystem();
         this.inputSystem = new InputSystem(this.inputs);
+        this.soundSystem = new SoundSystem();
     }
 
     /**
@@ -67,6 +69,8 @@ export class GameEngine {
 
         this.physicsSystem.update();
         this.physx.simulate();
+
+        this.soundSystem.update();
 
         this.renderSystem.update();
         this.renderer.endFrame(this.context);
