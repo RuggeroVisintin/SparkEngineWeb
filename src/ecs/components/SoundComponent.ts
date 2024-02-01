@@ -54,9 +54,8 @@ export class SoundComponent extends BaseComponent {
     public update(): void {
         if(!!this._asset && this.isPlaying === true) {
             this._asset.play();
+            this._isPlaying = false;
         }
-
-        this._isPlaying = false;
     }
 
     /**

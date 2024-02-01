@@ -52,14 +52,21 @@ describe('ecs/components/SoundComponent', () => {
             soundComponent.load();
 
             setTimeout(() => {
-                jest.spyOn(soundComponent.asset!, 'play');
-
                 soundComponent.play();
                 soundComponent.update();
 
                 expect(soundComponent.isPlaying).toBe(false);
                 done();
             }, 10);
+        })
+
+        it('Should still be playing after the update if the component was not loaded', () => {
+            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
+            
+            soundComponent.play();
+            soundComponent.update();
+
+            expect(soundComponent.isPlaying).toBe(true);
         })
     })
 
