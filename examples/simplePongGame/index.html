@@ -11,6 +11,8 @@
             resolution: { width: 1920, height: 1080 }
         });
 
+        const soundLoader = new SparkEngine.SoundLoader();
+
         const baseColor = new SparkEngine.Rgb(0, 0, 0);
         const raquetteSpeed = 5;
 
@@ -67,6 +69,8 @@
         });
 
         const pingPongBall = new SparkEngine.GameObject();
+        pingPongBall.addComponent(new SparkEngine.SoundComponent(soundLoader));
+
         const resetBall = () => {
             pingPongBall.transform.size = { width: 10, height: 10 };
             pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
@@ -81,6 +85,8 @@
         pingPongBB.matchContainerTransform = true;
         pingPongBall.addComponent(pingPongBB);
 
+        const pingPongBallSound = new SparkEngine.SoundComponent('../assets/071658_pongwav-93028.mp3', soundLoader);
+        pingPongBallSound.load();
 
         const rightGoal = new SparkEngine.TriggerEntity(pingPongBall);
         rightGoal.transform.size = { width: 10, height: 200 };
@@ -123,10 +129,16 @@
         engine.hierarchySystem.registerComponent(rightGoal.transform);
         engine.hierarchySystem.registerComponent(leftGoal.transform);
 
+        engine.soundSystem.registerComponent(pingPongBallSound);
+
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
             pingPongBall.transform.velocity = postSimulation.velocity;
+
+            if (collider.uuid === rightRaquette.boundingBox.uuid || collider.uuid === leftRaquette.boundingBox.uuid) {
+                pingPongBallSound.play();
+            }
         }
 
         engine.run();
