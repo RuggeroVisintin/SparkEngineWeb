@@ -10,6 +10,7 @@ src/**/*.d.ts
 
 docs/
 .benchmark
+.coverage
 
 /test-results/
 /playwright-report/

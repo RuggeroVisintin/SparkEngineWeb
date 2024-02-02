@@ -38,7 +38,7 @@ jobs:
           run: npm ci
   
         - name: test
-          run: npm run test
+          run: npm run test:ci
     test_perf:
       name: Performance Tests
       runs-on: ubuntu-latest
