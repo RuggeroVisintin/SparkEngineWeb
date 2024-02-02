@@ -131,7 +131,7 @@ jobs:
           if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}
           run: |
             npm run build:docs
-            mkdir .github/pages/
+            mkdir -p .github/pages/
             cp -r docs/* .github/pages/
             echo "docs_created=true" >> "$GITHUB_OUTPUT"
         - name: Setup Pages
