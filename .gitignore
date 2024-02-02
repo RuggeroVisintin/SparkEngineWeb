@@ -11,6 +11,7 @@ src/**/*.d.ts
 docs/
 .benchmark
 .coverage
+.github/pages
 
 /test-results/
 /playwright-report/

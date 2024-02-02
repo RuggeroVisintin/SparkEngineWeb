@@ -3,5 +3,6 @@ const baseConfig = require('./jest.config');
 module.exports = {
   ...baseConfig,
   coverageDirectory: '.coverage',
-  collectCoverage: true
+  coverageReporters: ['text', 'json-summary', 'json'],
+  collectCoverage: true,
 };

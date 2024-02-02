@@ -26,7 +26,7 @@ jobs:
           run: npm run build
     test_unit:
       name: Unit Tests
-      runs-on: ubuntu-latest
+      runs-on: ubuntu-lates
   
       steps:
         - uses: actions/checkout@v3
@@ -39,6 +39,11 @@ jobs:
   
         - name: test
           run: npm run test:ci
+
+        - name: issue badge
+          run: 
+            mkdir .github/pages/badges
+            npx make-coverage-badge --report-path .coverage/coverage-summary.json --output-path .github/pages/badges/coverage.badge.svg
     test_perf:
       name: Performance Tests
       runs-on: ubuntu-latest
@@ -68,7 +73,6 @@ jobs:
             mode: recreate
             comment_tag: benchmark_comment
             create_if_not_exists: true
-
     test_visual:
       name: Visual
       timeout-minutes: 60
@@ -118,6 +122,8 @@ jobs:
           if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}
           run: |
             npm run build:docs
+            mkdir .github/pages/
+            cp -r docs .github/pages/
             echo "docs_created=true" >> "$GITHUB_OUTPUT"
         - name: Setup Pages
           if: ${{ steps.docs.outputs.docs_created }}
@@ -126,7 +132,7 @@ jobs:
           if: ${{ steps.docs.outputs.docs_created }}
           uses: actions/upload-pages-artifact@v2
           with: 
-            path: "docs/"
+            path: ".github/pages/"
         - name: deploy docs artifact
           if: ${{ steps.docs.outputs.docs_created }}
           uses: actions/deploy-pages@v3
