@@ -41,7 +41,7 @@ jobs:
           run: npm run test:ci
 
         - name: issue badge
-          run: 
+          run: |
             mkdir .github/pages/badges
             npx make-coverage-badge --report-path .coverage/coverage-summary.json --output-path .github/pages/badges/coverage.badge.svg
     test_perf:
