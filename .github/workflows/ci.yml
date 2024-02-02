@@ -42,7 +42,7 @@ jobs:
 
         - name: issue badge
           run: |
-            mkdir .github/pages/badges
+            mkdir -p .github/pages/badges
             npx make-coverage-badge --report-path .coverage/coverage-summary.json --output-path .github/pages/badges/coverage.badge.svg
     test_perf:
       name: Performance Tests
