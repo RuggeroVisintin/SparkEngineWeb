@@ -1,3 +1,5 @@
+[![cov](https://ruggerovisintin.github.io/SparkEngineWeb/badges/coverage.badge.svg/coverage.badge.svg)](https://github.com/RuggeroVisintin/SparkEngineWeb/actions)
+
 # Spark Engine Web
 
 Spark Engine Web is a lightweight browser based web game engine we are building for fun.
