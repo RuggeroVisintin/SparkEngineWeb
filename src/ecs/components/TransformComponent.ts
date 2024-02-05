@@ -19,7 +19,7 @@ export class TransformComponent extends BaseComponent {
     public depthIndex: number = 0;
     public velocity: Vec2 = new Vec2();
 
-    public update(): void {
+    public update(deltaTime?: number): void {
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
     }
