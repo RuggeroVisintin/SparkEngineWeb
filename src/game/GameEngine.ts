@@ -65,7 +65,9 @@ export class GameEngine {
 
     private tick(): void {
         this.inputSystem.update();
-        this.hierarchySystem.update();
+
+        // Use frametime as delta time for now
+        this.hierarchySystem.update(this.frametime);
 
         this.physicsSystem.update();
         this.physx.simulate();

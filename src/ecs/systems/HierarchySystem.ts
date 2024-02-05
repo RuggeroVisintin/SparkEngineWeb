@@ -8,7 +8,7 @@ export class HierarchySystem implements ISystem {
         this.world.push(component);
     }
 
-    public update(): void {
+    public update(deltaTime?: number): void {
         this.world.forEach(component => {
             component.update();
         });
