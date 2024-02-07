@@ -11,10 +11,6 @@ type OnInputEventTriggeredCallback = (event: KeyEvent) => void;
 export class InputComponent extends BaseComponent {
     public onInputEventCb: OnInputEventTriggeredCallback | undefined;
 
-    constructor() {
-        super();
-    }
-
     public update(inputDevice: KeyboardDevice): void {
         inputDevice.pushInputListener((e) => this.onKeyUpdate(e));
     }

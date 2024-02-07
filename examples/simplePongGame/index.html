@@ -33,7 +33,7 @@
         leftRaquette.addComponent(leftRaquetteController);
 
         leftRaquetteController.onInputEventCb = (({ code, status }) => {
-            console.log('leftRaquetteController.onInputEventCb');
+            console.log('leftRaquetteController.onInputEventCb', code, status);
 
             const parentTransform = leftRaquetteController.getContainer().getComponent('TransformComponent');
 
@@ -41,7 +41,7 @@
                 parentTransform.velocity.y = -raquetteSpeed;
             } else if (status === SparkEngine.KeyStatus.Down && code === 'KeyS') {
                 parentTransform.velocity.y = raquetteSpeed;
-            } else {
+            } else if (status === SparkEngine.KeyStatus.Up && (code === 'KeyS' || code === 'KeyW')) {
                 parentTransform.velocity.y = 0;
             }
         });
@@ -56,14 +56,14 @@
         rightRaquette.addComponent(rightRaquetteController);
 
         rightRaquetteController.onInputEventCb = (({ code, status }) => {
-            console.log('rightRaquetteController.onInputEventCb');
+            console.log('rightRaquetteController.onInputEventCb', code, status);
             const parentTransform = rightRaquetteController.getContainer().getComponent('TransformComponent');
 
             if (status === SparkEngine.KeyStatus.Down && code === 'ArrowUp') {
                 parentTransform.velocity.y = -raquetteSpeed;
             } else if (status === SparkEngine.KeyStatus.Down && code === 'ArrowDown') {
                 parentTransform.velocity.y = raquetteSpeed;
-            } else {
+            } else if (status === SparkEngine.KeyStatus.Up && (code === 'ArrowDown' || code === 'ArrowUp')) {
                 parentTransform.velocity.y = 0;
             }
         });
@@ -136,7 +136,7 @@
             pingPongBall.transform.position.y = postSimulation.aabb[1];
             pingPongBall.transform.velocity.x = postSimulation.velocity.x;
 
-            // pingPongBall.transform.velocity.y = postSimulation.velocity.y + (collider.velocity.y * 0.75);
+            pingPongBall.transform.velocity.y = postSimulation.velocity.y + (collider.velocity.y * 0.75);
 
             if (collider.uuid === rightRaquette.boundingBox.uuid || collider.uuid === leftRaquette.boundingBox.uuid) {
                 pingPongBallSound.play();
