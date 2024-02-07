@@ -119,6 +119,7 @@ export class Physx {
             yh1 > y2
         ) {
             // TODO: this method is much more precise but does not take into account objectB velocity yet
+            // but does not have to if we iterate through all objects without keeping track of which we already computed
             if (objectA.velocity.x > 0 && xw1 - objectA.velocity.x <= x2 && (yh1 - objectA.velocity.y > y2 || y1 + objectA.velocity.y > yh2)) {
                 const collisionCount = xw1 - x2;
                 result.aabb = [x1 - collisionCount, y1, w1, h1];
