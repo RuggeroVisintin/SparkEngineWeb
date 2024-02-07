@@ -1,3 +1,5 @@
+type This = Vec2;
+
 export class Vec2 {
     public constructor(
         public x: number = 0,
@@ -29,9 +31,34 @@ export class Vec2 {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
-    public negate(): void {
+    public negate(): This {
         this.x = -this.x;
         this.y = -this.y;
+
+        return this;
+    }
+
+    public dot(other: Vec2): number {
+        return this.x * other.x + this.y * other.y;
+    }
+
+    public multiply(scalar: number): This { 
+        this.x *= scalar;
+        this.y *= scalar;
+
+        return this;
+    }
+
+    public reflect(normal: Vec2): This {
+        const dot = this.dot(normal);
+
+        this.x -= 2 * dot * normal.x;
+        this.y -= 2 * dot * normal.y; 
+
+        // is it really needed
+        // this.multiply(1); // avoid floating point errors
+        
+        return this;
     }
 
     public getNegated(): Vec2 {
@@ -43,24 +70,5 @@ export class Vec2 {
         const length = this.length;
 
         return new Vec2(this.x / length, this.y / length);
-    }
-    
-    public dot(other: Vec2): number {
-        return this.x * other.x + this.y * other.y;
-    }
-
-    public multiply(scalar: number): void { 
-        this.x *= scalar;
-        this.y *= scalar;
-    }
-
-    public reflect(normal: Vec2): void {
-        const dot = this.dot(normal);
-
-        this.x -= 2 * dot * normal.x;
-        this.y -= 2 * dot * normal.y; 
-
-        // is it really needed
-        // this.multiply(1); // avoid floating point errors
     }
 }

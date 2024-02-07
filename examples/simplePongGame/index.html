@@ -134,7 +134,9 @@
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
-            pingPongBall.transform.velocity = postSimulation.velocity;
+            pingPongBall.transform.velocity.x = postSimulation.velocity.x;
+
+            // pingPongBall.transform.velocity.y = postSimulation.velocity.y + (collider.velocity.y * 0.75);
 
             if (collider.uuid === rightRaquette.boundingBox.uuid || collider.uuid === leftRaquette.boundingBox.uuid) {
                 pingPongBallSound.play();
