@@ -53,7 +53,7 @@
     "jest-extended": "^4.0.2",
     "make-coverage-badge": "^1.2.0",
     "release-please": "^16.8.0",
-    "semantic-release": "^23.0.1",
+    "semantic-release": "^23.0.2",
     "ts-jest": "^29.1.2",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
