@@ -75,20 +75,60 @@ describe('platform/inputs/KeyboardDevice', () => {
             })
         });
 
-        it('Should invoke the listener only for key whos status is changed since the last update', () => {
+        it.each([
+            ['keydown', 'KeyA'],
+            ['keyup', 'KeyA'],
+            ['keydown', 'ArrowUp'],
+            ['keyup', 'ArrowUp'],
+            ['keydown', 'ArrowDown'],
+            ['keyup', 'ArrowDown']
+        ])('Should invoke the listener only once when "%s" event is repeated for key "%s"', (status, keyCode) => {
             const callback = jest.fn((event: KeyEvent) => { });
 
             keyboardDevice.pushInputListener(callback);
 
-            const event = new KeyboardEvent('keydown', { code: 'KeyA' });
+            const event = new KeyboardEvent(status, { code: keyCode, repeat: true });
             window.dispatchEvent(event);
 
             keyboardDevice.update();
+
+            // Emulating the key being pressed
+            window.dispatchEvent(event);
+            window.dispatchEvent(event);
+            window.dispatchEvent(event);
 
             keyboardDevice.pushInputListener(callback);
             keyboardDevice.update();
 
             expect(callback).toHaveBeenCalledOnce();
+        });
+
+        it('Should correctly compute the final key status when different states are quickly being generated for the same Key', () => {
+            const callback = jest.fn((event: KeyEvent) => { });
+
+            keyboardDevice.pushInputListener(callback);
+
+            // simulating the same key being quickly pressed up and down 
+            const events = [
+                ['keydown', 'KeyA'],
+                ['keyup', 'KeyA'],
+                ['keydown', 'KeyA'],
+                ['keyup', 'KeyA'],
+                ['keydown', 'KeyA'],
+                ['keyup', 'KeyA']
+            ];
+
+            events.forEach(([keyStatus, keyCode]) => {
+                const event = new KeyboardEvent(keyStatus, { code: keyCode });
+                window.dispatchEvent(event);
+            });
+
+            keyboardDevice.update();
+
+            expect(callback).toHaveBeenCalledExactlyOnceWith({
+                status: KeyStatus.Up,
+                code: 'KeyA'
+            });
         })
 
         it('Should cleanup all listeners after an update', () => {

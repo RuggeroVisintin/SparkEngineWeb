@@ -33,17 +33,21 @@
         leftRaquette.addComponent(leftRaquetteController);
 
         leftRaquetteController.onInputEventCb = (({ code, status }) => {
-            console.log('leftRaquetteController.onInputEventCb', code, status);
-
             const parentTransform = leftRaquetteController.getContainer().getComponent('TransformComponent');
+
+            if (status === SparkEngine.KeyStatus.Up && (code === 'KeyS' || code === 'KeyW')) {
+                parentTransform.velocity.y = 0;
+            }
 
             if (status === SparkEngine.KeyStatus.Down && code === 'KeyW') {
                 parentTransform.velocity.y = -raquetteSpeed;
-            } else if (status === SparkEngine.KeyStatus.Down && code === 'KeyS') {
-                parentTransform.velocity.y = raquetteSpeed;
-            } else if (status === SparkEngine.KeyStatus.Up && (code === 'KeyS' || code === 'KeyW')) {
-                parentTransform.velocity.y = 0;
             }
+
+            if (status === SparkEngine.KeyStatus.Down && code === 'KeyS') {
+                parentTransform.velocity.y = raquetteSpeed;
+            }
+
+
         });
 
         const rightRaquetteController = new SparkEngine.InputComponent();
@@ -56,14 +60,17 @@
         rightRaquette.addComponent(rightRaquetteController);
 
         rightRaquetteController.onInputEventCb = (({ code, status }) => {
-            console.log('rightRaquetteController.onInputEventCb', code, status);
             const parentTransform = rightRaquetteController.getContainer().getComponent('TransformComponent');
 
             if (status === SparkEngine.KeyStatus.Down && code === 'ArrowUp') {
                 parentTransform.velocity.y = -raquetteSpeed;
-            } else if (status === SparkEngine.KeyStatus.Down && code === 'ArrowDown') {
+            }
+
+            if (status === SparkEngine.KeyStatus.Down && code === 'ArrowDown') {
                 parentTransform.velocity.y = raquetteSpeed;
-            } else if (status === SparkEngine.KeyStatus.Up && (code === 'ArrowDown' || code === 'ArrowUp')) {
+            }
+
+            if (status === SparkEngine.KeyStatus.Up && (code === 'ArrowDown' || code === 'ArrowUp')) {
                 parentTransform.velocity.y = 0;
             }
         });

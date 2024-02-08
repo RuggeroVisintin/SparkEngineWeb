@@ -13,6 +13,7 @@ type InputListenerCallback = (event: KeyEvent) => void;
 export class KeyboardDevice {
     private _listeners: InputListenerCallback[] = [];
     private _keyStatusMap: Record<string, KeyStatus> = {};
+    private _lastKeyStatusMap: Record<string, KeyStatus> = {};
 
     get listeners(): InputListenerCallback[] {
         // Copy to avoid modifying existing items from getter
@@ -43,16 +44,21 @@ export class KeyboardDevice {
         // Empty listeners after every update
         this._listeners = [];
 
+        this._lastKeyStatusMap = { ...this._keyStatusMap };
+        
         // Empty status map to avoid triggering the same key status over and over again
         this._keyStatusMap = {};
     }
 
     private onKeyDown(e: KeyboardEvent): void {
+        if (e.repeat && this._lastKeyStatusMap[e.code] === KeyStatus.Down) return;
+
         this._keyStatusMap[e.code] = KeyStatus.Down;
     }
 
     private onKeyUp(e: KeyboardEvent): void {
-        // TODO: add released status when the key was donw the previous update
+        if (e.repeat && this._lastKeyStatusMap[e.code] === KeyStatus.Up) return;
+
         this._keyStatusMap[e.code] = KeyStatus.Up;
     }
 }
