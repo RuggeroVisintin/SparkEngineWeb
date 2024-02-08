@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.2...sparkengineweb-v0.4.3) (2024-02-08)
+
+
+### Features
+
+* **core:** return Vec2 this instance in in place methods ([cd552c8](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/cd552c878a55dcb32cf6e992300ac07477072cd9))
+
 ## [0.4.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.1...sparkengineweb-v0.4.2) (2024-02-01)
 
 
