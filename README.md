@@ -32,6 +32,10 @@ Here you can find the list of commands. **Commands with the :ci flag are reserve
 
 TBD
 
+## Examples
+
+In order to run examples build the engine and then open the static `index.html` file of any example
+
 ## Contributing
 
 To contribute to the project just open a pull request. If you are working on an existing issue remember to link the pull request to it.
