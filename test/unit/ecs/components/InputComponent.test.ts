@@ -1,4 +1,4 @@
-import { InputComponent, KeyEvent, KeyStatus, KeyboardDevice } from "../../../../src";
+import { InputComponent, KeyStatusMap, KeyboardDevice } from "../../../../src";
 
 describe('ecs/components/InputComponent', () => {
     let inputDevice = new KeyboardDevice();
@@ -11,7 +11,7 @@ describe('ecs/components/InputComponent', () => {
 
     describe('.update()', () => {
         it('Should push a listener in the inputDevice', () => {
-            const onInputCb = jest.fn((e: KeyEvent) => { });
+            const onInputCb = jest.fn((e: KeyStatusMap) => { });
 
             inputComponent.onInputEventCb = onInputCb;
             inputComponent.update(inputDevice);
