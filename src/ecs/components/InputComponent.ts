@@ -1,8 +1,8 @@
 import { Type } from "../../core";
-import { KeyEvent, KeyStatus, KeyboardDevice } from "../../platform/inputs";
+import { KeyEvent, KeyStatusMap, KeyboardDevice } from "../../platform/inputs";
 import { BaseComponent } from "./BaseComponent";
 
-type OnInputEventTriggeredCallback = (event: KeyEvent) => void;
+type OnInputEventTriggeredCallback = (keyStatusMap: KeyStatusMap) => void;
 
 /**
  * @category Components
@@ -12,12 +12,12 @@ export class InputComponent extends BaseComponent {
     public onInputEventCb: OnInputEventTriggeredCallback | undefined;
 
     public update(inputDevice: KeyboardDevice): void {
-        inputDevice.pushInputListener((e) => this.onKeyUpdate(e));
+        inputDevice.pushInputListener((keyStatusMap) => this.onKeyUpdate(keyStatusMap));
     }
 
-    private onKeyUpdate(event: KeyEvent): void {
+    private onKeyUpdate(keyStatusMap: KeyStatusMap): void {
         if (!this.onInputEventCb) return;
 
-        this.onInputEventCb(event);
+        this.onInputEventCb(keyStatusMap);
     }
 }

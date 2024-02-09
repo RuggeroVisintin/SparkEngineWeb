@@ -8,11 +8,12 @@ export interface KeyEvent {
     code: string
 }
 
-type InputListenerCallback = (event: KeyEvent) => void;
+export type KeyStatusMap = Record<string, KeyStatus>;
+export type InputListenerCallback = (statusMap: KeyStatusMap) => void;
 
 export class KeyboardDevice {
     private _listeners: InputListenerCallback[] = [];
-    private _keyStatusMap: Record<string, KeyStatus> = {};
+    private _keyStatusMap: KeyStatusMap = {};
 
     get listeners(): InputListenerCallback[] {
         // Copy to avoid modifying existing items from getter
@@ -21,9 +22,13 @@ export class KeyboardDevice {
         ];
     }
 
+    get keyStatusMap(): KeyStatusMap {
+        return this._keyStatusMap;
+    }
+
     public constructor() {
-        window.addEventListener("keydown", (e) => this.onKeyDown(e), true);
         window.addEventListener("keyup", (e) => this.onKeyUp(e), true);
+        window.addEventListener("keydown", (e) => this.onKeyDown(e), true);
     }
     
     public pushInputListener(callback: InputListenerCallback): void {
@@ -31,20 +36,15 @@ export class KeyboardDevice {
     }
 
     public update(): void {
+        // TODO: updating for each key value is useless now
         Object
             .entries(this._keyStatusMap)
             .forEach(([key, value]) => {
-                this._listeners.forEach(listener => listener({
-                    code: key,
-                    status: value
-                }))
+                this._listeners.forEach(listener => listener(this._keyStatusMap))
         })
 
         // Empty listeners after every update
         this._listeners = [];
-
-        // Empty status map to avoid triggering the same key status over and over again
-        this._keyStatusMap = {};
     }
 
     private onKeyDown(e: KeyboardEvent): void {
@@ -52,7 +52,6 @@ export class KeyboardDevice {
     }
 
     private onKeyUp(e: KeyboardEvent): void {
-        // TODO: add released status when the key was donw the previous update
         this._keyStatusMap[e.code] = KeyStatus.Up;
     }
 }
