@@ -39,9 +39,8 @@ describe('ecs/systems/InputSystem', () => {
             inputSystem.registerComponent(inputComponent);
             inputSystem.update();
 
-            expect(fakeCb).toHaveBeenCalledWith({
-                code: 'KeyA',
-                status: KeyStatus.Down
+             expect(fakeCb).toHaveBeenCalledWith({
+                'KeyA': KeyStatus.Down
             });
         })
     })

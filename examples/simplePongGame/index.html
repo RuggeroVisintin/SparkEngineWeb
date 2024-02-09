@@ -32,22 +32,20 @@
         leftRaquette.boundingBox.matchContainerTransform = true;
         leftRaquette.addComponent(leftRaquetteController);
 
-        leftRaquetteController.onInputEventCb = (({ code, status }) => {
+        leftRaquetteController.onInputEventCb = (({ KeyW, KeyS }) => {
             const parentTransform = leftRaquetteController.getContainer().getComponent('TransformComponent');
 
-            if (status === SparkEngine.KeyStatus.Up && (code === 'KeyS' || code === 'KeyW')) {
-                parentTransform.velocity.y = 0;
-            }
-
-            if (status === SparkEngine.KeyStatus.Down && code === 'KeyW') {
+            if (KeyW === SparkEngine.KeyStatus.Down) {
                 parentTransform.velocity.y = -raquetteSpeed;
             }
 
-            if (status === SparkEngine.KeyStatus.Down && code === 'KeyS') {
+            if (KeyS === SparkEngine.KeyStatus.Down) {
                 parentTransform.velocity.y = raquetteSpeed;
             }
 
-
+            if (KeyW !== SparkEngine.KeyStatus.Down && KeyS !== SparkEngine.KeyStatus.Down) {
+                parentTransform.velocity.y = 0;
+            }
         });
 
         const rightRaquetteController = new SparkEngine.InputComponent();
@@ -59,18 +57,18 @@
         rightRaquette.boundingBox.matchContainerTransform = true;
         rightRaquette.addComponent(rightRaquetteController);
 
-        rightRaquetteController.onInputEventCb = (({ code, status }) => {
+        rightRaquetteController.onInputEventCb = (({ ArrowUp, ArrowDown }) => {
             const parentTransform = rightRaquetteController.getContainer().getComponent('TransformComponent');
 
-            if (status === SparkEngine.KeyStatus.Down && code === 'ArrowUp') {
+            if (ArrowUp === SparkEngine.KeyStatus.Down) {
                 parentTransform.velocity.y = -raquetteSpeed;
             }
 
-            if (status === SparkEngine.KeyStatus.Down && code === 'ArrowDown') {
+            if (ArrowDown === SparkEngine.KeyStatus.Down) {
                 parentTransform.velocity.y = raquetteSpeed;
             }
 
-            if (status === SparkEngine.KeyStatus.Up && (code === 'ArrowDown' || code === 'ArrowUp')) {
+            if (ArrowUp !== SparkEngine.KeyStatus.Down && ArrowDown !== SparkEngine.KeyStatus.Down) {
                 parentTransform.velocity.y = 0;
             }
         });
@@ -141,7 +139,7 @@
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
-            pingPongBall.transform.velocity.x = postSimulation.velocity.x;
+            pingPongBall.transform.velocity.x = postSimulation.velocity.x + 0.1;
 
             pingPongBall.transform.velocity.y = postSimulation.velocity.y + (collider.velocity.y * 0.75);
 
