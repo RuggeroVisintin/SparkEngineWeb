@@ -19,7 +19,8 @@
         const leftRaquetteController = new SparkEngine.InputComponent();
 
         const worldBoundingBox = new SparkEngine.StaticObject();
-        worldBoundingBox.transform.size = { width: 300, height: 150 };
+        worldBoundingBox.transform.size = { width: 400, height: 150 };
+        worldBoundingBox.transform.position.x = -50;
         worldBoundingBox.boundingBox.isContainer = true;
         worldBoundingBox.boundingBox.matchContainerTransform = true;
         worldBoundingBox.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
@@ -80,11 +81,10 @@
             pingPongBall.transform.size = { width: 10, height: 10 };
             pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
             pingPongBall.transform.velocity = new SparkEngine.Vec2(3, 5);
-            pingPongBall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+            pingPongBall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 0);
         }
 
         resetBall();
-
 
         const pingPongBB = new SparkEngine.BoundingBoxComponent()
         pingPongBB.matchContainerTransform = true;
@@ -95,14 +95,14 @@
 
         const rightGoal = new SparkEngine.TriggerEntity(pingPongBall);
         rightGoal.transform.size = { width: 10, height: 200 };
-        rightGoal.transform.position = new SparkEngine.Vec2(299);
+        rightGoal.transform.position = new SparkEngine.Vec2(305);
         rightGoal.boundingBox.matchContainerTransform = true;
         rightGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
         rightGoal.onTriggerCB = resetBall;
 
         const leftGoal = new SparkEngine.TriggerEntity(pingPongBall);
         leftGoal.transform.size = { width: 10, height: 200 };
-        leftGoal.transform.position = new SparkEngine.Vec2(-9);
+        leftGoal.transform.position = new SparkEngine.Vec2(-15);
         leftGoal.boundingBox.matchContainerTransform = true;
         leftGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
         leftGoal.onTriggerCB = resetBall;
@@ -116,9 +116,9 @@
         // Uncomment to debug world bounding box
         // renderSystem.registerComponent(worldBoundingBox.shape);
         // Uncomment to debug left goal
-        engine.renderSystem.registerComponent(rightGoal.shape);
+        // engine.renderSystem.registerComponent(rightGoal.shape);
         // Uncomment to debug right goal
-        engine.renderSystem.registerComponent(leftGoal.shape);
+        // engine.renderSystem.registerComponent(leftGoal.shape);
 
         engine.physicsSystem.registerComponent(leftRaquette.boundingBox);
         engine.physicsSystem.registerComponent(rightRaquette.boundingBox);
