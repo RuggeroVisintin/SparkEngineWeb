@@ -14,7 +14,7 @@
         const soundLoader = new SparkEngine.SoundLoader();
 
         const baseColor = new SparkEngine.Rgb(0, 0, 0);
-        const raquetteSpeed = 5;
+        const raquetteSpeed = 10;
 
         const leftRaquetteController = new SparkEngine.InputComponent();
 
@@ -139,9 +139,17 @@
         pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
             pingPongBall.transform.position.x = postSimulation.aabb[0];
             pingPongBall.transform.position.y = postSimulation.aabb[1];
-            pingPongBall.transform.velocity.x = postSimulation.velocity.x + 0.1;
+            pingPongBall.transform.velocity.x = postSimulation.velocity.x;
 
-            pingPongBall.transform.velocity.y = postSimulation.velocity.y + (collider.velocity.y * 0.75);
+            if (collider.uuid === rightRaquette.boundingBox.uuid) {
+                pingPongBall.transform.velocity.x -= 0.5
+            }
+
+            if (collider.uuid === leftRaquette.boundingBox.uuid) {
+                pingPongBall.transform.velocity.x += 0.5
+            }
+
+            pingPongBall.transform.velocity.y = postSimulation.velocity.y + (collider.velocity.y * 0.25);
 
             if (collider.uuid === rightRaquette.boundingBox.uuid || collider.uuid === leftRaquette.boundingBox.uuid) {
                 pingPongBallSound.play();
