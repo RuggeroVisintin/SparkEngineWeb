@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.3...sparkengineweb-v0.5.0) (2024-02-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* **inputs:** fix delayed inputs when keeping button pressed - #82 ([#107](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/107))
+
+### Bug Fixes
+
+* **inputs:** fix delayed inputs when keeping button pressed - [#82](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/82) ([#107](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/107)) ([91401aa](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/91401aa2b35e1c1c2aad9af317522b25ece4d0fd))
+
 ## [0.4.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.2...sparkengineweb-v0.4.3) (2024-02-08)
 
 
