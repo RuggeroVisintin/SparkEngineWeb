@@ -71,7 +71,21 @@ describe('platform/inputs/KeyboardDevice', () => {
             })
         });
 
-        it.todo('Should invoke the listener just once even if multiple buttons have been pressed')
+        it('Should invoke the listener just once even if multiple buttons have been pressed', () => {
+            const callback = jest.fn((keyStatusMap: KeyStatusMap) => { });
+
+            keyboardDevice.pushInputListener(callback);
+
+            window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyA' }));
+            window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyW' }));
+
+            keyboardDevice.update();
+
+            expect(callback).toHaveBeenCalledExactlyOnceWith({
+                'KeyA': KeyStatus.Down,
+                'KeyW': KeyStatus.Down
+            });
+        })
 
         it.each([
             ['keydown', 'KeyA'],

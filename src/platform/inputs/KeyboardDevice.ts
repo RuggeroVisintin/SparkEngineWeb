@@ -37,11 +37,9 @@ export class KeyboardDevice {
 
     public update(): void {
         // TODO: updating for each key value is useless now
-        Object
-            .entries(this._keyStatusMap)
-            .forEach(([key, value]) => {
-                this._listeners.forEach(listener => listener(this._keyStatusMap))
-        })
+       
+        this._listeners.forEach(listener => listener(this._keyStatusMap))
+        
 
         // Empty listeners after every update
         this._listeners = [];
