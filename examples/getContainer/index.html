@@ -5,38 +5,37 @@
     <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
     <script>
         const context = document.getElementById('canvas').getContext('2d')
-        const device = new SparkEngine.CanvasDevice();
+        const engine = new SparkEngine.GameEngine({
+            context,
+            framerate: 30,
+            resolution: { width: 1920, height: 1080 }
+        });
 
-        const renderer = new SparkEngine.Renderer(device);
-        const renderSystem = new SparkEngine.RenderSystem(renderer);
 
+        const scene = engine.createScene();
 
         const baseEntity = new SparkEngine.BaseEntity();
-
         baseEntity.addComponent(new SparkEngine.TransformComponent());
         baseEntity.addComponent(new SparkEngine.MaterialComponent());
         baseEntity.addComponent(new SparkEngine.ShapeComponent());
-
         // This is not efficient, it's just to prove the concept
         baseEntity.getComponent('TransformComponent').size = { width: 50, height: 25 };
         baseEntity.getComponent('TransformComponent').depthIndex = 0;
         baseEntity.getComponent('MaterialComponent').diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         baseEntity.getComponent('MaterialComponent').opacity = 75;
 
-        renderSystem.registerComponent(baseEntity.getComponent('ShapeComponent'));
-
         const baseEntityBackground = new SparkEngine.BaseEntity();
-
         baseEntityBackground.addComponent(new SparkEngine.TransformComponent());
         baseEntityBackground.addComponent(new SparkEngine.MaterialComponent());
         baseEntityBackground.addComponent(new SparkEngine.ShapeComponent());
-
+        // This is not efficient, it's just to prove the concept
         baseEntityBackground.getComponent('TransformComponent').size = { width: 25, height: 25 };
         baseEntityBackground.getComponent('TransformComponent').depthIndex = 1;
         baseEntityBackground.getComponent('MaterialComponent').diffuseColor = new SparkEngine.Rgb(0, 0, 255);
         baseEntityBackground.getComponent('MaterialComponent').opacity = 100;
 
-        renderSystem.registerComponent(baseEntityBackground.getComponent('ShapeComponent'));
+        scene.registerEntity(baseEntity);
+        scene.registerEntity(baseEntityBackground);
 
         let pos = 0;
 
@@ -45,12 +44,11 @@
             pos = pos % 60;
 
             baseEntity.getComponent('TransformComponent').position = new SparkEngine.Vec2(pos, pos);
-
-            renderSystem.update();
-            renderer.endFrame(context);
         }
 
         setInterval(drawFrame, 33);
+
+        engine.run();
     </script>
 </body>
 
