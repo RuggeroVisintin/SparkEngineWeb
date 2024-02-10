@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.5.0...sparkengineweb-v0.5.1) (2024-02-10)
+
+
+### Features
+
+* **engine:** add Scene to automatically register components inside a scene systems [[#111](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/111)][[#113](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/113)] ([368fa4e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/368fa4edb2e5a221aba51070d90e9fb539049c28))
+* **inputs:** trigger input listener only once per frame ([9845b8c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9845b8c8f6efe8a83a752d8691ad9e17844720c0))
+
 ## [0.5.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.4.3...sparkengineweb-v0.5.0) (2024-02-09)
 
 
