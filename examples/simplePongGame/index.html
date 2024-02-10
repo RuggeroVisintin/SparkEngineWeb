@@ -11,6 +11,14 @@
             resolution: { width: 1920, height: 1080 }
         });
 
+        const scene = new SparkEngine.Scene(
+            engine.renderSystem,
+            engine.physicsSystem,
+            engine.inputSystem,
+            engine.hierarchySystem,
+            engine.soundSystem
+        );
+
         const soundLoader = new SparkEngine.SoundLoader();
 
         const baseColor = new SparkEngine.Rgb(0, 0, 0);
@@ -23,8 +31,8 @@
         worldBoundingBox.transform.position.x = -50;
         worldBoundingBox.boundingBox.isContainer = true;
         worldBoundingBox.boundingBox.matchContainerTransform = true;
-        worldBoundingBox.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
-        worldBoundingBox.material.opacity = 75;
+        worldBoundingBox.material.diffuseColor = new SparkEngine.Rgb(0, 0, 0);
+        worldBoundingBox.material.opacity = 1;
 
         const leftRaquette = new SparkEngine.StaticObject();
         leftRaquette.transform.size = { width: 10, height: 30 };
@@ -107,32 +115,15 @@
         leftGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
         leftGoal.onTriggerCB = resetBall;
 
+        scene.registerEntity(leftRaquette);
+        scene.registerEntity(rightRaquette);
+        scene.registerEntity(pingPongBall);
+        scene.registerEntity(worldBoundingBox);
+        scene.registerEntity(rightGoal);
+        scene.registerEntity(leftGoal);
+
         engine.inputSystem.registerComponent(leftRaquetteController);
         engine.inputSystem.registerComponent(rightRaquetteController);
-
-        engine.renderSystem.registerComponent(leftRaquette.shape);
-        engine.renderSystem.registerComponent(rightRaquette.shape);
-        engine.renderSystem.registerComponent(pingPongBall.shape);
-        // Uncomment to debug world bounding box
-        // renderSystem.registerComponent(worldBoundingBox.shape);
-        // Uncomment to debug left goal
-        // engine.renderSystem.registerComponent(rightGoal.shape);
-        // Uncomment to debug right goal
-        // engine.renderSystem.registerComponent(leftGoal.shape);
-
-        engine.physicsSystem.registerComponent(leftRaquette.boundingBox);
-        engine.physicsSystem.registerComponent(rightRaquette.boundingBox);
-        engine.physicsSystem.registerComponent(pingPongBB);
-        engine.physicsSystem.registerComponent(worldBoundingBox.boundingBox);
-        engine.physicsSystem.registerComponent(rightGoal.boundingBox);
-        engine.physicsSystem.registerComponent(leftGoal.boundingBox);
-
-        engine.hierarchySystem.registerComponent(rightRaquette.transform);
-        engine.hierarchySystem.registerComponent(leftRaquette.transform);
-        engine.hierarchySystem.registerComponent(pingPongBall.transform);
-        engine.hierarchySystem.registerComponent(worldBoundingBox.transform);
-        engine.hierarchySystem.registerComponent(rightGoal.transform);
-        engine.hierarchySystem.registerComponent(leftGoal.transform);
 
         engine.soundSystem.registerComponent(pingPongBallSound);
 
