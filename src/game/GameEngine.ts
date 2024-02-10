@@ -2,6 +2,7 @@ import { HierarchySystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem 
 import { Physx } from "../physx";
 import { CanvasDevice, KeyboardDevice } from "../platform";
 import { Renderer } from "../renderer";
+import { Scene } from "./Scene";
 
 export interface GameEngineOptions {
     /**
@@ -22,7 +23,7 @@ export interface GameEngineOptions {
  * Main game engine class. Contains all the systems and components to run the game engine
  * with minimum setup
  * 
- * @category engine
+ * @category Engine
  */
 export class GameEngine {
     private readonly frametime: number;
@@ -37,6 +38,11 @@ export class GameEngine {
     private readonly renderer: Renderer;
     private readonly context: CanvasRenderingContext2D;
     private readonly inputs: KeyboardDevice
+
+    /**
+     * The list of scenes to render
+     */
+    public readonly scenes: Scene[] = [];
 
     /**
      * @param config - The configuration to use for this instance of GameEngine
@@ -61,6 +67,20 @@ export class GameEngine {
      */
     public run(): void {
         setInterval(() => this.tick(), this.frametime);
+    }
+
+    public createScene(): Scene {
+        const result = new Scene(
+            this.renderSystem,
+            this.physicsSystem,
+            this.inputSystem,
+            this.hierarchySystem,
+            this.soundSystem
+        );
+
+        this.scenes.push(result);
+
+        return result;
     }
 
     private tick(): void {

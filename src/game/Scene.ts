@@ -1,5 +1,10 @@
 import { BoundingBoxComponent, HierarchySystem, IEntity, InputComponent, InputSystem, PhysicsSystem, RenderSystem, ShapeComponent, SoundComponent, SoundSystem, TransformComponent } from "../ecs";
 
+/**
+ * A game scene
+ * 
+ * @category Engine
+ */
 export class Scene {
     public readonly entities: IEntity[] = [];
 
@@ -11,6 +16,11 @@ export class Scene {
         public readonly soundSystem: SoundSystem
     ) { }
     
+    /**
+     * Registers the entity's components into the corrispective systems
+     * 
+     * @param entity - The entity to register
+     */
     public registerEntity(entity: IEntity) {
         this.entities.push(entity);
 

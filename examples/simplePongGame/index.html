@@ -11,13 +11,7 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = new SparkEngine.Scene(
-            engine.renderSystem,
-            engine.physicsSystem,
-            engine.inputSystem,
-            engine.hierarchySystem,
-            engine.soundSystem
-        );
+        const scene = engine.createScene();
 
         const soundLoader = new SparkEngine.SoundLoader();
 
