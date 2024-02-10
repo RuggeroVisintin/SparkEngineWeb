@@ -35,9 +35,7 @@ export class KeyboardDevice {
         this._listeners.push(callback);
     }
 
-    public update(): void {
-        // TODO: updating for each key value is useless now
-       
+    public update(): void {       
         this._listeners.forEach(listener => listener(this._keyStatusMap))
         
 

@@ -9,6 +9,8 @@ export class InputSystem implements ISystem {
 
     public update(): void {
         this.components.forEach(inputComponent => inputComponent.update(this.inputDevice));
+
+        // TODO: void calling update here
         this.inputDevice.update();
     }
 
