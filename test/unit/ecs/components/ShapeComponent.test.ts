@@ -1,4 +1,4 @@
-import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent } from "../../../../src";
+import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps } from "../../../../src";
 
 describe('ecs/components/ShapeComponent', () => {
     let renderer: Renderer;
@@ -8,6 +8,18 @@ describe('ecs/components/ShapeComponent', () => {
         renderer = new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D());
         shapeComponent = new ShapeComponent();
     });
+
+    describe('.constructor()', () => {
+        // TODO: add default tests
+
+        it('Should init the component with given props', () => {
+            const init: ShapeComponentProps = {
+                shapeType: PrimitiveType.Rectangle
+            }
+
+            expect(new ShapeComponent(init)).toEqual(expect.objectContaining(init))
+        })
+    })
     
     describe('.draw()', () => {
         it('Should push the right draw command to the renderer', () => {
