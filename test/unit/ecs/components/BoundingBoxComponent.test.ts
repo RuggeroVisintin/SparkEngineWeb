@@ -1,4 +1,4 @@
-import { BaseEntity, BoundingBoxComponent, GameObject, ICollidableComponent, Physx, StaticObject, Vec2 } from "../../../../src";
+import { BaseEntity, BoundingBoxComponent, BoundingBoxComponentProps, GameObject, ICollidableComponent, Physx, StaticObject, Vec2 } from "../../../../src";
 
 describe('ecs/components/BoundingBoxComponent', () => {
     let bbComponent = new BoundingBoxComponent();
@@ -8,6 +8,21 @@ describe('ecs/components/BoundingBoxComponent', () => {
         bbComponent = new BoundingBoxComponent();
         physx = new Physx();
     })
+
+    describe('constructor()', () => {
+        it('construct a new component from given props', () => {
+            const init: BoundingBoxComponentProps = {
+                aabb: { x: 5, y: 10, width: 15, height: 5 },
+                matchContainerTransform: true,
+                isContainer: false,
+                onCollisionCb: () => { }
+            }
+
+            const component = new BoundingBoxComponent(init);
+
+            expect(component).toEqual(expect.objectContaining(init));
+        });
+    });
 
     describe('get aabb()', () => {
         it.each([
@@ -47,7 +62,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
             })
         });
 
-        it('Should return the default AABB if .matchContainerTransform is false', () => { 
+        it('Should return the default AABB if .matchContainerTransform is false', () => {
             const parentEntity = new GameObject();
             parentEntity.addComponent(bbComponent);
             
@@ -56,7 +71,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
             expect(bbComponent.aabb).toEqual({
                 x: 555, y: 0, width: 0, height: 0
-            }) 
+            })
         })
 
         it('Should return the default AABB if .matchContainerTransform is true but parent container transform is null', () => {
@@ -70,7 +85,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
                 x: 555, y: 0, width: 0, height: 0
             })
         })
-    })
+    });
 
     describe('.update()', () => {
         
