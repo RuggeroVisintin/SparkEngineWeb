@@ -1,4 +1,4 @@
-import { TransformComponent } from "../../../../src"
+import { TransformComponent, TransformComponentProps, Vec2 } from "../../../../src"
 
 describe('ecs/components/TransformComponent', () => {
     describe('constructor', () => {
@@ -18,6 +18,19 @@ describe('ecs/components/TransformComponent', () => {
                 width: 0,
                 height: 0
             })
+        })
+
+        it('Should init from a props object', () => {
+            const init: TransformComponentProps = {
+                position: new Vec2(0, 2),
+                depthIndex: 1,
+                velocity: new Vec2(3, 4),
+                size: { width: 10, height: 15 }
+            }
+
+            const transformComponent = new TransformComponent(init);
+
+            expect(transformComponent).toEqual(expect.objectContaining({ ...init }));
         })
     })
 

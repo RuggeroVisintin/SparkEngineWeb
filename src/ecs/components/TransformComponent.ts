@@ -1,7 +1,6 @@
 import { Type, Vec2 } from "../../core";
 import { BaseComponent } from "./BaseComponent";
 
-
 interface Size2D {
     /**
      * @category Components
@@ -9,6 +8,13 @@ interface Size2D {
     width: number;
     height: number;
 }
+export interface TransformComponentProps {
+    position?: Vec2;
+    size?: Size2D;
+    depthIndex?: number;
+    velocity?: Vec2;
+}
+
 /**
  * @category Components
  */
@@ -18,6 +24,15 @@ export class TransformComponent extends BaseComponent {
     public size: Size2D = { width: 0, height: 0 };
     public depthIndex: number = 0;
     public velocity: Vec2 = new Vec2();
+
+    constructor(props?: TransformComponentProps) {
+        super();
+
+        if (props?.position) this.position = props.position;
+        if (props?.size) this.size = props.size;
+        if (props?.depthIndex) this.depthIndex = props.depthIndex;
+        if (props?.velocity) this.velocity = props.velocity;
+    }
 
     public update(deltaTime?: number): void {
         this.position.x += this.velocity.x;
