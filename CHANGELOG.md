@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.5.1...sparkengineweb-v0.6.0) (2024-02-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ecs:** SoundComponentProps is required to create a new SoundComponent
+
+### Features
+
+* **ecs:** add BoundingBoxComponentProps to construct boundingBox from config ([#121](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/121)) ([522265d](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/522265dc1de955b7b84d8a4170b91fc7ae83a120))
+* **ecs:** add MaterialComponentProps to quickly initialize the component ([#122](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/122)) ([d1373e4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/d1373e43ac3d34922079de65d594b1eade15c91b))
+* **ecs:** add ShapeComponentProps to quickly initialize the component ([#123](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/123)) ([7792fc1](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7792fc1ec629ea97106c0c13f6a7ed44b539b71b))
+* **ecs:** add SoundComponentProps to quickly initialize the component ([#124](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/124)) ([3c7ba92](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3c7ba920d69da96437963692155d56ebf67f3b97))
+* **ecs:** add TransformComponentProps to init the component ([#119](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/119)) ([6803e9f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6803e9f19aeb79b47f38eeb8a6f295726f7aa5e3))
+
 ## [0.5.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.5.0...sparkengineweb-v0.5.1) (2024-02-10)
 
 
