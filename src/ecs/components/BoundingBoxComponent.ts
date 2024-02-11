@@ -17,6 +17,16 @@ interface AABB {
 /**
  * @category Components
  */
+export interface BoundingBoxComponentProps {
+    matchContainerTransform?: boolean;
+    isContainer?: boolean;
+    aabb?: AABB;
+    onCollisionCb?: CollisionCallback;
+}
+
+/**
+ * @category Components
+ */
 @Type('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {
     private defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 }; 
@@ -52,6 +62,15 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
 
     public set aabb(value: AABB) { 
         this.defaultAABB = value;
+    }
+
+    public constructor(props?: BoundingBoxComponentProps) {
+        super();
+
+        if(props?.aabb) this.aabb = props.aabb;
+        if(props?.isContainer) this.isContainer = props.isContainer;
+        if(props?.onCollisionCb) this.onCollisionCb = props.onCollisionCb;
+        if(props?.matchContainerTransform) this.matchContainerTransform = props.matchContainerTransform;
     }
 
     /**
