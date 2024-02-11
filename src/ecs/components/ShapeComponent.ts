@@ -5,6 +5,13 @@ import { MaterialComponent } from "./MaterialComponent";
 import { TransformComponent } from "./TransformComponent";
 
 /**
+ * @category Components
+ */
+export interface ShapeComponentProps {
+    shapeType?: PrimitiveType;
+}
+
+/**
  * Represents a primitive Shape like rectangle, circle, etc
  * 
  * @category Components
@@ -29,6 +36,12 @@ export class ShapeComponent extends BaseComponent {
 
     public get material(): MaterialComponent {
         return this.getContainer()?.getComponent('MaterialComponent') ?? this.defaultMaterial;
+    }
+    
+    public constructor(props?: ShapeComponentProps) {
+        super();
+
+        if (props?.shapeType) this.shapeType = props.shapeType;
     }
 
     /**
