@@ -4,6 +4,13 @@ import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 
 /**
+ * @category Components
+ */
+export interface SoundComponentProps {
+    filePath: string;
+}
+
+/**
  * Represents a sound that can be played
  * 
  * @category Components
@@ -36,15 +43,19 @@ export class SoundComponent extends BaseComponent {
         return this._asset;
     }
 
+    public readonly filePath: string;
+
     /**
      * @param filePath - Path of the file to load
      * @param soundLoader - The loader to use to load the assets
      */
     public constructor(
-        public readonly filePath: string,
-        private readonly soundLoader: SoundLoader
+        private readonly soundLoader: SoundLoader,
+        props: SoundComponentProps,
     ) { 
         super();
+
+        this.filePath = props.filePath;
     }
 
     /**
