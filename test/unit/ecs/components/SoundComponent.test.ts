@@ -1,10 +1,31 @@
-import { SoundComponent, SoundLoader } from "../../../../src";
+import { SoundComponent, SoundComponentProps, SoundLoader } from "../../../../src";
 import '../../__mocks__';
 
 describe('ecs/components/SoundComponent', () => {
+    let soundComponent: SoundComponent;
+
+    beforeEach(() => {
+        soundComponent = new SoundComponent(new SoundLoader(), {
+            filePath: 'test.mp3',
+        });
+    })
+
+    describe('.constructor()', () => { 
+        it('Should construct a new SoundComponent from given props', () => {
+            const init: SoundComponentProps = {
+                filePath: 'test2.mp3'
+            }
+
+            const soundComponent = new SoundComponent(new SoundLoader(), {
+                filePath: 'test2.mp3'
+            });
+
+            expect(soundComponent).toEqual(expect.objectContaining(init));
+        });
+    })
+
     describe('.play()', () => {
         it('Should flag the sound as playing', () => {
-            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
             soundComponent.play();
 
             expect(soundComponent.isPlaying).toBe(true);
@@ -13,7 +34,6 @@ describe('ecs/components/SoundComponent', () => {
 
     describe('.update()', () => {
         it('Should play the sound at the next if .play() is triggered', (done) => {
-            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
             soundComponent.load();
 
             setTimeout(() => {
@@ -29,12 +49,10 @@ describe('ecs/components/SoundComponent', () => {
         });
         
         it('Should skip the sound if asset not loaded', () => {
-            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
             soundComponent.play();
         });
 
         it('Should skip the sound if not playing', (done) => {
-            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
             soundComponent.load();
 
             setTimeout(() => {
@@ -48,7 +66,6 @@ describe('ecs/components/SoundComponent', () => {
         });
 
         it('Should not be playing anymore after the update', (done) => {
-            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
             soundComponent.load();
 
             setTimeout(() => {
@@ -60,9 +77,7 @@ describe('ecs/components/SoundComponent', () => {
             }, 10);
         })
 
-        it('Should still be playing after the update if the component was not loaded', () => {
-            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
-            
+        it('Should still be playing after the update if the component was not loaded', () => {            
             soundComponent.play();
             soundComponent.update();
 
@@ -72,7 +87,6 @@ describe('ecs/components/SoundComponent', () => {
 
     describe('.load', () => {
         it('Should load the sound from the given path', (done) => {
-            const soundComponent = new SoundComponent('test.mp3', new SoundLoader());
             soundComponent.load();
 
             // await to emulate load

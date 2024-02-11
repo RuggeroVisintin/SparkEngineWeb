@@ -58,7 +58,9 @@ describe('/game/Scene', () => {
 
         it('Should register entity sound components into its sound system', () => { 
             const entity = new StaticObject();
-            const soundComponent = new SoundComponent('../test.sound', new SoundLoader());
+            const soundComponent = new SoundComponent(new SoundLoader(), {
+                filePath: 'test.mp3'
+            });
             entity.addComponent(soundComponent);
 
             scene.registerEntity(entity);
