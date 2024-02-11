@@ -50,7 +50,6 @@ export class SoundComponent extends BaseComponent {
      * @param soundLoader - The loader to use to load the assets
      */
     public constructor(
-        private readonly soundLoader: SoundLoader,
         props: SoundComponentProps,
     ) { 
         super();
@@ -80,8 +79,8 @@ export class SoundComponent extends BaseComponent {
      * Loads the sound asset using the given loader.
      * This method is implemented asynchronously so to not block the engine, as soon as the sound is loaded it will be played
      */
-    public load(): void {
-        this.soundLoader
+    public load(loader: SoundLoader): void {
+        loader
             .load(this.filePath)
             .then(asset => {
                 this._asset = asset;

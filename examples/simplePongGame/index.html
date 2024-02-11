@@ -91,10 +91,10 @@
         pingPongBB.matchContainerTransform = true;
         pingPongBall.addComponent(pingPongBB);
 
-        const pingPongBallSound = new SparkEngine.SoundComponent(soundLoader, {
+        const pingPongBallSound = new SparkEngine.SoundComponent({
             filePath: '../assets/071658_pongwav-93028.mp3'
         });
-        pingPongBallSound.load();
+        pingPongBallSound.load(soundLoader);
 
         const rightGoal = new SparkEngine.TriggerEntity(pingPongBall);
         rightGoal.transform.size = { width: 10, height: 200 };

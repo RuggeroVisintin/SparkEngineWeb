@@ -5,7 +5,7 @@ describe('ecs/components/SoundComponent', () => {
     let soundComponent: SoundComponent;
 
     beforeEach(() => {
-        soundComponent = new SoundComponent(new SoundLoader(), {
+        soundComponent = new SoundComponent({
             filePath: 'test.mp3',
         });
     })
@@ -16,7 +16,7 @@ describe('ecs/components/SoundComponent', () => {
                 filePath: 'test2.mp3'
             }
 
-            const soundComponent = new SoundComponent(new SoundLoader(), {
+            const soundComponent = new SoundComponent({
                 filePath: 'test2.mp3'
             });
 
@@ -34,7 +34,7 @@ describe('ecs/components/SoundComponent', () => {
 
     describe('.update()', () => {
         it('Should play the sound at the next if .play() is triggered', (done) => {
-            soundComponent.load();
+            soundComponent.load(new SoundLoader());
 
             setTimeout(() => {
                 jest.spyOn(soundComponent.asset!, 'play');
@@ -53,7 +53,7 @@ describe('ecs/components/SoundComponent', () => {
         });
 
         it('Should skip the sound if not playing', (done) => {
-            soundComponent.load();
+            soundComponent.load(new SoundLoader());
 
             setTimeout(() => {
                 jest.spyOn(soundComponent.asset!, 'play');
@@ -66,7 +66,7 @@ describe('ecs/components/SoundComponent', () => {
         });
 
         it('Should not be playing anymore after the update', (done) => {
-            soundComponent.load();
+            soundComponent.load(new SoundLoader());
 
             setTimeout(() => {
                 soundComponent.play();
@@ -87,7 +87,7 @@ describe('ecs/components/SoundComponent', () => {
 
     describe('.load', () => {
         it('Should load the sound from the given path', (done) => {
-            soundComponent.load();
+            soundComponent.load(new SoundLoader());
 
             // await to emulate load
             setTimeout(() => {
