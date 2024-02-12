@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.7.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.6.0...sparkengineweb-v0.7.0) (2024-02-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ecs:** removes target param in favor of required props param
+* **ecs:** SoundComponent constructor does not require SoundLoader anymore which is now needed in SoundComponent.load
+
+### Features
+
+* add entities init config ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+* **ecs:** add GameObject init configuration ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+* **ecs:** add StaticObject init config ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+* **ecs:** add TriggerEntity init config ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+
+
+### Code Refactoring
+
+* **ecs:** pass SoundLoader in SoundComponent.load ([2bfd28b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2bfd28bcf7dba834d8cbfc01e5f00f23b217a0ee))
+
 ## [0.6.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.5.1...sparkengineweb-v0.6.0) (2024-02-11)
 
 
