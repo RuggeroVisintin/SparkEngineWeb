@@ -77,7 +77,6 @@
         });
 
         const pingPongBall = new SparkEngine.GameObject();
-        pingPongBall.addComponent(new SparkEngine.SoundComponent(soundLoader));
 
         const resetBall = () => {
             pingPongBall.transform.size = { width: 10, height: 10 };
@@ -92,8 +91,8 @@
         pingPongBB.matchContainerTransform = true;
         pingPongBall.addComponent(pingPongBB);
 
-        const pingPongBallSound = new SparkEngine.SoundComponent('../assets/071658_pongwav-93028.mp3', soundLoader);
-        pingPongBallSound.load();
+        const pingPongBallSound = new SparkEngine.SoundComponent({ filePath: '../assets/071658_pongwav-93028.mp3' });
+        pingPongBallSound.load(soundLoader);
 
         const rightGoal = new SparkEngine.TriggerEntity({ target: pingPongBall });
         rightGoal.transform.size = { width: 10, height: 200 };
