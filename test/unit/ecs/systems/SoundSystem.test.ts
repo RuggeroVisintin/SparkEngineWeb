@@ -10,7 +10,7 @@ describe('ecs/systems/SoundSystem', () => {
 
     describe('.registerComponent', () => {
         it('Should register the component into the system', () => {
-            const soundComponent = new SoundComponent(new SoundLoader(), {
+            const soundComponent = new SoundComponent({
                 filePath: 'test.mp3',
             }); 
             
@@ -22,7 +22,7 @@ describe('ecs/systems/SoundSystem', () => {
 
     describe('.update()', () => {
         it('Should trigger the sound in queue', () => {
-            const soundComponent = new SoundComponent(new SoundLoader(), {
+            const soundComponent = new SoundComponent({
                 filePath: 'test.mp3',
             });
             
