@@ -1,16 +1,26 @@
-import { MaterialComponent, ShapeComponent, TransformComponent } from "../components";
+import { MaterialComponent, MaterialComponentProps, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps } from "../components";
 import { BaseEntity } from "./BaseEntity";
+
+export interface GameObjectProps {
+    transform?: TransformComponentProps;
+    shape?: ShapeComponentProps;
+    material?: MaterialComponentProps;
+}
 
 /**
  * @category Entities
  */
 export class GameObject extends BaseEntity {
-    public transform = new TransformComponent();
-    public shape = new ShapeComponent();
-    public material = new MaterialComponent();
+    public transform: TransformComponent;
+    public shape: ShapeComponent;
+    public material: MaterialComponent;
 
-    constructor() {
+    constructor(props?: GameObjectProps) {
         super();
+
+        this.transform = new TransformComponent(props?.transform);
+        this.shape = new ShapeComponent(props?.shape);
+        this.material = new MaterialComponent(props?.material);
 
         this.addComponent(this.transform);
         this.addComponent(this.shape);
