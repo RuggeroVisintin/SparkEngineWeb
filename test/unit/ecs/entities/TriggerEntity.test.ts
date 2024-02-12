@@ -5,13 +5,15 @@ describe('ecs/entities/TriggerEntity', () => {
     let triggerEntity: TriggerEntity;
 
     beforeEach(() => {
-        triggerEntity = new TriggerEntity(otherEntity);
+        triggerEntity = new TriggerEntity({
+            target: otherEntity
+        });
     })
 
     describe('.constructor', () => {
         it('Should throw an excecption if the target entity has no BoundingBox component attached', () => {
             expect(() =>
-                new TriggerEntity(new BaseEntity())
+                new TriggerEntity({ target: new BaseEntity() })
             ).toThrow('Target entity must have a BoundingBox component attached');
         });
 
