@@ -1,9 +1,24 @@
 import { MaterialComponent, MaterialComponentProps, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps } from "../components";
 import { BaseEntity } from "./BaseEntity";
 
+/**
+ * @category Entities
+ */
 export interface GameObjectProps {
+    /**
+     * The configuration of the transform component. 
+     * Uses default transform config if not set
+     */
     transform?: TransformComponentProps;
+    /**
+     * The configuration of the shape component.
+     * Uses default shape config if not set
+     */
     shape?: ShapeComponentProps;
+    /**
+     * The configuration of the material component
+     * Uses default material config if not set
+     */
     material?: MaterialComponentProps;
 }
 
@@ -15,6 +30,10 @@ export class GameObject extends BaseEntity {
     public shape: ShapeComponent;
     public material: MaterialComponent;
 
+    /**
+     * 
+     * @param props - Optional components configuration
+     */
     constructor(props?: GameObjectProps) {
         super();
 
