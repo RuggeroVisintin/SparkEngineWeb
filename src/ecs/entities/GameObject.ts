@@ -1,3 +1,4 @@
+import { Type } from "../../core";
 import { MaterialComponent, MaterialComponentProps, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps } from "../components";
 import { BaseEntity } from "./BaseEntity";
 
@@ -25,6 +26,7 @@ export interface GameObjectProps {
 /**
  * @category Entities
  */
+@Type('GameObject')
 export class GameObject extends BaseEntity {
     public transform: TransformComponent;
     public shape: ShapeComponent;

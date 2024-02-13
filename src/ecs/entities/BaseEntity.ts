@@ -1,10 +1,11 @@
-import { typeOf } from "../../core";
+import { Type, typeOf } from "../../core";
 import { ICollidableComponent, IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
 /**
  * @category Entities
  */
+@Type('BaseEntity')
 export class BaseEntity implements IEntity {
     private components: Map<string, IComponent> = new Map();
 

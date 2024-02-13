@@ -2,6 +2,7 @@ import { UUID } from "crypto";
 import { BoundingBoxComponent, CollisionCallback, CollisionCallbackParams } from "../components";
 import { BaseEntity } from "./BaseEntity";
 import { StaticObject, StaticObjectProps } from "./StaticObject";
+import { Type } from "../../core";
 
 /**
  * @category Entities
@@ -20,6 +21,7 @@ export interface TriggerEntityProps extends StaticObjectProps {
  * 
  * @category Entities
  */
+@Type('TriggerEntity')
 export class TriggerEntity extends StaticObject {
     public readonly target: BaseEntity;
 

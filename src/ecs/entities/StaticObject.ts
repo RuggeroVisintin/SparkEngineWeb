@@ -1,3 +1,4 @@
+import { Type } from "../../core";
 import { BoundingBoxComponent, BoundingBoxComponentProps } from "../components";
 import { GameObject, GameObjectProps } from "./GameObject";
 
@@ -15,6 +16,7 @@ export interface StaticObjectProps extends GameObjectProps {
 /**
  * @category Entities
  */
+@Type('StaticObject')
 export class StaticObject extends GameObject {
     public boundingBox: BoundingBoxComponent;
 
