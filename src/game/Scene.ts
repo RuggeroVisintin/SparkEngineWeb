@@ -13,7 +13,7 @@ export class Scene {
         public readonly physicsSystem: PhysicsSystem,
         public readonly inputSystem: InputSystem,
         public readonly hierarchySystem: HierarchySystem,
-        public readonly soundSystem: SoundSystem
+        public readonly soundSystem: SoundSystem,
     ) { }
     
     /**
@@ -39,5 +39,15 @@ export class Scene {
     
         const soundComponent = entity.getComponent<SoundComponent>('SoundComponent');
         soundComponent && this.soundSystem.registerComponent(soundComponent);
+    }
+
+    public async load(filePath: string): Promise<void> {
+        const response = await fetch(filePath);
+        
+        const scene = await response.json();
+
+        Object.entries(scene.entities).forEach(([name, value]) => {
+            console.log('Entity', name, value);
+        });
     }
 }

@@ -1,5 +1,4 @@
-import { UUID } from "crypto";
-import { BoundingBoxComponent, CollisionCallback, CollisionCallbackParams } from "../components";
+import { BoundingBoxComponent, CollisionCallbackParams } from "../components";
 import { BaseEntity } from "./BaseEntity";
 import { StaticObject, StaticObjectProps } from "./StaticObject";
 import { Type } from "../../core";
