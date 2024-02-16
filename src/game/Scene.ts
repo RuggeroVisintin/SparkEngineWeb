@@ -1,4 +1,6 @@
+import { typeOf } from "../core";
 import { BoundingBoxComponent, HierarchySystem, IEntity, InputComponent, InputSystem, PhysicsSystem, RenderSystem, ShapeComponent, SoundComponent, SoundSystem, TransformComponent } from "../ecs";
+import { createEntity } from "../ecs/entities/factory";
 
 /**
  * A game scene
@@ -47,7 +49,7 @@ export class Scene {
         const scene = await response.json();
 
         Object.entries(scene.entities).forEach(([name, value]) => {
-            console.log('Entity', name, value);
+            this.registerEntity(createEntity(typeOf(value)));
         });
     }
 }

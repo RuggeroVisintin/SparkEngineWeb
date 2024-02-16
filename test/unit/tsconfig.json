@@ -11,6 +11,7 @@
         "strictFunctionTypes": true,
         "strictBindCallApply": true,
         "strictPropertyInitialization": true,
+        "resolveJsonModule": true,
         "noEmit": true
     },
     "files": [
