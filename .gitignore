@@ -1,6 +1,7 @@
 node_modules/
 
 dist/
+public/
 
 src/**/*.js
 src/**/*.d.ts

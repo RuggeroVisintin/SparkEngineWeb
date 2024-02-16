@@ -27,6 +27,7 @@ Here you can find the list of commands. **Commands with the :ci flag are reserve
 * `npm run build:dev` to build the engine in development mode
 * `npm run build:docs` to build the documentation directory
 * `npm run clean` to clean the dist folder
+* `npm run serve:examples` to serve examples in a local webserver, getting rid of annoying CORS issues and similar. Requries `npm run build:*`
 
 ## Usage
 
@@ -34,7 +35,7 @@ TBD
 
 ## Examples
 
-In order to run examples build the engine and then open the static `index.html` file of any example
+You can add more examples in the examples folder. In order to correctly serve them, especially if you are having problems with CORS, see the `npm run serve:examples` command.
 
 ## Contributing
 
