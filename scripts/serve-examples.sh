@@ -1,6 +1,7 @@
 #!/bin/sh
-
 set -e
+
+npm run build
 
 mkdir -p public 
 cp -r examples/* public/ 
