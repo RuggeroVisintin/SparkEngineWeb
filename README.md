@@ -37,7 +37,9 @@ TBD
 
 ## Examples
 
-You can add more examples in the examples folder. In order to correctly serve them, especially if you are having problems with CORS, see the `npm run serve:examples` command.
+You can add more examples in the [examples](./examples) folder. In order to correctly serve them, especially if you are having problems with CORS, see the `npm run serve:examples` command.
+
+or just vissit <https://ruggerovisintin.github.io/SparkEngineWeb/examples> for a ready to use version, updated to the latest release
 
 ## Contributing
 
