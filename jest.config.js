@@ -4,6 +4,7 @@ module.exports = {
   roots: ['<rootDir>/test'],
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/test/unit/**/*.test.ts'],
+  workerThreads: true,
   setupFiles: [
     "jest-canvas-mock"
   ],

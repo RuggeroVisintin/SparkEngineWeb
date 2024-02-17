@@ -1,0 +1,10 @@
+{
+    "entities": {
+        "testEntity1": {
+            "__type": "GameObject"
+        },
+        "testEntity2": {
+            "__type": "GameObject"
+        }
+    }
+}

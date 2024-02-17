@@ -21,7 +21,7 @@ export class MaterialComponent extends BaseComponent {
     constructor(props?: MaterialComponentProps) {
         super();
 
-        if (props?.diffuseColor) this.diffuseColor = props.diffuseColor;
+        if (props?.diffuseColor) this.diffuseColor = Rgb.fromRgb(props.diffuseColor);
         if (props?.opacity) this.opacity = props.opacity;
     }
 }

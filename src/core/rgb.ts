@@ -42,6 +42,10 @@ export class Rgb {
             new Rgb(parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)) : new Rgb();
     }
 
+    static fromRgb(rgb: Rgb): Rgb {
+        return new Rgb(rgb.r, rgb.g, rgb.b);
+    }
+
     public toRgbaString(alpha?: number): string {
         return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.capAlpha(alpha || 100) / 100})`;
     }
