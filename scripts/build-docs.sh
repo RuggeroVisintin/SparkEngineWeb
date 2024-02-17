@@ -1,6 +1,9 @@
 #!/bin/sh
-
 set -e
+
+if [ ! -d ./dist/ ]; then
+    npm run build
+fi
 
 npx typedoc src/index.ts 
 cp -r assets/* docs/assets 
