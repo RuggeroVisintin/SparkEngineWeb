@@ -14,7 +14,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development --watch",
-    "build:docs": "npx typedoc src/index.ts && cp -r assets/ docs/assets",
+    "build:docs": "npx typedoc src/index.ts && cp -r assets/* docs/assets",
     "serve:examples": "sh ./scripts/serve-examples.sh",
     "clean": "npx tsc --build --declaration --clean",
     "test": "jest",
