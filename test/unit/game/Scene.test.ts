@@ -1,6 +1,6 @@
 import { fetchMockData } from "../__mocks__/Fetch";
-import { CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, RenderSystem, Renderer, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject } from "../../../src"
-import { defaultEntitiesScene } from "../__mocks__/scenes";
+import { CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, Vec2 } from "../../../src"
+import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
 jest.mock('uuid', () => ({
     v4: () => 'test-uuid'
@@ -88,6 +88,39 @@ describe('/game/Scene', () => {
             expect(scene.entities).toEqual([
                 expect.objectContaining(new GameObject()),
                 expect.objectContaining(new GameObject())
+            ]);
+        })
+
+        it('Should load the entities configuration as well', async () => {
+            jest.spyOn(global, 'fetch').mockResolvedValue({
+                ...fetchMockData,
+                json: () => Promise.resolve(entitiesWithComponents),
+            });
+
+            await scene.load('test.scene.json');
+
+            expect(scene.entities).toEqual([
+                expect.objectContaining(new GameObject({
+                    transform: {
+                        position: new Vec2(1, 2),
+                        size: { width: 100, height: 50 }
+                    },
+                    shape: {
+                        shapeType: PrimitiveType.Rectangle
+                    }
+                })),
+                expect.objectContaining(new GameObject({
+                    transform: {
+                        position: new Vec2(10, 20),
+                        size: { width: 100, height: 50 }
+                    },
+                    shape: {
+                        shapeType: PrimitiveType.Rectangle
+                    },
+                    material: {
+                        diffuseColor: new Rgb(255)
+                    }
+                }))
             ]);
         })
     })

@@ -28,10 +28,10 @@ export class TransformComponent extends BaseComponent {
     constructor(props?: TransformComponentProps) {
         super();
 
-        if (props?.position) this.position = props.position;
+        if (props?.position) this.position = Vec2.from(props.position);
         if (props?.size) this.size = props.size;
         if (props?.depthIndex) this.depthIndex = props.depthIndex;
-        if (props?.velocity) this.velocity = props.velocity;
+        if (props?.velocity) this.velocity = Vec2.from(props.velocity);
     }
 
     public update(deltaTime?: number): void {
