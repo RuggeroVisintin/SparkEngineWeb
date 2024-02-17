@@ -1,4 +1,4 @@
-import { Type, typeOf } from "../../core";
+import { IncrementallyUnique, Type, typeOf } from "../../core";
 import { IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
@@ -9,6 +9,7 @@ import { IEntity } from "./IEntity";
 export class BaseEntity implements IEntity {
     private components: Map<string, IComponent> = new Map();
 
+    @IncrementallyUnique
     public readonly name: string = typeOf(this);
 
     /**
