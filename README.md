@@ -2,6 +2,8 @@
 
 # Spark Engine Web
 
+![Alt text](./assets/a_gear_icon_with_electric_spar%20(2).jpeg)
+
 Spark Engine Web is a lightweight browser based web game engine we are building for fun.
 
 We are building the engine with Security and performance in mind, to provide the best possible experience to our engine's users and contributors.
