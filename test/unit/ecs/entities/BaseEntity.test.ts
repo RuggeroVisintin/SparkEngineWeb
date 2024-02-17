@@ -6,6 +6,12 @@ describe('ecs/entities/BaseEntity', () => {
     beforeEach(() => {
         baseEntity = new BaseEntity();
     });
+
+    describe('.constructor()', () => { 
+        it('Should have a name mathcing the Entity Type by default', () => {
+            expect(baseEntity.name).toEqual('BaseEntity');
+        })
+    })
     
     describe('.addComponent()', () => {
         it('Should add component to entity', () => {

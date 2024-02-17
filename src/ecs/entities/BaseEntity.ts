@@ -1,5 +1,5 @@
 import { Type, typeOf } from "../../core";
-import { ICollidableComponent, IComponent } from "../components";
+import { IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
 /**
@@ -9,6 +9,13 @@ import { IEntity } from "./IEntity";
 export class BaseEntity implements IEntity {
     private components: Map<string, IComponent> = new Map();
 
+    public readonly name: string = typeOf(this);
+
+    /**
+     * Adds a component to this entity.
+     * 
+     * @param component - the componnt to add to this entity
+     */
     public addComponent(component: IComponent): void {
         this.components.set(typeOf(component), component);
         component.setContainer(this);
