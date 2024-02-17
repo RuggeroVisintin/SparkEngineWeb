@@ -3,4 +3,4 @@ export * from './ecs';
 export * from './renderer';
 export * from './platform';
 export * from './physx';
-export * from './game';
+export * from './engine';

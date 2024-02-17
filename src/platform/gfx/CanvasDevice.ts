@@ -1,8 +1,14 @@
+/**
+ * @category Platform
+ */
 export enum BlendMethod {
     BM_Overwrite = 'source-over',
     BM_Add = 'lighter'
 }
 
+/**
+ * @category Platform
+ */
 export class CanvasDevice {
     private wRatio = 1;
     private hRatio = 1;

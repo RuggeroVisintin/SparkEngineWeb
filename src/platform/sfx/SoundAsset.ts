@@ -1,3 +1,6 @@
+/**
+ * @category Platform
+ */
 export class SoundAsset {
     constructor(
         public readonly media: HTMLAudioElement

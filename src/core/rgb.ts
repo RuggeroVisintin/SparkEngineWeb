@@ -1,3 +1,7 @@
+
+/**
+ * @category Core
+ */
 export class Rgb {
     private _r: number = 0;
     private _g: number = 0;

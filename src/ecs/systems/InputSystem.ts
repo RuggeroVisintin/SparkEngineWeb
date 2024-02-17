@@ -2,6 +2,9 @@ import { ISystem } from "./ISystem";
 import { InputComponent } from '../components';
 import { KeyboardDevice } from "../../platform";
 
+/**
+ * @category Systems
+ */
 export class InputSystem implements ISystem {
     public readonly components: InputComponent[] = [];
 

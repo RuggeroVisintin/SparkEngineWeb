@@ -1,7 +1,13 @@
 import { Vec2 } from "../core";
 
+/**
+ * @category Physx
+ */
 export type AABB = [number, number, number, number];
 
+/**
+ * @category Physx
+ */
 export interface PhysicsObject {
     /**
      * The unique id of the object. Use it to identify with wich objects the collision is happening

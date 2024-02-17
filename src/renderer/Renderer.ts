@@ -7,6 +7,8 @@ import { RenderCommand } from './commands';
  * 
  * Furthermore it also abstracts away the complexity of how the gfx device work under the hood 
  * from the renderSystem
+ * 
+ * @category Renderer
  */
 export class Renderer {
     private _commandBuffer: RenderCommand[] = [];

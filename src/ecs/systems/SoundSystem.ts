@@ -1,6 +1,9 @@
 import { SoundComponent } from "../components";
 import { ISystem } from "./ISystem";
 
+/**
+ * @category Systems
+ */
 export class SoundSystem implements ISystem {
     public readonly components: SoundComponent[] = [];
 

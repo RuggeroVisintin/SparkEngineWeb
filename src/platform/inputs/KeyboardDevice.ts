@@ -1,16 +1,31 @@
+/**
+ * @category Platform
+ */
 export enum KeyStatus {
     Up,
     Down
 };
 
+/**
+ * @category Platform
+ */
 export interface KeyEvent {
     status: KeyStatus,
     code: string
 }
 
+/**
+ * @category Platform
+ */
 export type KeyStatusMap = Record<string, KeyStatus>;
+/**
+ * @category Platform
+ */
 export type InputListenerCallback = (statusMap: KeyStatusMap) => void;
 
+/**
+ * @category Platform
+ */
 export class KeyboardDevice {
     private _listeners: InputListenerCallback[] = [];
     private _keyStatusMap: KeyStatusMap = {};

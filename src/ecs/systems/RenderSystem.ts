@@ -3,6 +3,9 @@ import { Renderer, SetBlendingMethodCommand } from "../../renderer";
 import { ShapeComponent } from "../components";
 import { ISystem } from "./ISystem";
 
+/**
+ * @category Systems
+ */
 export class RenderSystem implements ISystem { 
     public readonly components: ShapeComponent[] = [];
 

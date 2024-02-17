@@ -4,6 +4,9 @@ import { CanvasDevice, KeyboardDevice } from "../platform";
 import { Renderer } from "../renderer";
 import { Scene } from "./Scene";
 
+/**
+ * @category Engine
+ */
 export interface GameEngineOptions {
     /**
      * The target framerate of the game engine

@@ -1,6 +1,9 @@
 import { TransformComponent } from "../components";
 import { ISystem } from "./ISystem";
 
+/**
+ * @category Systems
+ */
 export class HierarchySystem implements ISystem {
     public readonly world: TransformComponent[] = [];
     
