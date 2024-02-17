@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.7.0...sparkengineweb-v0.7.1) (2024-02-17)
+
+
+### Features
+
+* **ecs:** add entities type metadata ([#131](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/131)) ([1a9a2e7](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1a9a2e72edc2af9cade9a6f012758440c9d7711b))
+* **ecs:** add scene loading from file ([#133](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/133)) ([1ca5619](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1ca5619ef3cd763f34d0ba822cf2e7e5f363669e))
+
 ## [0.7.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.6.0...sparkengineweb-v0.7.0) (2024-02-12)
 
 
