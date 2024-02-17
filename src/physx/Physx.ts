@@ -32,6 +32,9 @@ export interface PhysicsObject {
     isContainer?: boolean;
 }
 
+/**
+ * @category Physx
+ */
 export interface OnCollisionCallbackParams {
     otherObject: PhysicsObject;
 
@@ -44,6 +47,9 @@ export interface OnCollisionCallbackParams {
     postSimulation: PhysicsObject;
 }
 
+/**
+ * @category Physx
+ */
 export interface PhysicalObjectCallbackAggregate {
     /**
      * The object to push in the Physical World
@@ -58,13 +64,9 @@ export interface PhysicalObjectCallbackAggregate {
     onCollisionCallback: (params: OnCollisionCallbackParams) => void;
 }
 
-enum CollisionQuadrant {
-    TopLeft = 1,
-    TopRight,
-    BottomLeft,
-    BottomRight
-}
-
+/**
+ * @category Physx
+ */
 export class Physx {
     private _physicalWorld: PhysicalObjectCallbackAggregate[] = [];
 

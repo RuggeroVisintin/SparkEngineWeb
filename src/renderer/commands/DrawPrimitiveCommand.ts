@@ -3,8 +3,9 @@ import { CanvasDevice } from "../../platform";
 import { PrimitiveType, RenderCommand, RenderCommandID } from "./RenderCommand";
 
 /**
- * @category Renderer
  * Draws a primitive (Rectangle)
+ * 
+ * @category Renderer
  */
 export class DrawPrimitiveCommand implements RenderCommand {
     public readonly renderCommandID: RenderCommandID = RenderCommandID.RC_DrawPrimitive;
