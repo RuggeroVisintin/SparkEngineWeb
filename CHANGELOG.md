@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.7.1...sparkengineweb-v0.7.2) (2024-02-18)
+
+
+### Features
+
+* **ecs:** add default entity name with automatic incremental uniqueness ([#146](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/146)) ([60c7b08](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/60c7b084d08f422ce160eae625ebf5dd8ab51c4b))
+
+
+### Bug Fixes
+
+* **engine:** fix stuttering due to incorrect framepacing ([#149](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/149)) ([fbefc1e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/fbefc1e12be80ba5e39ae1bc64f45517a285a4e5))
+
 ## [0.7.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.7.0...sparkengineweb-v0.7.1) (2024-02-17)
 
 
