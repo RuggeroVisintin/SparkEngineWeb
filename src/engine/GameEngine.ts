@@ -30,6 +30,7 @@ export interface GameEngineOptions {
  */
 export class GameEngine {
     private readonly frametime: number;
+    private lastTick: number = 0;
 
     public readonly renderSystem: RenderSystem;
     public readonly physicsSystem: PhysicsSystem;
@@ -51,7 +52,7 @@ export class GameEngine {
      * @param config - The configuration to use for this instance of GameEngine
      */
     constructor(config: GameEngineOptions) {
-        this.frametime = Math.abs(1000 / config.framerate);
+        this.frametime = parseFloat((1000 / config.framerate).toFixed(2));
         this.context = config.context;
 
         this.physx = new Physx();
@@ -69,7 +70,8 @@ export class GameEngine {
      * Starts the main loop of the engine
      */
     public run(): void {
-        setInterval(() => this.tick(), this.frametime);
+        this.lastTick = performance.now();
+        this.tick();
     }
 
     public createScene(): Scene {
@@ -87,17 +89,25 @@ export class GameEngine {
     }
 
     private tick(): void {
+        requestAnimationFrame(this.tick.bind(this));
+
+        const currentTime = performance.now();
+        const elapsedTime = currentTime - this.lastTick;
+
+        if (elapsedTime < this.frametime) return;
+        
         this.inputSystem.update();
-
-        // Use frametime as delta time for now
-        this.hierarchySystem.update(this.frametime);
-
+        this.hierarchySystem.update(elapsedTime);
+        
         this.physicsSystem.update();
         this.physx.simulate();
-
+        
         this.soundSystem.update();
-
+        
         this.renderSystem.update();
         this.renderer.endFrame(this.context);
+
+        const excessTime = elapsedTime % this.frametime;
+        this.lastTick = currentTime - excessTime;
     }
 }
