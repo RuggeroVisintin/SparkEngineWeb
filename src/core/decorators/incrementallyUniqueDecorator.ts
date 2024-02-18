@@ -1,30 +1,24 @@
 const uniqueCounterMap: Record<string, number> = {};
 
-// export function IncrementallyUnique(value: string) {
-//     if (uniqueCounterMap[value] === undefined) {
-//         uniqueCounterMap[value] = 0;
-//         return value;
-//     }
+/** Decorator function */
+export function incrementallyUnique(value: string) {
+    if (uniqueCounterMap[value] === undefined) {
+        uniqueCounterMap[value] = 0;
+        return value;
+    }
 
-//     uniqueCounterMap[value]++;
+    uniqueCounterMap[value]++;
 
-//     return value + uniqueCounterMap[value];
-// }
+    return value + uniqueCounterMap[value];
+}
 
+/** Typescript decorator */
 export function IncrementallyUnique(target: any, key: string) {
     let property = target[key];
 
     const propertyObject = {
         set: (newValue: string) => {
-            property = newValue;
-
-            if (uniqueCounterMap[newValue] === undefined) {
-                uniqueCounterMap[newValue] = 0;
-                return;
-            }
-
-            uniqueCounterMap[newValue]++;
-            property = newValue + uniqueCounterMap[newValue]
+            property = incrementallyUnique(newValue);
         },
         get: () => property,
     }   
