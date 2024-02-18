@@ -6,6 +6,17 @@ describe('ecs/entities/BaseEntity', () => {
     beforeEach(() => {
         baseEntity = new BaseEntity();
     });
+
+    describe('.constructor()', () => { 
+        it('Should have a name mathcing the entity type by default', () => {
+            expect(baseEntity.name).toEqual('BaseEntity1');
+        });
+
+        it('Should use an incrementally unique game if more entities with the same name exist and default name is used', () => {    
+            const currentCount = parseInt(baseEntity.name.split('BaseEntity')[1]);
+            expect(new BaseEntity().name).toEqual('BaseEntity' +  (currentCount + 1));
+        })
+    })
     
     describe('.addComponent()', () => {
         it('Should add component to entity', () => {
