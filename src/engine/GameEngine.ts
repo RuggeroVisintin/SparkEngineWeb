@@ -92,12 +92,12 @@ export class GameEngine {
         requestAnimationFrame(this.tick.bind(this));
 
         const currentTime = performance.now();
-        const ellapsedTime = currentTime - this.lastTick;
+        const elapsedTime = currentTime - this.lastTick;
 
-        if (ellapsedTime < this.frametime) return;
+        if (elapsedTime < this.frametime) return;
         
         this.inputSystem.update();
-        this.hierarchySystem.update(ellapsedTime);
+        this.hierarchySystem.update(elapsedTime);
         
         this.physicsSystem.update();
         this.physx.simulate();
@@ -107,7 +107,7 @@ export class GameEngine {
         this.renderSystem.update();
         this.renderer.endFrame(this.context);
 
-        const excessTime = ellapsedTime % this.frametime;
+        const excessTime = elapsedTime % this.frametime;
         this.lastTick = currentTime - excessTime;
     }
 }
