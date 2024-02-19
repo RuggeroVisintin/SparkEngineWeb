@@ -8,6 +8,7 @@ src/**/*.d.ts
 
 .vscode
 .DS_Store
+.idea
 
 docs/
 .benchmark
