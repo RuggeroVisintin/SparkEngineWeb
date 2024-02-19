@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.7.2...sparkengineweb-v0.8.0) (2024-02-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ecs:** Removes `@IncrementallyUnique` property decorator due to buggy implementation. use `incrementallyUnique()` function instead
+
+### Features
+
+* **ecs:** implement entity unique name setter and getter ([#150](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/150)) ([935e887](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/935e887fc2e260b6fd0dc36b1dfbe58cfd3297e7))
+
 ## [0.7.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.7.1...sparkengineweb-v0.7.2) (2024-02-18)
 
 
