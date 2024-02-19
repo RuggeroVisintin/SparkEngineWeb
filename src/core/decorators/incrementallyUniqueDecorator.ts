@@ -21,7 +21,20 @@ export function IncrementallyUnique(target: any, key: string) {
             property = incrementallyUnique(newValue);
         },
         get: () => property,
-    }   
+    }
 
     Object.defineProperty(target, key, propertyObject);
+}
+
+export function ThrowIfNotUnique(target: any, key: string, descriptor: any) {
+    console.log('test')
+    const originalDescriptor = descriptor;
+    descriptor.set = function (value: string) {
+        if (uniqueCounterMap[value]) {
+            throw new Error(`${value} is already used`)
+        }
+        originalDescriptor.set(value);
+    };
+
+    return descriptor;
 }
