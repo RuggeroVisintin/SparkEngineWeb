@@ -29,7 +29,7 @@ Here you can find the list of commands. **Commands with the :ci flag are reserve
 * `npm run build:dev` to build the engine in development mode
 * `npm run build:docs` to build the documentation directory
 * `npm run clean` to clean the dist folder
-* `npm run serve:examples` to serve examples in a local webserver, getting rid of annoying CORS issues and similar. Requries `npm run build:*`
+* `npm run serve:examples` to serve examples in a local webserver, getting rid of annoying CORS issues and similar. Requires `npm run build:*`
 
 ## Usage
 
@@ -39,13 +39,13 @@ TBD
 
 You can add more examples in the [examples](./examples) folder. In order to correctly serve them, especially if you are having problems with CORS, see the `npm run serve:examples` command.
 
-or just vissit <https://ruggerovisintin.github.io/SparkEngineWeb/examples> for a ready to use version, updated to the latest release
+or just visit <https://ruggerovisintin.github.io/SparkEngineWeb/examples> for a ready to use version, updated to the latest release
 
 ## Contributing
 
 To contribute to the project just open a pull request. If you are working on an existing issue remember to link the pull request to it.
 
-Once opened a core maintinaer will review the PR and eventually approve it
+Once opened a core maintainer will review the PR and eventually approve it
 
 ## License
 
