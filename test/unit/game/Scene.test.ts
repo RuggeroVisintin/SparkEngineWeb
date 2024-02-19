@@ -122,6 +122,29 @@ describe('/game/Scene', () => {
                     }
                 }))
             ]);
+        });
+
+        it('Should load the entities name when loading a scene', async () => {
+            jest.spyOn(global, 'fetch').mockResolvedValue({
+                ...fetchMockData,
+                json: () => Promise.resolve({
+                    entities: {
+                        testEntity15: {
+                            __type: 'BaseEntity'
+                        },
+                        testEntity16: {
+                            __type: 'BaseEntity'
+                        },
+                    }
+                }),
+            });
+
+            await scene.load('test.scene.json');
+
+            console.log('entities', scene.entities.map(entity => entity.name))
+
+            expect(scene.entities[0].name).toEqual('testEntity15');
+            expect(scene.entities[1].name).toEqual('testEntity16');
         })
     })
 })

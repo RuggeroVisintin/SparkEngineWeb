@@ -49,7 +49,13 @@ export class Scene {
         const scene = await response.json();
 
         Object.entries(scene.entities).forEach(([name, value]) => {
-            const entity = createEntity(typeOf(value), value);
+            console.log('VALUE', value);
+
+            const entity = createEntity(typeOf(value), {
+                ...value as Record<string, any>,
+                name
+            });
+            
             this.registerEntity(entity);
         });
     }
