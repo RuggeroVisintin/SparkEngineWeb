@@ -25,7 +25,7 @@ export class StaticObject extends GameObject {
      * @param props - Optional components configuration
      */
     constructor(props?: StaticObjectProps) {
-        super();
+        super(props);
 
         this.boundingBox = new BoundingBoxComponent(props?.boundingBox);
         

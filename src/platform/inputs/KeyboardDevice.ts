@@ -51,9 +51,8 @@ export class KeyboardDevice {
     }
 
     public update(): void {       
-        this._listeners.forEach(listener => listener(this._keyStatusMap))
+        this._listeners.forEach(listener => listener(this._keyStatusMap));
         
-
         // Empty listeners after every update
         this._listeners = [];
     }

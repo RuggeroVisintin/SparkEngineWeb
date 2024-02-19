@@ -24,7 +24,7 @@ export class Scene {
      * @param entity - The entity to register
      */
     public registerEntity(entity: IEntity) {
-        this.entities.push(entity);
+        this.entities.push(entity);        
 
         // TODO: add entity.getComponents<T> and iterate through each component and register it
         const shape = entity.getComponent<ShapeComponent>('ShapeComponent');
@@ -49,7 +49,11 @@ export class Scene {
         const scene = await response.json();
 
         Object.entries(scene.entities).forEach(([name, value]) => {
-            const entity = createEntity(typeOf(value), value);
+            const entity = createEntity(typeOf(value), {
+                ...value as Record<string, any>,
+                name
+            });
+            
             this.registerEntity(entity);
         });
     }

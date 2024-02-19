@@ -1,6 +1,6 @@
 {
     "entities": {
-        "testEntity1": {
+        "testEntity5": {
             "__type": "GameObject",
             "transform": {
                 "position": {
@@ -13,7 +13,7 @@
                 }
             }
         },
-        "testEntity2": {
+        "testEntity6": {
             "__type": "GameObject",
             "transform": {
                 "position": {

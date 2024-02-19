@@ -1,11 +1,11 @@
 import { Type } from "../../core";
 import { MaterialComponent, MaterialComponentProps, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps } from "../components";
-import { BaseEntity } from "./BaseEntity";
+import { BaseEntity, BaseEntityProps } from "./BaseEntity";
 
 /**
  * @category Entities
  */
-export interface GameObjectProps {
+export interface GameObjectProps extends BaseEntityProps {
     /**
      * The configuration of the transform component. 
      * Uses default transform config if not set
@@ -37,7 +37,7 @@ export class GameObject extends BaseEntity {
      * @param props - Optional components configuration
      */
     constructor(props?: GameObjectProps) {
-        super();
+        super(props);
 
         this.transform = new TransformComponent(props?.transform);
         this.shape = new ShapeComponent(props?.shape);

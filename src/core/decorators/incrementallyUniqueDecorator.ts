@@ -12,16 +12,23 @@ export function incrementallyUnique(value: string) {
     return value + uniqueCounterMap[value];
 }
 
-/** Typescript decorator */
-export function IncrementallyUnique(target: any, key: string) {
-    let property = target[key];
+export function throwIfNotUnique(value: string) {
+    if (uniqueCounterMap[value] !== undefined) {
+        throw new Error(`${value} is already used`);
+    }
 
-    const propertyObject = {
-        set: (newValue: string) => {
-            property = incrementallyUnique(newValue);
-        },
-        get: () => property,
-    }   
+    uniqueCounterMap[value] = 0;
+}
 
-    Object.defineProperty(target, key, propertyObject);
+export function ThrowIfNotUnique(target: any, key: string, descriptor: PropertyDescriptor) {
+    descriptor = descriptor || {};
+    const prevSet = descriptor.set;
+
+    descriptor.set = function (this: any, newValue) {
+        throwIfNotUnique(newValue);
+
+        if (prevSet) prevSet.call(this, newValue);
+    }
+    
+    return descriptor;
 }
