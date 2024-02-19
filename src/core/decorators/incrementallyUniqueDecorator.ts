@@ -25,3 +25,17 @@ export function IncrementallyUnique(target: any, key: string) {
 
     Object.defineProperty(target, key, propertyObject);
 }
+
+export function ThrowIfNotUnique(target: any, key: string, descriptor: PropertyDescriptor) {
+    const originalSetter = descriptor.set;
+
+    descriptor.set = (newValue: string) => {
+        if (uniqueCounterMap[newValue] !== undefined) {
+            throw new Error(`${newValue} is already used`);
+        }
+
+        originalSetter?.apply(target, [newValue]);
+    };
+
+    return descriptor;
+}

@@ -42,4 +42,15 @@ describe('ecs/entities/BaseEntity', () => {
             expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toEqual(testComponent);
         })
     })
+
+     describe('set .name', () => {
+        it('Should throw if the name is not unique', () => {
+            const entity1 = new BaseEntity();
+            const entity2 = new BaseEntity();
+
+            entity1.name = 'testName';
+
+            expect(() => entity2.name = 'testName').toThrow('testName is already used');
+        })
+    })
 })

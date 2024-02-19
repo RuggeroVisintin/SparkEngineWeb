@@ -1,4 +1,4 @@
-import { IncrementallyUnique, Type, typeOf } from "../../core";
+import { IncrementallyUnique, ThrowIfNotUnique, Type, typeOf } from "../../core";
 import { IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
@@ -12,8 +12,9 @@ export class BaseEntity implements IEntity {
     @IncrementallyUnique
     private _name: string = typeOf(this);
 
-    public set name(value: string) { 
-        // TODO: should throw error when name already exists
+    @ThrowIfNotUnique
+    public set name(value: string) {
+        this._name = value;
     }
 
     public get name(): string {
