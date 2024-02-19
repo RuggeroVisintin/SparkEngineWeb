@@ -1,5 +1,5 @@
 import { fetchMockData } from "../__mocks__/Fetch";
-import { CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, Vec2 } from "../../../src"
+import { CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, TransformComponent, Vec2 } from "../../../src"
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
 jest.mock('uuid', () => ({
@@ -86,8 +86,14 @@ describe('/game/Scene', () => {
             await scene.load('test.scene.json');
 
             expect(scene.entities).toEqual([
-                expect.objectContaining(new GameObject()),
-                expect.objectContaining(new GameObject())
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity1',
+                }),
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity2',
+                })
             ]);
         })
 
@@ -100,27 +106,31 @@ describe('/game/Scene', () => {
             await scene.load('test.scene.json');
 
             expect(scene.entities).toEqual([
-                expect.objectContaining(new GameObject({
-                    transform: {
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity5',
+                    transform: expect.objectContaining({
                         position: new Vec2(1, 2),
                         size: { width: 100, height: 50 }
-                    },
-                    shape: {
+                    }),
+                    shape: expect.objectContaining({
                         shapeType: PrimitiveType.Rectangle
-                    }
-                })),
-                expect.objectContaining(new GameObject({
-                    transform: {
+                    })
+                }),
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity6',
+                    transform: expect.objectContaining({
                         position: new Vec2(10, 20),
                         size: { width: 100, height: 50 }
-                    },
-                    shape: {
+                    }),
+                    shape: expect.objectContaining({
                         shapeType: PrimitiveType.Rectangle
-                    },
-                    material: {
+                    }),
+                    material: expect.objectContaining({
                         diffuseColor: new Rgb(255)
-                    }
-                }))
+                    })
+                })
             ]);
         });
 
@@ -140,8 +150,6 @@ describe('/game/Scene', () => {
             });
 
             await scene.load('test.scene.json');
-
-            console.log('entities', scene.entities.map(entity => entity.name))
 
             expect(scene.entities[0].name).toEqual('testEntity15');
             expect(scene.entities[1].name).toEqual('testEntity16');

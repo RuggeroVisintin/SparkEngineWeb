@@ -1,4 +1,4 @@
-import { IncrementallyUnique, ThrowIfNotUnique, Type, typeOf } from "../../core";
+import { ThrowIfNotUnique, Type, incrementallyUnique, throwIfNotUnique, typeOf } from "../../core";
 import { IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
@@ -10,22 +10,23 @@ export interface BaseEntityProps {
  * @category Entities
  */
 @Type('BaseEntity')
-export class BaseEntity implements IEntity, BaseEntityProps {
+export class BaseEntity implements IEntity {
     private components: Map<string, IComponent> = new Map();
 
-    @IncrementallyUnique
-    private _name: string = typeOf(this);
+    private _name: string = '';
 
     constructor(props?: BaseEntityProps) {
-        console.log('BASE ENTITY CONSTRUCTOR', props);
-
         if (props?.name) {
             this.name = props.name;
+        } else {
+            this._name = incrementallyUnique(typeOf(this));
         }
     }
 
     @ThrowIfNotUnique
     public set name(value: string) {
+        // throwIfNotUnique(value);
+
         this._name = value;
     }
 
