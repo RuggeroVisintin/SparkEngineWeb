@@ -10,7 +10,15 @@ export class BaseEntity implements IEntity {
     private components: Map<string, IComponent> = new Map();
 
     @IncrementallyUnique
-    public readonly name: string = typeOf(this);
+    private _name: string = typeOf(this);
+
+    public set name(value: string) { 
+        // TODO: should throw error when name already exists
+    }
+
+    public get name(): string {
+        return this._name;
+    }
 
     /**
      * Adds a component to this entity.
