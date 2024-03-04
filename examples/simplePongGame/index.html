@@ -150,6 +150,20 @@
             }
         }
 
+        rightRaquette.boundingBox.onCollisionCb = (({ collider, postSimulation }) => {
+            if (collider.uuid === worldBoundingBox.boundingBox.uuid) {
+                rightRaquette.transform.position.y = postSimulation.aabb[1];
+                rightRaquette.transform.velocity = new SparkEngine.Vec2();
+            }
+        })
+
+        leftRaquette.boundingBox.onCollisionCb = (({ collider, postSimulation }) => {
+            if (collider.uuid === worldBoundingBox.boundingBox.uuid) {
+                leftRaquette.transform.position.y = postSimulation.aabb[1]
+                leftRaquette.transform.velocity = new SparkEngine.Vec2();
+            }
+        })
+
         engine.run();
     </script>
 </body>
