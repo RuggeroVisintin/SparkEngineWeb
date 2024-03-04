@@ -81,9 +81,11 @@ export class Physx {
     public simulate(): void {
         this.physicalWorld.forEach((physicalObject, idx) => {
             this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
+                if (idx === otherIdx) return;
+
                 const postSimulationObject = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
 
-                if (idx !== otherIdx && postSimulationObject) {
+                if (postSimulationObject) {
                     physicalObject.onCollisionCallback({
                         otherObject: otherPhysicalObject.object,
                         postSimulation: postSimulationObject
@@ -175,7 +177,7 @@ export class Physx {
         const yh2 = yv2 + h2;
 
         const result: PhysicsObject = {
-            uuid: container.uuid,
+            uuid: objectB.uuid,
             aabb: [...objectB.aabb],
             velocity: new Vec2()
         }
