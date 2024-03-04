@@ -338,7 +338,7 @@ describe('physx/Physx', () => {
                 }));
             })
 
-            it.only.each([[
+            it.each([[
                 'case RIGHT',
                 new Vec2(5),
                 [293, 75, 5, 5],
