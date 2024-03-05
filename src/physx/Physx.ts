@@ -105,7 +105,7 @@ export class Physx {
     }
 
     private checkCollisionClassic(objectA: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
-        // swept AABB
+        // TODO: implement swept AABB
         const [x1, y1, w1, h1] = objectA.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
 
