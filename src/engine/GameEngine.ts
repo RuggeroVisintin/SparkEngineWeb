@@ -97,18 +97,20 @@ export class GameEngine {
         if (elapsedTime < this.frametime) return;
         
         this.inputSystem.update();
+        this.soundSystem.update();
         
         this.physicsSystem.update();
         this.physx.simulate();
         
-        this.hierarchySystem.update(elapsedTime);
+        setTimeout(() => {
+            this.hierarchySystem.update(elapsedTime);
+            
+            this.renderSystem.update();
+            this.renderer.endFrame(this.context);
 
-        this.soundSystem.update();
+            const excessTime = elapsedTime % this.frametime;
+            this.lastTick = currentTime - excessTime;
+        }, 5)
         
-        this.renderSystem.update();
-        this.renderer.endFrame(this.context);
-
-        const excessTime = elapsedTime % this.frametime;
-        this.lastTick = currentTime - excessTime;
     }
 }

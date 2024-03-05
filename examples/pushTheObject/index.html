@@ -1,0 +1,85 @@
+<html>
+
+<body>
+    <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
+    <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
+    <script>
+        const context = document.getElementById('canvas').getContext('2d');
+        const engine = new SparkEngine.GameEngine({
+            context,
+            framerate: 30,
+            resolution: { width: 1920, height: 1080 }
+        });
+
+        const scene = engine.createScene();
+
+        const leftWall = new SparkEngine.StaticObject();
+        leftWall.transform.size = { width: 20, height: 150 };
+        leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        leftWall.boundingBox.matchContainerTransform = true;
+
+        const rightWall = new SparkEngine.StaticObject();
+        rightWall.transform.size = { width: 20, height: 150 };
+        rightWall.transform.position = new SparkEngine.Vec2(280, 0);
+        rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
+        rightWall.boundingBox.matchContainerTransform = true;
+
+        const player = new SparkEngine.StaticObject();
+        player.transform.size = { width: 10, height: 10 };
+        player.transform.position = new SparkEngine.Vec2(25, 25);
+        player.boundingBox.matchContainerTransform = true;
+        player.material.diffuseColor = new SparkEngine.Rgb(0, 0, 0);
+
+        const playerController = new SparkEngine.InputComponent();
+        player.addComponent(playerController);
+
+        playerController.onInputEventCb = (({ KeyW, KeyS, KeyA, KeyD }) => {
+            const parentTransform = playerController.getContainer().getComponent('TransformComponent');
+
+            if (KeyW === SparkEngine.KeyStatus.Down) {
+                parentTransform.velocity.y = -2;
+            } else if (KeyS === SparkEngine.KeyStatus.Down) {
+                parentTransform.velocity.y = 2;
+            } else {
+                parentTransform.velocity.y = 0;
+
+            }
+
+            if (KeyD === SparkEngine.KeyStatus.Down) {
+                parentTransform.velocity.x = 2;
+                isInput = true;
+            } else if (KeyA === SparkEngine.KeyStatus.Down) {
+                parentTransform.velocity.x = -2;
+                isInput = true;
+            } else {
+                parentTransform.velocity.x = -0;
+            }
+
+        });
+
+
+        const movableObject = new SparkEngine.StaticObject();
+        movableObject.transform.size = { width: 30, height: 30 };
+        movableObject.transform.position = new SparkEngine.Vec2(55, 55);
+        movableObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        movableObject.boundingBox.matchContainerTransform = true;
+
+        movableObject.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
+            movableObject.transform.position = new SparkEngine.Vec2(postSimulation.aabb[0], postSimulation.aabb[1]);
+        }
+
+        player.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
+            player.transform.position = new SparkEngine.Vec2(postSimulation.aabb[0], postSimulation.aabb[1]);
+        }
+
+        scene.registerEntity(movableObject);
+        scene.registerEntity(leftWall);
+        scene.registerEntity(rightWall);
+        scene.registerEntity(player);
+
+
+        engine.run();
+    </script>
+</body>
+
+</html>
