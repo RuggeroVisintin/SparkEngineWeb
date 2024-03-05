@@ -1,9 +1,6 @@
 import { Vec2 } from "../core";
-
-/**
- * @category Physx
- */
-export type AABB = [number, number, number, number];
+import { AAABBResolver } from "./resolvers/aabbResolver";
+import { AABB } from "./types";
 
 /**
  * @category Physx
@@ -108,8 +105,14 @@ export class Physx {
     }
 
     private checkCollisionClassic(objectA: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
+        // swept AABB
         const [x1, y1, w1, h1] = objectA.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;
+
+        const xv1 = x1 + objectA.velocity.x;
+        const yv1 = y1 + objectA.velocity.y;
+        const xv2 = x2 + objectB.velocity.x;
+        const yv2 = y2 + objectB.velocity.y;
 
         const xw1 = x1 + w1;
         const yh1 = y1 + h1;
@@ -121,40 +124,43 @@ export class Physx {
             ...objectA
         }
 
+        // if(new AAABBResolver().resolve(objectA.aabb, objectB.aabb)) {}
+
         // normal collision detection
-        if (
-            x1 < xw2 &&
-            xw1 > x2 &&
-            y1 < yh2 &&
-            yh1 > y2
-        ) {
-            // TODO: this method is much more precise but does not take into account objectB velocity yet
-            // but does not have to if we iterate through all objects without keeping track of which we already computed
-            if (objectA.velocity.x > 0 && xw1 - objectA.velocity.x <= x2 && (yh1 - objectA.velocity.y > y2 || y1 + objectA.velocity.y > yh2)) {
-                const collisionCount = xw1 - x2;
-                result.aabb = [x1 - collisionCount, y1, w1, h1];
+        // TODO: this one has an issue with clipping
+        if(new AAABBResolver().resolve(objectA.aabb, objectB.aabb)) {
+            const overlapX = Math.min(xw1, xw2) - Math.max(x1, x2);
+            const overlapY = Math.min(yh1, yh2) - Math.max(y1, y2);
 
-                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                result.velocity.reflect(Vec2.LEFT);
-            } else if (objectA.velocity.x < 0 && x1 + objectA.velocity.x <= xw2 && (yh1 - objectA.velocity.y > y2 || y1 + objectA.velocity.y > yh2)) {
-                const collisionCount = xw2 - x1;
-                result.aabb = [x1 + collisionCount, y1, w1, h1];
-                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                
-                result.velocity.reflect(Vec2.RIGHT);
-            } else if (objectA.velocity.y > 0 && yh1 - objectA.velocity.y <= y2 && (xw1 - objectA.velocity.x > x2 || x1 + objectA.velocity.x > xw2)) {
-                const collisionCount = yh1 - y2;
-                result.aabb = [x1, y1 - collisionCount, w1, h1];
-                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+            if (overlapX < overlapY) {
+                if (x1 < x2) {
+                    const collisionCount = xw1 - x2;
+                    // result.aabb[0] = x2 - collisionCount;
 
-                result.velocity.reflect(Vec2.DOWN);
-            } else if (objectA.velocity.y < 0 && y1 + objectA.velocity.y <= yh2 && (xw1 - objectA.velocity.x > x2 || x1 + objectA.velocity.x > xw2)) {
-                const collisionCount = yh2 - y1;
-                result.aabb = [x1, y1 + collisionCount, w1, h1];
+                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+                    result.velocity.reflect(Vec2.LEFT);
+                } else {
+                    const collisionCount = xw2 - x1;
+                    // result.aabb[0] = x1 + collisionCount;
+                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+                    
+                    result.velocity.reflect(Vec2.RIGHT);
+                }
+            } else {
+                if (y1 < y2) {
+                    const collisionCount = yh1 - y2;
+                    // result.aabb[1] = y1 - collisionCount;
+                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
 
-                result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                result.velocity.reflect(Vec2.UP);
-            }  
+                    result.velocity.reflect(Vec2.UP);
+                } else {
+                    const collisionCount = yh2 - y1;
+                    // result.aabb[1] = y1 + collisionCount;
+                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
+
+                    result.velocity.reflect(Vec2.DOWN);
+                }
+            }
 
             return result;
         }
