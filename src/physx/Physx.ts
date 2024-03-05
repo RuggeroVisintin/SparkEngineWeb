@@ -198,19 +198,15 @@ export class Physx {
             const rightCollisionCount = xw2 - xw1;
 
             if (rightCollisionCount > 0 && rightCollisionCount > topCollisionCount && rightCollisionCount > bottomCollisionCount) {
-                result.aabb[0] = x2 - (rightCollisionCount % objectB.velocity.x || rightCollisionCount);
+                result.aabb[0] = x2 - (rightCollisionCount % objectB.velocity.x);
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.LEFT);
             } else if (leftCollisionCount > 0 && leftCollisionCount > topCollisionCount && leftCollisionCount > bottomCollisionCount) {
-                // velocity is negative, so negative times negative makes it positive
-                // Collision count has to be summed since velocity is negative and collision count always positive
                 result.aabb[0] = x1 - (objectB.velocity.x % leftCollisionCount);
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.RIGHT);
             } else if (topCollisionCount > 0 && topCollisionCount > leftCollisionCount && topCollisionCount > rightCollisionCount) {
-                // velocity is negative, so negative times negative makes it positive
-                // Collision count has to be summed since velocity is negative and collision count always positive
-                result.aabb[1] = y1 + (topCollisionCount % objectB.velocity.y || topCollisionCount);
+                result.aabb[1] = y1 + (topCollisionCount % objectB.velocity.y);
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.DOWN);
             } else if (bottomCollisionCount > 0 && bottomCollisionCount > leftCollisionCount && bottomCollisionCount > rightCollisionCount) {      
