@@ -121,7 +121,9 @@ export class Physx {
         const yh2 = y2 + h2;
 
         const result: PhysicsObject = {
-            ...objectA
+            uuid: objectA.uuid,
+            aabb: [...objectA.aabb],
+            velocity: objectA.velocity
         }
 
         // if(new AAABBResolver().resolve(objectA.aabb, objectB.aabb)) {}
@@ -135,29 +137,25 @@ export class Physx {
             if (overlapX < overlapY) {
                 if (x1 < x2) {
                     const collisionCount = xw1 - x2;
-                    // result.aabb[0] = x2 - collisionCount;
-
+                    result.aabb[0] = x1 - (collisionCount % objectA.velocity.x || collisionCount);
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                     result.velocity.reflect(Vec2.LEFT);
                 } else {
                     const collisionCount = xw2 - x1;
-                    // result.aabb[0] = x1 + collisionCount;
+                    result.aabb[0] = x1 + (collisionCount % objectA.velocity.x || collisionCount);
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                    
                     result.velocity.reflect(Vec2.RIGHT);
                 }
             } else {
                 if (y1 < y2) {
                     const collisionCount = yh1 - y2;
-                    // result.aabb[1] = y1 - collisionCount;
+                    result.aabb[1] = y1 - (collisionCount % objectA.velocity.y || collisionCount);
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-
                     result.velocity.reflect(Vec2.UP);
                 } else {
                     const collisionCount = yh2 - y1;
-                    // result.aabb[1] = y1 + collisionCount;
+                    result.aabb[1] = y1 + (collisionCount % objectA.velocity.y || collisionCount);
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-
                     result.velocity.reflect(Vec2.DOWN);
                 }
             }
@@ -200,19 +198,19 @@ export class Physx {
             const rightCollisionCount = xw2 - xw1;
 
             if (rightCollisionCount > 0 && rightCollisionCount > topCollisionCount && rightCollisionCount > bottomCollisionCount) {
-                result.aabb[0] = x2 - (rightCollisionCount % objectB.velocity.x);
+                result.aabb[0] = x2 - (rightCollisionCount % objectB.velocity.x || rightCollisionCount);
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.LEFT);
             } else if (leftCollisionCount > 0 && leftCollisionCount > topCollisionCount && leftCollisionCount > bottomCollisionCount) {
                 // velocity is negative, so negative times negative makes it positive
                 // Collision count has to be summed since velocity is negative and collision count always positive
-                result.aabb[0] = x1 - (objectB.velocity.x + leftCollisionCount);
+                result.aabb[0] = x1 - (objectB.velocity.x % leftCollisionCount);
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.RIGHT);
             } else if (topCollisionCount > 0 && topCollisionCount > leftCollisionCount && topCollisionCount > rightCollisionCount) {
                 // velocity is negative, so negative times negative makes it positive
                 // Collision count has to be summed since velocity is negative and collision count always positive
-                result.aabb[1] = y1 + (topCollisionCount % objectB.velocity.y);
+                result.aabb[1] = y1 + (topCollisionCount % objectB.velocity.y || topCollisionCount);
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.DOWN);
             } else if (bottomCollisionCount > 0 && bottomCollisionCount > leftCollisionCount && bottomCollisionCount > rightCollisionCount) {      
