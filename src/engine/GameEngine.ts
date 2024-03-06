@@ -97,12 +97,14 @@ export class GameEngine {
         if (elapsedTime < this.frametime) return;
         
         this.inputSystem.update();
-        this.soundSystem.update();
+        
+        this.hierarchySystem.update(elapsedTime);
         
         this.physicsSystem.update();
         this.physx.simulate();
-        
-        this.hierarchySystem.update(elapsedTime);
+
+        this.soundSystem.update();
+        // this.hierarchySystem.update(elapsedTime);
             
         this.renderSystem.update();
         this.renderer.endFrame(this.context);
