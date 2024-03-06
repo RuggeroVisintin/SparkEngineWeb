@@ -341,27 +341,27 @@ describe('physx/Physx', () => {
             it.each([[
                 'case RIGHT',
                 new Vec2(5),
-                [293, 75, 5, 5],
+                [297, 75, 5, 5],
                 [0, 0, 300, 150],
-                [290, 75, 5, 5]
+                [295, 75, 5, 5]
             ], [
                 'case UP',
                 new Vec2(0, -5),
-                [75, 4, 5, 5],
+                [75, -2, 5, 5],
                 [0, 0, 300, 150],
-                [75, 1, 5, 5]
+                [75, 0, 5, 5]
             ], [
                 'case DOWN',
                 new Vec2(0, 5),
-                [75, 141, 5, 5],
+                [75, 146, 5, 5],
                 [0, 0, 300, 150],
-                [75, 137, 5, 5]
+                [75, 145, 5, 5]
             ], [
                 'case LEFT',
                 new Vec2(-5),
-                [2, 0, 10, 10],
+                [-2, 0, 10, 10],
                 [0, 0, 10, 10],
-                [2, 0, 10, 10]
+                [0, 0, 10, 10]
             ]])('%s) Should return the position of the colliding object based on the collision', (_, velocity, a, b, result) => {
                 const physicsObject: PhysicalObjectCallbackAggregate = {
                     object: {
