@@ -136,25 +136,21 @@ export class Physx {
 
             if (overlapX < overlapY) {
                 if (x1 < x2) {
-                    const collisionCount = xw1 - x2;
-                    result.aabb[0] = x1 - (collisionCount % objectA.velocity.x || collisionCount);
+                    result.aabb[0] = x1 - overlapX;
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                     result.velocity.reflect(Vec2.LEFT);
                 } else {
-                    const collisionCount = xw2 - x1;
-                    result.aabb[0] = x1 + (collisionCount % objectA.velocity.x || collisionCount);
+                    result.aabb[0] = x1 + overlapX;
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                     result.velocity.reflect(Vec2.RIGHT);
                 }
             } else {
                 if (y1 < y2) {
-                    const collisionCount = yh1 - y2;
-                    result.aabb[1] = y1 - (collisionCount % objectA.velocity.y || collisionCount);
+                    result.aabb[1] = y1 - overlapY;
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                     result.velocity.reflect(Vec2.UP);
                 } else {
-                    const collisionCount = yh2 - y1;
-                    result.aabb[1] = y1 + (collisionCount % objectA.velocity.y || collisionCount);
+                    result.aabb[1] = y1 + overlapY;
                     result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                     result.velocity.reflect(Vec2.DOWN);
                 }

@@ -102,15 +102,12 @@ export class GameEngine {
         this.physicsSystem.update();
         this.physx.simulate();
         
-        setTimeout(() => {
-            this.hierarchySystem.update(elapsedTime);
+        this.hierarchySystem.update(elapsedTime);
             
-            this.renderSystem.update();
-            this.renderer.endFrame(this.context);
+        this.renderSystem.update();
+        this.renderer.endFrame(this.context);
 
-            const excessTime = elapsedTime % this.frametime;
-            this.lastTick = currentTime - excessTime;
-        }, 5)
-        
+        const excessTime = elapsedTime % this.frametime;
+        this.lastTick = currentTime - excessTime;
     }
 }
