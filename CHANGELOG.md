@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.8.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.0...sparkengineweb-v0.8.1) (2024-03-06)
+
+
+### Features
+
+* **physx:** add post simulation position on container collision ([#171](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/171)) ([e9b92dc](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/e9b92dc476951e0974ff088d88e54cc003c88e31))
+* **physx:** improve collisions detection and resolution ([bca7507](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bca75078f956a90d1cda0f6ebb43f40191827d0f))
+
+
+### Bug Fixes
+
+* **physx:** fix wrong uuid being used in post simulation and avoid unnecessary collision check ([b93c447](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b93c44714654985ec16b7116b14283495097316f))
+
 ## [0.8.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.7.2...sparkengineweb-v0.8.0) (2024-02-19)
 
 
