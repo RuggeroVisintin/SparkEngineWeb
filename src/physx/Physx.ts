@@ -66,6 +66,7 @@ export interface PhysicalObjectCallbackAggregate {
  */
 export class Physx {
     private _physicalWorld: PhysicalObjectCallbackAggregate[] = [];
+    private readonly _resolver: AAABBResolver = new AAABBResolver();
 
     public get physicalWorld(): PhysicalObjectCallbackAggregate[] {
         return this._physicalWorld;
@@ -101,65 +102,7 @@ export class Physx {
             return this.checkCollisionContainer(objectB, objectA);
         }
 
-        return this.checkCollisionClassic(objectA, objectB);
-    }
-
-    private checkCollisionClassic(objectA: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
-        // TODO: implement swept AABB
-        const [x1, y1, w1, h1] = objectA.aabb;
-        const [x2, y2, w2, h2] = objectB.aabb;
-
-        const xv1 = x1 + objectA.velocity.x;
-        const yv1 = y1 + objectA.velocity.y;
-        const xv2 = x2 + objectB.velocity.x;
-        const yv2 = y2 + objectB.velocity.y;
-
-        const xw1 = x1 + w1;
-        const yh1 = y1 + h1;
-
-        const xw2 = x2 + w2;
-        const yh2 = y2 + h2;
-
-        const result: PhysicsObject = {
-            uuid: objectA.uuid,
-            aabb: [...objectA.aabb],
-            velocity: objectA.velocity
-        }
-
-        // if(new AAABBResolver().resolve(objectA.aabb, objectB.aabb)) {}
-
-        // normal collision detection
-        // TODO: this one has an issue with clipping
-        if(new AAABBResolver().resolve(objectA.aabb, objectB.aabb)) {
-            const overlapX = Math.min(xw1, xw2) - Math.max(x1, x2);
-            const overlapY = Math.min(yh1, yh2) - Math.max(y1, y2);
-
-            if (overlapX < overlapY) {
-                if (x1 < x2) {
-                    result.aabb[0] = x1 - overlapX;
-                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                    result.velocity.reflect(Vec2.LEFT);
-                } else {
-                    result.aabb[0] = x1 + overlapX;
-                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                    result.velocity.reflect(Vec2.RIGHT);
-                }
-            } else {
-                if (y1 < y2) {
-                    result.aabb[1] = y1 - overlapY;
-                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                    result.velocity.reflect(Vec2.UP);
-                } else {
-                    result.aabb[1] = y1 + overlapY;
-                    result.velocity = new Vec2(result.velocity.x, result.velocity.y);
-                    result.velocity.reflect(Vec2.DOWN);
-                }
-            }
-
-            return result;
-        }
-
-        return null;
+        return this._resolver.test(objectA, objectB) ? this._resolver.resolve(objectA, objectB) : null;
     }
 
     private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
