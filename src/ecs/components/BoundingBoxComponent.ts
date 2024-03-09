@@ -1,5 +1,5 @@
 import { Type, Vec2 } from "../../core";
-import { Physx } from "../../physx";
+import { PhysicalObjectCallbackAggregate, PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
 import { CollisionCallback, CollisionCallbackParams, ICollidableComponent } from "./interfaces";
@@ -79,15 +79,8 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
      * @param physx - the physics engine where to push the physical object for the next update cycle
      */
     public update(physx: Physx): void {
-        const velocity: Vec2 = this.getContainer()?.getComponent<TransformComponent>('TransformComponent')?.velocity ?? new Vec2();
-
         physx.pushPhysicalObject({
-            object: {
-                aabb: [this.aabb.x, this.aabb.y, this.aabb.width, this.aabb.height],
-                isContainer: this.isContainer,
-                uuid: this.uuid,
-                velocity
-            },
+            object: this.mapPhysicalObject(),
             onCollisionCallback: ({
                 otherObject,
                 postSimulation: simulationResult
@@ -98,7 +91,19 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
         });
     }
 
+    protected mapPhysicalObject(): PhysicsObject {
+        const velocity: Vec2 = this.getContainer()?.getComponent<TransformComponent>('TransformComponent')?.velocity ?? new Vec2();
+
+        return {
+            aabb: [this.aabb.x, this.aabb.y, this.aabb.width, this.aabb.height],
+            isContainer: this.isContainer,
+            uuid: this.uuid,
+            velocity
+        }
+    }
+    
     private onCollision(params: CollisionCallbackParams) { 
         this.onCollisionCb && this.onCollisionCb(params);
     }
+    
 }
