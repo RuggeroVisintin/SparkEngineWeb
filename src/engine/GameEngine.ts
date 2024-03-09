@@ -20,6 +20,11 @@ export interface GameEngineOptions {
      * The target resolution to use when rendering frames
      */
     resolution: { width: number; height: number };
+
+    /**
+     * The number of physics cycles to run per frame. Defaults to 2
+     */
+    physicsCycles?: number;
 }
 
 /**
@@ -30,6 +35,7 @@ export interface GameEngineOptions {
  */
 export class GameEngine {
     private readonly frametime: number;
+    private readonly physicsCycles: number;
     private lastTick: number = 0;
 
     public readonly renderSystem: RenderSystem;
@@ -53,6 +59,7 @@ export class GameEngine {
      */
     constructor(config: GameEngineOptions) {
         this.frametime = parseFloat((1000 / config.framerate).toFixed(2));
+        this.physicsCycles = config.physicsCycles ?? 2;
         this.context = config.context;
 
         this.physx = new Physx();
@@ -100,9 +107,11 @@ export class GameEngine {
         
         this.hierarchySystem.update(elapsedTime);
         
-        this.physicsSystem.update();
-        this.physx.simulate();
-
+        for (let i = 0; i < this.physicsCycles; i++) {
+            this.physicsSystem.update();
+            this.physx.simulate();
+        }
+       
         this.soundSystem.update();
         // this.hierarchySystem.update(elapsedTime);
             
