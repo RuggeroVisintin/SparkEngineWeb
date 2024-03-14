@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.1...sparkengineweb-v0.8.2) (2024-03-14)
+
+
+### Features
+
+* **ecs:** add RigidBodyComponent ([#191](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/191)) ([e64b4da](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/e64b4dab66c2425f338cbda03736f7b245fd75cf))
+* **engine:** add physics cycles configuration ([#186](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/186)) ([241b726](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/241b726c16b208e6a066886c564a13968bcc6767))
+
 ## [0.8.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.0...sparkengineweb-v0.8.1) (2024-03-06)
 
 
