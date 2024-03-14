@@ -1,0 +1,53 @@
+<html>
+
+<body>
+    <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
+    <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
+    <script>
+        const context = document.getElementById('canvas').getContext('2d');
+        const engine = new SparkEngine.GameEngine({
+            context,
+            framerate: 30,
+            resolution: { width: 1920, height: 1080 }
+        });
+
+        const scene = engine.createScene();
+
+        const leftWall = new SparkEngine.StaticObject();
+        leftWall.transform.size = { width: 20, height: 150 };
+        leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        leftWall.boundingBox.matchContainerTransform = true;
+
+        const rightWall = new SparkEngine.StaticObject();
+        rightWall.transform.size = { width: 20, height: 150 };
+        rightWall.transform.position = new SparkEngine.Vec2(280, 0);
+        rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
+        rightWall.boundingBox.matchContainerTransform = true;
+
+        const pingPongBall = new SparkEngine.GameObject();
+        pingPongBall.transform.size = { width: 20, height: 20 };
+        pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
+        pingPongBall.transform.velocity = new SparkEngine.Vec2(5);
+
+        const pingPongBB = new SparkEngine.RigidBodyComponent();
+        pingPongBB.matchContainerTransform = true;
+        pingPongBB.rebound = 0.5;
+
+        pingPongBB.onCollisionCb = ({ collider, postSimulation }) => {
+            pingPongBall.transform.position.x = postSimulation.aabb[0];
+            pingPongBall.transform.velocity = postSimulation.velocity;
+        }
+
+        pingPongBall.addComponent(pingPongBB);
+
+        scene.physicsSystem.registerComponent(pingPongBB)
+
+        scene.registerEntity(leftWall);
+        scene.registerEntity(rightWall);
+        scene.registerEntity(pingPongBall);
+
+        engine.run();
+    </script>
+</body>
+
+</html>

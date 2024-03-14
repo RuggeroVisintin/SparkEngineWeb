@@ -34,25 +34,31 @@ export class AAABBResolver {
         const overlapX = Math.min(xw1, xw2) - Math.max(x1, x2);
         const overlapY = Math.min(yh1, yh2) - Math.max(y1, y2);
 
+        const rebound = objectA.rebound ?? 1;
+
         if (overlapX < overlapY) {
             if (x1 < x2) {
                 result.aabb[0] = x1 - overlapX;
                 result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                 result.velocity.reflect(Vec2.LEFT);
+                result.velocity.multiply(rebound);
             } else {
                 result.aabb[0] = x1 + overlapX;
                 result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                 result.velocity.reflect(Vec2.RIGHT);
+                result.velocity.multiply(rebound);
             }
         } else {
             if (y1 < y2) {
                 result.aabb[1] = y1 - overlapY;
                 result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                 result.velocity.reflect(Vec2.UP);
+                result.velocity.multiply(rebound);
             } else {
                 result.aabb[1] = y1 + overlapY;
                 result.velocity = new Vec2(result.velocity.x, result.velocity.y);
                 result.velocity.reflect(Vec2.DOWN);
+                result.velocity.multiply(rebound);
             }
         }
 
