@@ -403,7 +403,7 @@ describe('physx/Physx', () => {
             }, {
                 rebound: 0.5,
                 result: new Vec2(2.5)
-            }])('Should take the rebound into account when computing the new velocity of the object', () => { 
+            }])('Should take the rebound into account when computing the new velocity of the object', ({rebound, result}) => { 
                 const velocity = new Vec2(5);
 
                 const physicsObject: PhysicalObjectCallbackAggregate = {
@@ -411,7 +411,7 @@ describe('physx/Physx', () => {
                         uuid: v4(),
                         aabb: <AABB>[0, 0, 5, 5],
                         velocity: velocity,
-                        rebound: 0
+                        rebound: rebound
                     },
                     onCollisionCallback: jest.fn(() => { }),
                 };
@@ -432,7 +432,7 @@ describe('physx/Physx', () => {
                 
                 expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                     postSimulation: expect.objectContaining({
-                        velocity: new Vec2(0)
+                        velocity: result
                     })
                 }));
             })
