@@ -6,3 +6,4 @@ export * from './MaterialComponent';
 export * from './BoundingBoxComponent';
 export * from './InputComponent';
 export * from './SoundComponent';
+export * from './RigidBodyComponent';

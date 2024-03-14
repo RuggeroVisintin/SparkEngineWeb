@@ -393,6 +393,49 @@ describe('physx/Physx', () => {
                     })
                 }));
             })
+
+            it.each([{
+                rebound: 1,
+                result: new Vec2(5)
+            }, {
+                rebound: 0,
+                result: new Vec2(0)
+            }, {
+                rebound: 0.5,
+                result: new Vec2(2.5)
+            }])('Should take the rebound into account when computing the new velocity of the object', () => { 
+                const velocity = new Vec2(5);
+
+                const physicsObject: PhysicalObjectCallbackAggregate = {
+                    object: {
+                        uuid: v4(),
+                        aabb: <AABB>[0, 0, 5, 5],
+                        velocity: velocity,
+                        rebound: 0
+                    },
+                    onCollisionCallback: jest.fn(() => { }),
+                };
+
+                const physicsObject2: PhysicalObjectCallbackAggregate = {
+                    object: {
+                        uuid: v4(),
+                        aabb: <AABB>[4, 4, 5, 5],
+                        velocity: velocity
+                    },
+                    onCollisionCallback: jest.fn(() => { }),
+                }
+
+                physx.pushPhysicalObject(physicsObject);
+                physx.pushPhysicalObject(physicsObject2);
+
+                physx.simulate();
+                
+                expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
+                    postSimulation: expect.objectContaining({
+                        velocity: new Vec2(0)
+                    })
+                }));
+            })
         })
     })
 })

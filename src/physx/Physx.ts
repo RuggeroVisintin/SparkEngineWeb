@@ -27,6 +27,13 @@ export interface PhysicsObject {
      * @default false
      */
     isContainer?: boolean;
+
+    /**
+     * The rebound of the object when colliding with other objects
+     * 
+     * @default 1
+     */
+    rebound?: number;
 }
 
 /**

@@ -54,7 +54,6 @@
             } else {
                 parentTransform.velocity.x = -0;
             }
-
         });
 
 
@@ -64,8 +63,18 @@
         movableObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         movableObject.boundingBox.matchContainerTransform = true;
 
+        const movableObjectWithRebound = new SparkEngine.StaticObject();
+        movableObjectWithRebound.transform.size = { width: 15, height: 15 };
+        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(70, 70);
+        movableObjectWithRebound.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
+        movableObjectWithRebound.boundingBox.matchContainerTransform = true;
+
         movableObject.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
             movableObject.transform.position = new SparkEngine.Vec2(postSimulation.aabb[0], postSimulation.aabb[1]);
+        }
+
+        movableObjectWithRebound.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
+            movableObjectWithRebound.transform.position = new SparkEngine.Vec2(postSimulation.aabb[0], postSimulation.aabb[1]);
         }
 
         player.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
@@ -73,6 +82,7 @@
         }
 
         scene.registerEntity(movableObject);
+        scene.registerEntity(movableObjectWithRebound);
         scene.registerEntity(leftWall);
         scene.registerEntity(rightWall);
         scene.registerEntity(player);
