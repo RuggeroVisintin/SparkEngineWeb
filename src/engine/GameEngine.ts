@@ -107,10 +107,8 @@ export class GameEngine {
         
         this.hierarchySystem.update(elapsedTime);
         
-        for (let i = 0; i < this.physicsCycles; i++) {
-            this.physicsSystem.update();
-            this.physx.simulate();
-        }
+        this.physicsSystem.update();
+        this.physx.simulate(this.physicsCycles);
        
         this.soundSystem.update();
         // this.hierarchySystem.update(elapsedTime);

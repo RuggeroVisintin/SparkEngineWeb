@@ -83,21 +83,36 @@ export class Physx {
         this._physicalWorld.push(object);
     }
 
-    public simulate(): void {
-        this.physicalWorld.forEach((physicalObject, idx) => {
-            this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
-                if (idx === otherIdx) return;
+    public simulate(cycles = 2): void {
+        let next: PhysicalObjectCallbackAggregate[] = [];
 
-                const postSimulationObject = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
+        for (let i = 0; i < cycles; i++) {
+            this.physicalWorld.forEach((physicalObject, idx) => {
+                let postSimulation;
 
-                if (postSimulationObject) {
-                    physicalObject.onCollisionCallback({
-                        otherObject: otherPhysicalObject.object,
-                        postSimulation: postSimulationObject
-                    });
-                };
-            })
-        });
+                this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
+                    if (idx === otherIdx) return;
+
+                    postSimulation = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
+
+                    if (postSimulation) {
+                        physicalObject.onCollisionCallback({
+                            otherObject: otherPhysicalObject.object,
+                            postSimulation: postSimulation
+                        });
+
+                    };
+                })
+
+                next.push({
+                    ...physicalObject,
+                    object: postSimulation || physicalObject.object,
+                })
+            });
+
+            this._physicalWorld = next;
+            next = [];
+        }
 
         this._physicalWorld = [];
     }
