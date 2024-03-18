@@ -1,4 +1,4 @@
-import { ThrowIfNotUnique, Type, incrementallyUnique, throwIfNotUnique, typeOf } from "../../core";
+import { ThrowIfNotUnique, Type, incrementallyUnique, throwIfNotUnique, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
@@ -40,7 +40,7 @@ export class BaseEntity implements IEntity {
      * @param component - the componnt to add to this entity
      */
     public addComponent(component: IComponent): void {
-        this.components.set(typeOf(component), component);
+        typesOf(component).forEach(type => this.components.set(type, component))
         component.setContainer(this);
     }
 

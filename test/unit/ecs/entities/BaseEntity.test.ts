@@ -1,4 +1,4 @@
-import { BaseComponent, BaseEntity } from "../../../../src";
+import { BaseComponent, BaseEntity, Type } from "../../../../src";
 
 describe('ecs/entities/BaseEntity', () => {
     let baseEntity = new BaseEntity();
@@ -31,6 +31,18 @@ describe('ecs/entities/BaseEntity', () => {
 
             baseEntity.addComponent(testComponent);
             expect(testComponent.getContainer()).toEqual(baseEntity);
+        });
+
+        it('Should make the added component available with every type in the types chain', () => {
+            @Type('ExtendedComponent')
+            class ExtendedComponent extends BaseComponent { }
+            
+
+            const testComponent = new ExtendedComponent();
+
+            baseEntity.addComponent(testComponent);
+            expect(baseEntity.getComponent<ExtendedComponent>('ExtendedComponent')).toEqual(testComponent);
+            expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toEqual(testComponent);
         })
     })
 
