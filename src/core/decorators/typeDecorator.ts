@@ -3,7 +3,7 @@ import { registerEntityType } from "../../ecs/entities/factory";
 export function Type(value: string) {
     return function (constructor: any) {
         if (constructor.prototype.__types) {
-            constructor.prototype.__types.splice(0, 0, value);
+            constructor.prototype.__types = [value, ...constructor.prototype.__types];
         } else {
             constructor.prototype.__types = [value];
         }
