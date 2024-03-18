@@ -80,7 +80,15 @@ export class Physx {
     }
 
     public pushPhysicalObject(object: PhysicalObjectCallbackAggregate): void {
-        this._physicalWorld.push(object);
+        this._physicalWorld.push({
+            ...object,
+            object: {
+                // Copy values due to javascript keeping the reference
+                ...object.object,
+                aabb: [...object.object.aabb],
+                velocity: Vec2.from(object.object.velocity),
+            }
+        });
     }
 
     public simulate(cycles = 2): void {
@@ -100,7 +108,6 @@ export class Physx {
                             otherObject: otherPhysicalObject.object,
                             postSimulation: postSimulation
                         });
-
                     };
                 })
 

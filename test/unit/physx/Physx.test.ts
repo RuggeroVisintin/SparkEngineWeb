@@ -16,11 +16,34 @@ describe('physx/Physx', () => {
                     uuid: v4(),
                     velocity: new Vec2()
                 },
-                onCollisionCallback: (postSimulation) => {},
+                onCollisionCallback: (postSimulation) => { },
             };
 
             physx.pushPhysicalObject(physicsObject);
-            expect(physx.physicalWorld).toContain(physicsObject);
+            expect(physx.physicalWorld).toContainEqual(physicsObject);
+        });
+
+        it('Should avoid copying the values by reference due to the values being updated during the simulaton', () => {
+            const physicsObject: PhysicalObjectCallbackAggregate = {
+                object: {
+                    aabb: [10, 10, 25, 25],
+                    uuid: v4(),
+                    velocity: new Vec2()
+                },
+                onCollisionCallback: (postSimulation) => { },
+            };
+
+            physx.pushPhysicalObject(physicsObject);
+
+            physicsObject.object.aabb[0] = 20;
+            
+            expect(physx.physicalWorld).toContainEqual({
+                ...physicsObject,
+                object: {
+                    ...physicsObject.object,
+                    aabb: [10, 10, 25, 25]
+                }
+            });
         })
     })
 
