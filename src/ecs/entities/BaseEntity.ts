@@ -37,6 +37,11 @@ export class BaseEntity implements IEntity {
     /**
      * Adds a component to this entity.
      * 
+     * The component type is used as search key for the component. 
+     * A key is also added for any item in its types chain
+     * If a component of the same type is already present, it will be overwritten.
+     * The same applies for types in its type chain
+     * 
      * @param component - the componnt to add to this entity
      */
     public addComponent(component: IComponent): void {
@@ -45,7 +50,10 @@ export class BaseEntity implements IEntity {
     }
 
     /**
-     * Gets the first component matching a specific type
+     * Gets the first component matching a specific type.
+     * We highly recommend to not use base types as a search key due to high chances of collisions
+     * See .addComponent() method
+     * 
      * @param type 
      * @returns the first component found with the type
      */
