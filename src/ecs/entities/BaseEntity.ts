@@ -38,7 +38,7 @@ export class BaseEntity implements IEntity {
      * Adds a component to this entity.
      * 
      * The component type is used as search key for the component. 
-     * A key is also added for any item in its types chain
+     * A key is also added for any item in its types chain.
      * If a component of the same type is already present, it will be overwritten.
      * The same applies for types in its type chain
      * 
