@@ -1,7 +1,13 @@
 import { registerEntityType } from "../../ecs/entities/factory";
 
 export function Type(value: string) {
-    return function (constructor: Function) {
+    return function (constructor: any) {
+        if (constructor.prototype.__types) {
+            constructor.prototype.__types.splice(0, 0, value);
+        } else {
+            constructor.prototype.__types = [value];
+        }
+
         constructor.prototype.__type = value;
         registerEntityType(value, constructor);
     };
@@ -9,4 +15,8 @@ export function Type(value: string) {
 
 export function typeOf(object: any): string {
     return object.__type;
+}
+
+export function typesOf(object: any): string[] {
+    return object.__types;
 }
