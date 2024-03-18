@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.8.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.2...sparkengineweb-v0.8.3) (2024-03-18)
+
+
+### Features
+
+* **core:** add whole type chain in type decorator ([9f90175](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9f901755e311807c8f9814ee3f9fb5fe9c73a168))
+* **ecs:** make added component retrievable with any type in its types chain ([bbef3b1](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bbef3b1fd7a588b6ce72e9bbf6dc98469509f20b))
+
+
+### Bug Fixes
+
+* **core:** fix types decortator to not overwrite other constructors types chain ([54049e5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/54049e592c86319b7516e8dbdfd36335af364304))
+* **physx:** fix broken physics in pong example due to values being used by reference ([dc9a4e4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/dc9a4e492e015ac8a37857f224a22f14bb106732))
+
 ## [0.8.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.1...sparkengineweb-v0.8.2) (2024-03-14)
 
 
