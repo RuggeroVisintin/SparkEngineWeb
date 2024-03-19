@@ -144,6 +144,24 @@ describe('physx/Physx', () => {
             }));
         })
 
+        it('Should avoid checking a collision against the same object twice', () => {
+            const physicsObject: PhysicalObjectCallbackAggregate = {
+                object: {
+                    uuid: v4(),
+                    aabb: [10, 10, 25, 25],
+                    velocity: new Vec2()
+                },
+                onCollisionCallback: jest.fn(),
+            };
+
+            physx.pushPhysicalObject(physicsObject);
+            physx.pushPhysicalObject(physicsObject);
+
+            physx.simulate();
+            
+            expect(physicsObject.onCollisionCallback).not.toHaveBeenCalled();
+        })
+
         it.each([[
             'case 1',
             new Vec2(5),

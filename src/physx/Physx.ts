@@ -82,12 +82,7 @@ export class Physx {
     public pushPhysicalObject(object: PhysicalObjectCallbackAggregate): void {
         this._physicalWorld.push({
             ...object,
-            object: {
-                // Copy values due to javascript keeping the reference
-                ...object.object,
-                aabb: [...object.object.aabb],
-                velocity: Vec2.from(object.object.velocity),
-            }
+            object: this.copyPhysicsObject(object.object)
         });
     }
 
@@ -95,11 +90,11 @@ export class Physx {
         let next: PhysicalObjectCallbackAggregate[] = [];
 
         for (let i = 0; i < cycles; i++) {
-            this.physicalWorld.forEach((physicalObject, idx) => {
-                let postSimulation;
+            this.physicalWorld.forEach((physicalObject) => {
+                let postSimulation = undefined;
 
-                this.physicalWorld.forEach((otherPhysicalObject, otherIdx) => {
-                    if (idx === otherIdx) return;
+                this.physicalWorld.forEach((otherPhysicalObject) => {
+                    if (physicalObject.object.uuid === otherPhysicalObject.object.uuid) return;
 
                     postSimulation = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
 
@@ -113,7 +108,7 @@ export class Physx {
 
                 next.push({
                     ...physicalObject,
-                    object: postSimulation || physicalObject.object,
+                    object: this.copyPhysicsObject(postSimulation || physicalObject.object),
                 })
             });
 
@@ -154,7 +149,6 @@ export class Physx {
             x2 < x1 ||
             y2 < y1
         ) {
-
             const bottomCollisionCount = yh2 - yh1;
             const topCollisionCount = y1 - y2;
             const leftCollisionCount = x1 - x2;
@@ -183,5 +177,14 @@ export class Physx {
         
 
         return null;
+    }
+
+    private copyPhysicsObject(object: PhysicsObject): PhysicsObject {
+        return {
+            // Copy values due to javascript keeping the reference
+            ...object,
+            aabb: [...object.aabb],
+            velocity: Vec2.from(object.velocity),
+        }
     }
 }
