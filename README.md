@@ -33,7 +33,32 @@ Here you can find the list of commands. **Commands with the :ci flag are reserve
 
 ## Usage
 
-TBD
+Donwload latest release here: <https://github.com/RuggeroVisintin/SparkEngineWeb/releases/latest>.
+Then `npm i` and `npm build` to install dependencies and build the .js distribution file.
+
+You can now include it in your html page like so
+
+```html
+<html>
+
+<body>
+    <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
+    <script type="text/javascript" src="./dist/spark-engine-web.js"></script>
+    <script>
+        const context = document.getElementById('canvas').getContext('2d');
+        const engine = new SparkEngine.GameEngine({
+            context,
+            framerate: 30,
+            resolution: { width: 1920, height: 1080 }
+        });
+
+        const scene = engine.createScene();
+    </script>
+</body>
+</html>
+```
+
+See the available [examples](./examples) to find out more
 
 ## Examples
 
