@@ -6,6 +6,8 @@ import { CollisionCallback, CollisionCallbackParams, ICollidableComponent } from
 
 /**
  * @category Components
+ * 
+ * The axis aligned bounding box defining the bounds of this component
  */
 interface AABB {
     x: number;
@@ -26,6 +28,10 @@ export interface BoundingBoxComponentProps {
 
 /**
  * @category Components
+ * 
+ * This component represents a bounding box that can be used for basic collision detection. 
+ * It stores an Axis Aligned Bounding Box (AABB) defining the bounds. 
+ * 
  */
 @Type('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {

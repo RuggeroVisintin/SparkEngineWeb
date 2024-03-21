@@ -3,6 +3,11 @@ import { Renderer, SetTransformMatrixCommand } from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { IDrawableComponent } from "./interfaces/IDrawableComponent";
 
+/**
+ * @category Components
+ * 
+ * Handles rendering the camera's transform matrix. 
+ */
 @Type('CameraComponent')
 export class CameraComponent extends BaseDrawableComponent implements IDrawableComponent {
 
