@@ -1,5 +1,5 @@
 import { typeOf } from "../core";
-import { BoundingBoxComponent, HierarchySystem, IEntity, InputComponent, InputSystem, PhysicsSystem, RenderSystem, ShapeComponent, SoundComponent, SoundSystem, TransformComponent } from "../ecs";
+import { BoundingBoxComponent, CameraComponent, HierarchySystem, IEntity, InputComponent, InputSystem, PhysicsSystem, RenderSystem, ShapeComponent, SoundComponent, SoundSystem, TransformComponent } from "../ecs";
 import { createEntity } from "../ecs/entities/factory";
 
 /**
@@ -30,6 +30,9 @@ export class Scene {
         const shape = entity.getComponent<ShapeComponent>('ShapeComponent');
         shape && this.renderSystem.registerComponent(shape);
 
+        const cameraComponent = entity.getComponent<CameraComponent>('CameraComponent');
+        cameraComponent && this.renderSystem.registerComponent(cameraComponent);
+        
         const boundingBox = entity.getComponent<BoundingBoxComponent>('BoundingBoxComponent');
         boundingBox && this.physicsSystem.registerComponent(boundingBox);
     
@@ -41,6 +44,7 @@ export class Scene {
     
         const soundComponent = entity.getComponent<SoundComponent>('SoundComponent');
         soundComponent && this.soundSystem.registerComponent(soundComponent);
+
     }
 
     public async load(filePath: string): Promise<void> {

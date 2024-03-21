@@ -1,9 +1,7 @@
 import { Type } from "../../core";
 import { Renderer, DrawPrimitiveCommand, PrimitiveType} from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
-import { BaseComponent } from "./BaseComponent";
 import { MaterialComponent } from "./MaterialComponent";
-import { TransformComponent } from "./TransformComponent";
 import { IDrawableComponent } from "./interfaces/IDrawableComponent";
 
 /**
