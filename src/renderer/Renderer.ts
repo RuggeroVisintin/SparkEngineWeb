@@ -33,9 +33,7 @@ export class Renderer {
         this.device.clear(ctx);
 
         this._commandBuffer.forEach(command => {
-            this.device.begin(ctx);
             command.execute(ctx, this.device)
-            this.device.end(ctx);
         });
 
         this._commandBuffer = [];

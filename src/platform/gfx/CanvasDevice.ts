@@ -6,6 +6,8 @@ export enum BlendMethod {
     BM_Add = 'lighter'
 }
 
+export type Matrix2D = [number, number, number, number, number, number]
+
 /**
  * @category Platform
  */
@@ -24,7 +26,7 @@ export class CanvasDevice {
         canvas.width = width;
         canvas.height = height;
 
-        ctx.scale(this.wRatio, this.hRatio);
+        // ctx.scale(this.wRatio, this.hRatio);
     }
 
     public begin(ctx: CanvasRenderingContext2D): void {
@@ -36,7 +38,10 @@ export class CanvasDevice {
     }
 
     public clear(ctx: CanvasRenderingContext2D, color?: string): void {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, ctx.canvas?.width || 0, ctx.canvas?.height || 0);
+
+        ctx.scale(this.wRatio, this.hRatio);
     }
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
@@ -55,5 +60,16 @@ export class CanvasDevice {
 
     public setBlendMethod(ctx: CanvasRenderingContext2D, method: BlendMethod): void {
         ctx.globalCompositeOperation = method;
+    }
+
+    public setTransform(ctx: CanvasRenderingContext2D, matrix: Matrix2D): void {
+        ctx.setTransform(
+            matrix[0] * this.wRatio,
+            matrix[1],
+            matrix[2],
+            matrix[3] * this.hRatio,
+            matrix[4] * this.wRatio,
+            matrix[5] * this.hRatio
+        );
     }
 }

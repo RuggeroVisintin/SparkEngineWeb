@@ -1,5 +1,5 @@
 import { Type } from "../../core";
-import { Renderer } from "../../renderer";
+import { Renderer, SetTransformMatrixCommand } from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { IDrawableComponent } from "./interfaces/IDrawableComponent";
 
@@ -7,6 +7,6 @@ import { IDrawableComponent } from "./interfaces/IDrawableComponent";
 export class CameraComponent extends BaseDrawableComponent implements IDrawableComponent {
 
     public draw(renderer: Renderer): void {
-        // TODO: implement
+        renderer.pushRenderCommand(new SetTransformMatrixCommand([-this.transform.position.x, -this.transform.position.y]));
     }
 }

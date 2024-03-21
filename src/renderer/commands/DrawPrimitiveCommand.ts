@@ -26,7 +26,8 @@ export class DrawPrimitiveCommand implements RenderCommand {
     ) { }
     
     public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {
-        
+        gfx.begin(ctx);
+
         this.primitiveType === PrimitiveType.Rectangle
             && gfx.drawRect(ctx, this.position[0], this.position[1], this.size[0], this.size[1]);
 
@@ -35,5 +36,7 @@ export class DrawPrimitiveCommand implements RenderCommand {
         } else {
             gfx.stroke(ctx, this.color);
         }
+
+        gfx.end(ctx);
     }
 }

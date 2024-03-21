@@ -1,4 +1,4 @@
-import { Renderer, CameraComponent, TransformComponent, BaseEntity, CanvasDevice } from "../../../../src";
+import { Renderer, CameraComponent, TransformComponent, BaseEntity, CanvasDevice, SetTransformMatrixCommand } from "../../../../src";
 
 describe('ecs/components/CameraComponent', () => {
     let renderer: Renderer;
@@ -9,6 +9,22 @@ describe('ecs/components/CameraComponent', () => {
         cameraComponent = new CameraComponent();
     });
 
+    describe('.draw()', () => {
+        it('Should push the right draw command to the renderer', () => {
+            cameraComponent.draw(renderer);
+
+            expect(renderer.commandBuffer).toEqual([new SetTransformMatrixCommand([-0, -0])])
+        })
+
+        it('Should push the camera position into the render command', () => {
+            cameraComponent.transform.position.x = 10;
+            cameraComponent.transform.position.y = 20;
+
+            cameraComponent.draw(renderer);
+
+            expect(renderer.commandBuffer).toEqual([new SetTransformMatrixCommand([-10, -20])])
+        })
+    })
 
     describe('.transform', () => {
         it('Should retrieve the component default transform when no container entity is defined', () => {
@@ -35,4 +51,6 @@ describe('ecs/components/CameraComponent', () => {
             }))
         })
     });
+
+    
 })
