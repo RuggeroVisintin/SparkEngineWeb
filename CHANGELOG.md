@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.8.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.3...sparkengineweb-v0.8.4) (2024-03-21)
+
+
+### Features
+
+* add camera mechanism ([a1b480c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a1b480c8b639dc34912503796f0248dd39f589a8))
+* **ecs:** add abstraction for drawable components ([abdc5c5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/abdc5c51c21550863d3978cd5035ea62c856991d))
+* **ecs:** add CameraComponent ([a1b480c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a1b480c8b639dc34912503796f0248dd39f589a8))
+* **renderer:** add SetTransformCommand render command ([a1b480c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a1b480c8b639dc34912503796f0248dd39f589a8))
+
+
+### Bug Fixes
+
+* **physx:** fix collision detection being broken when same object added twice ([f7ed740](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/f7ed7406b18b07eca82dace51a6387e56326ea70))
+
 ## [0.8.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.2...sparkengineweb-v0.8.3) (2024-03-18)
 
 
