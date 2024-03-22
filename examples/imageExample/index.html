@@ -1,0 +1,26 @@
+<html>
+
+<body>
+    <!-- <canvas id="canvas" style="width: 0%; height: 100%"></canvas> -->
+    <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
+    <script>
+        // const context = document.getElementById('canvas').getContext('2d');
+        // const engine = new SparkEngine.GameEngine({
+        //     context,
+        //     framerate: 30,
+        //     resolution: { width: 1920, height: 1080 }
+        // });
+
+        const imageLoader = new SparkEngine.ImageLoader();
+        imageLoader
+            .load('../assets/FreeKnight_v1/Colour1/NoOutline/120x80_gifs/__Idle.gif')
+            .then((imageAsset) => {
+                const node = window.document.body.appendChild(imageAsset.media)
+                node.width = node.width * 2.5;
+            });
+
+        // engine.run();
+    </script>
+</body>
+
+</html>
