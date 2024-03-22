@@ -9,7 +9,6 @@ import { BaseComponent } from "./BaseComponent";
 export interface MaterialComponentProps {
     diffuseColor?: Rgb;
     opacity?: number;
-    
     diffuseTexturePath?: string;
 }
 
