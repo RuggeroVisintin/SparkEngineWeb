@@ -1,5 +1,5 @@
 import { Type, Vec2 } from "../../core";
-import { PhysicalObjectCallbackAggregate, PhysicsObject, Physx } from "../../physx";
+import { PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
 import { CollisionCallback, CollisionCallbackParams, ICollidableComponent } from "./interfaces";
