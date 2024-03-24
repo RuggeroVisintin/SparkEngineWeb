@@ -1,4 +1,5 @@
-import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps } from "../../../../src";
+import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps, DrawImageCommand, ImageLoader } from "../../../../src";
+import '../../__mocks__'
 
 describe('ecs/components/ShapeComponent', () => {
     let renderer: Renderer;
@@ -43,7 +44,7 @@ describe('ecs/components/ShapeComponent', () => {
             )]);
         })
 
-        it('Should push the current material in the render command', () => { 
+        it('Should push the current material diffuse color in the render command', () => {
             const color = new Rgb(255, 0, 0);
             shapeComponent.material.diffuseColor = color;
             shapeComponent.draw(renderer);
@@ -55,7 +56,27 @@ describe('ecs/components/ShapeComponent', () => {
                 expect.any(Boolean),
                 'rgba(255, 0, 0, 1)'
             )]);
-        })
+        });
+
+        it('Should push the current material diffuse texture in the render command if present', (done) => {
+            shapeComponent.material.diffuseTexturePath = 'test.png';
+            shapeComponent.material.loadTexture(new ImageLoader());
+
+            setTimeout(() => {
+                shapeComponent.draw(renderer);
+                
+                expect(renderer.commandBuffer[1]).toEqual(
+                    new DrawImageCommand(
+                        shapeComponent.material.diffuseTexture?.media!,
+                        [0, 0],
+                        [0, 0]
+                    )
+                );
+
+                done();
+            }, 10)
+
+        });
     })
 
     describe('.transform', () => {
