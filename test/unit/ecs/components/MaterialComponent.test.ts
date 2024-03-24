@@ -30,7 +30,7 @@ describe('/ecs/components/MaterialComponent', () => {
                 diffuseTexturePath: 'path/to/texture.png',
             });
 
-            component.load(new ImageLoader());
+            component.loadTexture(new ImageLoader());
 
             setTimeout(() => {
                 expect(component.diffuseTexture).toBeInstanceOf(ImageAsset);
