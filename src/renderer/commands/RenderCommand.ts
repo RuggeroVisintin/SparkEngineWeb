@@ -6,7 +6,8 @@ import { CanvasDevice } from "../../platform";
 export enum RenderCommandID {
     RC_DrawPrimitive,
     RC_SetBlendingMethodCommand,
-    RC_SetTransformMatrix
+    RC_SetTransformMatrix,
+    RC_DrawImage,
 }
 
 /**

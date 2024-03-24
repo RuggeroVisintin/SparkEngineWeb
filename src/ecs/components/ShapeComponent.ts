@@ -1,5 +1,5 @@
 import { Type } from "../../core";
-import { Renderer, DrawPrimitiveCommand, PrimitiveType} from "../../renderer";
+import { Renderer, DrawPrimitiveCommand, DrawImageCommand, PrimitiveType} from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { MaterialComponent } from "./MaterialComponent";
 import { IDrawableComponent } from "./interfaces/IDrawableComponent";
@@ -49,6 +49,12 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
             [size.width, size.height],
             true,
             this.material.diffuseColor.toRgbaString(opacity),
+        ));
+        
+        this.material.diffuseTexture && renderer.pushRenderCommand(new DrawImageCommand(
+            this.material.diffuseTexture.media,
+            [position.x, position.y],
+            [size.width, size.height],
         ));
     }
 }

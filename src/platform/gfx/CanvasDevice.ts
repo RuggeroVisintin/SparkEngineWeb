@@ -25,8 +25,6 @@ export class CanvasDevice {
 
         canvas.width = width;
         canvas.height = height;
-
-        // ctx.scale(this.wRatio, this.hRatio);
     }
 
     public begin(ctx: CanvasRenderingContext2D): void {
@@ -46,6 +44,10 @@ export class CanvasDevice {
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
         ctx.rect(x, y, width, height);
+    }
+
+    public drawImage(ctx: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number): void {
+        ctx.drawImage(image, x, y, width, height);
     }
 
     public fill(ctx: CanvasRenderingContext2D, color?: string): void {
