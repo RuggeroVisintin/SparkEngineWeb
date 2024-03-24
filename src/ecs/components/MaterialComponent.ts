@@ -35,7 +35,7 @@ export class MaterialComponent extends BaseComponent {
         if (props?.diffuseTexturePath) this.diffuseTexturePath = props.diffuseTexturePath;
     }
     
-    public load(loader: ImageLoader): void {
+    public loadTexture(loader: ImageLoader): void {
         this.diffuseTexturePath && loader
             .load(this.diffuseTexturePath)
             .then((asset) => {
