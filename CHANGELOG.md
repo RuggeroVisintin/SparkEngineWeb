@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.4...sparkengineweb-v0.8.5) (2024-03-24)
+
+
+### Features
+
+* **ecs:** add diffuse texture rendering in MaterialComponent ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+* **ecs:** add support to diffuse texture rendering ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+* **ecs:** avoid using MaterialComponent default diffuse color when texture is applied ([17be7d0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/17be7d0f4b8a7ec0cd3266aed37afd0a08b4003c))
+* **gfx:** add drawImage command ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+* **gfx:** add ImageLoader ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+
 ## [0.8.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.3...sparkengineweb-v0.8.4) (2024-03-21)
 
 
