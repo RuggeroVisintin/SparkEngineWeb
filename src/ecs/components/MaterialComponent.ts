@@ -21,7 +21,16 @@ export class MaterialComponent extends BaseComponent {
 
     public diffuseColor: Rgb = Rgb.fromHex('#d16cd8');
     public opacity: number = 100;
-    public readonly diffuseTexturePath?: string;
+    private _diffuseTexturePath?: string;
+
+    public set diffuseTexturePath(path: string) {
+        this._diffuseTexture = undefined;
+        this._diffuseTexturePath = path;
+    }
+
+    public get diffuseTexturePath(): string | undefined {
+        return this._diffuseTexturePath;
+    }
 
     get diffuseTexture(): ImageAsset | undefined {
         return this._diffuseTexture;
@@ -32,7 +41,7 @@ export class MaterialComponent extends BaseComponent {
 
         if (props?.diffuseColor) this.diffuseColor = Rgb.fromRgb(props.diffuseColor);
         if (props?.opacity) this.opacity = props.opacity;
-        if (props?.diffuseTexturePath) this.diffuseTexturePath = props.diffuseTexturePath;
+        if (props?.diffuseTexturePath) this._diffuseTexturePath = props.diffuseTexturePath;
     }
     
     public loadTexture(loader: ImageLoader): void {

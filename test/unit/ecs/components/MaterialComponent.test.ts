@@ -23,8 +23,25 @@ describe('/ecs/components/MaterialComponent', () => {
             expect(new MaterialComponent().opacity).toEqual(100);
         })
     })
+    
+    describe('set .diffuseTexturePath', () => {
+        it('Should remove the old texture', (done) => {
+            const component = new MaterialComponent({
+                diffuseTexturePath: 'path/to/texture.png',
+            });
 
-    describe('load()', () => {
+            component.loadTexture(new ImageLoader);
+
+            setTimeout(() => {
+                component.diffuseTexturePath = 'path/to/texture2.png';
+                expect(component.diffuseTexture).toBeUndefined();
+                done();
+            }, 10)
+            
+        })
+    })
+
+    describe('loadTexture()', () => {
         it('Should load the diffuseTexture asset', (done) => {
             const component = new MaterialComponent({
                 diffuseTexturePath: 'path/to/texture.png',
