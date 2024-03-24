@@ -68,7 +68,7 @@ describe('ecs/entities/GameObject', () => {
                 material: materialConfig
             })
 
-            expect(gameObject.material).toContainEntries(Object.entries(materialConfig))
+            expect(gameObject.material).toEqual(expect.objectContaining(materialConfig))
         })
     })
 })

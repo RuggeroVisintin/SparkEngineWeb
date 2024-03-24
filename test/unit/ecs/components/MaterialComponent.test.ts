@@ -7,12 +7,14 @@ describe('/ecs/components/MaterialComponent', () => {
             const init: MaterialComponentProps = {
                 diffuseColor: new Rgb(255, 255, 255),
                 opacity: 100,
-                diffuseTexturePath: 'path/to/texture.png',
+                diffuseTexturePath: 'path/to/texture.png'
             }
         
             const component = new MaterialComponent(init);
         
-            expect(component).toEqual(expect.objectContaining(init));
+            expect(component.diffuseColor).toEqual(init.diffuseColor);
+            expect(component.opacity).toEqual(init.opacity);
+            expect(component.diffuseTexturePath).toEqual(init.diffuseTexturePath);
         });
 
         it('Should set the diffuse color to the default value when not provided', () => {
@@ -39,6 +41,16 @@ describe('/ecs/components/MaterialComponent', () => {
             }, 10)
             
         })
+
+        it('Should remove the diffuseColor if default one is in use', () => {
+            const component = new MaterialComponent({
+                diffuseTexturePath: 'path/to/texture.png',
+            });
+
+            expect(component.diffuseColor).toBeUndefined();
+        });
+
+        it.todo('Should retain the diffuseColor if set by the user');
     })
 
     describe('loadTexture()', () => {

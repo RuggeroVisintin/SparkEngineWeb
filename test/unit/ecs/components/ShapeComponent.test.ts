@@ -1,5 +1,5 @@
 import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps, DrawImageCommand, ImageLoader } from "../../../../src";
-import '../../__mocks__'
+import '../../__mocks__';
 
 describe('ecs/components/ShapeComponent', () => {
     let renderer: Renderer;
@@ -65,13 +65,11 @@ describe('ecs/components/ShapeComponent', () => {
             setTimeout(() => {
                 shapeComponent.draw(renderer);
                 
-                expect(renderer.commandBuffer[1]).toEqual(
-                    new DrawImageCommand(
-                        shapeComponent.material.diffuseTexture?.media!,
-                        [0, 0],
-                        [0, 0]
-                    )
-                );
+                expect(renderer.commandBuffer).toEqual(expect.arrayContaining([new DrawImageCommand(
+                    shapeComponent.material.diffuseTexture?.media!,
+                    [0, 0],
+                    [0, 0]
+                )]));
 
                 done();
             }, 10)

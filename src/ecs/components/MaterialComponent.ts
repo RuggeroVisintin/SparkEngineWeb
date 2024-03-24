@@ -18,14 +18,27 @@ export interface MaterialComponentProps {
 @Type('MaterialComponent')
 export class MaterialComponent extends BaseComponent {
     private _diffuseTexture?: ImageAsset;
-
-    public diffuseColor: Rgb = Rgb.fromHex('#d16cd8');
-    public opacity: number = 100;
     private _diffuseTexturePath?: string;
+    private _diffuseColor?: Rgb = Rgb.fromHex('#d16cd8');
+    
+    private _isDefaultDiffuseColor = true;
+
+    public opacity: number = 100;
+
+    public set diffuseColor(color: Rgb) {
+        this._diffuseColor = color;
+        this._isDefaultDiffuseColor = false;
+    }
+    
+    public get diffuseColor(): Rgb | undefined {
+        return this._diffuseColor;
+    }
 
     public set diffuseTexturePath(path: string) {
         this._diffuseTexture = undefined;
         this._diffuseTexturePath = path;
+
+        if (this._isDefaultDiffuseColor === true) this._diffuseColor = undefined;
     }
 
     public get diffuseTexturePath(): string | undefined {
@@ -41,7 +54,7 @@ export class MaterialComponent extends BaseComponent {
 
         if (props?.diffuseColor) this.diffuseColor = Rgb.fromRgb(props.diffuseColor);
         if (props?.opacity) this.opacity = props.opacity;
-        if (props?.diffuseTexturePath) this._diffuseTexturePath = props.diffuseTexturePath;
+        if (props?.diffuseTexturePath) this.diffuseTexturePath = props.diffuseTexturePath;
     }
     
     public loadTexture(loader: ImageLoader): void {

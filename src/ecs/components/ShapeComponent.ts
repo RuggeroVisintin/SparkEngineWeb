@@ -41,18 +41,18 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
      */
     public draw(renderer: Renderer): void {
         const { position, size } = this.transform;
-        const { opacity } = this.material;
+        const { opacity, diffuseColor, diffuseTexture} = this.material;
 
-        renderer.pushRenderCommand(new DrawPrimitiveCommand(
+        diffuseColor && renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,
             [position.x, position.y],
             [size.width, size.height],
             true,
-            this.material.diffuseColor.toRgbaString(opacity),
+            diffuseColor.toRgbaString(opacity),
         ));
         
-        this.material.diffuseTexture && renderer.pushRenderCommand(new DrawImageCommand(
-            this.material.diffuseTexture.media,
+        diffuseTexture && renderer.pushRenderCommand(new DrawImageCommand(
+            diffuseTexture.media,
             [position.x, position.y],
             [size.width, size.height],
         ));
