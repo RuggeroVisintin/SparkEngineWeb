@@ -50,8 +50,8 @@ export class Rgb {
         return new Rgb(rgb.r, rgb.g, rgb.b);
     }
 
-    public toRgbaString(alpha?: number): string {
-        return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.capAlpha(alpha || 100) / 100})`;
+    public toRgbaString(alpha: number = 100): string {
+        return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.capAlpha(alpha) / 100})`;
     }
 
     private capRgb(value: number): number {

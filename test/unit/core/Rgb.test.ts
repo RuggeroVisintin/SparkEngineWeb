@@ -76,4 +76,26 @@ describe('core/Rgb', () => {
             expect(new Rgb(255, 0, 0).toRgbaString(234)).toBe('rgba(255, 0, 0, 1)')
         })
     })
+
+    describe('.toRgbaString()', () => {
+        it('Should convert a color into a rgba() like string', () => {
+            expect(new Rgb(255, 0, 0).toRgbaString(100)).toBe('rgba(255, 0, 0, 1)')
+        });
+
+        it('Should cap the alpha value to 1 max', () => {
+            expect(new Rgb(255, 0, 0).toRgbaString(234)).toBe('rgba(255, 0, 0, 1)')
+        })
+
+        it('Should cap the alpha value to 0 min', () => {
+            expect(new Rgb(255, 0, 0).toRgbaString(-234)).toBe('rgba(255, 0, 0, 0)')
+        })
+
+        it('Should set the alpha value to the given value', () => {
+            expect(new Rgb(255, 0, 0).toRgbaString(50)).toBe('rgba(255, 0, 0, 0.5)')
+        })
+
+        it('Should set the value to 0 when provided', () => {
+            expect(new Rgb(255, 0, 0).toRgbaString(0)).toBe('rgba(255, 0, 0, 0)')
+        })
+    })
 })
