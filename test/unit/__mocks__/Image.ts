@@ -8,4 +8,6 @@ beforeEach(() => {
                 this.onload();
             }
     }))
+
+    global.createImageBitmap = jest.fn((image: any) => Promise.resolve(image)) 
 })

@@ -46,7 +46,7 @@ export class CanvasDevice {
         ctx.rect(x, y, width, height);
     }
 
-    public drawImage(ctx: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number): void {
+    public drawImage(ctx: CanvasRenderingContext2D, image: ImageBitmap, x: number, y: number, width: number, height: number): void {
         ctx.drawImage(image, x, y, width, height);
     }
 

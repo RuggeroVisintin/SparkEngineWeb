@@ -10,9 +10,11 @@ export class ImageLoader {
         return new Promise((resolve, reject) => {        
             const image = new Image();
             image.onerror = reject;
-            image.onload = () => {
-                resolve(new ImageAsset(image));
+
+            image.onload = async () => {
+                resolve(new ImageAsset(await createImageBitmap(image)));
             };
+
             image.src = src;
         });
     }

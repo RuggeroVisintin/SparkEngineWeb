@@ -5,7 +5,7 @@ export class DrawImageCommand implements RenderCommand {
     public readonly renderCommandID: RenderCommandID = RenderCommandID.RC_DrawImage;
 
     constructor(
-        public readonly image: HTMLImageElement,
+        public readonly image: ImageBitmap,
         public readonly position: [number, number],
         public readonly size: [number, number]
     ) { }
