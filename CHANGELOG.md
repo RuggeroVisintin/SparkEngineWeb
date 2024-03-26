@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.5...sparkengineweb-v0.9.0) (2024-03-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* **gfx:** - DrawImageCommand.constructor.image
+
+### Features
+
+* **gfx:** switch image rendering from HTMLImageElement to ImageBitmap ([12e20cb](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/12e20cb69c223eb9e60f3a3535cf700539938581))
+
+
+### Bug Fixes
+
+* **core:** fix rgb alpha value being wrongly defaulted when 0 ([fec7fd3](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/fec7fd3525e0134ba5d6dd9bde7f932817798da6))
+
 ## [0.8.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.4...sparkengineweb-v0.8.5) (2024-03-24)
 
 
