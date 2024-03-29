@@ -60,7 +60,7 @@ describe('/game/Scene', () => {
 
             scene.registerEntity(entity);
 
-            expect(scene.hierarchySystem.world).toContain(entity.transform);
+            expect(scene.hierarchySystem.components).toContain(entity.transform);
         })
 
         it('Should register entity sound components into its sound system', () => {
