@@ -1,18 +1,13 @@
 import { TransformComponent } from "../components";
+import { BaseSystem } from "./BaseSystem";
 import { ISystem } from "./ISystem";
 
 /**
  * @category Systems
  */
-export class HierarchySystem implements ISystem {
-    public readonly world: TransformComponent[] = [];
-    
-    public registerComponent(component: TransformComponent): void {
-        this.world.push(component);
-    }
-
+export class HierarchySystem extends BaseSystem<TransformComponent> implements ISystem {    
     public update(deltaTime?: number): void {
-        this.world.forEach(component => {
+        this.components.forEach(component => {
             component.update();
         });
     }

@@ -13,7 +13,7 @@ describe('ecs/systems/HierarchySystem', () => {
 
             hierarchySystem.registerComponent(tComponent);
 
-            expect(hierarchySystem.world).toContain(tComponent);
+            expect(hierarchySystem.components).toContain(tComponent);
         });
     })
 
