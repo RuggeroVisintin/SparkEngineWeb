@@ -7,14 +7,16 @@ import { ImageAsset } from "./ImageAsset";
  */
 export class ImageLoader {
     public async load(src: string): Promise<ImageAsset> {
-        return new Promise((resolve, reject) => {        
+        return new Promise((resolve, reject) => {  
+            const type = this.getTypeFromFileName(src);
+
             const image = new Image();
             image.onerror = reject;
 
             image.onload = async () => {
                 resolve(new ImageAsset(
                     await createImageBitmap(image), 
-                    this.getTypeFromFileName(src)
+                    type
                 ));
             };
 
