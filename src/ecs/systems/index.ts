@@ -1,4 +1,5 @@
 export * from './ISystem';
+export * from './BaseSystem';
 export * from './RenderSystem';
 export * from './PhysicsSystem';
 export * from './InputSystem';

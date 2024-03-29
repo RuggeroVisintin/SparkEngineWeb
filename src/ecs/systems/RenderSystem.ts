@@ -3,24 +3,26 @@ import { BlendMethod } from "../../platform";
 import { Renderer, SetBlendingMethodCommand } from "../../renderer";
 import { CameraComponent } from "../components";
 import { IDrawableComponent } from "../components/interfaces/IDrawableComponent";
+import { BaseSystem } from "./BaseSystem";
 import { ISystem } from "./ISystem";
 
 /**
  * @category Systems
  */
-export class RenderSystem implements ISystem { 
-    public readonly components: IDrawableComponent[] = [];
+export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISystem { 
     private camera: CameraComponent = new CameraComponent();
 
     constructor(
         private readonly renderer: Renderer
-    ) {}
+    ) {
+        super();
+    }
 
     public registerComponent(component: IDrawableComponent): void {
         if (typeOf(component) === 'CameraComponent') {
             this.camera = <CameraComponent>component;
         } else {
-            this.components.push(component);
+            super.registerComponent(component);
         }
     }
 

@@ -50,11 +50,12 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
             true,
             diffuseColor.toRgbaString(opacity),
         ));
-        
+
         diffuseTexture && renderer.pushRenderCommand(new DrawImageCommand(
             diffuseTexture.media,
             [position.x, position.y],
             [size.width, size.height],
         ));
+        
     }
 }
