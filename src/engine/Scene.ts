@@ -1,5 +1,5 @@
 import { typeOf } from "../core";
-import { BoundingBoxComponent, CameraComponent, HierarchySystem, IEntity, InputComponent, InputSystem, PhysicsSystem, RenderSystem, ShapeComponent, SoundComponent, SoundSystem, TransformComponent } from "../ecs";
+import { AnimationComponent, AnimationSystem, BoundingBoxComponent, CameraComponent, HierarchySystem, IEntity, InputComponent, InputSystem, PhysicsSystem, RenderSystem, ShapeComponent, SoundComponent, SoundSystem, TransformComponent } from "../ecs";
 import { createEntity } from "../ecs/entities/factory";
 
 /**
@@ -16,6 +16,7 @@ export class Scene {
         public readonly inputSystem: InputSystem,
         public readonly hierarchySystem: HierarchySystem,
         public readonly soundSystem: SoundSystem,
+        public readonly animationSystem: AnimationSystem
     ) { }
     
     /**
@@ -44,6 +45,9 @@ export class Scene {
     
         const soundComponent = entity.getComponent<SoundComponent>('SoundComponent');
         soundComponent && this.soundSystem.registerComponent(soundComponent);
+
+        const animationComponent = entity.getComponent<AnimationComponent>("AnimationComponent");
+        animationComponent && this.animationSystem.registerComponent(animationComponent);
 
     }
 

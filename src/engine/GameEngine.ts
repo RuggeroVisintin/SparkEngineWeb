@@ -89,7 +89,8 @@ export class GameEngine {
             this.physicsSystem,
             this.inputSystem,
             this.hierarchySystem,
-            this.soundSystem
+            this.soundSystem,
+            this.animationSystem
         );
 
         this.scenes.push(result);
