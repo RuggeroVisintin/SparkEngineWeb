@@ -1,5 +1,5 @@
 import { fetchMockData } from "../__mocks__/Fetch";
-import { CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, TransformComponent, Vec2 } from "../../../src"
+import { AnimationSystem, CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, TransformComponent, Vec2 } from "../../../src"
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
 jest.mock('uuid', () => ({
@@ -16,7 +16,8 @@ describe('/game/Scene', () => {
             new PhysicsSystem(new Physx()),
             new InputSystem(new KeyboardDevice()),
             new HierarchySystem(),
-            new SoundSystem()
+            new SoundSystem(),
+            new AnimationSystem(),
         );
     })
 
