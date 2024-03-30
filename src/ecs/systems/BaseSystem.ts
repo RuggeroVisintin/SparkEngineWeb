@@ -8,5 +8,5 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
         this.components.push(component);
     }
 
-    public abstract update(): void;
+    public abstract update(deltaTime?: number): void;
 }

@@ -8,3 +8,4 @@ export * from './InputComponent';
 export * from './SoundComponent';
 export * from './RigidBodyComponent';
 export * from './CameraComponent';
+export * from './AnimationComponent';
