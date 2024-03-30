@@ -55,7 +55,25 @@ describe('ecs/entities/BaseEntity', () => {
         })
     })
 
-     describe('set .name', () => {
+    describe('.getComponents()', () => {
+        it('Should retrieve all components of a certain type in the entity', () => {
+            const baseComponentA = new BaseComponent();
+            const baseComponentB = new BaseComponent();
+            const baseComponentC = new BaseComponent();
+
+            baseEntity.addComponent(baseComponentA);
+            baseEntity.addComponent(baseComponentB);
+            baseEntity.addComponent(baseComponentC);
+
+            expect(baseEntity.getComponents<BaseComponent>('BaseComponent')).toEqual([
+                baseComponentC,
+                baseComponentB,
+                baseComponentA
+            ]);
+        })
+    })
+
+    describe('set .name', () => {
         it('Should throw if the name is not unique', () => {
             const entity1 = new BaseEntity();
             const entity2 = new BaseEntity();
