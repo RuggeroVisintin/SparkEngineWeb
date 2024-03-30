@@ -1,4 +1,4 @@
-import { HierarchySystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
+import { AnimationSystem, HierarchySystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { Physx } from "../physx";
 import { CanvasDevice, KeyboardDevice } from "../platform";
 import { Renderer } from "../renderer";
@@ -43,6 +43,7 @@ export class GameEngine {
     public readonly hierarchySystem: HierarchySystem;
     public readonly inputSystem: InputSystem;
     public readonly soundSystem: SoundSystem;
+    public readonly animationSystem: AnimationSystem;
 
     private readonly physx: Physx;
     private readonly renderer: Renderer;
@@ -71,6 +72,7 @@ export class GameEngine {
         this.hierarchySystem = new HierarchySystem();
         this.inputSystem = new InputSystem(this.inputs);
         this.soundSystem = new SoundSystem();
+        this.animationSystem = new AnimationSystem();
     }
 
     /**
@@ -102,6 +104,8 @@ export class GameEngine {
         const elapsedTime = currentTime - this.lastTick;
 
         if (elapsedTime < this.frametime) return;
+
+        this.animationSystem.update(elapsedTime);
         
         this.inputSystem.update();
         
