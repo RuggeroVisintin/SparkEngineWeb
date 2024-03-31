@@ -29,6 +29,8 @@ describe('ecs/components/AnimationComponent', () => {
             }]
         });
 
+        component.play();
+
         parentEntity.addComponent(component);
     });
 
@@ -71,7 +73,44 @@ describe('ecs/components/AnimationComponent', () => {
 
             expect(materialComponet[property]).toBe(component.frames[1].material?.[property]);
         })
+    });
 
-        
+    describe('.play()', () => { 
+        it('Should play the animation', () => {
+            component.play();
+
+            expect(component.isPlaying).toBe(true);
+        });
+    })
+
+    describe('.pause()', () => {
+        it('Should pause the animation', () => {
+            component.pause();
+
+            expect(component.isPlaying).toBe(false);
+        });
+
+        it('Should retain the information about the animation', () => {
+            component.play();
+
+            component.update(150);
+
+            component.pause();
+
+            expect(component.currentFrame).toBe(1);
+        })
+    });
+
+    describe('.stop()', () => {
+        it('Should stop and reset the animation from the start', () => {
+            component.play();
+
+            component.update(450);
+
+            component.stop();
+
+            expect(component.isPlaying).toBe(false);
+            expect(component.currentFrame).toBe(0);
+        })
     })
 })

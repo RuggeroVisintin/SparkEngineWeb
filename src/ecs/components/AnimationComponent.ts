@@ -25,6 +25,7 @@ export class AnimationComponent extends BaseComponent {
     private _frames: AnimationFrame[];
     private _currentFrame: number = 0;
     private _accumulatedDeltaTime: number = 0;
+    private _isPlaying: boolean = false;
 
     public get frames(): AnimationFrame[] { 
         return this._frames;
@@ -34,13 +35,33 @@ export class AnimationComponent extends BaseComponent {
         return this._currentFrame;
     }
 
+    public get isPlaying(): boolean { 
+        return this._isPlaying;
+    }
+
     constructor(props: AnimationComponentProps) {
         super();
 
         this._frames = props.frames;
     }
 
-    public update(deltaTime: number): void {
+    public pause(): void {
+        this._isPlaying = false;
+    }
+
+    public play(): void {
+        this._isPlaying = true;
+    }
+
+    public stop(): void {
+        this._isPlaying = false;
+        this._currentFrame = 0;
+        this._accumulatedDeltaTime = 0;
+    }
+
+    public update(deltaTime: number): void {     
+        if (this._frames.length === 0) return;
+
         this._accumulatedDeltaTime += deltaTime;
 
         if (this._accumulatedDeltaTime > this._frames[this._currentFrame].duration) {
@@ -48,6 +69,10 @@ export class AnimationComponent extends BaseComponent {
             this._currentFrame = (this._currentFrame + 1) % this._frames.length;
         }
         
+        this.applyAnimation();        
+    }
+
+    private applyAnimation() {
         const currentFrame = this._frames[this._currentFrame];
         const parentMaterial = this.getContainer()?.getComponent<MaterialComponent>('MaterialComponent');
         
