@@ -105,11 +105,11 @@ export class GameEngine {
         const elapsedTime = currentTime - this.lastTick;
 
         if (elapsedTime < this.frametime) return;
-
-        this.animationSystem.update(elapsedTime);
         
         this.inputSystem.update();
         
+        this.animationSystem.update(elapsedTime);
+
         this.hierarchySystem.update(elapsedTime);
         
         this.physicsSystem.update();
