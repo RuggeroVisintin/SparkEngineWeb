@@ -12,24 +12,29 @@
         });
 
         const scene = engine.createScene();
+        const imageLoader = new SparkEngine.ImageLoader();
 
         const frames = [];
 
-        for (let i = 1; i <= 100 / 5; i++) {
+
+        for (let i = 0; i < 10; i++) {
             frames.push({
-                duration: 66,
+                duration: 82,
                 material: {
-                    opacity: 100 - (5 * i)
+                    diffuseTexturePath: `../assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Idle/tile00${i}.png`
                 }
             })
         }
 
         const animationComponent = new SparkEngine.AnimationComponent({ frames });
+        animationComponent.loadAssets(imageLoader);
+
         const inputComponent = new SparkEngine.InputComponent();
 
         const staticObject = new SparkEngine.StaticObject();
-        staticObject.transform.size = { width: 50, height: 50 };
-        staticObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        staticObject.transform.size = { width: 120, height: 80 };
+        staticObject.material.diffuseTexturePath = '../assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Idle/tile000.png';
+        staticObject.material.loadTexture(imageLoader);
 
         staticObject.addComponent(animationComponent);
         staticObject.addComponent(inputComponent);
@@ -47,6 +52,8 @@
         scene.registerEntity(staticObject);
 
         engine.run();
+
+        alert('Click P to play, S to pause and R to reset the animation');
     </script>
 </body>
 
