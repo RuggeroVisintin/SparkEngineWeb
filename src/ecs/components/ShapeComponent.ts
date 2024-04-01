@@ -55,6 +55,7 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
             diffuseTexture.media,
             [position.x, position.y],
             [size.width, size.height],
+            opacity,
         ));
         
     }

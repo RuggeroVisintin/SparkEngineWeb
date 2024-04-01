@@ -31,10 +31,15 @@
 
         const inputComponent = new SparkEngine.InputComponent();
 
+        const staticObject2 = new SparkEngine.StaticObject();
+        staticObject2.transform.size = { width: 1550, height: 1550 };
+        staticObject2.transform.depthIndex = 100;
+
         const staticObject = new SparkEngine.StaticObject();
         staticObject.transform.size = { width: 120, height: 80 };
         staticObject.material.diffuseTexturePath = '../assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Idle/tile000.png';
         staticObject.material.loadTexture(imageLoader);
+        staticObject.material.opacity = 105;
 
         staticObject.addComponent(animationComponent);
         staticObject.addComponent(inputComponent);
@@ -50,6 +55,7 @@
         })
 
         scene.registerEntity(staticObject);
+        scene.registerEntity(staticObject2);
 
         engine.run();
 

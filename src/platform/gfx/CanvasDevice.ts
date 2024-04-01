@@ -46,8 +46,11 @@ export class CanvasDevice {
         ctx.rect(x, y, width, height);
     }
 
-    public drawImage(ctx: CanvasRenderingContext2D, image: ImageBitmap, x: number, y: number, width: number, height: number): void {
+    public drawImage(ctx: CanvasRenderingContext2D, image: ImageBitmap, x: number, y: number, width: number, height: number, opacity = 100): void {
+        ctx.save();
+        ctx.globalAlpha = opacity / 100;
         ctx.drawImage(image, x, y, width, height);
+        ctx.restore();
     }
 
     public fill(ctx: CanvasRenderingContext2D, color?: string): void {
