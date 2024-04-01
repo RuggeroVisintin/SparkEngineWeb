@@ -1,0 +1,53 @@
+<html>
+
+<body>
+    <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
+    <script type="text/javascript" src="../../dist/spark-engine-web.js"></script>
+    <script>
+        const context = document.getElementById('canvas').getContext('2d')
+        const engine = new SparkEngine.GameEngine({
+            context,
+            framerate: 30,
+            resolution: { width: 1920, height: 1080 }
+        });
+
+        const scene = engine.createScene();
+
+        const frames = [];
+
+        for (let i = 1; i <= 100 / 5; i++) {
+            frames.push({
+                duration: 66,
+                material: {
+                    opacity: 100 - (5 * i)
+                }
+            })
+        }
+
+        const animationComponent = new SparkEngine.AnimationComponent({ frames });
+        const inputComponent = new SparkEngine.InputComponent();
+
+        const staticObject = new SparkEngine.StaticObject();
+        staticObject.transform.size = { width: 50, height: 50 };
+        staticObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+
+        staticObject.addComponent(animationComponent);
+        staticObject.addComponent(inputComponent);
+
+        inputComponent.onInputEventCb = (({ KeyP, KeyS, KeyR }) => {
+            if (KeyP === SparkEngine.KeyStatus.Down) {
+                animationComponent.play();
+            } else if (KeyS === SparkEngine.KeyStatus.Down) {
+                animationComponent.pause();
+            } else if (KeyR === SparkEngine.KeyStatus.Down) {
+                animationComponent.stop();
+            }
+        })
+
+        scene.registerEntity(staticObject);
+
+        engine.run();
+    </script>
+</body>
+
+</html>
