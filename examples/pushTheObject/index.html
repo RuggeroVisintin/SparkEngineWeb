@@ -12,7 +12,6 @@
         });
 
         const scene = engine.createScene();
-        const imageLoader = new SparkEngine.ImageLoader();
 
         const leftWall = new SparkEngine.StaticObject();
         leftWall.transform.size = { width: 20, height: 150 };
@@ -27,13 +26,12 @@
 
         const player = new SparkEngine.StaticObject({
             material: {
-                diffuseTexturePath: '../assets/FreeKnight_v1/Colour1/NoOutline/120x80_gifs/__Idle.gif',
+                diffuseColor: new SparkEngine.Rgb(0, 0, 0)
             }
         });
         player.transform.size = { width: 10, height: 10 };
         player.transform.position = new SparkEngine.Vec2(25, 25);
         player.boundingBox.matchContainerTransform = true;
-        player.material.loadTexture(imageLoader);
 
         const playerController = new SparkEngine.InputComponent();
         player.addComponent(playerController);
