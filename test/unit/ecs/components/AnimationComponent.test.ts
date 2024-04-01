@@ -112,5 +112,15 @@ describe('ecs/components/AnimationComponent', () => {
             expect(component.isPlaying).toBe(false);
             expect(component.currentFrame).toBe(0);
         })
+
+        it('Should apply the idle pose (frame 0)', () => {
+            component.play();
+
+            component.update(450);
+
+            component.stop();
+
+            expect(materialComponet.diffuseColor).toEqual(component.frames[0].material?.diffuseColor);
+        })
     })
 })

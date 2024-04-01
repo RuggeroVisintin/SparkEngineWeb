@@ -57,6 +57,8 @@ export class AnimationComponent extends BaseComponent {
         this._isPlaying = false;
         this._currentFrame = 0;
         this._accumulatedDeltaTime = 0;
+
+        this.applyAnimation();
     }
 
     public update(deltaTime: number): void {     
