@@ -49,6 +49,10 @@ export class MaterialComponent extends BaseComponent {
         return this._diffuseTexture;
     }
 
+    set diffuseTexture(texture: ImageAsset) {
+        this._diffuseTexture = texture;
+    }
+
     constructor(props?: MaterialComponentProps) {
         super();
 

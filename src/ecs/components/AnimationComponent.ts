@@ -1,4 +1,5 @@
-import { Type, typeOf } from "../../core";
+import { Type } from "../../core";
+import { ImageAsset, ImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { MaterialComponent, MaterialComponentProps } from "./MaterialComponent";
 
@@ -27,6 +28,8 @@ export class AnimationComponent extends BaseComponent {
     private _accumulatedDeltaTime: number = 0;
     private _isPlaying: boolean = false;
 
+    private _frameAssets: Record<string, ImageAsset> = {};
+
     public get frames(): AnimationFrame[] { 
         return this._frames;
     }
@@ -43,6 +46,17 @@ export class AnimationComponent extends BaseComponent {
         super();
 
         this._frames = props.frames;
+    }
+
+    public loadAssets(loader: ImageLoader): void {
+        for (const frame of this._frames) {
+            if (frame.material?.diffuseTexturePath) {
+                loader.load(frame.material.diffuseTexturePath)
+                    .then((asset) => {
+                        this._frameAssets[frame.material!.diffuseTexturePath!] = asset;
+                    })            
+            }
+        }
     }
 
     public pause(): void {
@@ -84,6 +98,7 @@ export class AnimationComponent extends BaseComponent {
         
         if (currentFrame.material?.diffuseTexturePath && parentMaterial) {
             parentMaterial.diffuseTexturePath = currentFrame.material.diffuseTexturePath;
+            parentMaterial.diffuseTexture = this._frameAssets[currentFrame.material.diffuseTexturePath];
         }
         
         if (currentFrame.material?.opacity && parentMaterial) {
