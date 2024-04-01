@@ -22,5 +22,24 @@ describe('platform/gfx/ImageLoader', () => {
                 await imageLoader.load('test.png');
             }).rejects.toThrow('Error');
         })
+
+        it('Should cache assets that are already loaded', async () => {
+            const spy = jest.fn().mockResolvedValueOnce(() => { });
+            
+            global.Image = jest.fn().mockImplementation(() => ({
+                onload: jest.fn(),
+                set src(value: string) { 
+                    spy();
+                    this.onload();
+                }
+            }))
+
+            const imageLoader = new ImageLoader();
+
+            await imageLoader.load('test.png');
+            await imageLoader.load('test.png');
+
+            expect(spy).toHaveBeenCalledTimes(1);
+        })
     })
 })

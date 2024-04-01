@@ -6,7 +6,11 @@ import { ImageAsset } from "./ImageAsset";
  * Loads a given image asset
  */
 export class ImageLoader {
+    private _assetsCache: Record<string, ImageAsset> = {};
+
     public async load(src: string): Promise<ImageAsset> {
+        if (this._assetsCache[src]) return this._assetsCache[src];
+
         return new Promise((resolve, reject) => {  
             const type = this.getTypeFromFileName(src);
 
@@ -14,10 +18,12 @@ export class ImageLoader {
             image.onerror = reject;
 
             image.onload = async () => {
-                resolve(new ImageAsset(
+                this._assetsCache[src] = new ImageAsset(
                     await createImageBitmap(image), 
                     type
-                ));
+                );
+
+                resolve(this._assetsCache[src]);
             };
 
             image.src = src;
