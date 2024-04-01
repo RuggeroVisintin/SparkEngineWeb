@@ -8,6 +8,13 @@ import { ImageAsset } from "./ImageAsset";
 export class ImageLoader {
     private _assetsCache: Record<string, ImageAsset> = {};
 
+    /**
+     * Loads the given image from the file system.
+     * If the image is already loaded in the cache it just returns the ImageAsset avoiding loading it from fileSystem
+     * 
+     * @param src - the source path of the asset file
+     * @returns Promise<ImageAsset> - the loaded ImageAsset
+     */
     public async load(src: string): Promise<ImageAsset> {
         if (this._assetsCache[src]) return this._assetsCache[src];
 
