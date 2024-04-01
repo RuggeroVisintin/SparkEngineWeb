@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.10.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.0...sparkengineweb-v0.10.1) (2024-04-01)
+
+
+### Features
+
+* **animations:** add animation assets loading ([22ebea4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/22ebea4563b7dd2a6323ea931e3c7662bb717fec))
+* **gfx:** add textures opacity ([899a76e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/899a76ec3e5ac9afa89b969da7f58baa799bfc3e))
+* **platform:** add assets cache to ImageLoader ([a435a03](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a435a03a55b9401e23af95ff7cd80d5526ed31ff))
+
 ## [0.10.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.9.0...sparkengineweb-v0.10.0) (2024-04-01)
 
 
