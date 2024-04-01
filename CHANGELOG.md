@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.10.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.9.0...sparkengineweb-v0.10.0) (2024-04-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ecs:** apply BaseSystem abstract class to HierarchySystem
+
+### Features
+
+* **animations:** add animation controls ([9cc570f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9cc570f27e99d93fac4211b5b65d5c5e4160d75d))
+* **animations:** apply idle pose when stopping the animation ([8bbb401](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8bbb40105dfd2bcfaad676618ad8f372cfe23b45))
+* **ecs:** add animations ([1cd95d8](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1cd95d811f3be8fc25ec744b4f6f219f61df064d))
+* **ecs:** add BaseSystem abstract class ([1bfdaa4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1bfdaa494e92e7ec0cdce1af7d19155f8c071a34))
+* **ecs:** add support to multiple components of the same type in Entities ([2d18ecf](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2d18ecf41192e4a41ed3759ce40b367ddb3f9312))
+* **engine:** add animationCompont to scene ([57ee76b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/57ee76b00638b5202760adaa7569da1a6ee9bd17))
+* **engine:** add AnimationSystem to engine ([63d0dde](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/63d0dde08e68f98d996080d885445c43e1c47141))
+* **gfx:** add type to ImageAsset ([a17e998](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a17e9989775ce7041a0d9df91f041e96c32a9057))
+
+
+### Code Refactoring
+
+* **ecs:** apply BaseSystem abstract class to HierarchySystem ([bbeddcd](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bbeddcda22c4cdc4bc78b54cdf23bc0dfa722d59))
+
 ## [0.9.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.8.5...sparkengineweb-v0.9.0) (2024-03-26)
 
 
