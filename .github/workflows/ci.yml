@@ -116,6 +116,11 @@ jobs:
             # (PAT) and configured it as a GitHub action secret named
             # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
             token: ${{ secrets.GITHUB_TOKEN }}
+        - name: upload release artifact
+          if: ${{ steps.release.outputs.release_created }}
+          env: 
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
           with:
