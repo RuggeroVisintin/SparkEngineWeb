@@ -1,5 +1,5 @@
 {
-  "name": "spark-engine-web",
+  "name": "@spark-engine-web/engine",
   "version": "0.10.1",
   "engines": {
     "npm": "^10",
