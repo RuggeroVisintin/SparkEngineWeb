@@ -132,7 +132,9 @@ jobs:
           if: ${{ steps.release.outputs.release_created }}
           env: 
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: gh release upload ${{ steps.release.outputs.tag_name }} ./dist
+          run: |
+            zip -r "${{ steps.release.outputs.tag_name }}.zip" ./dist
+            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}.zip"
         - name: build docs
           id: docs
           if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}
