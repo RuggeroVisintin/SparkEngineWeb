@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.2...sparkengineweb-v0.10.3) (2024-04-19)
+
+
+### Bug Fixes
+
+* fix distributable missing in release artifact ([18bd2ce](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/18bd2ceba3ab7d6ba35e17d07cbbc025ceda6c28))
+
 ## [0.10.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.1...sparkengineweb-v0.10.2) (2024-04-19)
 
 
