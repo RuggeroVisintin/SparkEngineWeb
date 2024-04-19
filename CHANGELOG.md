@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.1...sparkengineweb-v0.10.2) (2024-04-19)
+
+
+### Features
+
+* add compiled source in release package ([1107763](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1107763475c64d4b77a1aac13edec5ee5d1110ea))
+
 ## [0.10.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.0...sparkengineweb-v0.10.1) (2024-04-01)
 
 
