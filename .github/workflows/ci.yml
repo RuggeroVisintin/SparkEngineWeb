@@ -126,15 +126,19 @@ jobs:
             path: .github/pages/badges/coverage.badge.svg
         - name: install
           run: npm ci
-        - name: build
+        - name: build web bundle
           run: npm run build
+        - name: build lib
+          run: npm run build:lib
         - name: upload release artifact
           if: ${{ steps.release.outputs.release_created }}
           env: 
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            tar -czvf "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz" ./dist
+            tar -czvf "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz" -C dist/jsbundle .
+            tar -czvf "${{ steps.release.outputs.tag_name }}-lib.tar.gz" -C dist/lib .
             gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz"
+            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-lib.tar.gz"
         - name: build docs
           id: docs
           if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}

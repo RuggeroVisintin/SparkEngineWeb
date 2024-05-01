@@ -23,6 +23,6 @@ module.exports = {
         library: 'SparkEngine',
         libraryTarget: 'umd',
         filename: 'spark-engine-web.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist/jsbundle'),
     }
 };
