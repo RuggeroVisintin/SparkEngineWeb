@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.4...sparkengineweb-v0.10.5) (2024-05-01)
+
+
+### Miscellaneous Chores
+
+* release 0.10.5 ([83cf94c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/83cf94ccfb7d467aec699f2399f8c08e397b9b6c))
+
 ## [0.10.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.3...sparkengineweb-v0.10.4) (2024-04-19)
 
 
