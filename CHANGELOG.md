@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.6](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.5...sparkengineweb-v0.10.6) (2024-05-01)
+
+
+### Continuous Integration
+
+* fix build:lib script ([a6a0f65](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a6a0f65d3e3101cd149bdaa6b26caf69e9c1014a))
+
 ## [0.10.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.4...sparkengineweb-v0.10.5) (2024-05-01)
 
 
