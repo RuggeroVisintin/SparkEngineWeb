@@ -18,7 +18,7 @@
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development --watch",
     "build:docs": "sh ./scripts/build-docs.sh",
-    "build:lib": "npx tsc",
+    "build:lib": "sh ./scripts/build-lib.sh",
     "serve:examples": "sh ./scripts/serve-examples.sh",
     "clean": "npx tsc --build --clean",
     "test": "jest",
