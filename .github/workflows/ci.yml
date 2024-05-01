@@ -133,8 +133,8 @@ jobs:
           env: 
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            zip -r "${{ steps.release.outputs.tag_name }}.zip" ./dist
-            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}.zip"
+            tar -czvf "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz" ./dist
+            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz"
         - name: build docs
           id: docs
           if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}

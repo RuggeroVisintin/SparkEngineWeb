@@ -11,6 +11,8 @@
     "https://github.com/nunziozappulla"
   ],
   "description": "",
+  "types": "src/index.d.ts",
+  "main": "src/index.ts",
   "private": true,
   "scripts": {
     "build": "webpack --mode=production",
