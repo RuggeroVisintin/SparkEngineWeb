@@ -1,5 +1,5 @@
 import { typeOf } from "../core";
-import { AnimationComponent, AnimationSystem, BoundingBoxComponent, CameraComponent, HierarchySystem, IEntity, InputComponent, InputSystem, PhysicsSystem, RenderSystem, ShapeComponent, SoundComponent, SoundSystem, TransformComponent } from "../ecs";
+import { AnimationSystem, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { createEntity } from "../ecs/entities/factory";
 
 /**
@@ -8,6 +8,16 @@ import { createEntity } from "../ecs/entities/factory";
  * @category Engine
  */
 export class Scene {
+    private _componentTypes = {
+        ShapeComponent: this.renderSystem,
+        CameraComponent: this.renderSystem,
+        BoundingBoxComponent: this.physicsSystem,
+        InputComponent: this.inputSystem,
+        TransformComponent: this.hierarchySystem,
+        SoundComponent: this.soundSystem,
+        AnimationComponent: this.animationSystem
+    }
+
     public readonly entities: IEntity[] = [];
 
     public constructor(
@@ -20,35 +30,37 @@ export class Scene {
     ) { }
     
     /**
-     * Registers the entity's components into the corrispective systems
+     * Adds entity to the scene and registers the entity's components into the corrispective systems
      * 
      * @param entity - The entity to register
      */
     public registerEntity(entity: IEntity) {
-        this.entities.push(entity);        
-
-        // TODO: add entity.getComponents<T> and iterate through each component and register it
-        const shape = entity.getComponent<ShapeComponent>('ShapeComponent');
-        shape && this.renderSystem.registerComponent(shape);
-
-        const cameraComponent = entity.getComponent<CameraComponent>('CameraComponent');
-        cameraComponent && this.renderSystem.registerComponent(cameraComponent);
+        this.entities.push(entity);   
         
-        const boundingBox = entity.getComponent<BoundingBoxComponent>('BoundingBoxComponent');
-        boundingBox && this.physicsSystem.registerComponent(boundingBox);
-    
-        const inputComponent = entity.getComponent<InputComponent>('InputComponent');
-        inputComponent && this.inputSystem.registerComponent(inputComponent);
+        Object.entries(this._componentTypes).map(([componentType, system]) => {
+            const component = entity.getComponent(componentType);
+            component && (<ISystem>system).registerComponent(component);
+        });
+    }
 
-        const transformComponent = entity.getComponent<TransformComponent>('TransformComponent');
-        transformComponent && this.hierarchySystem.registerComponent(transformComponent);
-    
-        const soundComponent = entity.getComponent<SoundComponent>('SoundComponent');
-        soundComponent && this.soundSystem.registerComponent(soundComponent);
+    /**
+     * Removes entity from the scene
+     * 
+     * @param uuid - The uuid of the entity to unregister
+     */
+    public unregisterEntity(uuid: string) {
+        const entityIndex = this.entities.findIndex(entity => entity.uuid === uuid);
 
-        const animationComponent = entity.getComponent<AnimationComponent>("AnimationComponent");
-        animationComponent && this.animationSystem.registerComponent(animationComponent);
+        if (entityIndex === -1) {
+            return;
+        }
 
+        const [entity] = this.entities.splice(entityIndex, 1);
+
+        Object.entries(this._componentTypes).map(([componentType, system]) => {
+            const component = entity.getComponent(componentType);
+            component && system.unregisterComponent(component.uuid);
+        });
     }
 
     public async load(filePath: string): Promise<void> {

@@ -1,10 +1,6 @@
 import { fetchMockData } from "../__mocks__/Fetch";
-import { AnimationSystem, CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, TransformComponent, Vec2 } from "../../../src"
+import { AnimationSystem, CanvasDevice, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, TransformComponent, Vec2 } from "../../../src"
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
-
-jest.mock('uuid', () => ({
-    v4: () => 'test-uuid'
-}))
 
 
 describe('/game/Scene', () => {
@@ -21,7 +17,7 @@ describe('/game/Scene', () => {
         );
     })
 
-    describe('.createEntity()', () => {
+    describe('.registerEntity()', () => {
         it('Should register the entity into the scene', () => {
             const entity = new StaticObject();
 
@@ -76,6 +72,66 @@ describe('/game/Scene', () => {
             expect(scene.soundSystem.components).toContain(soundComponent);
         });
     });
+
+    describe('.unregisterEntity()', () => {
+        let entity: StaticObject;
+        let inputComponent: InputComponent;
+        let soundComponent: SoundComponent;
+
+        beforeEach(() => {
+            entity = new StaticObject();
+            inputComponent = new InputComponent();
+            soundComponent = new SoundComponent({filePath: 'test.mp3'});
+
+            entity.addComponent(inputComponent);
+            entity.addComponent(soundComponent);
+
+            scene.registerEntity(entity);
+        })
+
+        it('Should remove the entity from the scene', () => {            
+            scene.unregisterEntity(entity.uuid);
+            expect(scene.entities).not.toContain(entity);
+        });
+
+        it('Should not throw if entity is not found', () => {
+            expect(
+                () => scene.unregisterEntity(new StaticObject().uuid)
+            ).not.toThrow();
+
+            expect(scene.entities).toEqual([entity]);
+        });
+
+        it('Should unregister entity shape components into its render system', () => {
+            scene.unregisterEntity(entity.uuid)
+
+            expect(scene.renderSystem.components).not.toContain(entity.shape);
+        });
+
+        it('Should unregister entity physics components into its physics system', () => {
+            scene.unregisterEntity(entity.uuid);
+
+            expect(scene.physicsSystem.components).not.toContain(entity.boundingBox);
+        });
+
+        it('Should unregister entity input components into its input system', () => {
+            scene.unregisterEntity(entity.uuid);
+
+            expect(scene.inputSystem.components).not.toContain(inputComponent);
+        })
+
+        it('Should unregister entity transform components into its hierarchy system', () => {
+            scene.unregisterEntity(entity.uuid);
+
+            expect(scene.hierarchySystem.components).not.toContain(entity.transform);
+        })
+
+        it('Should unregister entity sound components into its sound system', () => {
+            scene.unregisterEntity(entity.uuid);
+
+            expect(scene.soundSystem.components).not.toContain(soundComponent);
+        });
+    })
 
     describe('.load()', () => {
         it('Should load all entities from the scene', async () => {
