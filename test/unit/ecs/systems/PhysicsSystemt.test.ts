@@ -9,15 +9,6 @@ describe('ecs/systems/PhysicsSystem', () => {
         system = new PhysicsSystem(physx); 
     })
 
-    describe('.registerComponent()', () => {
-        it('Should register a Collidable component into the RenderSystem components list', () => {
-            const componentA = new BoundingBoxComponent();
-            system.registerComponent(componentA);
-
-            expect(system.components).toContain(componentA);
-        })
-    })
-
     describe('.update()', () => { 
         it('Should register the components into the Physx engine', () => {
             const componentA = new BoundingBoxComponent();

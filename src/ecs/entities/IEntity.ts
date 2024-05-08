@@ -4,6 +4,7 @@ import { IComponent } from "../components";
  * @category Entities
  */
 export interface IEntity {
+    uuid: string;
     name: string;
 
     addComponent(component: IComponent): void;

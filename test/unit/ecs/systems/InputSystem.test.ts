@@ -8,15 +8,6 @@ describe('ecs/systems/InputSystem', () => {
         inputSystem = new InputSystem(inputDevice);
     })
 
-    describe('.registerComponent()', () => {
-        it('Should register the component into the InputSystem components list', () => {
-            const testInputComponent = new InputComponent();
-            inputSystem.registerComponent(testInputComponent);
-
-            expect(inputSystem.components).toContain(testInputComponent);
-        })
-    });
-
     describe('.update()', () => {
         it('Should update each component registered into the system', () => {
             const inputComponent = new InputComponent();

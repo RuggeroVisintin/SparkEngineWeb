@@ -5,5 +5,6 @@ import { IComponent } from "../components";
  */
 export interface ISystem {
     registerComponent(component: IComponent): void;
+    unregisterComponent(uuid: string): void;
     update(deltaTime?: number): void;
 }

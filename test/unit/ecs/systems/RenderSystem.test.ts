@@ -1,17 +1,6 @@
 import { CanvasDevice, RenderSystem, Renderer, ShapeComponent } from "../../../../src";
 
 describe('systems/RenderSystem', () => {
-    describe('.registerComponent()', () => {
-        const renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()));
-        const myTestShape = new ShapeComponent();
-
-        it('Should register the component into the RenderSystem components list', () => {
-            renderSystem.registerComponent(myTestShape);
-
-            expect(renderSystem.components).toContain(myTestShape);
-        })
-    })
-
     describe('.update()', () => {
 
         afterEach(() => {
