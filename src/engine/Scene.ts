@@ -44,7 +44,7 @@ export class Scene {
     }
 
     /**
-     * Removes entity from the scene
+     * Removes entity from the scene. Also removes the entity's components from the corrispective systems
      * 
      * @param uuid - The uuid of the entity to unregister
      */
