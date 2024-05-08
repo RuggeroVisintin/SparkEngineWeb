@@ -26,6 +26,14 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
         }
     }
 
+    public unregisterComponent(uuid: string): void {
+        if (this.camera.uuid === uuid) {
+            this.camera = new CameraComponent();
+        }
+
+        super.unregisterComponent(uuid);
+    }
+
     public update(): void {
         // overwrite by default to avoid needless operations on non transparent object
         // is there really a perf advantage? I believe so, will measuring this in a perf test

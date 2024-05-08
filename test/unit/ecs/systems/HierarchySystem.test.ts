@@ -7,16 +7,6 @@ describe('ecs/systems/HierarchySystem', () => {
         hierarchySystem = new HierarchySystem();
     });
 
-    describe('.registerComponent()', () => {
-        it('Should add components to the world component list', () => {
-            const tComponent = new TransformComponent();
-
-            hierarchySystem.registerComponent(tComponent);
-
-            expect(hierarchySystem.components).toContain(tComponent);
-        });
-    })
-
     describe('.update()', () => {
         it('Should update the first level of the world', () => {
             const tComponent = new TransformComponent();

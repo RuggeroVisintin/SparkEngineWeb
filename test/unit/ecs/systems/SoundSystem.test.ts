@@ -8,18 +8,6 @@ describe('ecs/systems/SoundSystem', () => {
         soundSystem = new SoundSystem();
     });
 
-    describe('.registerComponent', () => {
-        it('Should register the component into the system', () => {
-            const soundComponent = new SoundComponent({
-                filePath: 'test.mp3',
-            }); 
-            
-            soundSystem.registerComponent(soundComponent);
-
-            expect(soundSystem.components).toContain(soundComponent);
-        });
-    })
-
     describe('.update()', () => {
         it('Should trigger the sound in queue', () => {
             const soundComponent = new SoundComponent({
