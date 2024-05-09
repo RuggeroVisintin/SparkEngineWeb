@@ -8,9 +8,9 @@ import { IComponent } from "./interfaces";
 export class BaseComponent implements IComponent {
     public readonly uuid = uuid();
 
-    private _container: IEntity | null = null;
+    private _container?: IEntity;
 
-    public getContainer(): IEntity | null {
+    public getContainer(): IEntity | undefined {
         return this._container;
     }
 

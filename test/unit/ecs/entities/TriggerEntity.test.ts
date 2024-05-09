@@ -17,8 +17,32 @@ describe('ecs/entities/TriggerEntity', () => {
             ).toThrow('Target entity must have a BoundingBox component attached');
         });
 
-        it('Should assign the target entity', () => {
+        it('Should assign the target entity when defined', () => {
             expect(triggerEntity.target).toBe(otherEntity);  
+        })
+        
+
+        it('Should construct a TriggerEntity without any additional props', () => {
+            expect(new TriggerEntity().target).toBe(undefined);
+        })
+    })
+
+    describe('.set target', () => {
+        it('Should throw an excecption if the target entity has no BoundingBox component attached', () => {
+            expect(() => {
+                triggerEntity.target = new BaseEntity();
+            }).toThrow('Target entity must have a BoundingBox component attached');
+        });
+
+        it('Should assign the target entity when defined', () => {
+            const newEntity = new StaticObject();
+            triggerEntity.target = newEntity;
+            expect(triggerEntity.target).toBe(newEntity);  
+        })
+
+        it('Should unset the target when undefined is given', () => {
+            triggerEntity.target = undefined;
+            expect(triggerEntity.target).toBe(undefined);  
         })
     })
 
