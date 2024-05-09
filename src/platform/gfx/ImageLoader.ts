@@ -1,9 +1,9 @@
 import { ImageAsset } from "./ImageAsset";
 
 /**
- * @category Platform
- * 
  * Loads a given image asset
+ * 
+ * @category Platform
  */
 export class ImageLoader {
     private _assetsCache: Record<string, ImageAsset> = {};

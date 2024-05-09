@@ -4,9 +4,9 @@ import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { IDrawableComponent } from "./interfaces/IDrawableComponent";
 
 /**
+ * Handles rendering the camera's transform matrix.
+ *  
  * @category Components
- * 
- * Handles rendering the camera's transform matrix. 
  */
 @Type('CameraComponent')
 export class CameraComponent extends BaseDrawableComponent implements IDrawableComponent {

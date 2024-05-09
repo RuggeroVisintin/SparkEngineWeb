@@ -27,11 +27,10 @@ export interface BoundingBoxComponentProps {
 }
 
 /**
- * @category Components
- * 
  * This component represents a bounding box that can be used for basic collision detection. 
- * It stores an Axis Aligned Bounding Box (AABB) defining the bounds. 
+ * It stores an Axis Aligned Bounding Box (AABB) defining the bounds.
  * 
+ * @category Components
  */
 @Type('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {
