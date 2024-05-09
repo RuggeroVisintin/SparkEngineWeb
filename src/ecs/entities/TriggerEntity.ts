@@ -11,7 +11,7 @@ export interface TriggerEntityProps extends StaticObjectProps {
     /**
      * The target of the trigger component
      */
-    target?: BaseEntity
+    target?: IEntity
 }
 
 /**
@@ -23,7 +23,27 @@ export interface TriggerEntityProps extends StaticObjectProps {
  */
 @Type('TriggerEntity')
 export class TriggerEntity extends StaticObject {
+    private _targetComponent?: BoundingBoxComponent;
 
+    
+    public set target(value: IEntity | undefined) {
+        if (!value) {
+            this._targetComponent = undefined;
+            return;
+        }
+
+        const targetComponent = value.getComponent<BoundingBoxComponent>('BoundingBoxComponent');
+    
+        if (!targetComponent) {
+            throw new Error('Target entity must have a BoundingBox component attached');
+        }
+    
+        this._targetComponent = targetComponent;
+    }
+
+    /**
+     * The target entity that enables the Trigger
+     */
     public get target(): IEntity | undefined {
         return this._targetComponent?.getContainer();
     }
@@ -34,25 +54,13 @@ export class TriggerEntity extends StaticObject {
      */
     public onTriggerCB: Function | null = null;
 
-    private _targetComponent?: BoundingBoxComponent;
-
     /**
      * @param props - the init props
      */
     constructor(props?: TriggerEntityProps) {
         super(props);
 
-
-        if (props?.target) {
-            const targetComponent = props.target.getComponent<BoundingBoxComponent>('BoundingBoxComponent');
-    
-            if (!targetComponent) {
-                throw new Error('Target entity must have a BoundingBox component attached');
-            }
-    
-            this._targetComponent = targetComponent;
-        }
-
+        this.target = props?.target;
         this.boundingBox.onCollisionCb = this.onCollisionHandler.bind(this);
     }
 
