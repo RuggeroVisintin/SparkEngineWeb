@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.10.7](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.6...sparkengineweb-v0.10.7) (2024-05-09)
+
+
+### Features
+
+* **ecs:** add optional target in TriggerEntity ([#277](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/277)) ([b423994](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b423994262305e43aa349a7dee83aa8a1ab80f1e))
+* **ecs:** add TriggerEntity target setter to change or remove target ([b423994](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b423994262305e43aa349a7dee83aa8a1ab80f1e))
+* **ecs:** add unregisterComponent method to system ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+* **ecs:** add uuid to entities ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+* **ecs:** make target optional in TriggerEntity constructor ([b423994](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b423994262305e43aa349a7dee83aa8a1ab80f1e))
+* **engine:** add unregisterEntity in Scene ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+* **scene:** add unregisterEntity to remove an entity from a scene ([#274](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/274)) ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+
+
+### Bug Fixes
+
+* **ecs:** return early if component not found ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+
 ## [0.10.6](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.5...sparkengineweb-v0.10.6) (2024-05-01)
 
 
