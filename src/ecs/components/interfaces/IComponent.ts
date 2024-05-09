@@ -6,6 +6,6 @@ import { IEntity } from "../../entities";
 export interface IComponent {    
     readonly uuid: string;
 
-    getContainer(): IEntity | null;
+    getContainer(): IEntity | undefined;
     setContainer(container: IEntity): void;
 }

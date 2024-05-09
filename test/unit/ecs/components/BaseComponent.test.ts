@@ -16,8 +16,8 @@ describe('ecs/components/BaseComponent', () => {
             expect(component.getContainer()).toBe(entity);
         });
 
-        it('Should return null if the component is not attached to an entity', () => {
-            expect(component.getContainer()).toBe(null);
+        it('Should return undefined if the component is not attached to an entity', () => {
+            expect(component.getContainer()).toBe(undefined);
         });
     });
 })
