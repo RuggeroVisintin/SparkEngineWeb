@@ -4,11 +4,11 @@
 
 ![Alt text](./assets/a_gear_icon_with_electric_spar%20(2).jpeg)
 
-Spark Engine Web is a lightweight browser based web game engine we are building for fun.
+Spark Engine Web is a lightweight browser-based web game engine we build for fun.
 
-We are building the engine with Security and performance in mind, to provide the best possible experience to our engine's users and contributors.
+We are building the engine to be simple and fairly performant, and we want to provide the best possible experience to our engine's users and contributors.
 
-That being said, it will be an iterative journey and we won't bump the major version until we won't feel confident to have reached our goal.
+That being said, it will be an iterative journey and we won't bump the major version until we feel confident we have reached our goal.
 
 ## Getting Started
 
@@ -21,7 +21,7 @@ Run `npm i` to install packages. After that, you are good to go
 
 ### Commands
 
-Here you can find the list of commands. **Commands with the :ci flag are reserved for the CI setup of the project and not recommended for normal use**
+Here you can find the list of commands. **Commands with the `:ci` flag are reserved for the CI setup of the project and not recommended for normal use**
 
 * `npm test` to run the unit test suite
 * `npm run test:perf` to run the performance test suite
@@ -33,7 +33,7 @@ Here you can find the list of commands. **Commands with the :ci flag are reserve
 
 ## Usage
 
-Donwload latest release here: <https://github.com/RuggeroVisintin/SparkEngineWeb/releases/latest>.
+Download the latest release here: <https://github.com/RuggeroVisintin/SparkEngineWeb/releases/latest>.
 Then `npm i` and `npm build` to install dependencies and build the .js distribution file.
 
 You can now include it in your html page like so
@@ -62,9 +62,9 @@ See the available [examples](./examples) to find out more
 
 ## Examples
 
-You can add more examples in the [examples](./examples) folder. In order to correctly serve them, especially if you are having problems with CORS, see the `npm run serve:examples` command.
+You can add more examples in the [examples](./examples) folder. To correctly serve them, especially if you experience problems with CORS, see the `npm run serve:examples` command.
 
-or just visit <https://ruggerovisintin.github.io/SparkEngineWeb/examples> for a ready to use version, updated to the latest release
+or just visit <https://ruggerovisintin.github.io/SparkEngineWeb/examples> for a ready-to-use version, updated to the latest release
 
 ## Contributing
 
@@ -78,4 +78,4 @@ See [LICENSE](./LICENSE) file
 
 ## Contact
 
-See maintainers section in package.json
+See the maintainers section in package.json
