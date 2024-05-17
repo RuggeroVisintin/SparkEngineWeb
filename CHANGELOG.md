@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.8](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.7...sparkengineweb-v0.10.8) (2024-05-17)
+
+
+### Features
+
+* **ecs:** add wireframe rendering mode to ShapeComponent ([5a0f8e6](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/5a0f8e65a47c3f342ffa6f1c9964894de687f87a))
+
 ## [0.10.7](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.6...sparkengineweb-v0.10.7) (2024-05-09)
 
 
