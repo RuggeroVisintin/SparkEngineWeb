@@ -23,6 +23,11 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
      */
     public shapeType: PrimitiveType = PrimitiveType.Rectangle;
 
+    /**
+     * Whether to render the primitive mesh as a Wireframe or as a full mesh
+     */
+    public isWireframe = false;
+
     private defaultMaterial = new MaterialComponent();
 
     public get material(): MaterialComponent {
@@ -47,7 +52,7 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
             PrimitiveType.Rectangle,
             [position.x, position.y],
             [size.width, size.height],
-            true,
+            !this.isWireframe,
             diffuseColor.toRgbaString(opacity),
         ));
 

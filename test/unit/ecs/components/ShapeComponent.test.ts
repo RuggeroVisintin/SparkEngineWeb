@@ -126,6 +126,20 @@ describe('ecs/components/ShapeComponent', () => {
                 opacity: 40
             }))
         });
+    });
+
+    describe('.isWireframe', () => {
+        it('Should not fill the entity during the draw pass when set to true', () => {
+            shapeComponent.isWireframe = true;
+            shapeComponent.draw(renderer);
+
+            expect(renderer.commandBuffer).toEqual([new DrawPrimitiveCommand(
+                PrimitiveType.Rectangle,
+                [0, 0],
+                [0, 0],
+                false
+            )]);
+        })
     })
 
 })
