@@ -9,6 +9,7 @@ import { IDrawableComponent } from "./interfaces/IDrawableComponent";
  */
 export interface ShapeComponentProps {
     shapeType?: PrimitiveType;
+    isWireframe?: boolean;
 }
 
 /**
@@ -17,7 +18,7 @@ export interface ShapeComponentProps {
  * @category Components
  */
 @Type('ShapeComponent')
-export class ShapeComponent extends BaseDrawableComponent implements IDrawableComponent {
+export class ShapeComponent extends BaseDrawableComponent implements IDrawableComponent, ShapeComponentProps {
     /**
      * The primitive type of the shape
      */
@@ -38,6 +39,7 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
         super();
 
         if (props?.shapeType) this.shapeType = props.shapeType;
+        if (props?.isWireframe) this.isWireframe = props.isWireframe;
     }
 
     /**
