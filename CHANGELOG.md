@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.9](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.8...sparkengineweb-v0.10.9) (2024-05-27)
+
+
+### Features
+
+* **ecs:** add "isWireframe" property in ShapeComponent constructor props ([c3c4950](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/c3c4950efe9c3b3ede2be339fe9fc13e2a8a987c))
+
 ## [0.10.8](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.7...sparkengineweb-v0.10.8) (2024-05-17)
 
 
