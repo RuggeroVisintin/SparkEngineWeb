@@ -15,6 +15,8 @@ export class CanvasDevice {
     private wRatio = 1;
     private hRatio = 1;
 
+    public defaultStrokeThickness = 1;
+
     public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void { 
         const canvas = ctx.canvas;
 
@@ -38,7 +40,6 @@ export class CanvasDevice {
     public clear(ctx: CanvasRenderingContext2D, color?: string): void {
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, ctx.canvas?.width || 0, ctx.canvas?.height || 0);
-
         ctx.scale(this.wRatio, this.hRatio);
     }
 
@@ -58,9 +59,12 @@ export class CanvasDevice {
         ctx.fill();
     }
 
-    public stroke(ctx: CanvasRenderingContext2D, color?: string): void {
+    public stroke(ctx: CanvasRenderingContext2D, color?: string, thickness?: number): void {
+        ctx.save();
         color && (ctx.strokeStyle = color);
+        ctx.lineWidth = thickness ?? this.defaultStrokeThickness;
         ctx.stroke();
+        ctx.restore();
     }
 
     public setBlendMethod(ctx: CanvasRenderingContext2D, method: BlendMethod): void {

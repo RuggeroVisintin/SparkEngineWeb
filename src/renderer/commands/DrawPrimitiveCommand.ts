@@ -16,6 +16,7 @@ export class DrawPrimitiveCommand implements RenderCommand {
      * @param size - the size of the Primitive (width, height)
      * @param fill - if the Primitive should be filled. Default is true
      * @param color - the color of the primitive. Default is #d16cd8 
+     * @param thickness - the thickness of the stroke when used when fill is set to false
      */ 
     constructor(
         public readonly primitiveType: PrimitiveType,
@@ -23,6 +24,7 @@ export class DrawPrimitiveCommand implements RenderCommand {
         public readonly size: [number, number],
         public readonly fill: boolean = true,
         public readonly color: string = Rgb.fromHex('#d16cd8').toRgbaString(),
+        public readonly thickness?: number
     ) { }
     
     public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {
@@ -34,7 +36,7 @@ export class DrawPrimitiveCommand implements RenderCommand {
         if (this.fill) {
             gfx.fill(ctx, this.color);
         } else {
-            gfx.stroke(ctx, this.color);
+            gfx.stroke(ctx, this.color, this.thickness);
         }
 
         gfx.end(ctx);

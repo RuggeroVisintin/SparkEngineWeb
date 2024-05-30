@@ -8,6 +8,7 @@
         const device = new SparkEngine.CanvasDevice();
 
         const renderer = new SparkEngine.Renderer(device, { width: 1920, height: 1080 }, context);
+        renderer.defaultWireframeThickness = 2;
 
         let pos = 0;
         const drawFrame = () => {
