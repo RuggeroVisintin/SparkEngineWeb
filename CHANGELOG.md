@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.10](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.9...sparkengineweb-v0.10.10) (2024-05-31)
+
+
+### Features
+
+* **renderer:** add support to wireframe thickness ([#296](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/296)) ([41a3ec2](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/41a3ec260ffe1f631569b5174f090349181bcc3c))
+
 ## [0.10.9](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.8...sparkengineweb-v0.10.9) (2024-05-27)
 
 
