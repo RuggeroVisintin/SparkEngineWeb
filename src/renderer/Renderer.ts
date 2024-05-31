@@ -17,6 +17,13 @@ export class Renderer {
         return this._commandBuffer;
     }
 
+    /**
+     * The default thickness of wireframes lines
+     */
+    public set defaultWireframeThickness(value: number) {
+        this.device.defaultStrokeThickness = value;
+    }
+
     public constructor(
         public readonly device: CanvasDevice,
         public readonly resolution: { width: number, height: number },
