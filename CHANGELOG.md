@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.11](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.10...sparkengineweb-v0.10.11) (2024-06-01)
+
+
+### Features
+
+* **engine:** add public access pattern to renderer ([bf614f2](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bf614f24d075cd5b40fc6684e0a56723fcbf46c1))
+
 ## [0.10.10](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.9...sparkengineweb-v0.10.10) (2024-05-31)
 
 
