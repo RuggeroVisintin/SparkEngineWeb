@@ -38,6 +38,10 @@ export class GameEngine {
     private readonly physicsCycles: number;
     private lastTick: number = 0;
 
+    private readonly physx: Physx;
+    private readonly context: CanvasRenderingContext2D;
+     private readonly inputs: KeyboardDevice
+
     public readonly renderSystem: RenderSystem;
     public readonly physicsSystem: PhysicsSystem;
     public readonly hierarchySystem: HierarchySystem;
@@ -45,10 +49,7 @@ export class GameEngine {
     public readonly soundSystem: SoundSystem;
     public readonly animationSystem: AnimationSystem;
 
-    private readonly physx: Physx;
-    private readonly renderer: Renderer;
-    private readonly context: CanvasRenderingContext2D;
-    private readonly inputs: KeyboardDevice
+    public readonly renderer: Renderer;
 
     /**
      * The list of scenes to render
