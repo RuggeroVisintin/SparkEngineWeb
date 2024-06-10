@@ -17,7 +17,7 @@ export class PhysicsSystem extends BaseSystem<ICollidableComponent> implements I
         super();
     }
 
-    update(): void {
+    protected _internalUpdate(): void {
         this.components.forEach(component => component.update(this.physx));
     }
 }
