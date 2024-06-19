@@ -1,7 +1,7 @@
 import { BaseComponent, BaseSystem } from "../../../../src";
 
 class TestSystem extends BaseSystem<BaseComponent> {
-    _internalUpdate = jest.fn();
+    internalUpdate = jest.fn();
 }
 
 describe('ecs/systems/BaseSystem', () => {
@@ -50,7 +50,7 @@ describe('ecs/systems/BaseSystem', () => {
         it('Should skip the next update cycles', () => {
             testSystem.pause();
 
-            const spy = jest.spyOn(testSystem, '_internalUpdate');
+            const spy = jest.spyOn(testSystem, 'internalUpdate');
 
             testSystem.update();
 
@@ -70,7 +70,7 @@ describe('ecs/systems/BaseSystem', () => {
             testSystem.pause();
             testSystem.resume();
 
-            const spy = jest.spyOn(testSystem, '_internalUpdate');
+            const spy = jest.spyOn(testSystem, 'internalUpdate');
 
             testSystem.update();
 

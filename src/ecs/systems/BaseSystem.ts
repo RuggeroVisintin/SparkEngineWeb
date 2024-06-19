@@ -52,7 +52,7 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
      * 
      * @param deltaTime - the elapesd time since last update
      */
-    protected abstract _internalUpdate(deltaTime?: number): void;
+    protected abstract internalUpdate(deltaTime?: number): void;
 
     /**
      * Triggers an update cycle
@@ -62,6 +62,6 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
     public update(deltaTime?: number): void {
         if (!this._isRunning) return;
 
-        this._internalUpdate(deltaTime);
+        this.internalUpdate(deltaTime);
     }
 }
