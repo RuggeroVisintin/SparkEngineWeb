@@ -45,7 +45,7 @@
     "@types/node": "^20.14.9",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
-    "@typescript-eslint/parser": "^7.14.1",
+    "@typescript-eslint/parser": "^7.15.0",
     "commitlint": "^19.3.0",
     "eslint": "^8.57.0",
     "eslint-plugin-jest-extended": "^2.4.0",
