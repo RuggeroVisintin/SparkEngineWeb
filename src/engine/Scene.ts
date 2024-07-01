@@ -1,4 +1,5 @@
-import { typeOf } from "../core";
+import { v4 as uuid } from 'uuid';
+import { throwIfNotUnique, typeOf } from "../core";
 import { AnimationSystem, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { createEntity } from "../ecs/entities/factory";
 
@@ -18,7 +19,13 @@ export class Scene {
         AnimationComponent: this.animationSystem
     }
 
-    public readonly entities: IEntity[] = [];
+    private _entities: IEntity[] = [];
+
+    public get entities(): IEntity[] {
+        return this._entities;
+    };
+
+    public readonly uuid: string = uuid();
 
     public constructor(
         public readonly renderSystem: RenderSystem,
@@ -28,15 +35,21 @@ export class Scene {
         public readonly soundSystem: SoundSystem,
         public readonly animationSystem: AnimationSystem
     ) { }
-    
+
     /**
      * Adds entity to the scene and registers the entity's components into the corrispective systems
+     * 
+     * @todo - Should throw if entity already registered with the same unique name
      * 
      * @param entity - The entity to register
      */
     public registerEntity(entity: IEntity) {
-        this.entities.push(entity);   
-        
+        throwIfNotUnique(entity.name, {
+            scope: this.uuid
+        });
+
+        this.entities.push(entity);
+
         Object.entries(this._componentTypes).map(([componentType, system]) => {
             const component = entity.getComponent(componentType);
             component && (<ISystem>system).registerComponent(component);
@@ -63,17 +76,23 @@ export class Scene {
         });
     }
 
-    public async load(filePath: string): Promise<void> {
+    public async loadFromFile(filePath: string): Promise<void> {
         const response = await fetch(filePath);
-        
+
         const scene = await response.json();
 
-        Object.entries(scene.entities).forEach(([name, value]) => {
+        this.loadFromJson(scene);
+    }
+
+    public loadFromJson(sceneJson: any): void {
+        this._entities = [];
+
+        Object.entries(sceneJson.entities).forEach(([name, value]) => {
             const entity = createEntity(typeOf(value), {
                 ...value as Record<string, any>,
                 name
             });
-            
+
             this.registerEntity(entity);
         });
     }

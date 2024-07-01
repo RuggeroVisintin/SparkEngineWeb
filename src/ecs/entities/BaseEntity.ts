@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { ThrowIfNotUnique, Type, incrementallyUnique, typeOf, typesOf } from "../../core";
+import { Type, incrementallyUnique, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
 import { IEntity } from "./IEntity";
 
@@ -13,7 +13,7 @@ export interface BaseEntityProps {
 @Type('BaseEntity')
 export class BaseEntity implements IEntity {
     public readonly uuid = uuid();
-    
+
     private _components: Map<string, IComponent[]> = new Map();
 
     private _name: string = '';
@@ -26,7 +26,6 @@ export class BaseEntity implements IEntity {
         }
     }
 
-    @ThrowIfNotUnique
     public set name(value: string) {
         this._name = value;
     }
