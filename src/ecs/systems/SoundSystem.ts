@@ -6,7 +6,7 @@ import { ISystem } from "./ISystem";
  * @category Systems
  */
 export class SoundSystem extends BaseSystem<SoundComponent> implements ISystem {
-    public update(): void {
+    protected internalUpdate(): void {
         this.components.forEach(soundComponent => soundComponent.update());
     }
 }

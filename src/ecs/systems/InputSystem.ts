@@ -11,7 +11,7 @@ export class InputSystem extends BaseSystem<InputComponent> implements ISystem {
         super();
     }
 
-    public update(): void {
+    protected internalUpdate(): void {
         this.components.forEach(inputComponent => inputComponent.update(this.inputDevice));
 
         // TODO: void calling update here

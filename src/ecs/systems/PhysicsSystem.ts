@@ -13,11 +13,11 @@ export class PhysicsSystem extends BaseSystem<ICollidableComponent> implements I
 
     constructor(
         private readonly physx: Physx
-    ) { 
+    ) {
         super();
     }
 
-    update(): void {
+    protected internalUpdate(): void {
         this.components.forEach(component => component.update(this.physx));
     }
 }

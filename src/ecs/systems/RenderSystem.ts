@@ -9,7 +9,7 @@ import { ISystem } from "./ISystem";
 /**
  * @category Systems
  */
-export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISystem { 
+export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISystem {
     private camera: CameraComponent = new CameraComponent();
 
     constructor(
@@ -34,7 +34,7 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
         super.unregisterComponent(uuid);
     }
 
-    public update(): void {
+    protected internalUpdate(): void {
         // overwrite by default to avoid needless operations on non transparent object
         // is there really a perf advantage? I believe so, will measuring this in a perf test
         this.renderer.pushRenderCommand(new SetBlendingMethodCommand(BlendMethod.BM_Overwrite));
