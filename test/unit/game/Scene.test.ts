@@ -1,5 +1,5 @@
+import { AnimationSystem, CanvasDevice, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
-import { AnimationSystem, CanvasDevice, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundLoader, SoundSystem, StaticObject, TransformComponent, Vec2 } from "../../../src"
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
 
@@ -22,7 +22,7 @@ describe('/game/Scene', () => {
             const entity = new StaticObject();
 
             scene.registerEntity(entity);
-            
+
             expect(scene.entities).toContain(entity);
         });
 
@@ -71,6 +71,16 @@ describe('/game/Scene', () => {
 
             expect(scene.soundSystem.components).toContain(soundComponent);
         });
+
+        it('Should throw if the same entity is added twice', () => {
+            const entity = new StaticObject();
+            const entity2 = new StaticObject();
+            entity2.name = entity.name;
+
+            scene.registerEntity(entity);
+            expect(() => scene.registerEntity(entity2))
+                .toThrow('StaticObject6 is already used');
+        });
     });
 
     describe('.unregisterEntity()', () => {
@@ -81,7 +91,7 @@ describe('/game/Scene', () => {
         beforeEach(() => {
             entity = new StaticObject();
             inputComponent = new InputComponent();
-            soundComponent = new SoundComponent({filePath: 'test.mp3'});
+            soundComponent = new SoundComponent({ filePath: 'test.mp3' });
 
             entity.addComponent(inputComponent);
             entity.addComponent(soundComponent);
@@ -89,7 +99,7 @@ describe('/game/Scene', () => {
             scene.registerEntity(entity);
         })
 
-        it('Should remove the entity from the scene', () => {            
+        it('Should remove the entity from the scene', () => {
             scene.unregisterEntity(entity.uuid);
             expect(scene.entities).not.toContain(entity);
         });
@@ -133,14 +143,11 @@ describe('/game/Scene', () => {
         });
     })
 
-    describe('.load()', () => {
+    describe('.loadFromJson()', () => {
         it('Should load all entities from the scene', async () => {
-            jest.spyOn(global, 'fetch').mockResolvedValue({
-                ...fetchMockData,
-                json: () => Promise.resolve(defaultEntitiesScene),
-            });
-            
-            await scene.load('test.scene.json');
+            scene.loadFromJson((await defaultEntitiesScene).default);
+
+            console.log('ENTITIES', scene.entities)
 
             expect(scene.entities).toEqual([
                 expect.objectContaining({
@@ -155,12 +162,82 @@ describe('/game/Scene', () => {
         })
 
         it('Should load the entities configuration as well', async () => {
+            scene.loadFromJson((await entitiesWithComponents).default);
+
+            expect(scene.entities).toEqual([
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity5',
+                    transform: expect.objectContaining({
+                        position: new Vec2(1, 2),
+                        size: { width: 100, height: 50 }
+                    }),
+                    shape: expect.objectContaining({
+                        shapeType: PrimitiveType.Rectangle
+                    })
+                }),
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity6',
+                    transform: expect.objectContaining({
+                        position: new Vec2(10, 20),
+                        size: { width: 100, height: 50 }
+                    }),
+                    shape: expect.objectContaining({
+                        shapeType: PrimitiveType.Rectangle
+                    }),
+                    material: expect.objectContaining({
+                        diffuseColor: new Rgb(255)
+                    })
+                })
+            ]);
+        });
+
+        it('Should load the entities name when loading a scene', () => {
+            scene.loadFromJson({
+                entities: {
+                    testEntity15: {
+                        __type: 'BaseEntity'
+                    },
+                    testEntity16: {
+                        __type: 'BaseEntity'
+                    },
+                }
+            });
+
+            expect(scene.entities[0].name).toEqual('testEntity15');
+            expect(scene.entities[1].name).toEqual('testEntity16');
+        })
+    })
+
+    describe('.loadFromFile()', () => {
+        it('Should load all entities from the scene', async () => {
+            jest.spyOn(global, 'fetch').mockResolvedValue({
+                ...fetchMockData,
+                json: () => Promise.resolve(defaultEntitiesScene),
+            });
+
+            await scene.loadFromFile('test.scene.json');
+
+            expect(scene.entities).toEqual([
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity1',
+                }),
+                expect.objectContaining({
+                    __type: 'GameObject',
+                    _name: 'testEntity2',
+                })
+            ]);
+        });
+
+        it('Should load the entities configuration as well', async () => {
             jest.spyOn(global, 'fetch').mockResolvedValue({
                 ...fetchMockData,
                 json: () => Promise.resolve(entitiesWithComponents),
             });
 
-            await scene.load('test.scene.json');
+            await scene.loadFromFile('test.scene.json');
 
             expect(scene.entities).toEqual([
                 expect.objectContaining({
@@ -206,7 +283,7 @@ describe('/game/Scene', () => {
                 }),
             });
 
-            await scene.load('test.scene.json');
+            await scene.loadFromFile('test.scene.json');
 
             expect(scene.entities[0].name).toEqual('testEntity15');
             expect(scene.entities[1].name).toEqual('testEntity16');
