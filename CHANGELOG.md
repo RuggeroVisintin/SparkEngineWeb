@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.12](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.11...sparkengineweb-v0.10.12) (2024-07-01)
+
+
+### Features
+
+* **ecs:** add the ability to pause/resume any given system ([#308](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/308)) ([53a6c52](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/53a6c52d9dabf33b14f2afb97846e8215a0e422a))
+* **engine:** add scene loading from given JSON object ([e621de0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/e621de060989a4a2abd9a3e77aa9ed82e6a66190))
+
 ## [0.10.11](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.10...sparkengineweb-v0.10.11) (2024-06-01)
 
 
