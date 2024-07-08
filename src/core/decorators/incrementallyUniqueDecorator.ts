@@ -1,4 +1,4 @@
-const uniqueCounterMap: Record<string, Record<string, number>> = {'global': {}};
+const uniqueCounterMap: Record<string, Record<string, number>> = { 'global': {} };
 
 const sanitizeScope = (scope: string): string => {
     if (scope === '__proto__') return '';
@@ -22,7 +22,7 @@ export interface UniquenessOpts {
     scope?: string
 }
 
-export function throwIfNotUnique(value: string, options?: UniquenessOpts) {
+export function registerUnique(value: string, options?: UniquenessOpts) {
     const scope = sanitizeScope(options?.scope ?? 'global');
 
     if (uniqueCounterMap[scope]?.[value] !== undefined) {
@@ -38,15 +38,15 @@ export function throwIfNotUnique(value: string, options?: UniquenessOpts) {
 
 
 
-export function ThrowIfNotUnique(target: any, key: string, descriptor: PropertyDescriptor) {
+export function RegisterUnique(target: any, key: string, descriptor: PropertyDescriptor) {
     descriptor = descriptor || {};
     const prevSet = descriptor.set;
 
     descriptor.set = function (this: any, newValue) {
-        throwIfNotUnique(newValue);
+        registerUnique(newValue);
 
         if (prevSet) prevSet.call(this, newValue);
     }
-    
+
     return descriptor;
 }

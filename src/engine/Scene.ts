@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { throwIfNotUnique, typeOf } from "../core";
+import { registerUnique, typeOf } from "../core";
 import { AnimationSystem, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { createEntity } from "../ecs/entities/factory";
 
@@ -44,7 +44,7 @@ export class Scene {
      * @param entity - The entity to register
      */
     public registerEntity(entity: IEntity) {
-        throwIfNotUnique(entity.name, {
+        registerUnique(entity.name, {
             scope: this.uuid
         });
 
