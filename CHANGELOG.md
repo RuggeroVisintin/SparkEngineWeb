@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.11.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.12...sparkengineweb-v0.11.0) (2024-07-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename uniqueness decorators
+
+### Bug Fixes
+
+* **engine:** fix scene trowhing exception when entity name is removed and added back again ([14d48c0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/14d48c038d222d18f3a383edd8471b18dd70fcbd))
+
+
+### Code Refactoring
+
+* rename uniqueness decorators ([8a2e6e3](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8a2e6e38209591eb9477af2c73b4a58348ba215a))
+
 ## [0.10.12](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.11...sparkengineweb-v0.10.12) (2024-07-01)
 
 
