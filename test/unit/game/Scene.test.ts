@@ -81,6 +81,14 @@ describe('/game/Scene', () => {
             expect(() => scene.registerEntity(entity2))
                 .toThrow('StaticObject6 is already used');
         });
+
+        it('Should allow to remove and add again the same entity without throwing', () => {
+            const entity = new StaticObject();
+
+            scene.registerEntity(entity);
+            scene.unregisterEntity(entity.uuid);
+            expect(() => scene.registerEntity(entity)).not.toThrow();
+        })
     });
 
     describe('.unregisterEntity()', () => {

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { registerUnique, typeOf } from "../core";
+import { registerUnique, typeOf, unregisterUnique } from "../core";
 import { AnimationSystem, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { createEntity } from "../ecs/entities/factory";
 
@@ -69,6 +69,10 @@ export class Scene {
         }
 
         const [entity] = this.entities.splice(entityIndex, 1);
+
+        unregisterUnique(entity.name, {
+            scope: this.uuid
+        });
 
         Object.entries(this._componentTypes).map(([componentType, system]) => {
             const component = entity.getComponent(componentType);
