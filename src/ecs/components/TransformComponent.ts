@@ -1,5 +1,6 @@
-import { Type, Vec2 } from "../../core";
+import { Type, Vec2, WithType } from "../../core";
 import { BaseComponent } from "./BaseComponent";
+import { ComponentProps } from "./interfaces";
 
 interface Size2D {
     /**
@@ -8,7 +9,7 @@ interface Size2D {
     width: number;
     height: number;
 }
-export interface TransformComponentProps {
+export interface TransformComponentProps extends ComponentProps {
     position?: Vec2;
     size?: Size2D;
     depthIndex?: number;
@@ -39,8 +40,9 @@ export class TransformComponent extends BaseComponent {
         this.position.y += this.velocity.y;
     }
 
-    public toJson(): TransformComponentProps {
+    public toJson(): WithType<TransformComponentProps> {
         return {
+            ...super.toJson(),
             position: this.position,
             size: this.size,
             depthIndex: this.depthIndex,

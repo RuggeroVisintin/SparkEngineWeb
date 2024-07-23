@@ -1,7 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { Type } from "../../core";
+import { Type, WithType, typeOf } from "../../core";
 import { IEntity } from "../entities";
 import { ComponentProps, IComponent } from "./interfaces";
+
+
 
 /** @category Components */
 @Type('BaseComponent')
@@ -18,7 +20,9 @@ export class BaseComponent implements IComponent {
         this._container = container;
     }
 
-    public toJson(): ComponentProps {
-        return {};
+    public toJson(): WithType<ComponentProps> {
+        return {
+            __type: typeOf(this)
+        };
     }
 }
