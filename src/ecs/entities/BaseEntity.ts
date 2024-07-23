@@ -1,9 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { Type, incrementallyUnique, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
-import { IEntity } from "./IEntity";
+import { EntityProps, IEntity } from "./IEntity";
 
-export interface BaseEntityProps {
+export interface BaseEntityProps extends EntityProps {
     name?: string;
 }
 
@@ -75,5 +75,11 @@ export class BaseEntity implements IEntity {
      */
     public getComponents<Component extends IComponent>(type: string): Component[] {
         return <Component[]>this._components.get(type) ?? [];
+    }
+
+    public toJson(): BaseEntityProps {
+        return {
+            name: this.name
+        }
     }
 }

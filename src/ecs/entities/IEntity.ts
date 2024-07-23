@@ -1,5 +1,8 @@
 import { IComponent } from "../components";
 
+export interface EntityProps {
+}
+
 /**
  * @category Entities
  */
@@ -9,4 +12,9 @@ export interface IEntity {
 
     addComponent(component: IComponent): void;
     getComponent<T extends IComponent>(type: string): T | undefined;
+
+    /**
+     * Returns a Json Object representation of the Entity
+     */
+    toJson(): EntityProps;
 }
