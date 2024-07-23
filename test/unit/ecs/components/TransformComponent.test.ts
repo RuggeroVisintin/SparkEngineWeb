@@ -49,7 +49,8 @@ describe('ecs/components/TransformComponent', () => {
         it('Should return a JSON representation of the component', () => {
             const transformComponent = new TransformComponent();
 
-            expect(transformComponent.toJson()).toEqual({
+            expect(transformComponent.toJson() as TransformComponentProps).toEqual({
+                __type: 'TransformComponent',
                 position: {
                     x: 0,
                     y: 0
