@@ -38,4 +38,13 @@ export class TransformComponent extends BaseComponent {
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
     }
+
+    public toJson(): TransformComponentProps {
+        return {
+            position: this.position,
+            size: this.size,
+            depthIndex: this.depthIndex,
+            velocity: this.velocity
+        };
+    }
 }
