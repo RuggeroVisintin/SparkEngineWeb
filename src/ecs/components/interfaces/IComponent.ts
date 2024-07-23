@@ -1,3 +1,4 @@
+import { WithType } from "../../../core";
 import { IEntity } from "../../entities";
 
 export interface ComponentProps { };
@@ -11,5 +12,5 @@ export interface IComponent {
     getContainer(): IEntity | undefined;
     setContainer(container: IEntity): void;
 
-    toJson(): ComponentProps;
+    toJson(): WithType<ComponentProps>;
 }

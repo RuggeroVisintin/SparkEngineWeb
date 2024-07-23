@@ -1,12 +1,13 @@
-import { Type } from "../../core";
+import { Type, WithType } from "../../core";
 import { Nullable } from "../../core/types";
 import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
+import { ComponentProps } from "./interfaces";
 
 /**
  * @category Components
  */
-export interface SoundComponentProps {
+export interface SoundComponentProps extends ComponentProps {
     filePath: string;
 }
 
@@ -85,5 +86,12 @@ export class SoundComponent extends BaseComponent {
             .then(asset => {
                 this._asset = asset;
             });
+    }
+
+    public toJson(): WithType<SoundComponentProps> {
+        return {
+            ...super.toJson(),
+            filePath: this.filePath
+        };
     }
 }
