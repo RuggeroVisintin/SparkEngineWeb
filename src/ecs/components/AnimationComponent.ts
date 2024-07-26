@@ -1,4 +1,4 @@
-import { Type } from "../../core";
+import { Type, WithType } from "../../core";
 import { ImageAsset, ImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { MaterialComponent, MaterialComponentProps } from "./MaterialComponent";
@@ -86,6 +86,13 @@ export class AnimationComponent extends BaseComponent {
         }
         
         this.applyAnimation();        
+    }
+
+    public toJson(): WithType<AnimationComponentProps> {
+        return {
+            ...super.toJson(),
+            frames: [...this._frames]
+        }
     }
 
     private applyAnimation() {

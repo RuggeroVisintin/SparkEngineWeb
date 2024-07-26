@@ -96,4 +96,15 @@ describe('ecs/components/SoundComponent', () => {
             }, 10);
         });
     })
+
+    describe('.toJson()', () => {
+        it('Should return the correct JSON representation', () => {
+            const json: SoundComponentProps = soundComponent.toJson();
+
+            expect(json).toEqual({
+                __type: 'SoundComponent',
+                filePath: 'test.mp3'
+            });
+        });
+    })
 })

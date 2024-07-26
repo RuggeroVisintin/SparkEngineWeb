@@ -72,4 +72,16 @@ describe('ecs/entities/BaseEntity', () => {
             ]);
         })
     })
+
+    describe('.toJson()', () => {
+        it('Should return a json representetion of the BaseEntity', () => {
+            const testComponent = new BaseComponent();
+            baseEntity.addComponent(testComponent);
+            baseEntity.name = 'BaseEntity1234';
+
+            expect(baseEntity.toJson()).toEqual({
+                name: 'BaseEntity1234'
+            });
+        })
+    })
 })

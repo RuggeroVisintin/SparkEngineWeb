@@ -1,4 +1,4 @@
-import { Rgb, Type } from "../../core";
+import { Rgb, Type, WithType } from "../../core";
 import { ImageAsset, ImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 
@@ -67,5 +67,14 @@ export class MaterialComponent extends BaseComponent {
             .then((asset) => {
                 this._diffuseTexture = asset;
             });
+    }
+
+    public toJson(): WithType<MaterialComponentProps> {
+        return {
+            ...super.toJson(),
+            diffuseColor: this.diffuseColor,
+            opacity: this.opacity,
+            diffuseTexturePath: this.diffuseTexturePath
+        }
     }
 }

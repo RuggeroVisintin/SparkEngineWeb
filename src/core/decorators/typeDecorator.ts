@@ -1,5 +1,9 @@
 import { registerEntityType } from "../../ecs/entities/factory";
 
+export type WithType<T extends {}> = T & {
+    __type: string;
+} 
+
 export function Type(value: string) {
     return function (constructor: any) {
         if (constructor.prototype.__types) {

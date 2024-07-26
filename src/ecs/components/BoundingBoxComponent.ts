@@ -1,4 +1,4 @@
-import { Type, Vec2 } from "../../core";
+import { Type, Vec2, WithType } from "../../core";
 import { PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
@@ -94,6 +94,15 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
                 postSimulation: simulationResult,
             }),
         });
+    }
+
+    public toJson(): WithType<BoundingBoxComponentProps> {
+        return {
+            ...super.toJson(),
+            aabb: this.aabb,
+            isContainer: this.isContainer,
+            matchContainerTransform: this.matchContainerTransform
+        }
     }
 
     protected mapPhysicalObject(): PhysicsObject {

@@ -142,4 +142,16 @@ describe('ecs/components/ShapeComponent', () => {
         })
     })
 
+    describe('.toJson()', () => {
+        it('Should return the correct JSON representation', () => {
+            const json = shapeComponent.toJson();
+
+            expect(json).toEqual(expect.objectContaining({
+                __type: 'ShapeComponent',
+                shapeType: PrimitiveType.Rectangle,
+                isWireframe: false
+            }))
+        })
+    })
+
 })

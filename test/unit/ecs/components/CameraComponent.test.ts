@@ -52,5 +52,16 @@ describe('ecs/components/CameraComponent', () => {
         })
     });
 
+    describe('.toJson()', () => {
+        it('Should return the correct JSON representation', () => {
+            const json = cameraComponent.toJson();
+
+            expect(json).toEqual({
+                __type: 'CameraComponent',
+                transform: cameraComponent.transform.toJson()
+            })
+        })
+    })
+
     
 })
