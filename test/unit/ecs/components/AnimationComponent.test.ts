@@ -135,4 +135,27 @@ describe('ecs/components/AnimationComponent', () => {
             expect(materialComponet.diffuseColor).toEqual(component.frames[0].material?.diffuseColor);
         })
     })
+
+    describe('.toJson()', () => {
+        it('Should return the correct JSON representation', () => {
+            expect(component.toJson()).toEqual({
+                __type: 'AnimationComponent',
+                frames: [{
+                    duration: 100,
+                    material: {
+                        diffuseColor: new Rgb(255, 0, 0),
+                        diffuseTexturePath: 'test.png',
+                        opacity: 50
+                    }
+                }, {
+                    duration: 300,
+                    material: {
+                        diffuseColor: new Rgb(0, 255, 0),
+                        diffuseTexturePath: 'test2.png',
+                        opacity: 100
+                    }
+                }]
+            })
+        })
+    })
 })
