@@ -1,3 +1,4 @@
+import { WithType } from "../../core";
 import { Renderer } from "../../renderer";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent, TransformComponentProps } from "./TransformComponent";
@@ -24,6 +25,13 @@ export abstract class BaseDrawableComponent extends BaseComponent implements IDr
      */
     public get transform(): TransformComponent {
         return this.getContainer()?.getComponent('TransformComponent') ?? this.defaultTransform;
+    }
+
+    public toJson(): WithType<DrawableComponentProps> {
+        return {
+            ...super.toJson(),
+            transform: this.transform.toJson()
+        }
     }
 
     abstract draw(rendere: Renderer): void;
