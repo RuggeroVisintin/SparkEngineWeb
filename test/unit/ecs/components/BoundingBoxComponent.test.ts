@@ -181,4 +181,17 @@ describe('ecs/components/BoundingBoxComponent', () => {
             expect(cbBBComponentB).toHaveBeenCalled();
         });
     })
+
+    describe('.toJson()', () => {
+        it('Should return a JSON representation of the component', () => {
+            const json = bbComponent.toJson();
+
+            expect(json).toEqual({
+                __type: 'BoundingBoxComponent',
+                aabb: { x: 0, y: 0, width: 0, height: 0 },
+                matchContainerTransform: false,
+                isContainer: false
+            })
+        })
+    })
 })
