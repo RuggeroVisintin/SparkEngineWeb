@@ -1,5 +1,5 @@
 import { Type } from "../../core";
-import { KeyEvent, KeyStatusMap, KeyboardDevice } from "../../platform/inputs";
+import {  KeyStatusMap, KeyboardDevice } from "../../platform/inputs";
 import { BaseComponent } from "./BaseComponent";
 
 type OnInputEventTriggeredCallback = (keyStatusMap: KeyStatusMap) => void;
