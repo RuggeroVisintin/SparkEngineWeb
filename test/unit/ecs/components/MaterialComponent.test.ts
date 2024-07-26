@@ -68,4 +68,21 @@ describe('/ecs/components/MaterialComponent', () => {
 
         })
     })
+
+    describe('.toJson()', () => {
+        it('Should return the JSON representation of the component', () => {
+            const component = new MaterialComponent({
+                diffuseColor: new Rgb(255, 0, 0),
+                opacity: 50,
+                diffuseTexturePath: 'path/to/texture.png'
+            });
+
+            expect(component.toJson()).toEqual({
+                __type: 'MaterialComponent',
+                diffuseColor: new Rgb(255, 0, 0),
+                opacity: 50,
+                diffuseTexturePath: 'path/to/texture.png'
+            })
+        })
+    })
 })
