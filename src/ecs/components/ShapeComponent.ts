@@ -1,4 +1,4 @@
-import { Type } from "../../core";
+import { Type, WithType } from "../../core";
 import { Renderer, DrawPrimitiveCommand, DrawImageCommand, PrimitiveType} from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { MaterialComponent } from "./MaterialComponent";
@@ -64,6 +64,13 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
             [size.width, size.height],
             opacity,
         ));
-        
+    }
+
+    public toJson(): WithType<ShapeComponentProps> {
+        return {
+            ...super.toJson(),
+            shapeType: this.shapeType,
+            isWireframe: this.isWireframe,
+        };
     }
 }
