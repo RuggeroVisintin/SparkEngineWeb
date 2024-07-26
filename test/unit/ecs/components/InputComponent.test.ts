@@ -19,4 +19,14 @@ describe('ecs/components/InputComponent', () => {
             expect(inputDevice.listeners.length).toBe(1);
         });
     })
+
+    describe('.toJson()', () => {
+        it('Should return the JSON representation of the component', () => {
+            const json = inputComponent.toJson();
+
+            expect(json).toEqual({
+                __type: 'InputComponent'
+            });
+        });
+    })
 })
