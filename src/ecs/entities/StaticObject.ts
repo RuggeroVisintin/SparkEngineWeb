@@ -1,4 +1,4 @@
-import { Type } from "../../core";
+import { Type, WithType } from "../../core";
 import { BoundingBoxComponent, BoundingBoxComponentProps } from "../components";
 import { GameObject, GameObjectProps } from "./GameObject";
 
@@ -30,5 +30,13 @@ export class StaticObject extends GameObject {
         this.boundingBox = new BoundingBoxComponent(props?.boundingBox);
         
         this.addComponent(this.boundingBox);
+    }
+
+
+    public toJson(): WithType<StaticObjectProps> {
+        return {
+            ...super.toJson(),
+            boundingBox: this.boundingBox.toJson()
+        }
     }
 }
