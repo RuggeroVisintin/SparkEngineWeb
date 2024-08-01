@@ -71,4 +71,20 @@ describe('ecs/entities/GameObject', () => {
             expect(gameObject.material).toEqual(expect.objectContaining(materialConfig))
         })
     })
+
+    describe('.toJson()', () => {
+        it('Should return a json representation of the game object', () => {
+            const gameObject = new GameObject();
+
+            const json = gameObject.toJson();
+
+            expect(json).toEqual({
+                __type: 'GameObject',
+                name: gameObject.name,
+                transform: gameObject.transform.toJson(),
+                material: gameObject.material.toJson(),
+                shape: gameObject.shape.toJson()
+            })
+        })
+    })
 })
