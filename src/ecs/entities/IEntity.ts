@@ -1,3 +1,4 @@
+import { WithType } from "../../core";
 import { IComponent } from "../components";
 
 export interface EntityProps {
@@ -16,5 +17,5 @@ export interface IEntity {
     /**
      * Returns a Json Object representation of the Entity
      */
-    toJson(): EntityProps;
+    toJson(): WithType<EntityProps>;
 }
