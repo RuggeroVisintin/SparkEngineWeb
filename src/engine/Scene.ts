@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { registerUnique, typeOf, unregisterUnique } from "../core";
 import { AnimationSystem, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
-import { createEntity } from "../ecs/entities/factory";
+import { create } from "../core/factory";
 
 /**
  * A game scene
@@ -92,7 +92,7 @@ export class Scene {
         this._entities = [];
 
         Object.entries(sceneJson.entities).forEach(([name, value]) => {
-            const entity = createEntity(typeOf(value), {
+            const entity = create<IEntity>(typeOf(value), {
                 ...value as Record<string, any>,
                 name
             });
