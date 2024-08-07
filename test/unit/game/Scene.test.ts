@@ -155,8 +155,6 @@ describe('/game/Scene', () => {
         it('Should load all entities from the scene', async () => {
             scene.loadFromJson((await defaultEntitiesScene).default);
 
-            console.log('ENTITIES', scene.entities)
-
             expect(scene.entities).toEqual([
                 expect.objectContaining({
                     __type: 'GameObject',

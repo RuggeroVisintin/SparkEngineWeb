@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Type, incrementallyUnique, typeOf, typesOf } from "../../core";
+import { Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
 import { EntityProps, IEntity } from "./IEntity";
 
@@ -77,8 +77,9 @@ export class BaseEntity implements IEntity {
         return <Component[]>this._components.get(type) ?? [];
     }
 
-    public toJson(): BaseEntityProps {
+    public toJson(): WithType<BaseEntityProps> {
         return {
+            __type: typeOf(this),
             name: this.name
         }
     }

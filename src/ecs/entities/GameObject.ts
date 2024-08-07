@@ -1,4 +1,4 @@
-import { Type } from "../../core";
+import { Type, WithType } from "../../core";
 import { MaterialComponent, MaterialComponentProps, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps } from "../components";
 import { BaseEntity, BaseEntityProps } from "./BaseEntity";
 
@@ -46,5 +46,14 @@ export class GameObject extends BaseEntity {
         this.addComponent(this.transform);
         this.addComponent(this.shape);
         this.addComponent(this.material);
+    }
+
+    public toJson(): WithType<GameObjectProps> {
+        return {
+            ...super.toJson(),
+            transform: this.transform.toJson(),
+            shape: this.shape.toJson(),
+            material: this.material.toJson()
+        }
     }
 }

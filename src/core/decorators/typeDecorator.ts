@@ -1,4 +1,4 @@
-import { registerEntityType } from "../../ecs/entities/factory";
+import { registerTypeFactory } from "../factory";
 
 export type WithType<T extends {}> = T & {
     __type: string;
@@ -13,7 +13,7 @@ export function Type(value: string) {
         }
 
         constructor.prototype.__type = value;
-        registerEntityType(value, constructor);
+        registerTypeFactory(value, constructor);
     };
 }
 

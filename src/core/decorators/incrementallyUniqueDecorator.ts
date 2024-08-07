@@ -39,12 +39,8 @@ export function registerUnique(value: string, options?: UniquenessOpts) {
 export function unregisterUnique(value: string, options?: UniquenessOpts) {
     const scope = sanitizeScope(options?.scope ?? 'global');
 
-    console.log('Before', value, scope, uniqueCounterMap[scope])
     delete uniqueCounterMap[scope]?.[value];
-    console.log('After', value, scope, uniqueCounterMap[scope])
 }
-
-
 
 export function RegisterUnique(target: any, key: string, descriptor: PropertyDescriptor) {
     descriptor = descriptor || {};

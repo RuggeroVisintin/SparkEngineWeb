@@ -39,4 +39,17 @@ describe('ecs/entities/StaticObject', () => {
             expect(staticObject.boundingBox.matchContainerTransform).toEqual(bbConfig.matchContainerTransform);
         })
     })
+
+    describe('.toJson()', () => {
+        it('Should return a JSON representation of the entity', () => {
+            expect(staticObject.toJson()).toEqual({
+                __type: 'StaticObject',
+                name: staticObject.name,
+                shape: staticObject.shape.toJson(),
+                material: staticObject.material.toJson(),
+                transform: staticObject.transform.toJson(),
+                boundingBox: staticObject.boundingBox.toJson()
+            });
+        })
+    })
 })

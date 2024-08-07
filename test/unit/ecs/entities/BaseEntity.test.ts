@@ -80,6 +80,7 @@ describe('ecs/entities/BaseEntity', () => {
             baseEntity.name = 'BaseEntity1234';
 
             expect(baseEntity.toJson()).toEqual({
+                __type: 'BaseEntity',
                 name: 'BaseEntity1234'
             });
         })
