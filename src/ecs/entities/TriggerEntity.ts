@@ -15,17 +15,20 @@ export interface TriggerEntityProps extends StaticObjectProps {
 }
 
 /**
- * Triggers a callback when a collision with the given target entity is detected
+ * Use this Entity to detect collisions with another target entity and implement a custom logic
  * 
- * @throws {Error} If target entity does not have a BoundingBox component attached
- * 
+ * @todo This entity does not support target serialization, please follow https://github.com/RuggeroVisintin/SparkEngineWeb/issues/366 
  * @category Entities
  */
 @Type('TriggerEntity')
 export class TriggerEntity extends StaticObject {
     private _targetComponent?: BoundingBoxComponent;
 
-    
+    /**
+     * The target entity that triggers the collision detection
+     * 
+     * @throws {Error} If target entity does not have a BoundingBox component attached
+     */
     public set target(value: IEntity | undefined) {
         if (!value) {
             this._targetComponent = undefined;
@@ -41,9 +44,6 @@ export class TriggerEntity extends StaticObject {
         this._targetComponent = targetComponent;
     }
 
-    /**
-     * The target entity that enables the Trigger
-     */
     public get target(): IEntity | undefined {
         return this._targetComponent?.getContainer();
     }
