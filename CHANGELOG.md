@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.0...sparkengineweb-v0.11.1) (2024-08-07)
+
+
+### Features
+
+* **ecs:** add .toJson() method to get json representation of any component ([#352](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/352)) ([c189dd9](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/c189dd9c157f15de9ab437db91cff829b65d73d6))
+* **ecs:** add entities .toJson() serialization ([#367](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/367)) ([8c3ef7a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8c3ef7add04bf268041f9d3f1930cb823456a046))
+
 ## [0.11.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.10.12...sparkengineweb-v0.11.0) (2024-07-08)
 
 
