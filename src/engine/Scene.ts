@@ -43,8 +43,6 @@ export class Scene {
     /**
      * Adds entity to the scene and registers the entity's components into the corrispective systems
      * 
-     * @todo - Should throw if entity already registered with the same unique name
-     * 
      * @param entity - The entity to register
      */
     public registerEntity(entity: IEntity) {
