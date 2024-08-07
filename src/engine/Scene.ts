@@ -3,6 +3,9 @@ import { registerUnique, typeOf, unregisterUnique, WithType } from "../core";
 import { AnimationSystem, EntityProps, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { create } from "../core/factory";
 
+/**
+ * @category Engine
+ */
 export interface SceneJsonProps {
     entities: WithType<EntityProps>
 }
