@@ -7,7 +7,7 @@ import { create } from "../core/factory";
  * @category Engine
  */
 export interface SceneJsonProps {
-    entities: WithType<EntityProps>
+    entities: Record<string, WithType<EntityProps>>;
 }
 
 /**
@@ -117,5 +117,17 @@ export class Scene {
             this.registerEntity(entity);
         });
     }
-    
+
+    public toJson(): SceneJsonProps {
+        let entities: Record<string, WithType<EntityProps>> = {};
+
+        this._entities.forEach(entity => {
+            entities[entity.name] = entity.toJson();
+        });
+
+        return {
+            entities
+        }
+    }
+        
 }
