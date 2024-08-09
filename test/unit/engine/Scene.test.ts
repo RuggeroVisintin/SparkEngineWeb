@@ -1,4 +1,4 @@
-import { AnimationSystem, CanvasDevice, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
+import { AnimationSystem, CanvasDevice, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SceneJsonProps, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
@@ -293,6 +293,21 @@ describe('/game/Scene', () => {
 
             expect(scene.entities[0].name).toEqual('testEntity15');
             expect(scene.entities[1].name).toEqual('testEntity16');
+        })
+    });
+
+    describe('.toJson()', () => {
+        it('Should return the json representation of the scene', async () => {
+            const sceneJson = (await defaultEntitiesScene).default;
+
+            scene.loadFromJson(sceneJson);
+
+            expect(scene.toJson()).toEqual({
+                entities: {
+                    testEntity1: scene.entities[0].toJson(),
+                    testEntity2: scene.entities[1].toJson()
+                }
+            });
         })
     })
 })

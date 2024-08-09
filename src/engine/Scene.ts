@@ -1,7 +1,14 @@
 import { v4 as uuid } from 'uuid';
-import { registerUnique, typeOf, unregisterUnique } from "../core";
-import { AnimationSystem, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
+import { registerUnique, typeOf, unregisterUnique, WithType } from "../core";
+import { AnimationSystem, EntityProps, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { create } from "../core/factory";
+
+/**
+ * @category Engine
+ */
+export interface SceneJsonProps {
+    entities: Record<string, WithType<EntityProps>>;
+}
 
 /**
  * A game scene
@@ -38,8 +45,6 @@ export class Scene {
 
     /**
      * Adds entity to the scene and registers the entity's components into the corrispective systems
-     * 
-     * @todo - Should throw if entity already registered with the same unique name
      * 
      * @param entity - The entity to register
      */
@@ -80,6 +85,12 @@ export class Scene {
         });
     }
 
+    /**
+     * Loads the scene from a given file path
+     * 
+     * @param filePath path of the scene file to load
+     * 
+     */
     public async loadFromFile(filePath: string): Promise<void> {
         const response = await fetch(filePath);
 
@@ -88,10 +99,16 @@ export class Scene {
         this.loadFromJson(scene);
     }
 
-    public loadFromJson(sceneJson: any): void {
+    /**
+     * Loads the scene from a given json object
+     * 
+     * @param sceneProps the json object representing the scene
+     * 
+     */
+    public loadFromJson(sceneProps: SceneJsonProps): void {
         this._entities = [];
 
-        Object.entries(sceneJson.entities).forEach(([name, value]) => {
+        Object.entries(sceneProps.entities).forEach(([name, value]) => {
             const entity = create<IEntity>(typeOf(value), {
                 ...value as Record<string, any>,
                 name
@@ -100,4 +117,17 @@ export class Scene {
             this.registerEntity(entity);
         });
     }
+
+    public toJson(): SceneJsonProps {
+        let entities: Record<string, WithType<EntityProps>> = {};
+
+        this._entities.forEach(entity => {
+            entities[entity.name] = entity.toJson();
+        });
+
+        return {
+            entities
+        }
+    }
+        
 }
