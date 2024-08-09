@@ -21,7 +21,7 @@
     "build:lib": "sh ./scripts/build-lib.sh",
     "serve:examples": "sh ./scripts/serve-examples.sh",
     "clean": "npx tsc --build --clean",
-    "test": "jest",
+    "test": "jest && jest --watch",
     "test:ci": "jest --config jest.ci.config.js",
     "test:perf": "npx ts-node test/performance/bench.perf.ts",
     "test:perf:ci": "npm run test:perf -- --no-color",
