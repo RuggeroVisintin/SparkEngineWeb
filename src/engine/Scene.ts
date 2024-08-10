@@ -106,7 +106,7 @@ export class Scene {
      * 
      */
     public loadFromJson(sceneProps: SceneJsonProps): void {
-        this._entities = [];
+        this._entities.flat().forEach(entity => this.unregisterEntity(entity.uuid))
 
         Object.entries(sceneProps.entities).forEach(([name, value]) => {
             const entity = create<IEntity>(typeOf(value), {

@@ -213,6 +213,11 @@ describe('/game/Scene', () => {
 
             expect(scene.entities[0].name).toEqual('testEntity15');
             expect(scene.entities[1].name).toEqual('testEntity16');
+        });
+
+        it('Should allow to reload the same scene multiple times', async () => {
+            scene.loadFromJson((await defaultEntitiesScene).default);
+            scene.loadFromJson((await defaultEntitiesScene).default);
         })
     })
 
