@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Type, WithType, incrementallyUnique, setUniqueCounter, typeOf, typesOf } from "../../core";
+import { Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
 import { EntityProps, IEntity } from "./IEntity";
 
