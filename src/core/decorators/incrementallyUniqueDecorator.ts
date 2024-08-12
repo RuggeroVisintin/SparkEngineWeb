@@ -34,6 +34,16 @@ export function registerUnique(value: string, options?: UniquenessOpts) {
     }
 
     uniqueCounterMap[scope][value] = 0;
+
+    if (!uniqueCounterMap['global'][value]) {
+        uniqueCounterMap['global'][value] = 0;
+    } else {
+        Object.keys(uniqueCounterMap['global']).forEach(key => {
+            if (value === key || value.match(`/^${key}\\d+$`)) {
+                uniqueCounterMap['global'][key] = parseInt(value.split(key)[1]);
+            }
+        })
+    }
 }
 
 export function unregisterUnique(value: string, options?: UniquenessOpts) {

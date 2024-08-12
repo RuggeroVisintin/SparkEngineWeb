@@ -1,6 +1,6 @@
 import { Type, typeOf, typesOf } from "../../../../src"
 
-describe('code/decorators/Type', () => {
+describe('core/decorators/Type', () => {
     @Type('TestClass')
     class TestClass {
 

@@ -1,4 +1,4 @@
-import { AnimationSystem, CanvasDevice, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SceneJsonProps, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
+import { AnimationSystem, CanvasDevice, GameObject, HierarchySystem, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
@@ -218,6 +218,19 @@ describe('/game/Scene', () => {
         it('Should allow to reload the same scene multiple times', async () => {
             scene.loadFromJson((await defaultEntitiesScene).default);
             scene.loadFromJson((await defaultEntitiesScene).default);
+        })
+
+        it('Should not throw when adding a new Entity in a previously deserialized scene', async () => {
+            scene.loadFromJson({
+                entities: {
+                    'GameObject': {
+                        __type: 'GameObject'
+                    }
+                }
+            });
+
+            const entity = new GameObject();
+            expect(() => scene.registerEntity(entity)).not.toThrow();
         })
     })
 
