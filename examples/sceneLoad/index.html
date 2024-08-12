@@ -13,7 +13,24 @@
 
         const scene = engine.createScene();
 
-        scene.load('../assets/example.scene.json');
+        window.onclick = () => {
+            window.showOpenFilePicker({
+                multiple: false,
+                types: [{
+                    accept: {
+                        'application/json': ['.spark.json']
+                    }
+                }]
+            }).then(([openFileHandle]) => {
+                openFileHandle.getFile()
+                    .then(sceneJson => {
+                        sceneJson.text().then(data => {
+                            console.log('DATA', data)
+                            scene.loadFromJson(JSON.parse(data))
+                        });
+                    });
+            })
+        }
 
         engine.run();
     </script>
