@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.2...sparkengineweb-v0.11.3) (2024-08-12)
+
+
+### Bug Fixes
+
+* **core:** fix issue with unique names colliding with each other ([ad055af](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ad055afebe40c465448051612353d232b52c5aa4))
+
 ## [0.11.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.1...sparkengineweb-v0.11.2) (2024-08-12)
 
 
