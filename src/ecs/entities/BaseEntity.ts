@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
+import { Type, WithType, incrementallyUnique, setUniqueCounter, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
 import { EntityProps, IEntity } from "./IEntity";
 
@@ -22,10 +22,14 @@ export class BaseEntity implements IEntity {
         if (props?.name) {
             this.name = props.name;
         } else {
-            this._name = incrementallyUnique(typeOf(this));
+            this.name = incrementallyUnique(typeOf(this));
         }
     }
 
+    /**
+     * The name of the entity. Must be unique in the same scene
+     */
+    // TODO - If already assigned to a scene, it should check the uniqueness of the name in that scene
     public set name(value: string) {
         this._name = value;
     }
