@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.1...sparkengineweb-v0.11.2) (2024-08-12)
+
+
+### Bug Fixes
+
+* **engine:** fix scene load not cleaning up existing data properly ([34e3fd4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/34e3fd41806eaefeb468de501ff470a1a2be400c))
+
 ## [0.11.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.0...sparkengineweb-v0.11.1) (2024-08-10)
 
 
