@@ -1,10 +1,14 @@
 import { registerTypeFactory } from "../factory";
+import { incrementallyUnique } from "./incrementallyUniqueDecorator";
 
 export type WithType<T extends {}> = T & {
     __type: string;
 } 
 
 export function Type(value: string) {
+    console.log('Type', value);
+    incrementallyUnique(value);
+    
     return function (constructor: any) {
         if (constructor.prototype.__types) {
             constructor.prototype.__types = [value, ...constructor.prototype.__types];
