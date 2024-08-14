@@ -4,7 +4,7 @@ export type WithType<T extends {}> = T & {
     __type: string;
 } 
 
-export function Type(value: string) {
+export function Type(value: string) {    
     return function (constructor: any) {
         if (constructor.prototype.__types) {
             constructor.prototype.__types = [value, ...constructor.prototype.__types];

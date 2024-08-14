@@ -1,8 +1,9 @@
 import { BoundingBoxComponent, CollisionCallbackParams } from "../components";
-import { BaseEntity } from "./BaseEntity";
 import { StaticObject, StaticObjectProps } from "./StaticObject";
-import { Type } from "../../core";
+import { RegisterUnique, Type } from "../../core";
 import { IEntity } from ".";
+
+const ENTITY_TYPE = 'TriggerEntity';
 
 /**
  * @category Entities
@@ -20,7 +21,8 @@ export interface TriggerEntityProps extends StaticObjectProps {
  * @todo This entity does not support target serialization, please follow https://github.com/RuggeroVisintin/SparkEngineWeb/issues/366 
  * @category Entities
  */
-@Type('TriggerEntity')
+@Type(ENTITY_TYPE)
+@RegisterUnique(ENTITY_TYPE)
 export class TriggerEntity extends StaticObject {
     private _targetComponent?: BoundingBoxComponent;
 

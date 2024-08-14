@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { registerUnique, typeOf, unregisterUnique, WithType } from "../core";
+import { registerUniqueValue, typeOf, unregisterUnique, WithType } from "../core";
 import { AnimationSystem, EntityProps, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { create } from "../core/factory";
 
@@ -49,7 +49,7 @@ export class Scene {
      * @param entity - The entity to register
      */
     public registerEntity(entity: IEntity) {
-        registerUnique(entity.name, {
+        registerUniqueValue(entity.name, {
             scope: this.uuid
         });
 

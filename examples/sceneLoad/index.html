@@ -32,6 +32,15 @@
             })
         }
 
+        addEventListener("keypress", (event) => {
+            if (event.key === 'a') {
+                const name = window.prompt('name')
+                const gameObject = new SparkEngine.GameObject({ name });
+
+                scene.registerEntity(gameObject);
+            }
+        });
+
         engine.run();
     </script>
 </body>

@@ -1,6 +1,8 @@
-import { Type, WithType } from "../../core";
+import { RegisterUnique, Type, WithType } from "../../core";
 import { MaterialComponent, MaterialComponentProps, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps } from "../components";
 import { BaseEntity, BaseEntityProps } from "./BaseEntity";
+
+const ENTITY_TYPE = 'GameObject';
 
 /**
  * @category Entities
@@ -26,7 +28,8 @@ export interface GameObjectProps extends BaseEntityProps {
 /**
  * @category Entities
  */
-@Type('GameObject')
+@Type(ENTITY_TYPE)
+@RegisterUnique(ENTITY_TYPE)
 export class GameObject extends BaseEntity {
     public transform: TransformComponent;
     public shape: ShapeComponent;

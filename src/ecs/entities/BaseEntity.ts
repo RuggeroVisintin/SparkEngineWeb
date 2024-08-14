@@ -1,7 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
+import { RegisterUnique, Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
 import { EntityProps, IEntity } from "./IEntity";
+
+const ENTITY_TYPE = 'BaseEntity';
 
 export interface BaseEntityProps extends EntityProps {
     name?: string;
@@ -10,7 +12,8 @@ export interface BaseEntityProps extends EntityProps {
 /**
  * @category Entities
  */
-@Type('BaseEntity')
+@Type(ENTITY_TYPE)
+@RegisterUnique(ENTITY_TYPE)
 export class BaseEntity implements IEntity {
     public readonly uuid = uuid();
 

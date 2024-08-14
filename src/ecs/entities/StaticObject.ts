@@ -1,6 +1,8 @@
-import { Type, WithType } from "../../core";
+import { RegisterUnique, Type, WithType } from "../../core";
 import { BoundingBoxComponent, BoundingBoxComponentProps } from "../components";
 import { GameObject, GameObjectProps } from "./GameObject";
+
+const ENTITY_TYPE = 'StaticObject';
 
 /**
  * @category Entities
@@ -16,7 +18,8 @@ export interface StaticObjectProps extends GameObjectProps {
 /**
  * @category Entities
  */
-@Type('StaticObject')
+@Type(ENTITY_TYPE)
+@RegisterUnique(ENTITY_TYPE)
 export class StaticObject extends GameObject {
     public boundingBox: BoundingBoxComponent;
 
