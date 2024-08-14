@@ -10,7 +10,8 @@ src/**/*.d.ts
 .DS_Store
 .idea
 
-docs/
+docs/tsdoc
+
 .benchmark
 .coverage
 .github/pages

@@ -145,7 +145,7 @@ jobs:
           run: |
             npm run build:docs
             mkdir -p .github/pages/
-            cp -r docs/* .github/pages/
+            cp -r docs/tsdoc/* .github/pages/
             echo "docs_created=true" >> "$GITHUB_OUTPUT"
         - name: Setup Pages
           if: ${{ steps.docs.outputs.docs_created }}

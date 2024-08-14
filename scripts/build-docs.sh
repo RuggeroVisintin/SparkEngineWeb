@@ -6,7 +6,7 @@ if [ ! -d ./dist/ ]; then
 fi
 
 npx typedoc src/index.ts 
-cp -r assets/* docs/assets 
-mkdir -p docs/examples 
-cp -r examples/* docs/examples
-cp -r dist/ docs/dist
+cp -r assets/* docs/tsdoc/assets 
+mkdir -p docs/tsdoc/examples 
+cp -r examples/* docs/tsdoc/examples
+cp -r dist/ docs/tsdoc/dist

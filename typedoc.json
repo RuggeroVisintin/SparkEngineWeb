@@ -4,5 +4,6 @@
         "includeGroups": false,
         "includeFolders": false
     },
-    "categorizeByGroup": false
+    "categorizeByGroup": false,
+    "out": "./docs/tsdoc"
 }
