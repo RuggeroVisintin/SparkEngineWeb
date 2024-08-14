@@ -23,17 +23,7 @@ export interface UniquenessOpts {
 }
 
 export function registerUnique(value: string, options?: UniquenessOpts) {
-    console.log('registerUnique', value); 
     const scope = sanitizeScope(options?.scope ?? 'global');
-    const sanitizeKey = (key: string) => {
-        const match = key.match(/^(\w+)(\d+)$/);
-        if (match) {
-            return match[1]
-        }
-        return key;
-    }
-
-    const sanitizedKey = sanitizeKey(value);
 
     if (uniqueCounterMap[scope]?.[value] !== undefined) {
         throw new Error(`${value} is already used`);
@@ -43,7 +33,7 @@ export function registerUnique(value: string, options?: UniquenessOpts) {
         uniqueCounterMap[scope] = {};
     }
 
-    const found = Object.keys(uniqueCounterMap['global']).filter(key => {
+    Object.keys(uniqueCounterMap['global']).forEach(key => {
         if (value.match(`^${key}\\d+$`)) {
             const count = parseInt(value.split(key)[1]);
 
@@ -51,17 +41,11 @@ export function registerUnique(value: string, options?: UniquenessOpts) {
                 uniqueCounterMap['global'][key] = count;
                 uniqueCounterMap[scope][key] = count;
             }
-
-            return true;
         }
-
-        return false;
     })
 
     uniqueCounterMap[scope][value] = 0;
     uniqueCounterMap['global'][value] = 0;
-
-    console.log(JSON.stringify(uniqueCounterMap));
 }
 
 export function unregisterUnique(value: string, options?: UniquenessOpts) {
