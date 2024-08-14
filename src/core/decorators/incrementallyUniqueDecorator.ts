@@ -23,7 +23,7 @@ export interface UniquenessOpts {
     scope?: string
 }
 
-export function registerUnique(value: string, options?: UniquenessOpts) {
+export function registerUniqueValue(value: string, options?: UniquenessOpts) {
     const scope = sanitizeScope(options?.scope ?? 'global');
 
     if (uniqueCounterMap[scope]?.[value] !== undefined) {
@@ -47,8 +47,6 @@ export function registerUnique(value: string, options?: UniquenessOpts) {
 
     uniqueCounterMap[scope][value] = 0;
     uniqueCounterMap['global'][value] = 0;
-
-    console.log(uniqueCounterMap)
 }
 
 export function unregisterUnique(value: string, options?: UniquenessOpts) {
@@ -57,9 +55,14 @@ export function unregisterUnique(value: string, options?: UniquenessOpts) {
     delete uniqueCounterMap[scope]?.[value];
 }
 
+/**
+ * @category Core
+ * 
+ * Register the entity in the unique registry 
+ */
 export function RegisterUnique(value: string) {    
     return function (constructor: any) {
         // TODO -- we can use constructor.name
-        registerUnique(value);
+        registerUniqueValue(value);
     };
 }
