@@ -8,6 +8,7 @@ const sanitizeScope = (scope: string): string => {
 
 /** Decorator function */
 export function incrementallyUnique(value: string) {
+    // TODO - Should probably use the registerUnique?
     if (uniqueCounterMap['global'][value] === undefined) {
         uniqueCounterMap['global'][value] = 0;
         return value;
@@ -46,6 +47,8 @@ export function registerUnique(value: string, options?: UniquenessOpts) {
 
     uniqueCounterMap[scope][value] = 0;
     uniqueCounterMap['global'][value] = 0;
+
+    console.log(uniqueCounterMap)
 }
 
 export function unregisterUnique(value: string, options?: UniquenessOpts) {
@@ -54,15 +57,9 @@ export function unregisterUnique(value: string, options?: UniquenessOpts) {
     delete uniqueCounterMap[scope]?.[value];
 }
 
-export function RegisterUnique(target: any, key: string, descriptor: PropertyDescriptor) {
-    descriptor = descriptor || {};
-    const prevSet = descriptor.set;
-
-    descriptor.set = function (this: any, newValue) {
-        registerUnique(newValue);
-
-        if (prevSet) prevSet.call(this, newValue);
-    }
-
-    return descriptor;
+export function RegisterUnique(value: string) {    
+    return function (constructor: any) {
+        // TODO -- we can use constructor.name
+        registerUnique(value);
+    };
 }
