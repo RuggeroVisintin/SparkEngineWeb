@@ -79,7 +79,7 @@ describe('/game/Scene', () => {
 
             scene.registerEntity(entity);
             expect(() => scene.registerEntity(entity2))
-                .toThrow('StaticObject6 is already used');
+                .toThrow(/StaticObject\d+ is already used/);
         });
 
         it('Should allow to remove and add again the same entity without throwing', () => {

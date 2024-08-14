@@ -1,7 +1,7 @@
 import { BaseComponent, BaseEntity, Type } from "../../../../src";
 
 describe('ecs/entities/BaseEntity', () => {
-    let baseEntity = new BaseEntity();
+    let baseEntity: BaseEntity;
 
     beforeEach(() => {
         baseEntity = new BaseEntity();
