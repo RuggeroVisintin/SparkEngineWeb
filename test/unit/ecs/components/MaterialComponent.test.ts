@@ -79,7 +79,11 @@ describe('/ecs/components/MaterialComponent', () => {
 
             expect(component.toJson()).toEqual({
                 __type: 'MaterialComponent',
-                diffuseColor: new Rgb(255, 0, 0),
+                diffuseColor: {
+                    r: 255,
+                    g: 0,
+                    b: 0
+                },
                 opacity: 50,
                 diffuseTexturePath: 'path/to/texture.png'
             })

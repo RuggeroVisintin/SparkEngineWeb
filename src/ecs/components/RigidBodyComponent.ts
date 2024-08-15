@@ -6,7 +6,6 @@ export interface RigidBodyComponentProps extends BoundingBoxComponentProps {
     rebound: number;
 }
 
-
 /**
  * @category Components
  */

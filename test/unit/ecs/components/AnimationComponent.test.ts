@@ -72,7 +72,7 @@ describe('ecs/components/AnimationComponent', () => {
 
             component.update(101);
 
-            expect(materialComponet[property]).toBe(component.frames[1].material?.[property]);
+            expect(materialComponet[property]).toEqual(component.frames[1].material?.[property]);
         })
 
         it('Should load the frame material asset in the parent component', (done) => {

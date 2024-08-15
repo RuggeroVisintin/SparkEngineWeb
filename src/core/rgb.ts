@@ -1,8 +1,14 @@
+export interface RgbProps {
+    r: number;
+    g: number;
+    b: number;
+}
+
 
 /**
  * @category Core
  */
-export class Rgb {
+export class Rgb implements RgbProps {
     private _r: number = 0;
     private _g: number = 0;
     private _b: number = 0;
@@ -39,6 +45,14 @@ export class Rgb {
         return this._b;
     }
 
+    public toJson(): RgbProps {
+        return {
+            r: this.r,
+            g: this.g,
+            b: this.b
+        }
+    }
+
     static fromHex(hex: string): Rgb {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
@@ -46,7 +60,7 @@ export class Rgb {
             new Rgb(parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)) : new Rgb();
     }
 
-    static fromRgb(rgb: Rgb): Rgb {
+    static fromRgb(rgb: RgbProps): Rgb {
         return new Rgb(rgb.r, rgb.g, rgb.b);
     }
 

@@ -1,4 +1,4 @@
-import { Type, WithType } from "../../core";
+import { Rgb, Type, WithType } from "../../core";
 import { ImageAsset, ImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { MaterialComponent, MaterialComponentProps } from "./MaterialComponent";
@@ -100,7 +100,7 @@ export class AnimationComponent extends BaseComponent {
         const parentMaterial = this.getContainer()?.getComponent<MaterialComponent>('MaterialComponent');
         
         if (currentFrame.material?.diffuseColor && parentMaterial) {
-            parentMaterial.diffuseColor = currentFrame.material.diffuseColor;
+            parentMaterial.diffuseColor = Rgb.fromRgb(currentFrame.material.diffuseColor);
         }
         
         if (currentFrame.material?.diffuseTexturePath && parentMaterial) {

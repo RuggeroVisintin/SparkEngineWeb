@@ -1,4 +1,4 @@
-import { Rgb, Type, WithType } from "../../core";
+import { Rgb, RgbProps, Type, WithType } from "../../core";
 import { ImageAsset, ImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 
@@ -7,7 +7,7 @@ import { BaseComponent } from "./BaseComponent";
  * @category Components
  */
 export interface MaterialComponentProps {
-    diffuseColor?: Rgb;
+    diffuseColor?: RgbProps;
     opacity?: number;
     diffuseTexturePath?: string;
 }
@@ -72,7 +72,7 @@ export class MaterialComponent extends BaseComponent {
     public toJson(): WithType<MaterialComponentProps> {
         return {
             ...super.toJson(),
-            diffuseColor: this.diffuseColor,
+            diffuseColor: this.diffuseColor?.toJson(),
             opacity: this.opacity,
             diffuseTexturePath: this.diffuseTexturePath
         }

@@ -98,4 +98,10 @@ describe('core/Rgb', () => {
             expect(new Rgb(255, 0, 0).toRgbaString(0)).toBe('rgba(255, 0, 0, 0)')
         })
     })
+
+    describe('.toJson()', () => {
+        it('Should convert a color into a json object', () => {
+            expect(new Rgb(255, 0, 0).toJson()).toStrictEqual({ r: 255, g: 0, b: 0 })
+        });
+    })
 })
