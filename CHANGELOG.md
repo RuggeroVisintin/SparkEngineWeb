@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.4...sparkengineweb-v0.11.5) (2024-08-16)
+
+
+### Bug Fixes
+
+* **ecs:** fix material props serialization ([6edae6b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6edae6b2929925f5b6c9fd8d837365aa063b0170))
+
 ## [0.11.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.3...sparkengineweb-v0.11.4) (2024-08-14)
 
 
