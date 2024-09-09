@@ -48,7 +48,9 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
      */
     public draw(renderer: Renderer): void {
         const { position, size } = this.transform;
-        const { opacity, diffuseColor, diffuseTexture} = this.material;
+        const { opacity, diffuseColor, diffuseTexture } = this.material;
+        
+        // TODO - it should load the texture if not loaded already
 
         diffuseColor && renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,

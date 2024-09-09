@@ -78,6 +78,8 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
             });
     }
 
+    // TODO - .isDiffuseTextureLoaded()
+
     public toJson(): WithType<MaterialComponentProps> {
         return {
             ...super.toJson(),
