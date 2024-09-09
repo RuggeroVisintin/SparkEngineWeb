@@ -2,13 +2,22 @@ import { Rgb, RgbProps, Type, WithType } from "../../core";
 import { ImageAsset, ImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 
-
 /**
  * @category Components
  */
 export interface MaterialComponentProps {
+    /**
+     * The diffuse color of the material, expressed through Rgb Props
+     */
     diffuseColor?: RgbProps;
+    /**
+     * The opacity of the material.
+     * The value is a range between 0 and 100, where 0 is fully transparent object and 100 is a fully opaque
+     */
     opacity?: number;
+    /**
+     * The texture path to use as a diffuse texture 
+     */
     diffuseTexturePath?: string;
 }
 
@@ -16,7 +25,7 @@ export interface MaterialComponentProps {
  * @category Components
  */
 @Type('MaterialComponent')
-export class MaterialComponent extends BaseComponent {
+export class MaterialComponent extends BaseComponent implements MaterialComponentProps {
     private _diffuseTexture?: ImageAsset;
     private _diffuseTexturePath?: string;
     private _diffuseColor?: Rgb = Rgb.fromHex('#d16cd8');
