@@ -1,4 +1,5 @@
 import { Type, WithType } from "../../core";
+import { ImageLoader } from "../../platform";
 import { Renderer, DrawPrimitiveCommand, DrawImageCommand, PrimitiveType} from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { MaterialComponent } from "./MaterialComponent";
@@ -46,11 +47,9 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
      * Put a draw call in the renderer taking into account the component data
      * @param renderer 
      */
-    public draw(renderer: Renderer): void {
+    public draw(renderer: Renderer, imageLoader: ImageLoader): void {
         const { position, size } = this.transform;
         const { opacity, diffuseColor, diffuseTexture } = this.material;
-        
-        // TODO - it should load the texture if not loaded already
 
         diffuseColor && renderer.pushRenderCommand(new DrawPrimitiveCommand(
             PrimitiveType.Rectangle,
@@ -60,12 +59,16 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
             diffuseColor.toRgbaString(opacity),
         ));
 
-        diffuseTexture && renderer.pushRenderCommand(new DrawImageCommand(
-            diffuseTexture.media,
-            [position.x, position.y],
-            [size.width, size.height],
-            opacity,
-        ));
+        if (diffuseTexture) {
+            renderer.pushRenderCommand(new DrawImageCommand(
+                diffuseTexture.media,
+                [position.x, position.y],
+                [size.width, size.height],
+                opacity,
+            ));
+        } else {
+            this.material.loadTexture(imageLoader)
+        }
     }
 
     public toJson(): WithType<ShapeComponentProps> {
