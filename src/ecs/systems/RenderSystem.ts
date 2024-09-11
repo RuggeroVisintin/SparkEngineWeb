@@ -1,5 +1,5 @@
 import { typeOf } from "../../core";
-import { BlendMethod } from "../../platform";
+import { BlendMethod, ImageLoader } from "../../platform";
 import { Renderer, SetBlendingMethodCommand } from "../../renderer";
 import { CameraComponent } from "../components";
 import { IDrawableComponent } from "../components/interfaces/IDrawableComponent";
@@ -13,7 +13,8 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
     private camera: CameraComponent = new CameraComponent();
 
     constructor(
-        private readonly renderer: Renderer
+        private readonly renderer: Renderer,
+        private readonly imageLoader: ImageLoader
     ) {
         super();
     }
@@ -43,6 +44,6 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
 
         this.components
             .sort((prevComponent, currentComponent) => currentComponent.transform.depthIndex - prevComponent.transform.depthIndex)
-            .forEach(component => component.draw(this.renderer));
+            .forEach(component => component.draw(this.renderer, this.imageLoader));
     }
 }

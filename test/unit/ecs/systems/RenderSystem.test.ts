@@ -1,7 +1,13 @@
-import { CanvasDevice, RenderSystem, Renderer, ShapeComponent } from "../../../../src";
+import { CanvasDevice, ImageLoader, RenderSystem, Renderer, ShapeComponent } from "../../../../src";
 
 describe('systems/RenderSystem', () => {
+    let renderSystem: RenderSystem;
+
     describe('.update()', () => {
+
+        beforeEach(() => {
+            renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()), new ImageLoader())
+        })
 
         afterEach(() => {
             jest.clearAllMocks();
@@ -9,7 +15,6 @@ describe('systems/RenderSystem', () => {
         })
 
         it('Should draw renderable object', () => {
-            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()));
             const drawSpy = jest.spyOn(ShapeComponent.prototype, 'draw');
 
             renderSystem.registerComponent(new ShapeComponent());
@@ -22,7 +27,6 @@ describe('systems/RenderSystem', () => {
         });
 
         it('Should render objects based on their depthIndex in reverse order (0 rendered last)', () => {
-            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()));
             const component = new ShapeComponent();
             const component2 = new ShapeComponent();
             

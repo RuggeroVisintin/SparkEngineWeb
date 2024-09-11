@@ -1,3 +1,4 @@
+import { ImageLoader } from "../../../platform";
 import { Renderer } from "../../../renderer";
 import { TransformComponent } from "../TransformComponent";
 import { IComponent } from "./IComponent";
@@ -5,5 +6,5 @@ import { IComponent } from "./IComponent";
 export interface IDrawableComponent extends IComponent {
     transform: TransformComponent;
 
-    draw(renderer: Renderer): void;
+    draw(renderer: Renderer, imageLoader: ImageLoader): void;
 }

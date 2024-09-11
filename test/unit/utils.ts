@@ -1,0 +1,1 @@
+export const asyncTick = (): Promise<void> => new Promise(resolve => setTimeout(resolve));

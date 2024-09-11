@@ -1,12 +1,15 @@
 import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps, DrawImageCommand, ImageLoader } from "../../../../src";
 import '../../__mocks__';
+import { asyncTick } from '../../utils';
 
 describe('ecs/components/ShapeComponent', () => {
     let renderer: Renderer;
     let shapeComponent = new ShapeComponent();
+
+    const imageLoader = new ImageLoader();
         
     beforeEach(() => {
-        renderer = new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D());
+        renderer = new Renderer(new CanvasDevice(), { width: 1920, height: 1080 }, new CanvasRenderingContext2D());
         shapeComponent = new ShapeComponent();
     });
 
@@ -24,7 +27,7 @@ describe('ecs/components/ShapeComponent', () => {
     
     describe('.draw()', () => {
         it('Should push the right draw command to the renderer', () => {
-            shapeComponent.draw(renderer);
+            shapeComponent.draw(renderer, imageLoader);
 
             expect(renderer.commandBuffer).toEqual([new DrawPrimitiveCommand(
                 PrimitiveType.Rectangle,
@@ -35,7 +38,7 @@ describe('ecs/components/ShapeComponent', () => {
 
         it('Should push the current transform in the render command', () => {
             shapeComponent.transform.position.x = 3;
-            shapeComponent.draw(renderer);
+            shapeComponent.draw(renderer, imageLoader);
 
             expect(renderer.commandBuffer).toEqual([new DrawPrimitiveCommand(
                 PrimitiveType.Rectangle,
@@ -47,7 +50,7 @@ describe('ecs/components/ShapeComponent', () => {
         it('Should push the current material diffuse color in the render command', () => {
             const color = new Rgb(255, 0, 0);
             shapeComponent.material.diffuseColor = color;
-            shapeComponent.draw(renderer);
+            shapeComponent.draw(renderer, imageLoader);
 
             expect(renderer.commandBuffer).toEqual([new DrawPrimitiveCommand(
                 PrimitiveType.Rectangle,
@@ -63,7 +66,7 @@ describe('ecs/components/ShapeComponent', () => {
             shapeComponent.material.loadTexture(new ImageLoader());
 
             setTimeout(() => {
-                shapeComponent.draw(renderer);
+                shapeComponent.draw(renderer, imageLoader);
                 
                 expect(renderer.commandBuffer).toEqual(expect.arrayContaining([new DrawImageCommand(
                     shapeComponent.material.diffuseTexture?.media!,
@@ -75,6 +78,15 @@ describe('ecs/components/ShapeComponent', () => {
             }, 10)
 
         });
+
+        it('Should load the material current diffuse texture if present', async () => {
+            shapeComponent.material.diffuseTexturePath = 'test.png';
+            shapeComponent.draw(renderer, imageLoader);
+
+            await asyncTick();
+
+            expect(shapeComponent.material.diffuseTexture).toBeDefined();
+        })
     })
 
     describe('.transform', () => {
@@ -131,7 +143,7 @@ describe('ecs/components/ShapeComponent', () => {
     describe('.isWireframe', () => {
         it('Should not fill the entity during the draw pass when set to true', () => {
             shapeComponent.isWireframe = true;
-            shapeComponent.draw(renderer);
+            shapeComponent.draw(renderer, imageLoader);
 
             expect(renderer.commandBuffer).toEqual([new DrawPrimitiveCommand(
                 PrimitiveType.Rectangle,
@@ -154,4 +166,4 @@ describe('ecs/components/ShapeComponent', () => {
         })
     })
 
-})
+});
