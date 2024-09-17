@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.5...sparkengineweb-v0.12.0) (2024-09-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **renderer:** add texture loading when ShapeComponent material draw ([#398](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/398))
+
+### Features
+
+* **renderer:** add texture loading when ShapeComponent material draw ([#398](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/398)) ([64ea774](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/64ea774de3b256c626f30dccddaf89c0f7b67c30))
+
 ## [0.11.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.4...sparkengineweb-v0.11.5) (2024-08-16)
 
 
