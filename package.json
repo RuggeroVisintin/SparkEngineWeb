@@ -46,7 +46,7 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.18.0",
-    "commitlint": "^19.3.0",
+    "commitlint": "^19.5.0",
     "eslint": "^8.57.0",
     "eslint-plugin-jest-extended": "^2.4.0",
     "eslint-plugin-tsdoc": "^0.3.0",
