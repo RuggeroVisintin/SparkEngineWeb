@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.12.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.0...sparkengineweb-v0.12.1) (2024-10-02)
+
+
+### Features
+
+* **engine:** add ability to control when scene should be drawn/hidden ([#420](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/420)) ([3b8de5e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3b8de5e22641cab0bd6a9131674fa8bc4931bcc3))
+
+
+### Bug Fixes
+
+* **engine:** make sure only first scene created is automatically drawn ([3b8de5e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3b8de5e22641cab0bd6a9131674fa8bc4931bcc3))
+
 ## [0.12.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.11.5...sparkengineweb-v0.12.0) (2024-09-17)
 
 
