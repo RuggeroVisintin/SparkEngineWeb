@@ -21,5 +21,16 @@ describe('/game/GameEngine', () => {
             const scene = engine.createScene();
             expect(engine.scenes).toContain(scene);
         })
-    })
+
+        it('Should set the newly created scene for drawing if it is the first scene in the list', () => {
+            engine.createScene();
+            expect(engine.scenes[0].shouldDraw).toBeTruthy();
+        })
+
+        it('Should not set the newly created scene for drawing if it is not the first scene in the list', () => {
+            engine.createScene();
+            engine.createScene();
+            expect(engine.scenes[1].shouldDraw).toBeFalsy();
+        });
+    });
 })

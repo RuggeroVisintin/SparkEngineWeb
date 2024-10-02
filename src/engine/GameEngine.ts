@@ -88,7 +88,7 @@ export class GameEngine {
     }
 
     public createScene(): Scene {
-        const result = new Scene(
+        const newScene = new Scene(
             this.renderSystem,
             this.physicsSystem,
             this.inputSystem,
@@ -97,9 +97,13 @@ export class GameEngine {
             this.animationSystem
         );
 
-        this.scenes.push(result);
+        if (this.scenes.length === 0) {
+            newScene.draw();
+        }
 
-        return result;
+        this.scenes.push(newScene);
+
+        return newScene;
     }
 
     private tick(): void {
