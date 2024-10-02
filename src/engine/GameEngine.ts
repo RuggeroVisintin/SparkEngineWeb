@@ -87,8 +87,15 @@ export class GameEngine {
         this.tick();
     }
 
+    /**
+     * This factory method creates a new Scene ensuring all the systems are linked to it
+     * The scene is automatically set to be drawn if it is the first scene created
+     * All the other scenes are instead kept hidden
+     * 
+     * @returns newly created scene
+     */
     public createScene(): Scene {
-        const result = new Scene(
+        const newScene = new Scene(
             this.renderSystem,
             this.physicsSystem,
             this.inputSystem,
@@ -97,9 +104,13 @@ export class GameEngine {
             this.animationSystem
         );
 
-        this.scenes.push(result);
+        if (this.scenes.length === 0) {
+            newScene.draw();
+        }
 
-        return result;
+        this.scenes.push(newScene);
+
+        return newScene;
     }
 
     private tick(): void {
