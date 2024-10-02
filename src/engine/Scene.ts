@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { registerUniqueValue, typeOf, unregisterUnique, WithType } from "../core";
-import { AnimationSystem, EntityProps, HierarchySystem, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
+import { AnimationSystem, EntityProps, HierarchySystem, IComponent, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { create } from "../core/factory";
 
 /**
@@ -49,25 +49,25 @@ export class Scene {
         public readonly animationSystem: AnimationSystem
     ) { }
 
+    /**
+     * Sets the scene to draw, registering all entities components into the corrispective systems
+     */
     public draw(): void {
         this._shouldDraw = true;
 
         this._entities.forEach(entity => {
-            Object.entries(this._componentTypes).map(([componentType, system]) => {
-                const component = entity.getComponent(componentType);
-                component && (<ISystem>system).registerComponent(component);
-            });
+            this._registerEntityComponentsInSystems(entity)
         });
     }
 
+    /**
+     * Sets the scene to not draw, unregistering all entities components from the corrispective systems
+     */
     public hide(): void {
         this._shouldDraw = false;
 
         this._entities.forEach(entity => {
-            Object.entries(this._componentTypes).map(([componentType, system]) => {
-                const component = entity.getComponent(componentType);
-                component && (<ISystem>system).unregisterComponent(component.uuid);
-            });
+            this._unregisterEntityComponentsFromSystems(entity);
         });
     }
 
@@ -85,10 +85,7 @@ export class Scene {
         this.entities.push(entity);
 
         if (this._shouldDraw) {
-            Object.entries(this._componentTypes).map(([componentType, system]) => {
-                const component = entity.getComponent(componentType);
-                component && (<ISystem>system).registerComponent(component);
-            });
+            this._registerEntityComponentsInSystems(entity);
         }   
     }
 
@@ -110,10 +107,7 @@ export class Scene {
             scope: this.uuid
         });
 
-        Object.entries(this._componentTypes).map(([componentType, system]) => {
-            const component = entity.getComponent(componentType);
-            component && system.unregisterComponent(component.uuid);
-        });
+        this._unregisterEntityComponentsFromSystems(entity);
     }
 
     /**
@@ -159,6 +153,20 @@ export class Scene {
         return {
             entities
         }
+    }
+
+    private _registerEntityComponentsInSystems(entity: IEntity): void {
+        Object.entries(this._componentTypes).map(([componentType, system]) => {
+            const component = entity.getComponent(componentType);
+            component && (<ISystem>system).registerComponent(component);
+        });
+    }
+
+    private _unregisterEntityComponentsFromSystems(entity: IEntity): void {
+        Object.entries(this._componentTypes).map(([componentType, system]) => {
+            const component = entity.getComponent(componentType);
+            component && (<ISystem>system).unregisterComponent(component.uuid);
+        });
     }
         
 }
