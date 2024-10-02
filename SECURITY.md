@@ -2,8 +2,9 @@
 
 ## Supported Versions
 
-Only the latest version is patched with security updates, therefore make sure to always update the package.
+Just so you know – only the latest version is patched with security updates, so make sure always to update the package.
 
 ## Reporting a Vulnerability
 
-Open an issue in the issue page explaining the nature of the vulnerability or - even better - open a PR with the fix
+Before publicly disclosing the vulnerability, please make sure to reach us privately and provide a thorough explanation of it plus a path to reproduce it.
+We take the security very seriously and will make sure to promptly address security issues
