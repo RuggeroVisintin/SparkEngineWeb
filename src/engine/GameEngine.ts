@@ -92,9 +92,11 @@ export class GameEngine {
      * The scene is automatically set to be drawn if it is the first scene created
      * All the other scenes are instead kept hidden
      * 
+     * @param shouldDraw - Should the scene be drawn or hidden. Defaults to false
+     * 
      * @returns newly created scene
      */
-    public createScene(): Scene {
+    public createScene(shouldDraw = false): Scene {
         const newScene = new Scene(
             this.renderSystem,
             this.physicsSystem,
@@ -104,7 +106,7 @@ export class GameEngine {
             this.animationSystem
         );
 
-        if (this.scenes.length === 0) {
+        if (this.scenes.length === 0 || shouldDraw) {
             newScene.draw();
         }
 
