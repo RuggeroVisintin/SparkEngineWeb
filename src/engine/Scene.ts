@@ -34,6 +34,12 @@ export class Scene {
 
     public readonly uuid: string = uuid();
 
+    private _shouldDraw: boolean = false;
+
+    public get shouldDraw(): boolean {
+        return this._shouldDraw;
+    }
+
     public constructor(
         public readonly renderSystem: RenderSystem,
         public readonly physicsSystem: PhysicsSystem,
@@ -43,8 +49,31 @@ export class Scene {
         public readonly animationSystem: AnimationSystem
     ) { }
 
+    public draw(): void {
+        this._shouldDraw = true;
+
+        this._entities.forEach(entity => {
+            Object.entries(this._componentTypes).map(([componentType, system]) => {
+                const component = entity.getComponent(componentType);
+                component && (<ISystem>system).registerComponent(component);
+            });
+        });
+    }
+
+    public hide(): void {
+        this._shouldDraw = false;
+
+        this._entities.forEach(entity => {
+            Object.entries(this._componentTypes).map(([componentType, system]) => {
+                const component = entity.getComponent(componentType);
+                component && (<ISystem>system).unregisterComponent(component.uuid);
+            });
+        });
+    }
+
     /**
      * Adds entity to the scene and registers the entity's components into the corrispective systems
+     * if the scene is set to draw, else it will defer registering the components when `draw` is set to true
      * 
      * @param entity - The entity to register
      */
@@ -55,10 +84,12 @@ export class Scene {
 
         this.entities.push(entity);
 
-        Object.entries(this._componentTypes).map(([componentType, system]) => {
-            const component = entity.getComponent(componentType);
-            component && (<ISystem>system).registerComponent(component);
-        });
+        if (this._shouldDraw) {
+            Object.entries(this._componentTypes).map(([componentType, system]) => {
+                const component = entity.getComponent(componentType);
+                component && (<ISystem>system).registerComponent(component);
+            });
+        }   
     }
 
     /**

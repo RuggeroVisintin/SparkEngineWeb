@@ -1,3 +1,4 @@
+import { before } from "node:test";
 import { AnimationSystem, CanvasDevice, GameObject, HierarchySystem, ImageLoader, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
@@ -17,6 +18,44 @@ describe('/game/Scene', () => {
         );
     })
 
+    describe('.draw()', () => {
+        it('Should flag the scene to be drawn', () => {
+            scene.draw();
+
+            expect(scene.shouldDraw).toBeTruthy();
+        })
+
+        it('Should register the scene entities components into each system', () => {
+            scene.registerEntity(new StaticObject());
+
+            scene.draw();
+
+            expect(scene.renderSystem.components).not.toBeEmpty();
+            expect(scene.physicsSystem.components).not.toBeEmpty();
+        })
+    })
+
+    describe('.hide()', () => {
+        beforeEach(() => {
+            scene.draw();
+        })
+
+        it('Should flag the scene to not be drawn', () => {
+            scene.hide();
+
+            expect(scene.shouldDraw).toBeFalse();
+        });
+
+        it('Should unregister the scene entities components from each system', () => {
+            scene.registerEntity(new StaticObject());
+
+            scene.hide();
+
+            expect(scene.renderSystem.components).toBeEmpty();
+            expect(scene.physicsSystem.components).toBeEmpty();
+        });
+    });
+
     describe('.registerEntity()', () => {
         it('Should register the entity into the scene', () => {
             const entity = new StaticObject();
@@ -26,51 +65,110 @@ describe('/game/Scene', () => {
             expect(scene.entities).toContain(entity);
         });
 
-        it('Should register entity shape components into its render system', () => {
-            const entity = new StaticObject();
+        describe('When scene is drawn', () => {
+            beforeEach(() => {
+                scene.draw();
+            })
 
-            scene.registerEntity(entity);
+            it('Should register entity shape components into its render system', () => {
+                const entity = new StaticObject();
 
-            expect(scene.renderSystem.components).toContain(entity.shape);
-        });
+                scene.registerEntity(entity);
 
-        it('Should register entity physics components into its physics system', () => {
-            const entity = new StaticObject();
-
-            scene.registerEntity(entity);
-
-            expect(scene.physicsSystem.components).toContain(entity.boundingBox);
-        });
-
-        it('Should register entity input components into its input system', () => {
-            const entity = new StaticObject();
-            const inputComponent = new InputComponent();
-            entity.addComponent(inputComponent);
-
-            scene.registerEntity(entity);
-
-            expect(scene.inputSystem.components).toContain(inputComponent);
-        })
-
-        it('Should register entity transform components into its hierarchy system', () => {
-            const entity = new StaticObject();
-
-            scene.registerEntity(entity);
-
-            expect(scene.hierarchySystem.components).toContain(entity.transform);
-        })
-
-        it('Should register entity sound components into its sound system', () => {
-            const entity = new StaticObject();
-            const soundComponent = new SoundComponent({
-                filePath: 'test.mp3'
+                expect(scene.renderSystem.components).toContain(entity.shape);
             });
-            entity.addComponent(soundComponent);
 
-            scene.registerEntity(entity);
+            it('Should register entity physics components into its physics system', () => {
+                const entity = new StaticObject();
 
-            expect(scene.soundSystem.components).toContain(soundComponent);
+                scene.registerEntity(entity);
+
+                expect(scene.physicsSystem.components).toContain(entity.boundingBox);
+            });
+
+            it('Should register entity input components into its input system', () => {
+                const entity = new StaticObject();
+                const inputComponent = new InputComponent();
+                entity.addComponent(inputComponent);
+
+                scene.registerEntity(entity);
+
+                expect(scene.inputSystem.components).toContain(inputComponent);
+            })
+
+            it('Should register entity transform components into its hierarchy system', () => {
+                const entity = new StaticObject();
+
+                scene.registerEntity(entity);
+
+                expect(scene.hierarchySystem.components).toContain(entity.transform);
+            })
+
+            it('Should register entity sound components into its sound system', () => {
+                const entity = new StaticObject();
+                const soundComponent = new SoundComponent({
+                    filePath: 'test.mp3'
+                });
+                entity.addComponent(soundComponent);
+
+                scene.registerEntity(entity);
+
+                expect(scene.soundSystem.components).toContain(soundComponent);
+            });
+        })
+
+        describe('When scene is hidden', () => {
+            beforeEach(() => {
+                scene.hide();
+            })
+
+            it('Should not register entity shape components into its render system', () => {
+                const entity = new StaticObject();
+
+                scene.registerEntity(entity);
+
+                expect(scene.renderSystem.components).not.toContain(entity.shape);
+            });
+
+            it('Should not register entity physics components into its physics system', () => {
+                const entity = new StaticObject();
+
+                scene.registerEntity(entity);
+
+                expect(scene.physicsSystem.components).not.toContain(entity.boundingBox);
+            });
+
+            it('Should not register entity input components into its input system', () => {
+                const entity = new StaticObject();
+                const inputComponent = new InputComponent();
+                entity.addComponent(inputComponent);
+
+                scene.registerEntity(entity);
+
+                expect(scene.inputSystem.components).not.toContain(inputComponent);
+            })
+
+            it('Should not register entity transform components into its hierarchy system', () => {
+                const entity = new StaticObject();
+
+                scene.registerEntity(entity);
+
+                expect(scene.hierarchySystem.components).not.toContain(entity.transform);
+            })
+
+            it('Should not register entity sound components into its sound system', () => {
+                const entity = new StaticObject();
+                const soundComponent = new SoundComponent({
+                    filePath: 'test.mp3'
+                });
+                entity.addComponent(soundComponent);
+
+                scene.registerEntity(entity);
+
+                expect(scene.soundSystem.components).not.toContain(soundComponent);
+            });
         });
+        
 
         it('Should throw if the same entity is added twice', () => {
             const entity = new StaticObject();
