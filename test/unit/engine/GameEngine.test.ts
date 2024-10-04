@@ -1,4 +1,4 @@
-import { GameEngine, Scene } from "../../../src";
+import { GameEngine, Scene, StaticObject } from "../../../src";
 
 describe('/game/GameEngine', () => {
     let engine: GameEngine;
@@ -38,4 +38,24 @@ describe('/game/GameEngine', () => {
             expect(scene.shouldDraw).toBeTruthy();
         });
     });
+
+    describe('.removeScene()', () => {
+        let scene: Scene;
+
+        beforeEach(() => {
+            scene = engine.createScene();
+            scene.registerEntity(new StaticObject());
+        })
+
+        it('Should remove the scene from the engine scene list', () => {
+            engine.removeScene(scene.uuid);
+            expect(engine.scenes).not.toContain(scene);
+        });
+
+        it('Should set the scene as hidden', () => {
+            scene.draw();
+            engine.removeScene(scene.uuid);
+            expect(scene.shouldDraw).toBeFalsy();
+        });
+    })
 })

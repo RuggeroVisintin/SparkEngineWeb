@@ -52,10 +52,14 @@ export class GameEngine {
 
     public readonly imageLoader: ImageLoader;
 
+    private _scenes: Scene[] = [];
+
     /**
      * The list of scenes to render
      */
-    public readonly scenes: Scene[] = [];
+    get scenes(): Scene[] {
+        return this._scenes.slice(0);
+    };
 
     /**
      * @param config - The configuration to use for this instance of GameEngine
@@ -110,9 +114,23 @@ export class GameEngine {
             newScene.draw();
         }
 
-        this.scenes.push(newScene);
+        this._scenes.push(newScene);
 
         return newScene;
+    }
+    
+    /**
+     * Removes a scene from the engine. Also hides the scene if it is currently drawn
+     * 
+     * @param sceneId - The id of the scene to remove
+     */
+    public removeScene(sceneId: string): void {
+        this._scenes = this._scenes.filter((scene) => {
+            if (scene.uuid !== sceneId) return true;
+
+            scene.hide();
+            return false;
+        });
     }
 
     private tick(): void {
