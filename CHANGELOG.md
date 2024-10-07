@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.2...sparkengineweb-v0.12.3) (2024-10-07)
+
+
+### Features
+
+* **engine:** add scene dispose functionality ([238001a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/238001aeece085b0c030429c577d5895a09ba905))
+
 ## [0.12.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.1...sparkengineweb-v0.12.2) (2024-10-04)
 
 
