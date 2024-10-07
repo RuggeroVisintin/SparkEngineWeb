@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.1...sparkengineweb-v0.12.2) (2024-10-04)
+
+
+### Features
+
+* **engine:** add ability to draw scene by default on `Engine.createScene` invoke ([99af115](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/99af1153ea0a7435b4c03aba8f10b78b8baaccb8))
+* **engine:** add ability to remove a scene from the engine ([ec6922d](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ec6922db622a4a1c64d7f7daec956182b04c240d))
+
 ## [0.12.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.0...sparkengineweb-v0.12.1) (2024-10-02)
 
 
