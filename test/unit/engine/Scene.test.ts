@@ -6,10 +6,14 @@ import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scene
 
 describe('/game/Scene', () => {
     let scene: Scene;
+    let renderSystem: RenderSystem;
+    
 
     beforeEach(() => {
+        renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), { width: 1024, height: 720 }, new CanvasRenderingContext2D()), new ImageLoader())
+
         scene = new Scene(
-            new RenderSystem(new Renderer(new CanvasDevice(), { width: 1024, height: 720 }, new CanvasRenderingContext2D()), new ImageLoader()),
+            renderSystem,
             new PhysicsSystem(new Physx()),
             new InputSystem(new KeyboardDevice()),
             new HierarchySystem(),
@@ -424,6 +428,18 @@ describe('/game/Scene', () => {
                     testEntity2: scene.entities[1].toJson()
                 }
             });
+        })
+    })
+
+    describe('.dispose()', () => {
+        it('Should unregister all entities from the scene', () => {
+            scene.registerEntity(new StaticObject());
+            scene.registerEntity(new StaticObject());
+
+            scene.dispose();
+
+            expect(scene.entities).toEqual([]);
+            expect(renderSystem.components).toBeEmpty();
         })
     })
 })

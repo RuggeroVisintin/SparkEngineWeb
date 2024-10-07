@@ -155,6 +155,16 @@ export class Scene {
         }
     }
 
+    /**
+     * Disposes the scene, unregistering all entities components from the corrispective systems
+     * and clearing the entities array
+     */
+    public dispose(): void { 
+        this.entities.forEach(entity => this._unregisterEntityComponentsFromSystems(entity));
+
+        this._entities = [];
+    }
+
     private _registerEntityComponentsInSystems(entity: IEntity): void {
         Object.entries(this._componentTypes).map(([componentType, system]) => {
             const component = entity.getComponent(componentType);
