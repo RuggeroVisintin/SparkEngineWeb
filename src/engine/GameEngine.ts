@@ -1,6 +1,6 @@
 import { AnimationSystem, HierarchySystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { Physx } from "../physx";
-import { CanvasDevice, DOMImageLoader, KeyboardDevice } from "../platform";
+import { CanvasDevice, ImageLoader, DOMImageLoader, KeyboardDevice } from "../platform";
 import { Renderer } from "../renderer";
 import { Scene } from "./Scene";
 
@@ -25,6 +25,11 @@ export interface GameEngineOptions {
      * The number of physics cycles to run per frame. Defaults to 2
      */
     physicsCycles?: number;
+
+    /**
+     * The image loader to use for loading images
+     */
+    imageLoader?: ImageLoader;
 }
 
 /**
@@ -50,7 +55,7 @@ export class GameEngine {
     public readonly soundSystem: SoundSystem;
     public readonly animationSystem: AnimationSystem;
 
-    public readonly imageLoader: DOMImageLoader;
+    public readonly imageLoader: ImageLoader;
 
     private _scenes: Scene[] = [];
 
