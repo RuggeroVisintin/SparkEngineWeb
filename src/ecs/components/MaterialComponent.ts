@@ -1,5 +1,5 @@
 import { Rgb, RgbProps, Type, WithType } from "../../core";
-import { ImageAsset, ImageLoader } from "../../platform";
+import { ImageAsset, DOMImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 
 /**
@@ -70,7 +70,7 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         if (props?.diffuseTexturePath) this.diffuseTexturePath = props.diffuseTexturePath;
     }
     
-    public loadTexture(loader: ImageLoader): void {
+    public loadTexture(loader: DOMImageLoader): void {
         this.diffuseTexturePath && loader
             .load(this.diffuseTexturePath)
             .then((asset) => {

@@ -1,6 +1,6 @@
 import { AnimationSystem, HierarchySystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { Physx } from "../physx";
-import { CanvasDevice, ImageLoader, KeyboardDevice } from "../platform";
+import { CanvasDevice, DOMImageLoader, KeyboardDevice } from "../platform";
 import { Renderer } from "../renderer";
 import { Scene } from "./Scene";
 
@@ -50,7 +50,7 @@ export class GameEngine {
     public readonly soundSystem: SoundSystem;
     public readonly animationSystem: AnimationSystem;
 
-    public readonly imageLoader: ImageLoader;
+    public readonly imageLoader: DOMImageLoader;
 
     private _scenes: Scene[] = [];
 
@@ -73,7 +73,7 @@ export class GameEngine {
         this.renderer = new Renderer(new CanvasDevice(), config.resolution, this.context);
         this.inputs = new KeyboardDevice();
 
-        this.imageLoader = new ImageLoader();
+        this.imageLoader = new DOMImageLoader();
 
         this.renderSystem = new RenderSystem(this.renderer, this.imageLoader);
         this.physicsSystem = new PhysicsSystem(this.physx);

@@ -1,5 +1,5 @@
 import { typeOf } from "../../core";
-import { BlendMethod, ImageLoader } from "../../platform";
+import { BlendMethod, DOMImageLoader } from "../../platform";
 import { Renderer, SetBlendingMethodCommand } from "../../renderer";
 import { CameraComponent } from "../components";
 import { IDrawableComponent } from "../components/interfaces/IDrawableComponent";
@@ -14,7 +14,7 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
 
     constructor(
         private readonly renderer: Renderer,
-        private readonly imageLoader: ImageLoader
+        private readonly imageLoader: DOMImageLoader
     ) {
         super();
     }

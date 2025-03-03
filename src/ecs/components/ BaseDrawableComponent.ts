@@ -1,5 +1,5 @@
 import { WithType } from "../../core";
-import { ImageLoader } from "../../platform";
+import { DOMImageLoader } from "../../platform";
 import { Renderer } from "../../renderer";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent, TransformComponentProps } from "./TransformComponent";
@@ -35,5 +35,5 @@ export abstract class BaseDrawableComponent extends BaseComponent implements IDr
         }
     }
 
-    abstract draw(rendere: Renderer, imageLoader: ImageLoader): void;
+    abstract draw(rendere: Renderer, imageLoader: DOMImageLoader): void;
 }

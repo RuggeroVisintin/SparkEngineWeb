@@ -1,10 +1,10 @@
-import { ImageLoader } from "../../../../src";
+import { DOMImageLoader } from "../../../../src";
 import '../../__mocks__';
 
 describe('platform/gfx/ImageLoader', () => {
     describe('.load', () => {
         it('Should return a SoundAsset once loaded', async () => {        
-            const imageLoader = new ImageLoader();
+            const imageLoader = new DOMImageLoader();
             const imageAsset = await imageLoader.load('test.png');
             expect(imageAsset).toBeDefined();
         })
@@ -17,7 +17,7 @@ describe('platform/gfx/ImageLoader', () => {
                 }
             }))
 
-            const imageLoader = new ImageLoader();
+            const imageLoader = new DOMImageLoader();
             await expect(async () => {
                 await imageLoader.load('test.png');
             }).rejects.toThrow('Error');
@@ -34,7 +34,7 @@ describe('platform/gfx/ImageLoader', () => {
                 }
             }))
 
-            const imageLoader = new ImageLoader();
+            const imageLoader = new DOMImageLoader();
 
             await imageLoader.load('test.png');
             await imageLoader.load('test.png');
