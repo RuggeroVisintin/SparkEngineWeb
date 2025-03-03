@@ -1,5 +1,5 @@
 import { Rgb, Type, WithType } from "../../core";
-import { ImageAsset, ImageLoader } from "../../platform";
+import { ImageAsset, DOMImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { MaterialComponent, MaterialComponentProps } from "./MaterialComponent";
 
@@ -48,7 +48,7 @@ export class AnimationComponent extends BaseComponent {
         this._frames = props.frames;
     }
 
-    public loadAssets(loader: ImageLoader): void {
+    public loadAssets(loader: DOMImageLoader): void {
         for (const frame of this._frames) {
             if (frame.material?.diffuseTexturePath) {
                 loader.load(frame.material.diffuseTexturePath)

@@ -1,5 +1,5 @@
 import { Type, WithType } from "../../core";
-import { ImageLoader } from "../../platform";
+import { DOMImageLoader } from "../../platform";
 import { Renderer, DrawPrimitiveCommand, DrawImageCommand, PrimitiveType} from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { MaterialComponent } from "./MaterialComponent";
@@ -47,7 +47,7 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
      * Put a draw call in the renderer taking into account the component data
      * @param renderer 
      */
-    public draw(renderer: Renderer, imageLoader: ImageLoader): void {
+    public draw(renderer: Renderer, imageLoader: DOMImageLoader): void {
         const { position, size } = this.transform;
         const { opacity, diffuseColor, diffuseTexture } = this.material;
 
