@@ -45,7 +45,7 @@ jobs:
             mkdir -p .github/pages/badges
             npx make-coverage-badge --report-path .coverage/coverage-summary.json --output-path .github/pages/badges/coverage.badge.svg
           
-        - uses: actions/upload-artifact@master
+        - uses: actions/upload-artifact@v4
           with:
             name: coverage-badge-artifact
             path: .github/pages/badges/coverage.badge.svg
@@ -93,7 +93,7 @@ jobs:
           run: npx playwright install --with-deps
         - name: Run Playwright tests
           run: npx playwright test
-        - uses: actions/upload-artifact@v3
+        - uses: actions/upload-artifact@v4
           if: always()
           with:
             name: playwright-report
