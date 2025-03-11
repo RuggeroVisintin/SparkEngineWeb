@@ -1,5 +1,9 @@
 import { ImageAsset } from "./ImageAsset";
 
+export interface FileLocation {
+    src: string
+}
+
 export interface ImageLoader { 
-    load(src: string): Promise<ImageAsset>;
+    load(fileLoaction: FileLocation): Promise<ImageAsset>;
 }

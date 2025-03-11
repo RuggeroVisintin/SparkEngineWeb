@@ -1,11 +1,12 @@
 import { ImageAsset } from "./ImageAsset";
+import { FileLocation, ImageLoader } from "./ImageLoader";
 
 /**
  * Loads a given image asset
  * 
  * @category Platform
  */
-export class DOMImageLoader {
+export class DOMImageLoader implements ImageLoader {
     private _assetsCache: Record<string, ImageAsset> = {};
 
     /**
@@ -15,7 +16,9 @@ export class DOMImageLoader {
      * @param src - the source path of the asset file
      * @returns Promise<ImageAsset> - the loaded ImageAsset
      */
-    public async load(src: string): Promise<ImageAsset> {
+    public async load(fileLoaction: FileLocation): Promise<ImageAsset> {
+        const { src } = fileLoaction;
+
         if (this._assetsCache[src]) return this._assetsCache[src];
 
         return new Promise((resolve, reject) => {  
