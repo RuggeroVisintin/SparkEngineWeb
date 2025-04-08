@@ -152,7 +152,7 @@ jobs:
           uses: actions/configure-pages@v4
         - name: upload docs artifact
           if: ${{ steps.docs.outputs.docs_created }}
-          uses: actions/upload-pages-artifact@v2
+          uses: actions/upload-pages-artifact@v3
           with: 
             path: ".github/pages/"
         - name: deploy docs artifact
