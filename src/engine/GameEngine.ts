@@ -78,7 +78,7 @@ export class GameEngine {
         this.renderer = new Renderer(new CanvasDevice(), config.resolution, this.context);
         this.inputs = new KeyboardDevice();
 
-        this.imageLoader = new DOMImageLoader();
+        this.imageLoader = config.imageLoader ?? new DOMImageLoader();
 
         this.renderSystem = new RenderSystem(this.renderer, this.imageLoader);
         this.physicsSystem = new PhysicsSystem(this.physx);
