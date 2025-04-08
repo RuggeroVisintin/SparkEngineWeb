@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.3...sparkengineweb-v0.13.0) (2025-04-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **gfx:** rename ImageLoader to DOMImageLoader and add ImageLoader interface
+
+### Features
+
+* **engine:** add ability to override engine image loader ([2c25dff](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2c25dff92094d3cac5d9679099f6981a325fdb67))
+* **gfx:** rename ImageLoader to DOMImageLoader and add ImageLoader interface ([ff84e5d](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ff84e5d9c30378c6085238f984b3a0ee81b49f9b))
+
 ## [0.12.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.2...sparkengineweb-v0.12.3) (2024-10-07)
 
 
