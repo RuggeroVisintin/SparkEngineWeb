@@ -1,4 +1,4 @@
-import { AnimationComponent, BaseEntity, ImageLoader, MaterialComponent, MaterialComponentProps, Rgb } from "../../../../src"
+import { AnimationComponent, BaseEntity, DOMImageLoader, MaterialComponent, MaterialComponentProps, Rgb } from "../../../../src"
 import '../../__mocks__';
 
 describe('ecs/components/AnimationComponent', () => {
@@ -76,7 +76,7 @@ describe('ecs/components/AnimationComponent', () => {
         })
 
         it('Should load the frame material asset in the parent component', (done) => {
-            component.loadAssets(new ImageLoader());
+            component.loadAssets(new DOMImageLoader());
             setTimeout(() => {
                 component.update(99);
 

@@ -45,7 +45,7 @@ jobs:
             mkdir -p .github/pages/badges
             npx make-coverage-badge --report-path .coverage/coverage-summary.json --output-path .github/pages/badges/coverage.badge.svg
           
-        - uses: actions/upload-artifact@master
+        - uses: actions/upload-artifact@v4
           with:
             name: coverage-badge-artifact
             path: .github/pages/badges/coverage.badge.svg
@@ -93,7 +93,7 @@ jobs:
           run: npx playwright install --with-deps
         - name: Run Playwright tests
           run: npx playwright test
-        - uses: actions/upload-artifact@v3
+        - uses: actions/upload-artifact@v4
           if: always()
           with:
             name: playwright-report
@@ -149,15 +149,15 @@ jobs:
             echo "docs_created=true" >> "$GITHUB_OUTPUT"
         - name: Setup Pages
           if: ${{ steps.docs.outputs.docs_created }}
-          uses: actions/configure-pages@v4
+          uses: actions/configure-pages@v5
         - name: upload docs artifact
           if: ${{ steps.docs.outputs.docs_created }}
-          uses: actions/upload-pages-artifact@v2
+          uses: actions/upload-pages-artifact@v3
           with: 
             path: ".github/pages/"
         - name: deploy docs artifact
           if: ${{ steps.docs.outputs.docs_created }}
-          uses: actions/deploy-pages@v3
+          uses: actions/deploy-pages@v4
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
 

@@ -1,5 +1,5 @@
 import { before } from "node:test";
-import { AnimationSystem, CanvasDevice, GameObject, HierarchySystem, ImageLoader, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
+import { AnimationSystem, CanvasDevice, GameObject, HierarchySystem, DOMImageLoader, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
@@ -10,7 +10,7 @@ describe('/game/Scene', () => {
     
 
     beforeEach(() => {
-        renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), { width: 1024, height: 720 }, new CanvasRenderingContext2D()), new ImageLoader())
+        renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), { width: 1024, height: 720 }, new CanvasRenderingContext2D()), new DOMImageLoader())
 
         scene = new Scene(
             renderSystem,

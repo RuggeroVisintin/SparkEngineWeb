@@ -1,4 +1,4 @@
-import { CanvasDevice, ImageLoader, RenderSystem, Renderer, ShapeComponent } from "../../../../src";
+import { CanvasDevice, RenderSystem, Renderer, ShapeComponent, DOMImageLoader } from "../../../../src";
 
 describe('systems/RenderSystem', () => {
     let renderSystem: RenderSystem;
@@ -6,7 +6,7 @@ describe('systems/RenderSystem', () => {
     describe('.update()', () => {
 
         beforeEach(() => {
-            renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()), new ImageLoader())
+            renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D()), new DOMImageLoader())
         })
 
         afterEach(() => {

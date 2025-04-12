@@ -1,4 +1,4 @@
-import { ImageAsset, ImageLoader, MaterialComponent, MaterialComponentProps, Rgb } from "../../../../src";
+import { ImageAsset, DOMImageLoader, MaterialComponent, MaterialComponentProps, Rgb } from "../../../../src";
 import '../../__mocks__';
 
 describe('/ecs/components/MaterialComponent', () => {
@@ -32,7 +32,7 @@ describe('/ecs/components/MaterialComponent', () => {
                 diffuseTexturePath: 'path/to/texture.png',
             });
 
-            component.loadTexture(new ImageLoader);
+            component.loadTexture(new DOMImageLoader());
 
             setTimeout(() => {
                 component.diffuseTexturePath = 'path/to/texture2.png';
@@ -59,7 +59,7 @@ describe('/ecs/components/MaterialComponent', () => {
                 diffuseTexturePath: 'path/to/texture.png',
             });
 
-            component.loadTexture(new ImageLoader());
+            component.loadTexture(new DOMImageLoader());
 
             setTimeout(() => {
                 expect(component.diffuseTexture).toBeInstanceOf(ImageAsset);

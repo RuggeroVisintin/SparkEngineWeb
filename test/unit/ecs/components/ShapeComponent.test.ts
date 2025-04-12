@@ -1,4 +1,4 @@
-import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps, DrawImageCommand, ImageLoader } from "../../../../src";
+import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps, DrawImageCommand, DOMImageLoader } from "../../../../src";
 import '../../__mocks__';
 import { asyncTick } from '../../utils';
 
@@ -6,7 +6,7 @@ describe('ecs/components/ShapeComponent', () => {
     let renderer: Renderer;
     let shapeComponent = new ShapeComponent();
 
-    const imageLoader = new ImageLoader();
+    const imageLoader = new DOMImageLoader();
         
     beforeEach(() => {
         renderer = new Renderer(new CanvasDevice(), { width: 1920, height: 1080 }, new CanvasRenderingContext2D());
@@ -63,7 +63,7 @@ describe('ecs/components/ShapeComponent', () => {
 
         it('Should push the current material diffuse texture in the render command if present', (done) => {
             shapeComponent.material.diffuseTexturePath = 'test.png';
-            shapeComponent.material.loadTexture(new ImageLoader());
+            shapeComponent.material.loadTexture(new DOMImageLoader());
 
             setTimeout(() => {
                 shapeComponent.draw(renderer, imageLoader);
