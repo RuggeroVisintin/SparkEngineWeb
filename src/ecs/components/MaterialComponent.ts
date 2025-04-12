@@ -72,7 +72,7 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
     
     public loadTexture(loader: DOMImageLoader): void {
         this.diffuseTexturePath && loader
-            .load({ src: this.diffuseTexturePath })
+            .load(this.diffuseTexturePath)
             .then((asset) => {
                 this._diffuseTexture = asset;
             });

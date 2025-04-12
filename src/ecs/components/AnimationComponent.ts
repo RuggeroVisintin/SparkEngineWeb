@@ -51,7 +51,7 @@ export class AnimationComponent extends BaseComponent {
     public loadAssets(loader: DOMImageLoader): void {
         for (const frame of this._frames) {
             if (frame.material?.diffuseTexturePath) {
-                const location = { src: frame.material.diffuseTexturePath };
+                const location = frame.material.diffuseTexturePath;
                 
                 loader.load(location)
                     .then((asset) => {
