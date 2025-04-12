@@ -1,9 +1,5 @@
 import { ImageAsset } from "./ImageAsset";
 
-export interface FileLocation {
-    src: string
-}
-
 export interface ImageLoader { 
     /**
      * @param src - the source path of the asset file

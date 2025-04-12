@@ -1,5 +1,5 @@
 import { ImageAsset } from "./ImageAsset";
-import { FileLocation, ImageLoader } from "./ImageLoader";
+import { ImageLoader } from "./ImageLoader";
 
 /**
  * Loads a given image asset
