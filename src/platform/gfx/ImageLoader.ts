@@ -5,5 +5,9 @@ export interface FileLocation {
 }
 
 export interface ImageLoader { 
-    load(fileLoaction: FileLocation): Promise<ImageAsset>;
+    /**
+     * @param src - the source path of the asset file
+     * @returns Promise<ImageAsset> - the loaded ImageAsset
+     */
+    load(src: string): Promise<ImageAsset>;
 }
