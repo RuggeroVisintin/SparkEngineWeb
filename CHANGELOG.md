@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.0...sparkengineweb-v0.13.1) (2025-04-12)
+
+
+### Features
+
+* **ecs:** use ImageLoader interface for DOMImageLoader ([#466](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/466)) ([9798ed2](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9798ed24450e7ac2963eea87076441572bfeea6d))
+
 ## [0.13.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.12.3...sparkengineweb-v0.13.0) (2025-04-08)
 
 
