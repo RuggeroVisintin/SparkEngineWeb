@@ -2,14 +2,16 @@ import { DOMImageLoader } from "../../../../src";
 import '../../__mocks__';
 
 describe('platform/gfx/ImageLoader', () => {
+    const testFileLocation = 'test.png';
+
     describe('.load', () => {
-        it('Should return a SoundAsset once loaded', async () => {        
+        it('Should return an ImageAsset once loaded', async () => {        
             const imageLoader = new DOMImageLoader();
-            const imageAsset = await imageLoader.load('test.png');
+            const imageAsset = await imageLoader.load(testFileLocation);
             expect(imageAsset).toBeDefined();
         })
 
-        it('Should throw an Error if the SoundAsset is not found', async () => {
+        it('Should throw an Error if the ImageAsset is not found', async () => {
             global.Image = jest.fn().mockImplementation(() => ({
                 onerror: jest.fn(),
                 set src(value: string) { 
@@ -19,7 +21,7 @@ describe('platform/gfx/ImageLoader', () => {
 
             const imageLoader = new DOMImageLoader();
             await expect(async () => {
-                await imageLoader.load('test.png');
+                await imageLoader.load(testFileLocation);
             }).rejects.toThrow('Error');
         })
 
@@ -36,8 +38,8 @@ describe('platform/gfx/ImageLoader', () => {
 
             const imageLoader = new DOMImageLoader();
 
-            await imageLoader.load('test.png');
-            await imageLoader.load('test.png');
+            await imageLoader.load(testFileLocation);
+            await imageLoader.load(testFileLocation);
 
             expect(spy).toHaveBeenCalledTimes(1);
         })
