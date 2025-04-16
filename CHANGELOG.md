@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.1...sparkengineweb-v0.13.2) (2025-04-16)
+
+
+### Features
+
+* **ecs:** add ability to remove diffuseColor from materialComponent ([db75342](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/db75342bd34d927c393bc7e7caa81cae57378258))
+
 ## [0.13.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.0...sparkengineweb-v0.13.1) (2025-04-12)
 
 
