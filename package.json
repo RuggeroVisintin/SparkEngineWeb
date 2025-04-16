@@ -69,6 +69,6 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "uuid": "^10.0.0"
+    "uuid": "^11.1.0"
   }
 }
