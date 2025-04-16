@@ -53,6 +53,17 @@ describe('/ecs/components/MaterialComponent', () => {
         it.todo('Should retain the diffuseColor if set by the user');
     })
 
+    describe('removeDiffuseColor()', () => {
+        it('Should remove the diffuse color', () => {
+            const component = new MaterialComponent({
+                diffuseColor: new Rgb(255, 0, 0),
+            });
+
+            component.removeDiffuseColor();
+            expect(component.diffuseColor).toBeUndefined();
+        })
+    })
+
     describe('loadTexture()', () => {
         it('Should load the diffuseTexture asset', (done) => {
             const component = new MaterialComponent({
