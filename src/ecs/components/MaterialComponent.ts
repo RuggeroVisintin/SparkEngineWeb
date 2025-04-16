@@ -69,6 +69,10 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         if (props?.opacity) this.opacity = props.opacity;
         if (props?.diffuseTexturePath) this.diffuseTexturePath = props.diffuseTexturePath;
     }
+
+    public removeDiffuseColor(): void {
+        this._diffuseColor = undefined;
+    }
     
     public loadTexture(loader: DOMImageLoader): void {
         this.diffuseTexturePath && loader
