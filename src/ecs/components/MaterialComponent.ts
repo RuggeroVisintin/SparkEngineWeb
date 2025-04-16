@@ -43,6 +43,11 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         return this._diffuseColor;
     }
 
+    /**
+     * Set the path from which to load the diffuse texture
+     * This will also remove the current diffuse texture and 
+     * remove the diffuse color if the default one is in use
+     */
     public set diffuseTexturePath(path: string) {
         this._diffuseTexture = undefined;
         this._diffuseTexturePath = path;
@@ -74,6 +79,10 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         this._diffuseColor = undefined;
     }
     
+    /**
+     * Lazy load the diffuse texture from the path set in diffuseTexturePath
+     * once loaded it will be set to the diffuseTexture property and be available for rendering
+     */
     public loadTexture(loader: DOMImageLoader): void {
         this.diffuseTexturePath && loader
             .load(this.diffuseTexturePath)
