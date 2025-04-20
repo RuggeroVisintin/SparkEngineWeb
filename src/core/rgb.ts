@@ -64,6 +64,10 @@ export class Rgb implements RgbProps {
         return new Rgb(rgb.r, rgb.g, rgb.b);
     }
 
+    public toHexString(): string { 
+        return `#${this.r.toString(16).padStart(2, '0')}${this.g.toString(16).padStart(2, '0')}${this.b.toString(16).padStart(2, '0')}`;
+    }
+
     public toRgbaString(alpha: number = 100): string {
         return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.capAlpha(alpha) / 100})`;
     }

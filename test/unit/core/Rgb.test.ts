@@ -104,4 +104,11 @@ describe('core/Rgb', () => {
             expect(new Rgb(255, 0, 0).toJson()).toStrictEqual({ r: 255, g: 0, b: 0 })
         });
     })
+
+    describe('.toHexString()', () => { 
+        it('Should convert a color into a hex string', () => {
+            expect(new Rgb(255, 0, 0).toHexString()).toBe('#ff0000');
+            expect(new Rgb(230, 100, 101).toHexString()).toBe('#e66465');
+        });
+    })
 })
