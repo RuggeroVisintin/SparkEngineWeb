@@ -4,10 +4,15 @@ import { ISystem } from "./ISystem";
 export abstract class BaseSystem<T extends IComponent> implements ISystem {
     private _isRunning = true;
 
-    public readonly components: T[] = [];
+    private readonly _components: Map<string, T> = new Map();
 
     public get isRunning(): boolean {
         return this._isRunning;
+    }
+
+    public get components(): T[] 
+    {
+        return Array.from(this._components.values());
     }
 
     /**
@@ -15,9 +20,9 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
      * @param component - The component to be added
      */
     public registerComponent(component: T): void {
-        if (this.components.findIndex(c => c.uuid === component.uuid) !== -1) return;
-        
-        this.components.push(component);
+        if (this._components.has(component.uuid)) return;
+
+        this._components.set(component.uuid, component);
     }
 
     /**
@@ -25,13 +30,9 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
      * @param component - The component to be removed
      */
     public unregisterComponent(uuid: string): void {
-        const componentIndex = this.components.findIndex(component => component.uuid === uuid);
+        if (!this._components.has(uuid)) return;
 
-        if (componentIndex === -1) {
-            return;
-        }
-
-        this.components.splice(componentIndex, 1);
+        this._components.delete(uuid);
     }
 
     /**
