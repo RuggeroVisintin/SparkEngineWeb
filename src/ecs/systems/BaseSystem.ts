@@ -15,6 +15,8 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
      * @param component - The component to be added
      */
     public registerComponent(component: T): void {
+        if (this.components.findIndex(c => c.uuid === component.uuid) !== -1) return;
+        
         this.components.push(component);
     }
 

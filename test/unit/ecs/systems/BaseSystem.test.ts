@@ -23,6 +23,15 @@ describe('ecs/systems/BaseSystem', () => {
 
             expect(testSystem.components).toContain(baseComponent);
         })
+
+        it('Should not add the same component twice', () => { 
+            const baseComponent = new BaseComponent();
+
+            testSystem.registerComponent(baseComponent);
+            testSystem.registerComponent(baseComponent);
+
+            expect(testSystem.components).toHaveLength(1);
+        });
     })
 
     describe('.unregisterComponent()', () => {
