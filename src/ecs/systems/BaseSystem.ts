@@ -17,6 +17,8 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
 
     /**
      * Adds the component to the system's component list
+     * The compoonent is added only once
+     * 
      * @param component - The component to be added
      */
     public registerComponent(component: T): void {
