@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.3...sparkengineweb-v0.13.4) (2025-04-20)
+
+
+### Features
+
+* **core:** add rgb to hex string conversion ([c188d07](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/c188d07142e6ddcffee4d95d7aecbe89876aa884))
+
 ## [0.13.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.2...sparkengineweb-v0.13.3) (2025-04-20)
 
 
