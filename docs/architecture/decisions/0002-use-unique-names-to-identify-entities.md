@@ -24,9 +24,9 @@ The `name` field was introduced at the entity level to allow easy identification
 
 **Benefits**
 
-- Unique names are human readable and easier to grasp than uuids
-- Making names unique avoids ensures precision when retrieving an entity from a scene
-- Naming entities by default removes cognitive load from game developer to choose names if they don't want to
+- Unique names are human-readable and easier to grasp than UUIDs
+- Making names unique ensures precision when retrieving an entity from a scene
+- Naming entities by default removes cognitive load from the game developer to choose names if they don't want to
 
 **Risks**
 
