@@ -60,7 +60,7 @@
     "make-coverage-badge": "^1.2.0",
     "release-please": "^17.0.0",
     "semantic-release": "^24.1.2",
-    "ts-jest": "^29.2.4",
+    "ts-jest": "^29.3.2",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.7",
