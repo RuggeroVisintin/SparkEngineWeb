@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.2...sparkengineweb-v0.13.3) (2025-04-20)
+
+
+### Features
+
+* **ecs:** prevent the same component from being added twice ([5379a4c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/5379a4c816dcbfbb4d86d66a8260d34737afd87c))
+
 ## [0.13.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.1...sparkengineweb-v0.13.2) (2025-04-16)
 
 
