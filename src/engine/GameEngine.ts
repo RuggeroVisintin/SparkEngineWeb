@@ -14,6 +14,7 @@ export interface GameEngineOptions {
     framerate: number;
     /**
      * The context where to render the frames
+     * @todo remove from contstructor arguments
      */
     context: CanvasRenderingContext2D;
     /**
@@ -88,10 +89,13 @@ export class GameEngine {
         this.animationSystem = new AnimationSystem();
     }
 
+    // TODO: pass the context as parameter in the method
     /**
      * Starts the main loop of the engine
      */
     public run(): void {
+        // TODO: this.renderer.init()
+
         this.lastTick = performance.now();
         this.tick();
     }
