@@ -29,6 +29,7 @@ export class Renderer {
         public readonly resolution: { width: number, height: number },
         ctx: CanvasRenderingContext2D
     ) { 
+        // TODO: move to init method
         this.device.setResolution(ctx, this.resolution.width, this.resolution.height);
     }
 
