@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Just so you know – only the latest version is patched with security updates, so make sure always to update the package.
+We apply security patches only the latest version is patched with security updates, so make sure always to update the package.
 
 ## Reporting a Vulnerability
 
