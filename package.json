@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme",
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/config-conventional": "^19.8.0",
     "@playwright/test": "^1.49.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.10.2",
