@@ -41,7 +41,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^19.2.2",
     "@playwright/test": "^1.49.1",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.15.9",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
