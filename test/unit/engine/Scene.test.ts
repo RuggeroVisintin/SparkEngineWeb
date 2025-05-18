@@ -1,47 +1,48 @@
-import { before } from "node:test";
-import { AnimationSystem, CanvasDevice, GameObject, HierarchySystem, DOMImageLoader, InputComponent, InputSystem, KeyboardDevice, PhysicsSystem, Physx, PrimitiveType, RenderSystem, Renderer, Rgb, Scene, SoundComponent, SoundSystem, StaticObject, Vec2 } from "../../../src";
+import { GameObject, InputComponent, PrimitiveType, RenderSystem, Rgb, Scene, SoundComponent, StaticObject, Vec2, GameEngine } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
-
 
 describe('/game/Scene', () => {
     let scene: Scene;
     let renderSystem: RenderSystem;
+    let engine: GameEngine;
     
 
     beforeEach(() => {
-        renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), { width: 1024, height: 720 }, new CanvasRenderingContext2D()), new DOMImageLoader())
-
-        scene = new Scene(
-            renderSystem,
-            new PhysicsSystem(new Physx()),
-            new InputSystem(new KeyboardDevice()),
-            new HierarchySystem(),
-            new SoundSystem(),
-            new AnimationSystem(),
-        );
+        engine = new GameEngine({
+            framerate: 60,
+            context: new CanvasRenderingContext2D(),
+            resolution: {
+                width: 800,
+                height: 600
+            }
+        });
+        
+        scene = new Scene();
     })
 
     describe('.draw()', () => {
         it('Should flag the scene to be drawn', () => {
-            scene.draw();
+            scene.draw(engine);
 
             expect(scene.shouldDraw).toBeTruthy();
         })
 
-        it('Should register the scene entities components into each system', () => {
+        it('Should register the scene entities components into each system of the given engine', () => {
             scene.registerEntity(new StaticObject());
 
-            scene.draw();
+            scene.draw(engine);
 
-            expect(scene.renderSystem.components).not.toBeEmpty();
-            expect(scene.physicsSystem.components).not.toBeEmpty();
-        })
+            expect(engine.renderSystem.components).not.toBeEmpty();
+            expect(engine.physicsSystem.components).not.toBeEmpty();
+        });
+
+        it.todo('Should hide and remove the scene from the previous engine instance if any')
     })
 
     describe('.hide()', () => {
         beforeEach(() => {
-            scene.draw();
+            scene.draw(engine);
         })
 
         it('Should flag the scene to not be drawn', () => {
@@ -55,8 +56,8 @@ describe('/game/Scene', () => {
 
             scene.hide();
 
-            expect(scene.renderSystem.components).toBeEmpty();
-            expect(scene.physicsSystem.components).toBeEmpty();
+            expect(engine.renderSystem.components).toBeEmpty();
+            expect(engine.physicsSystem.components).toBeEmpty();
         });
     });
 
@@ -71,7 +72,7 @@ describe('/game/Scene', () => {
 
         describe('When scene is drawn', () => {
             beforeEach(() => {
-                scene.draw();
+                scene.draw(engine);
             })
 
             it('Should register entity shape components into its render system', () => {
@@ -79,7 +80,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.renderSystem.components).toContain(entity.shape);
+                expect(engine.renderSystem.components).toContain(entity.shape);
             });
 
             it('Should register entity physics components into its physics system', () => {
@@ -87,7 +88,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.physicsSystem.components).toContain(entity.boundingBox);
+                expect(engine.physicsSystem.components).toContain(entity.boundingBox);
             });
 
             it('Should register entity input components into its input system', () => {
@@ -97,7 +98,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.inputSystem.components).toContain(inputComponent);
+                expect(engine.inputSystem.components).toContain(inputComponent);
             })
 
             it('Should register entity transform components into its hierarchy system', () => {
@@ -105,7 +106,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.hierarchySystem.components).toContain(entity.transform);
+                expect(engine.hierarchySystem.components).toContain(entity.transform);
             })
 
             it('Should register entity sound components into its sound system', () => {
@@ -117,7 +118,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.soundSystem.components).toContain(soundComponent);
+                expect(engine.soundSystem.components).toContain(soundComponent);
             });
         })
 
@@ -131,7 +132,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.renderSystem.components).not.toContain(entity.shape);
+                expect(engine.renderSystem.components).not.toContain(entity.shape);
             });
 
             it('Should not register entity physics components into its physics system', () => {
@@ -139,7 +140,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.physicsSystem.components).not.toContain(entity.boundingBox);
+                expect(engine.physicsSystem.components).not.toContain(entity.boundingBox);
             });
 
             it('Should not register entity input components into its input system', () => {
@@ -149,7 +150,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.inputSystem.components).not.toContain(inputComponent);
+                expect(engine.inputSystem.components).not.toContain(inputComponent);
             })
 
             it('Should not register entity transform components into its hierarchy system', () => {
@@ -157,7 +158,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.hierarchySystem.components).not.toContain(entity.transform);
+                expect(engine.hierarchySystem.components).not.toContain(entity.transform);
             })
 
             it('Should not register entity sound components into its sound system', () => {
@@ -169,7 +170,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(scene.soundSystem.components).not.toContain(soundComponent);
+                expect(engine.soundSystem.components).not.toContain(soundComponent);
             });
         });
         
@@ -225,31 +226,31 @@ describe('/game/Scene', () => {
         it('Should unregister entity shape components into its render system', () => {
             scene.unregisterEntity(entity.uuid)
 
-            expect(scene.renderSystem.components).not.toContain(entity.shape);
+            expect(engine.renderSystem.components).not.toContain(entity.shape);
         });
 
         it('Should unregister entity physics components into its physics system', () => {
             scene.unregisterEntity(entity.uuid);
 
-            expect(scene.physicsSystem.components).not.toContain(entity.boundingBox);
+            expect(engine.physicsSystem.components).not.toContain(entity.boundingBox);
         });
 
         it('Should unregister entity input components into its input system', () => {
             scene.unregisterEntity(entity.uuid);
 
-            expect(scene.inputSystem.components).not.toContain(inputComponent);
+            expect(engine.inputSystem.components).not.toContain(inputComponent);
         })
 
         it('Should unregister entity transform components into its hierarchy system', () => {
             scene.unregisterEntity(entity.uuid);
 
-            expect(scene.hierarchySystem.components).not.toContain(entity.transform);
+            expect(engine.hierarchySystem.components).not.toContain(entity.transform);
         })
 
         it('Should unregister entity sound components into its sound system', () => {
             scene.unregisterEntity(entity.uuid);
 
-            expect(scene.soundSystem.components).not.toContain(soundComponent);
+            expect(engine.soundSystem.components).not.toContain(soundComponent);
         });
     })
 
@@ -439,7 +440,7 @@ describe('/game/Scene', () => {
             scene.dispose();
 
             expect(scene.entities).toEqual([]);
-            expect(renderSystem.components).toBeEmpty();
+            expect(engine.renderSystem.components).toBeEmpty();
         })
     })
 })

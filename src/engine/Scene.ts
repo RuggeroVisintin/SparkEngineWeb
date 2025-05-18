@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { registerUniqueValue, typeOf, unregisterUnique, WithType } from "../core";
 import { AnimationSystem, EntityProps, HierarchySystem, IComponent, IEntity, ISystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { create } from "../core/factory";
+import { GameEngine } from './GameEngine';
 
 /**
  * @category Engine
@@ -16,15 +17,18 @@ export interface SceneJsonProps {
  * @category Engine
  */
 export class Scene {
-    private _componentTypes = {
-        ShapeComponent: this.renderSystem,
-        CameraComponent: this.renderSystem,
-        BoundingBoxComponent: this.physicsSystem,
-        InputComponent: this.inputSystem,
-        TransformComponent: this.hierarchySystem,
-        SoundComponent: this.soundSystem,
-        AnimationComponent: this.animationSystem
-    }
+    
+    private _componentTypes = (engine: GameEngine) => ({
+        ShapeComponent: engine.renderSystem,
+        CameraComponent: engine.renderSystem,
+        BoundingBoxComponent: engine.physicsSystem,
+        InputComponent: engine.inputSystem,
+        TransformComponent: engine.hierarchySystem,
+        SoundComponent: engine.soundSystem,
+        AnimationComponent: engine.animationSystem
+    });
+
+    private _currentEngine?: GameEngine;
 
     private _entities: IEntity[] = [];
 
@@ -41,19 +45,14 @@ export class Scene {
     }
 
     public constructor(
-        public readonly renderSystem: RenderSystem,
-        public readonly physicsSystem: PhysicsSystem,
-        public readonly inputSystem: InputSystem,
-        public readonly hierarchySystem: HierarchySystem,
-        public readonly soundSystem: SoundSystem,
-        public readonly animationSystem: AnimationSystem
     ) { }
 
     /**
      * Sets the scene to draw, registering all entities components into the corrispective systems
      */
-    public draw(): void {
+    public draw(engine: GameEngine): void {
         this._shouldDraw = true;
+        this._currentEngine = engine;
 
         this._entities.forEach(entity => {
             this._registerEntityComponentsInSystems(entity)
@@ -166,14 +165,14 @@ export class Scene {
     }
 
     private _registerEntityComponentsInSystems(entity: IEntity): void {
-        Object.entries(this._componentTypes).map(([componentType, system]) => {
+        this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, system]) => {
             const component = entity.getComponent(componentType);
             component && (<ISystem>system).registerComponent(component);
         });
     }
 
     private _unregisterEntityComponentsFromSystems(entity: IEntity): void {
-        Object.entries(this._componentTypes).map(([componentType, system]) => {
+        this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, system]) => {
             const component = entity.getComponent(componentType);
             component && (<ISystem>system).unregisterComponent(component.uuid);
         });

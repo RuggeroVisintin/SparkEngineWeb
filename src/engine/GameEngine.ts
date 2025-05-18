@@ -110,17 +110,10 @@ export class GameEngine {
      * @returns newly created scene
      */
     public createScene(shouldDraw = false): Scene {
-        const newScene = new Scene(
-            this.renderSystem,
-            this.physicsSystem,
-            this.inputSystem,
-            this.hierarchySystem,
-            this.soundSystem,
-            this.animationSystem
-        );
+        const newScene = new Scene();
 
         if (this.scenes.length === 0 || shouldDraw) {
-            newScene.draw();
+            newScene.draw(this);
         }
 
         this._scenes.push(newScene);
