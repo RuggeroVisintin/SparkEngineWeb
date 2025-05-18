@@ -53,7 +53,7 @@ describe('/game/GameEngine', () => {
         });
 
         it('Should set the scene as hidden', () => {
-            scene.draw();
+            scene.draw(engine);
             engine.removeScene(scene.uuid);
             expect(scene.shouldDraw).toBeFalsy();
         });
