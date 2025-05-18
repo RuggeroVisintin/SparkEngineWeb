@@ -1,10 +1,9 @@
-import { GameObject, InputComponent, PrimitiveType, RenderSystem, Rgb, Scene, SoundComponent, StaticObject, Vec2, GameEngine } from "../../../src";
+import { GameObject, InputComponent, PrimitiveType, Rgb, Scene, SoundComponent, StaticObject, Vec2, GameEngine } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
 describe('/game/Scene', () => {
     let scene: Scene;
-    let renderSystem: RenderSystem;
     let engine: GameEngine;
     
 
@@ -37,7 +36,29 @@ describe('/game/Scene', () => {
             expect(engine.physicsSystem.components).not.toBeEmpty();
         });
 
-        it.todo('Should hide and remove the scene from the previous engine instance if any')
+        it('Should hide and remove the scene from the previous engine instance if any', () => {
+            const previousEngine = new GameEngine({
+                framerate: 60,
+                context: new CanvasRenderingContext2D(),
+                resolution: {
+                    width: 800,
+                    height: 600
+                }
+            });
+
+            const scene = new Scene();
+            scene.registerEntity(new StaticObject());
+
+            scene.draw(previousEngine);
+            scene.draw(engine);
+
+            expect(previousEngine.renderSystem.components).toBeEmpty();
+            expect(previousEngine.physicsSystem.components).toBeEmpty();
+            expect(previousEngine.inputSystem.components).toBeEmpty();
+            expect(previousEngine.hierarchySystem.components).toBeEmpty();
+            expect(previousEngine.soundSystem.components).toBeEmpty();
+            expect(previousEngine.animationSystem.components).toBeEmpty();
+        })
     })
 
     describe('.hide()', () => {

@@ -51,6 +51,10 @@ export class Scene {
      * Sets the scene to draw, registering all entities components into the corrispective systems
      */
     public draw(engine: GameEngine): void {
+        if (this._currentEngine) {
+            this.hide();
+        }
+
         this._shouldDraw = true;
         this._currentEngine = engine;
 
