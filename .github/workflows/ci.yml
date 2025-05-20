@@ -111,7 +111,7 @@ jobs:
         pages: write
         id-token: write
       steps:
-        - uses: google-github-actions/release-please-action@v4
+        - uses: googleapis/release-please-action@v4
           id: release
           with:
             # this assumes that you have created a personal access token
