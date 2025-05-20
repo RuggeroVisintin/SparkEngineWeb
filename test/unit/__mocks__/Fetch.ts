@@ -29,5 +29,6 @@ export const fetchMockData: Response  = {
     blob: jest.fn(),
     formData: jest.fn(),
     json: jest.fn(),
-    text: jest.fn()
+    text: jest.fn(),
+    bytes: jest.fn()
 }
