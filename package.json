@@ -1,6 +1,6 @@
 {
   "name": "sparkengineweb",
-  "version": "0.13.4",
+  "version": "0.14.0",
   "engines": {
     "npm": "^10",
     "node": "^20"

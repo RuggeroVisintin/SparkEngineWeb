@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.14.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.4...sparkengineweb-v0.14.0) (2025-05-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **engine:** allow scenes to be built before engine is ready
+
+### Features
+
+* **engine:** hide scene from previous engine instance when drawn into new engine instance ([2332c62](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2332c629c41ac7a0797ab5df5c239592d10c2d9e))
+
+
+### Code Refactoring
+
+* **engine:** allow scenes to be built before engine is ready ([36809a8](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/36809a8f29e3c50a3a02c627656f6ecec652f13d))
+
 ## [0.13.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.3...sparkengineweb-v0.13.4) (2025-04-20)
 
 
