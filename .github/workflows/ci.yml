@@ -161,7 +161,7 @@ jobs:
           if: ${{ steps.docs.outputs.docs_created }}
           uses: actions/deploy-pages@v4
       # needs: [test_unit, test_visual, build]
-      needs: [test_unit, test_visual, build]
+      needs: [test_unit, build]
       if: github.ref_name == 'main'
 
         
