@@ -34,7 +34,6 @@ export interface GameEngineOptions {
 
     /**
      * The factory function to use for adding additional render systems.
-     * If not provided, a default RenderSystem will be created.
      */
     additionalRenderSystems?: (renderer: Renderer, imageLoader: ImageLoader) => RenderSystem[];
 }
