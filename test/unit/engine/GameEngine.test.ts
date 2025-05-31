@@ -1,4 +1,4 @@
-import { BaseSystem, GameEngine } from "../../../src";
+import { BaseSystem, GameEngine, RenderSystem } from "../../../src";
 import { fakeSystemClock } from "../__mocks__/FakeSystemClock";
 
 window.requestAnimationFrame = jest.fn((callback) => {
@@ -25,7 +25,10 @@ describe('/engine/GameEngine', () => {
         gameEngine = new GameEngine({
             framerate: 60,
             resolution: { width: 800, height: 600 },
-            context: new CanvasRenderingContext2D()
+            context: new CanvasRenderingContext2D(),
+            additionalRenderSystems: (renderer, imageLoader) => {
+                return [new RenderSystem(renderer, imageLoader)];
+            }
         });
     });
 

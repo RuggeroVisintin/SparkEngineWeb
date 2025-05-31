@@ -32,7 +32,11 @@ export interface GameEngineOptions {
      */
     imageLoader?: ImageLoader;
 
-    renderSystemFactory?: (renderer: Renderer, imageLoader: ImageLoader) => RenderSystem[];
+    /**
+     * The factory function to use for adding additional render systems.
+     * If not provided, a default RenderSystem will be created.
+     */
+    additionalRenderSystems?: (renderer: Renderer, imageLoader: ImageLoader) => RenderSystem[];
 }
 
 /**
@@ -74,7 +78,9 @@ export class GameEngine {
 
         this.imageLoader = config.imageLoader ?? new DOMImageLoader();
 
-        this.renderSystems = config.renderSystemFactory?.(this.renderer, this.imageLoader) ?? [new RenderSystem(this.renderer, this.imageLoader)];
+        this.renderSystems = [new RenderSystem(this.renderer, this.imageLoader)].concat(
+            config.additionalRenderSystems ? config.additionalRenderSystems(this.renderer, this.imageLoader) : []
+        );
         this.physicsSystem = new PhysicsSystem(this.physx);
         this.hierarchySystem = new HierarchySystem();
         this.inputSystem = new InputSystem(this.inputs);
