@@ -15,7 +15,7 @@ describe('/game/Scene', () => {
                 width: 800,
                 height: 600
             },
-            renderSystemsFactory: (renderer, imageLoader) => { 
+            additionalRenderSystems: (renderer, imageLoader) => { 
                 return [
                     new RenderSystem(renderer, imageLoader),
                     new RenderSystem(renderer, imageLoader)
