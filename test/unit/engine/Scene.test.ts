@@ -1,4 +1,4 @@
-import { GameObject, InputComponent, PrimitiveType, Rgb, Scene, SoundComponent, StaticObject, Vec2, GameEngine } from "../../../src";
+import { GameObject, InputComponent, PrimitiveType, Rgb, Scene, SoundComponent, StaticObject, Vec2, GameEngine, RenderSystem } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
@@ -14,6 +14,12 @@ describe('/game/Scene', () => {
             resolution: {
                 width: 800,
                 height: 600
+            },
+            renderSystemFactory: (renderer, imageLoader) => { 
+                return [
+                    new RenderSystem(renderer, imageLoader),
+                    new RenderSystem(renderer, imageLoader)
+                ];
             }
         });
         
@@ -32,7 +38,9 @@ describe('/game/Scene', () => {
 
             scene.draw(engine);
 
-            expect(engine.renderSystem.components).not.toBeEmpty();
+            engine.renderSystems.forEach(renderSystem => {
+                expect(renderSystem.components).not.toBeEmpty();
+            });
             expect(engine.physicsSystem.components).not.toBeEmpty();
         });
 
@@ -52,7 +60,7 @@ describe('/game/Scene', () => {
             scene.draw(previousEngine);
             scene.draw(engine);
 
-            expect(previousEngine.renderSystem.components).toBeEmpty();
+            expect(previousEngine.renderSystems[0].components).toBeEmpty();
             expect(previousEngine.physicsSystem.components).toBeEmpty();
             expect(previousEngine.inputSystem.components).toBeEmpty();
             expect(previousEngine.hierarchySystem.components).toBeEmpty();
@@ -77,7 +85,9 @@ describe('/game/Scene', () => {
 
             scene.hide();
 
-            expect(engine.renderSystem.components).toBeEmpty();
+            engine.renderSystems.forEach(renderSystem => {
+                expect(renderSystem.components).toBeEmpty();
+            });
             expect(engine.physicsSystem.components).toBeEmpty();
         });
     });
@@ -101,7 +111,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(engine.renderSystem.components).toContain(entity.shape);
+                expect(engine.renderSystems[0].components).toContain(entity.shape);
             });
 
             it('Should register entity physics components into its physics system', () => {
@@ -153,7 +163,7 @@ describe('/game/Scene', () => {
 
                 scene.registerEntity(entity);
 
-                expect(engine.renderSystem.components).not.toContain(entity.shape);
+                expect(engine.renderSystems[0].components).not.toContain(entity.shape);
             });
 
             it('Should not register entity physics components into its physics system', () => {
@@ -244,10 +254,12 @@ describe('/game/Scene', () => {
             expect(scene.entities).toEqual([entity]);
         });
 
-        it('Should unregister entity shape components into its render system', () => {
+        it('Should unregister entity shape components from their render systems', () => {
             scene.unregisterEntity(entity.uuid)
 
-            expect(engine.renderSystem.components).not.toContain(entity.shape);
+            engine.renderSystems.forEach(renderSystem => {
+                expect(renderSystem.components).not.toContain(entity.shape);
+            });
         });
 
         it('Should unregister entity physics components into its physics system', () => {
@@ -454,14 +466,17 @@ describe('/game/Scene', () => {
     })
 
     describe('.dispose()', () => {
-        it('Should unregister all entities from the scene', () => {
+        it('Should remove all entities from the scene', () => {
             scene.registerEntity(new StaticObject());
             scene.registerEntity(new StaticObject());
 
             scene.dispose();
 
             expect(scene.entities).toEqual([]);
-            expect(engine.renderSystem.components).toBeEmpty();
+
+            engine.renderSystems.forEach(renderSystem => {
+                expect(renderSystem.components).toBeEmpty();
+            });
         })
     })
 })

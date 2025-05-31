@@ -19,13 +19,13 @@ export interface SceneJsonProps {
 export class Scene {
     
     private _componentTypes = (engine: GameEngine) => ({
-        ShapeComponent: engine.renderSystems[0],
-        CameraComponent: engine.renderSystems[0],
-        BoundingBoxComponent: engine.physicsSystem,
-        InputComponent: engine.inputSystem,
-        TransformComponent: engine.hierarchySystem,
-        SoundComponent: engine.soundSystem,
-        AnimationComponent: engine.animationSystem
+        ShapeComponent: engine.renderSystems,
+        CameraComponent: engine.renderSystems,
+        BoundingBoxComponent: [engine.physicsSystem],
+        InputComponent: [engine.inputSystem],
+        TransformComponent: [engine.hierarchySystem],
+        SoundComponent: [engine.soundSystem],
+        AnimationComponent: [engine.animationSystem]
     });
 
     private _currentEngine?: GameEngine;
@@ -169,16 +169,16 @@ export class Scene {
     }
 
     private _registerEntityComponentsInSystems(entity: IEntity): void {
-        this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, system]) => {
+        this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, systems]) => {
             const component = entity.getComponent(componentType);
-            component && (<ISystem>system).registerComponent(component);
+            component && systems.forEach((system: ISystem) => system.registerComponent(component));
         });
     }
 
     private _unregisterEntityComponentsFromSystems(entity: IEntity): void {
-        this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, system]) => {
+        this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, systems]) => {
             const component = entity.getComponent(componentType);
-            component && (<ISystem>system).unregisterComponent(component.uuid);
+            component && systems.forEach((system: ISystem) => system.unregisterComponent(component.uuid))
         });
     }
         
