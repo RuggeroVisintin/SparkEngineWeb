@@ -19,8 +19,8 @@ export interface SceneJsonProps {
 export class Scene {
     
     private _componentTypes = (engine: GameEngine) => ({
-        ShapeComponent: engine.renderSystem,
-        CameraComponent: engine.renderSystem,
+        ShapeComponent: engine.renderSystems[0],
+        CameraComponent: engine.renderSystems[0],
         BoundingBoxComponent: engine.physicsSystem,
         InputComponent: engine.inputSystem,
         TransformComponent: engine.hierarchySystem,
