@@ -30,7 +30,7 @@ describe('renderer/Renderer', () => {
             const spy = jest.spyOn(renderCommand, 'execute');
 
             renderer.pushRenderCommand(renderCommand);
-            renderer.endFrame(ctx);
+            renderer.endFrame();
 
             expect(spy).toHaveBeenCalled();
         })
@@ -43,7 +43,7 @@ describe('renderer/Renderer', () => {
             )
 
             renderer.pushRenderCommand(renderCommand);
-            renderer.endFrame(ctx);
+            renderer.endFrame();
 
             expect(renderer.commandBuffer).toEqual([]);
             

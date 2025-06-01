@@ -31,6 +31,11 @@ export interface GameEngineOptions {
      * The image loader to use for loading images
      */
     imageLoader?: ImageLoader;
+
+    /**
+     * The factory function to use for adding additional render systems.
+     */
+    additionalRenderSystems?: (renderer: Renderer, imageLoader: ImageLoader) => RenderSystem[];
 }
 
 /**
@@ -49,7 +54,7 @@ export class GameEngine {
     private readonly inputs: KeyboardDevice;
     public readonly renderer: Renderer;
 
-    public readonly renderSystem: RenderSystem;
+    public readonly renderSystems: RenderSystem[];
     public readonly physicsSystem: PhysicsSystem;
     public readonly hierarchySystem: HierarchySystem;
     public readonly inputSystem: InputSystem;
@@ -72,7 +77,9 @@ export class GameEngine {
 
         this.imageLoader = config.imageLoader ?? new DOMImageLoader();
 
-        this.renderSystem = new RenderSystem(this.renderer, this.imageLoader);
+        this.renderSystems = [new RenderSystem(this.renderer, this.imageLoader)].concat(
+            config.additionalRenderSystems ? config.additionalRenderSystems(this.renderer, this.imageLoader) : []
+        );
         this.physicsSystem = new PhysicsSystem(this.physx);
         this.hierarchySystem = new HierarchySystem();
         this.inputSystem = new InputSystem(this.inputs);
@@ -92,6 +99,7 @@ export class GameEngine {
     }
 
     private tick(): void {
+        // Review this technique, I don't think it provides a smooth frametime
         requestAnimationFrame(this.tick.bind(this));
 
         const currentTime = performance.now();
@@ -111,8 +119,10 @@ export class GameEngine {
         this.soundSystem.update();
         // this.hierarchySystem.update(elapsedTime);
             
-        this.renderSystem.update();
-        this.renderer.endFrame(this.context);
+        this.renderSystems.forEach(renderSystem => {
+            renderSystem.update();
+            renderSystem.renderer.endFrame();
+        });
 
         const excessTime = elapsedTime % this.frametime;
         this.lastTick = currentTime - excessTime;

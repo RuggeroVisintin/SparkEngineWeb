@@ -17,7 +17,7 @@ export default bench([
         done();
     },
     function RendererEndFrame(done: Function) {
-        renderer.endFrame(ctx);
+        renderer.endFrame();
         done();
     }
 ], 1000);
