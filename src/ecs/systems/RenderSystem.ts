@@ -10,11 +10,11 @@ import { ISystem } from "./ISystem";
  * @category Systems
  */
 export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISystem {
-    private camera: CameraComponent = new CameraComponent();
+    protected camera: CameraComponent = new CameraComponent();
 
     constructor(
         public readonly renderer: Renderer,
-        private readonly imageLoader: ImageLoader
+        protected readonly imageLoader: ImageLoader
     ) {
         super();
     }
@@ -36,8 +36,7 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
     }
 
     protected internalUpdate(): void {
-        // overwrite by default to avoid needless operations on non transparent object
-        // is there really a perf advantage? I believe so, will measuring this in a perf test
+        // TODO: use BM_Add by default to handle transparency correctly
         this.renderer.pushRenderCommand(new SetBlendingMethodCommand(BlendMethod.BM_Overwrite));
 
         this.camera.draw(this.renderer);
