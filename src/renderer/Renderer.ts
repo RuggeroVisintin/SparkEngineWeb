@@ -27,9 +27,8 @@ export class Renderer {
     public constructor(
         public readonly device: CanvasDevice,
         public readonly resolution: { width: number, height: number },
-        ctx: CanvasRenderingContext2D
+        private readonly ctx: CanvasRenderingContext2D
     ) { 
-        // TODO: move to init method
         this.device.setResolution(ctx, this.resolution.width, this.resolution.height);
     }
 
@@ -37,11 +36,11 @@ export class Renderer {
         this._commandBuffer.push(command);
     }
 
-    public endFrame(ctx: CanvasRenderingContext2D): void {
-        this.device.clear(ctx);
+    public endFrame(): void {
+        this.device.clear(this.ctx);
 
         this._commandBuffer.forEach(command => {
-            command.execute(ctx, this.device)
+            command.execute(this.ctx, this.device)
         });
 
         this._commandBuffer = [];

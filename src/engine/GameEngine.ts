@@ -119,8 +119,10 @@ export class GameEngine {
         this.soundSystem.update();
         // this.hierarchySystem.update(elapsedTime);
             
-        this.renderSystems.forEach(renderSystem => renderSystem.update());
-        this.renderer.endFrame(this.context);
+        this.renderSystems.forEach(renderSystem => {
+            renderSystem.update();
+            renderSystem.renderer.endFrame();
+        });
 
         const excessTime = elapsedTime % this.frametime;
         this.lastTick = currentTime - excessTime;

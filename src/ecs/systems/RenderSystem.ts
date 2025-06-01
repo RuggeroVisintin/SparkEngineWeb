@@ -13,7 +13,7 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
     private camera: CameraComponent = new CameraComponent();
 
     constructor(
-        private readonly renderer: Renderer,
+        public readonly renderer: Renderer,
         private readonly imageLoader: ImageLoader
     ) {
         super();

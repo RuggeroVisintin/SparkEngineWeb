@@ -16,6 +16,16 @@ jest.mock("../../../src/ecs/systems/BaseSystem", () => {
     }
 });
 
+jest.mock("../../../src/renderer/Renderer", () => {
+    return {
+        Renderer: jest.fn().mockImplementation(() => {
+            return {
+                update: jest.fn(),
+                endFrame: jest.fn()
+            }
+        })
+    }
+});
 
 describe('/engine/GameEngine', () => {
     let gameEngine: GameEngine;
@@ -59,6 +69,16 @@ describe('/engine/GameEngine', () => {
             expect(gameEngine.hierarchySystem.update).not.toHaveBeenCalled();
             expect(gameEngine.animationSystem.update).not.toHaveBeenCalled();
             expect(gameEngine.soundSystem.update).not.toHaveBeenCalled();
+        });
+
+        it('Should end the frame after all systems have been updated on all renderers', () => {
+            fakeSystemClock.frameTimes = [0, 16.67];
+
+            gameEngine.run();
+            gameEngine.renderSystems.forEach(renderSystem => {
+                expect(renderSystem.update).toHaveBeenCalled();
+                expect(renderSystem.renderer.endFrame).toHaveBeenCalled();
+            });
         });
     })
 })
