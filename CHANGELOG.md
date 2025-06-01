@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.15.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.14.0...sparkengineweb-v0.15.0) (2025-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **engine:** GameEngine.renderSystem has been removed in favour of GameEngine.renderSystems
+
+### Features
+
+* **engine:** add support to additional RenderSystem(s) ([#524](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/524)) ([3aa9360](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3aa9360139fb96650e185ff45a33278c822bb1ac))
+
 ## [0.14.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.13.4...sparkengineweb-v0.14.0) (2025-05-20)
 
 
