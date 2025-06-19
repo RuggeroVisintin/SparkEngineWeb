@@ -55,7 +55,7 @@
     "husky": "^9.1.7",
     "jest": "^30.0.1",
     "jest-canvas-mock": "^2.5.2",
-    "jest-environment-jsdom": "^30.0.1",
+    "jest-environment-jsdom": "^30.0.2",
     "jest-extended": "^6.0.0",
     "make-coverage-badge": "^1.2.0",
     "release-please": "^17.1.0",
