@@ -47,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.35.0",
     "commitlint": "^19.8.1",
-    "eslint": "^9.29.0",
+    "eslint": "^9.30.0",
     "eslint-plugin-jest-extended": "^3.0.0",
     "eslint-plugin-tsdoc": "^0.4.0",
     "express": "^5.1.0",
