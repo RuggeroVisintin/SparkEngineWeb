@@ -6,9 +6,7 @@
     "node": "^20"
   },
   "maintainers": [
-    "https://github.com/RuggeroVisintin",
-    "https://github.com/Scrice994",
-    "https://github.com/nunziozappulla"
+    "https://github.com/RuggeroVisintin"
   ],
   "description": "",
   "types": "src/index.d.ts",
@@ -25,8 +23,10 @@
     "test:ci": "jest --config jest.ci.config.js",
     "test:perf": "npx ts-node test/performance/bench.perf.ts",
     "test:perf:ci": "npm run test:perf -- --no-color",
+    "postinstall": "sh ./scripts/install-additional-deps.sh",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "adr": "./vendors/adr-tools/src/adr"
   },
   "repository": {
     "type": "git",

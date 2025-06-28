@@ -21,3 +21,5 @@ docs/tsdoc
 /blob-report/
 /playwright/.cache/
 
+/vendors
+
