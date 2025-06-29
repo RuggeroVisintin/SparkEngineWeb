@@ -45,14 +45,14 @@ While we still want to retain link properties like `transform` and `material` in
     - avoid needing a specific Entity instance to deserialize it
     - avoid each entity having to define how it needs to be serialized
     - include dynamically added entities to the serialization output
-2) We concentrate deserialization concerns in the `BaseEntity` constructor to simplify how entities are constructed
+2) We will concentrate deserialization concerns in the `BaseEntity` constructor to simplify how entities are constructed
 
 ## Consequences
 
 **Good** - Serialization and deserialization code is greatly reduced and concentrated in a single abstract class, reducing the overall complexity and cost of maintenance
 
-**Good** - Components added dinamically are also serialized / deserialized
+**Good** - Components added dynamically are also serialized/deserialized
 
 **Bad** - This change will result in a breaking change and a major refactoring of the engine
 
-**Bad** - THis change will also result in a breaking change of the serialization format
+**Bad** - This change will also result in a breaking change of the serialization format
