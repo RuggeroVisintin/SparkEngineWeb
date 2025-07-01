@@ -1,4 +1,4 @@
-import { BaseComponent, BaseEntity, TransformComponent, Type } from "../../../../src";
+import { BaseComponent, BaseEntity, TransformComponent, Type, Vec2 } from "../../../../src";
 
 describe('ecs/entities/BaseEntity', () => {
     let baseEntity: BaseEntity;
@@ -12,10 +12,21 @@ describe('ecs/entities/BaseEntity', () => {
             expect(baseEntity.name).toEqual('BaseEntity1');
         });
 
-        it('Should use an incrementally unique game if more entities with the same name exist and default name is used', () => {    
+        it('Should use an incrementally unique game if more entities with the same name exist and default name is used', () => {
             const currentCount = parseInt(baseEntity.name.split('BaseEntity')[1]);
-            expect(new BaseEntity().name).toEqual('BaseEntity' +  (currentCount + 1));
-        })
+            expect(new BaseEntity().name).toEqual('BaseEntity' + (currentCount + 1));
+        });
+
+        it('Should register comoponents if provided', () => {
+            const testComponent = new TransformComponent();
+            testComponent.position = new Vec2(10, 10);
+
+            baseEntity = new BaseEntity({
+                components: [testComponent.toJson()]
+            });
+
+            expect(baseEntity.getComponent<TransformComponent>('TransformComponent')?.toJson()).toEqual(testComponent.toJson());
+        });
     })
     
     describe('.addComponent()', () => {

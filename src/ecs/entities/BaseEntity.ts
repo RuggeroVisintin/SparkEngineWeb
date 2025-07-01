@@ -2,12 +2,13 @@ import { v4 as uuid } from 'uuid';
 import { RegisterUnique, Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
 import { ComponentProps, IComponent } from "../components";
 import { EntityProps, IEntity } from "./IEntity";
+import { create } from '../../core/factory';
 
 const ENTITY_TYPE = 'BaseEntity';
 
 export interface BaseEntityProps extends EntityProps {
     name?: string;
-    components?: ComponentProps[];
+    components?: WithType<ComponentProps>[];
 }
 
 /**
@@ -29,6 +30,11 @@ export class BaseEntity implements IEntity {
         } else {
             this.name = incrementallyUnique(typeOf(this));
         }
+
+        props?.components?.forEach(componentProps => {
+            const component = create<IComponent>(componentProps.__type, componentProps)
+            this.addComponent(component);
+        });
     }
 
     /**
