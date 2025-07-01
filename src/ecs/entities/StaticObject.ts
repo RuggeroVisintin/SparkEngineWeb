@@ -34,12 +34,4 @@ export class StaticObject extends GameObject {
         
         this.addComponent(this.boundingBox);
     }
-
-
-    public toJson(): WithType<StaticObjectProps> {
-        return {
-            ...super.toJson(),
-            boundingBox: this.boundingBox.toJson()
-        }
-    }
 }

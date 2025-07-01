@@ -1,4 +1,4 @@
-import { BaseComponent, BaseEntity, Type } from "../../../../src";
+import { BaseComponent, BaseEntity, TransformComponent, Type } from "../../../../src";
 
 describe('ecs/entities/BaseEntity', () => {
     let baseEntity: BaseEntity;
@@ -74,15 +74,39 @@ describe('ecs/entities/BaseEntity', () => {
     })
 
     describe('.toJson()', () => {
-        it('Should return a json representetion of the BaseEntity', () => {
-            const testComponent = new BaseComponent();
-            baseEntity.addComponent(testComponent);
+        it('Should serialize the name and type of the entity', () => {
             baseEntity.name = 'BaseEntity1234';
 
             expect(baseEntity.toJson()).toEqual({
                 __type: 'BaseEntity',
-                name: 'BaseEntity1234'
+                name: 'BaseEntity1234',
+                components: []
             });
-        })
+        });
+
+        it('Should serialize all components in the entity', () => {
+            const testComponentA = new BaseComponent();
+            const testComponentB = new BaseComponent();
+
+            baseEntity.addComponent(testComponentA);
+            baseEntity.addComponent(testComponentB);
+
+            expect(baseEntity.toJson()).toEqual(expect.objectContaining({
+                components: expect.arrayContaining([
+                    testComponentB.toJson(),
+                    testComponentA.toJson()
+                ])
+            }));
+        });
+
+        it('Should serialize the same component only once', () => {
+            const testComponent = new TransformComponent();
+            
+            baseEntity.addComponent(testComponent);
+
+            expect(baseEntity.toJson()).toEqual(expect.objectContaining({
+                components: [testComponent.toJson()]
+            }));
+        });
     })
 })

@@ -81,10 +81,12 @@ describe('ecs/entities/GameObject', () => {
             expect(json).toEqual({
                 __type: 'GameObject',
                 name: gameObject.name,
-                transform: gameObject.transform.toJson(),
-                material: gameObject.material.toJson(),
-                shape: gameObject.shape.toJson()
+                components: expect.arrayContaining([
+                    gameObject.transform.toJson(),
+                    gameObject.material.toJson(),
+                    gameObject.shape.toJson()
+                ])
             })
-        })
+        });
     })
 })

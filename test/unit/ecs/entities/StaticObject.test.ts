@@ -45,10 +45,12 @@ describe('ecs/entities/StaticObject', () => {
             expect(staticObject.toJson()).toEqual({
                 __type: 'StaticObject',
                 name: staticObject.name,
-                shape: staticObject.shape.toJson(),
-                material: staticObject.material.toJson(),
-                transform: staticObject.transform.toJson(),
-                boundingBox: staticObject.boundingBox.toJson()
+                components: expect.arrayContaining([
+                    staticObject.transform.toJson(),
+                    staticObject.material.toJson(),
+                    staticObject.shape.toJson(),
+                    staticObject.boundingBox.toJson()
+                ]),
             });
         })
     })

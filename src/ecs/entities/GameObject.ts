@@ -50,13 +50,4 @@ export class GameObject extends BaseEntity {
         this.addComponent(this.shape);
         this.addComponent(this.material);
     }
-
-    public toJson(): WithType<GameObjectProps> {
-        return {
-            ...super.toJson(),
-            transform: this.transform.toJson(),
-            shape: this.shape.toJson(),
-            material: this.material.toJson()
-        }
-    }
 }
