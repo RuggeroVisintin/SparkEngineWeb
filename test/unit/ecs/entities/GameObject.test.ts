@@ -1,4 +1,4 @@
-import { GameObject, MaterialComponentProps, PrimitiveType, Rgb, ShapeComponentProps, TransformComponentProps, Vec2 } from "../../../../src"
+import { ComponentProps, GameObject, GameObjectProps, IComponent, MaterialComponent, MaterialComponentProps, PrimitiveType, Rgb, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps, Vec2, WithType } from "../../../../src"
 
 describe('ecs/entities/GameObject', () => {
     let gameObject: GameObject;
@@ -69,7 +69,36 @@ describe('ecs/entities/GameObject', () => {
             })
 
             expect(gameObject.material).toEqual(expect.objectContaining(materialConfig))
-        })
+        });
+
+        it('Should support dynamic components registration', () => {
+            const transformComponent = new TransformComponent({
+                position: new Vec2(10, 10),
+            });
+
+            const gameObject = new GameObject({
+                components: [
+                    transformComponent.toJson(),
+                ]
+            });
+
+            expect(gameObject.getComponent<TransformComponent>('TransformComponent')?.toJson()).toEqual(transformComponent.toJson());
+        });
+
+        it.each([
+            { transform: new TransformComponent().toJson() },
+            { material: new MaterialComponent().toJson() },
+            { shape: new ShapeComponent().toJson() }
+        ])('Should register the same component only once', (partialConfig: Partial<GameObjectProps>) => {
+            let config = {
+                ...partialConfig,
+                components: Object.values(partialConfig).map(c => c as WithType<ComponentProps>)
+            };
+
+            const gameObject = new GameObject(config);
+
+            expect(gameObject.toJson().components).toHaveLength(3); // transform, material, shape
+        });
     })
 
     describe('.toJson()', () => {

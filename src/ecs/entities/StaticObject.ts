@@ -1,5 +1,5 @@
-import { RegisterUnique, Type, WithType } from "../../core";
-import { BoundingBoxComponent, BoundingBoxComponentProps } from "../components";
+import { RegisterUnique, Type } from "../../core";
+import { BoundingBoxComponent, BoundingBoxComponentProps, ComponentProps } from "../components";
 import { GameObject, GameObjectProps } from "./GameObject";
 
 const ENTITY_TYPE = 'StaticObject';
@@ -21,7 +21,13 @@ export interface StaticObjectProps extends GameObjectProps {
 @Type(ENTITY_TYPE)
 @RegisterUnique(ENTITY_TYPE)
 export class StaticObject extends GameObject {
-    public boundingBox: BoundingBoxComponent;
+    public get boundingBox(): BoundingBoxComponent {
+        return this.getComponent<BoundingBoxComponent>('BoundingBoxComponent')!;
+    }
+
+    public set boundingBox(value: BoundingBoxComponent) {
+        this.addComponent(value);
+    }
 
     /**
      * 
@@ -30,8 +36,8 @@ export class StaticObject extends GameObject {
     constructor(props?: StaticObjectProps) {
         super(props);
 
-        this.boundingBox = new BoundingBoxComponent(props?.boundingBox);
-        
-        this.addComponent(this.boundingBox);
+        if(!this.boundingBox) {
+            this.boundingBox = new BoundingBoxComponent(props?.boundingBox);
+        }
     }
 }

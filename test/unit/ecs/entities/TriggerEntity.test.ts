@@ -18,13 +18,29 @@ describe('ecs/entities/TriggerEntity', () => {
         });
 
         it('Should assign the target entity when defined', () => {
-            expect(triggerEntity.target).toBe(otherEntity);  
-        })
-        
+            expect(triggerEntity.target).toBe(otherEntity);
+        });
 
         it('Should construct a TriggerEntity without any additional props', () => {
             expect(new TriggerEntity().target).toBe(undefined);
-        })
+        });
+
+        it('Should register the same component only once', () => {
+            const targetEntity = new StaticObject({
+                boundingBox: {
+                    aabb: { x: 0, y: 0, width: 10, height: 10 },
+                    isContainer: true,
+                    matchContainerTransform: false,
+                    onCollisionCb: () => { }
+                }
+            });
+
+            const triggerEntity = new TriggerEntity({
+                target: targetEntity,
+            });
+        
+            expect(triggerEntity.toJson().components).toHaveLength(4);
+        });
     })
 
     describe('.set target', () => {

@@ -1,4 +1,4 @@
-import { BoundingBoxComponentProps, GameObject, StaticObject } from "../../../../src"
+import { BoundingBoxComponent, BoundingBoxComponentProps, GameObject, StaticObject } from "../../../../src"
 
 describe('ecs/entities/StaticObject', () => {
     let staticObject = new StaticObject();
@@ -24,10 +24,10 @@ describe('ecs/entities/StaticObject', () => {
 
         it('Should create a bounding box component with given configuration', () => {
             const bbConfig: BoundingBoxComponentProps = {
-                aabb: {x: 10, y: 5, width: 10, height: 5},
-                isContainer: true, 
+                aabb: { x: 10, y: 5, width: 10, height: 5 },
+                isContainer: true,
                 matchContainerTransform: false,
-                onCollisionCb: () => {}
+                onCollisionCb: () => { }
             }
             
             const staticObject = new StaticObject({
@@ -37,7 +37,25 @@ describe('ecs/entities/StaticObject', () => {
             expect(staticObject.boundingBox.aabb).toEqual(bbConfig.aabb);
             expect(staticObject.boundingBox.isContainer).toEqual(bbConfig.isContainer);
             expect(staticObject.boundingBox.matchContainerTransform).toEqual(bbConfig.matchContainerTransform);
-        })
+        });
+
+        it('Should register the same component only once', () => {
+            const bbCompoonent = new BoundingBoxComponent({
+                aabb: { x: 10, y: 5, width: 10, height: 5 },
+                isContainer: true,
+                matchContainerTransform: false,
+                onCollisionCb: () => { }
+            })
+
+            const staticObject = new StaticObject({
+                boundingBox: bbCompoonent.toJson(),
+                components: [
+                    bbCompoonent.toJson()
+                ]
+            });
+
+            expect(staticObject.toJson().components).toHaveLength(4); // transform, material, shape, boundingBox
+        });
     })
 
     describe('.toJson()', () => {

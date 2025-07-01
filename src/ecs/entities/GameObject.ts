@@ -1,4 +1,4 @@
-import { RegisterUnique, Type, WithType } from "../../core";
+import { RegisterUnique, Type } from "../../core";
 import { MaterialComponent, MaterialComponentProps, ShapeComponent, ShapeComponentProps, TransformComponent, TransformComponentProps } from "../components";
 import { BaseEntity, BaseEntityProps } from "./BaseEntity";
 
@@ -31,9 +31,29 @@ export interface GameObjectProps extends BaseEntityProps {
 @Type(ENTITY_TYPE)
 @RegisterUnique(ENTITY_TYPE)
 export class GameObject extends BaseEntity {
-    public transform: TransformComponent;
-    public shape: ShapeComponent;
-    public material: MaterialComponent;
+    public get transform(): TransformComponent {
+        return this.getComponent<TransformComponent>('TransformComponent')!;
+    }
+
+    public set transform(value: TransformComponent) {
+        this.addComponent(value);
+    }
+
+    public get material(): MaterialComponent {
+        return this.getComponent<MaterialComponent>('MaterialComponent')!;
+    }
+
+    public set material(value: MaterialComponent) {
+        this.addComponent(value);
+    }
+
+    public get shape(): ShapeComponent {
+        return this.getComponent<ShapeComponent>('ShapeComponent')!;
+    }
+
+    public set shape(value: ShapeComponent) {
+        this.addComponent(value);
+    }
 
     /**
      * 
@@ -42,12 +62,16 @@ export class GameObject extends BaseEntity {
     constructor(props?: GameObjectProps) {
         super(props);
 
-        this.transform = new TransformComponent(props?.transform);
-        this.shape = new ShapeComponent(props?.shape);
-        this.material = new MaterialComponent(props?.material);
+        if (!this.transform) {
+            this.transform = new TransformComponent(props?.transform);
+        }
 
-        this.addComponent(this.transform);
-        this.addComponent(this.shape);
-        this.addComponent(this.material);
+        if(!this.shape) {
+            this.shape = new ShapeComponent(props?.shape);
+        }
+
+        if(!this.material) {
+            this.material = new MaterialComponent(props?.material);
+        }
     }
 }
