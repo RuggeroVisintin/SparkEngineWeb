@@ -1,15 +1,12 @@
 import { v4 as uuid } from 'uuid';
 import { RegisterUnique, Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
-import { ComponentProps, IComponent } from "../components";
+import { IComponent } from "../components";
 import { EntityProps, IEntity } from "./IEntity";
 import { create } from '../../core/factory';
 
 const ENTITY_TYPE = 'BaseEntity';
 
-export interface BaseEntityProps extends EntityProps {
-    name?: string;
-    components?: WithType<ComponentProps>[];
-}
+export interface BaseEntityProps extends EntityProps {}
 
 /**
  * @category Entities
