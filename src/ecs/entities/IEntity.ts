@@ -1,7 +1,9 @@
 import { WithType } from "../../core";
-import { IComponent } from "../components";
+import { ComponentProps, IComponent } from "../components";
 
 export interface EntityProps {
+    name?: string;
+    components?: WithType<ComponentProps>[];
 }
 
 /**

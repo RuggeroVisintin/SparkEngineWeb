@@ -2,12 +2,11 @@ import { v4 as uuid } from 'uuid';
 import { RegisterUnique, Type, WithType, incrementallyUnique, typeOf, typesOf } from "../../core";
 import { IComponent } from "../components";
 import { EntityProps, IEntity } from "./IEntity";
+import { create } from '../../core/factory';
 
 const ENTITY_TYPE = 'BaseEntity';
 
-export interface BaseEntityProps extends EntityProps {
-    name?: string;
-}
+export interface BaseEntityProps extends EntityProps {}
 
 /**
  * @category Entities
@@ -18,6 +17,7 @@ export class BaseEntity implements IEntity {
     public readonly uuid = uuid();
 
     private _components: Map<string, IComponent[]> = new Map();
+    private _flattenedComponents: IComponent[] = [];
 
     private _name: string = '';
 
@@ -27,6 +27,11 @@ export class BaseEntity implements IEntity {
         } else {
             this.name = incrementallyUnique(typeOf(this));
         }
+
+        props?.components?.forEach(componentProps => {
+            const component = create<IComponent>(componentProps.__type, componentProps)
+            this.addComponent(component);
+        });
     }
 
     /**
@@ -53,10 +58,11 @@ export class BaseEntity implements IEntity {
      * @param component - the componnt to add to this entity
      */
     public addComponent(component: IComponent): void {
-
         typesOf(component).forEach(type => {
             this._components.set(type, [component, ...this.getComponents(type)])
-        })
+        });
+
+        this._flattenedComponents.push(component);        
         component.setContainer(this);
     }
 
@@ -85,9 +91,12 @@ export class BaseEntity implements IEntity {
     }
 
     public toJson(): WithType<BaseEntityProps> {
+        const components = this._flattenedComponents.map(component => component.toJson());
+
         return {
             __type: typeOf(this),
-            name: this.name
+            name: this.name,
+            components
         }
     }
 }
