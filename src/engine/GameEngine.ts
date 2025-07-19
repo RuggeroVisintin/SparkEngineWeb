@@ -2,7 +2,6 @@ import { AnimationSystem, HierarchySystem, InputSystem, PhysicsSystem, RenderSys
 import { Physx } from "../physx";
 import { CanvasDevice, ImageLoader, DOMImageLoader, KeyboardDevice } from "../platform";
 import { Renderer } from "../renderer";
-import { Scene } from "./Scene";
 
 /**
  * @category Engine

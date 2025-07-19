@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`/game/Scene .loadFromFile() Should load the entities configuration as well: SceneSnapshot 1`] = `
+{
+  "entities": {
+    "testEntity5": {
+      "__type": "GameObject",
+      "components": [
+        {
+          "__type": "TransformComponent",
+          "depthIndex": 0,
+          "position": Vec2 {
+            "x": 1,
+            "y": 2,
+          },
+          "size": {
+            "height": 50,
+            "width": 100,
+          },
+          "velocity": Vec2 {
+            "x": 0,
+            "y": 0,
+          },
+        },
+        {
+          "__type": "ShapeComponent",
+          "isWireframe": false,
+          "shapeType": 0,
+          "transform": {
+            "__type": "TransformComponent",
+            "depthIndex": 0,
+            "position": Vec2 {
+              "x": 1,
+              "y": 2,
+            },
+            "size": {
+              "height": 50,
+              "width": 100,
+            },
+            "velocity": Vec2 {
+              "x": 0,
+              "y": 0,
+            },
+          },
+        },
+        {
+          "__type": "MaterialComponent",
+          "diffuseColor": {
+            "b": 216,
+            "g": 108,
+            "r": 209,
+          },
+          "diffuseTexturePath": undefined,
+          "opacity": 100,
+        },
+      ],
+      "name": "testEntity5",
+    },
+    "testEntity6": {
+      "__type": "GameObject",
+      "components": [
+        {
+          "__type": "TransformComponent",
+          "depthIndex": 0,
+          "position": Vec2 {
+            "x": 10,
+            "y": 20,
+          },
+          "size": {
+            "height": 50,
+            "width": 100,
+          },
+          "velocity": Vec2 {
+            "x": 0,
+            "y": 0,
+          },
+        },
+        {
+          "__type": "MaterialComponent",
+          "diffuseColor": {
+            "b": 0,
+            "g": 255,
+            "r": 0,
+          },
+          "diffuseTexturePath": undefined,
+          "opacity": 100,
+        },
+        {
+          "__type": "ShapeComponent",
+          "isWireframe": false,
+          "shapeType": 0,
+          "transform": {
+            "__type": "TransformComponent",
+            "depthIndex": 0,
+            "position": Vec2 {
+              "x": 10,
+              "y": 20,
+            },
+            "size": {
+              "height": 50,
+              "width": 100,
+            },
+            "velocity": Vec2 {
+              "x": 0,
+              "y": 0,
+            },
+          },
+        },
+      ],
+      "name": "testEntity6",
+    },
+  },
+}
+`;
+
+exports[`/game/Scene .loadFromJson() Should load the entities configuration as well: SceneSnapshot 1`] = `
+{
+  "entities": {
+    "testEntity5": {
+      "__type": "GameObject",
+      "components": [
+        {
+          "__type": "TransformComponent",
+          "depthIndex": 0,
+          "position": Vec2 {
+            "x": 1,
+            "y": 2,
+          },
+          "size": {
+            "height": 50,
+            "width": 100,
+          },
+          "velocity": Vec2 {
+            "x": 0,
+            "y": 0,
+          },
+        },
+        {
+          "__type": "ShapeComponent",
+          "isWireframe": false,
+          "shapeType": 0,
+          "transform": {
+            "__type": "TransformComponent",
+            "depthIndex": 0,
+            "position": Vec2 {
+              "x": 1,
+              "y": 2,
+            },
+            "size": {
+              "height": 50,
+              "width": 100,
+            },
+            "velocity": Vec2 {
+              "x": 0,
+              "y": 0,
+            },
+          },
+        },
+        {
+          "__type": "MaterialComponent",
+          "diffuseColor": {
+            "b": 216,
+            "g": 108,
+            "r": 209,
+          },
+          "diffuseTexturePath": undefined,
+          "opacity": 100,
+        },
+      ],
+      "name": "testEntity5",
+    },
+    "testEntity6": {
+      "__type": "GameObject",
+      "components": [
+        {
+          "__type": "TransformComponent",
+          "depthIndex": 0,
+          "position": Vec2 {
+            "x": 10,
+            "y": 20,
+          },
+          "size": {
+            "height": 50,
+            "width": 100,
+          },
+          "velocity": Vec2 {
+            "x": 0,
+            "y": 0,
+          },
+        },
+        {
+          "__type": "MaterialComponent",
+          "diffuseColor": {
+            "b": 0,
+            "g": 255,
+            "r": 0,
+          },
+          "diffuseTexturePath": undefined,
+          "opacity": 100,
+        },
+        {
+          "__type": "ShapeComponent",
+          "isWireframe": false,
+          "shapeType": 0,
+          "transform": {
+            "__type": "TransformComponent",
+            "depthIndex": 0,
+            "position": Vec2 {
+              "x": 10,
+              "y": 20,
+            },
+            "size": {
+              "height": 50,
+              "width": 100,
+            },
+            "velocity": Vec2 {
+              "x": 0,
+              "y": 0,
+            },
+          },
+        },
+      ],
+      "name": "testEntity6",
+    },
+  },
+}
+`;
