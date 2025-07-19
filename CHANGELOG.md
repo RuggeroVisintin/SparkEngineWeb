@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.0...sparkengineweb-v0.15.1) (2025-07-19)
+
+
+### Features
+
+* **ecs:** add dynamic components serialization ([#559](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/559)) ([3c48416](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3c48416739988d4efd0c775f7801b88004d7839a))
+
 ## [0.15.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.14.0...sparkengineweb-v0.15.0) (2025-06-01)
 
 
