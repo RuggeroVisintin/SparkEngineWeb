@@ -288,51 +288,12 @@ describe('/game/Scene', () => {
     })
 
     describe('.loadFromJson()', () => {
-        it('Should load all entities from the scene', async () => {
-            scene.loadFromJson((await defaultEntitiesScene).default);
-
-            expect(scene.entities).toEqual([
-                expect.objectContaining({
-                    __type: 'GameObject',
-                    _name: 'testEntity1',
-                }),
-                expect.objectContaining({
-                    __type: 'GameObject',
-                    _name: 'testEntity2',
-                })
-            ]);
-        })
-
         it('Should load the entities configuration as well', async () => {
-            scene.loadFromJson((await entitiesWithComponents).default);
+            const sceneJson = (await entitiesWithComponents).default;
 
-            expect(scene.entities).toEqual([
-                expect.objectContaining({
-                    __type: 'GameObject',
-                    _name: 'testEntity5',
-                    transform: expect.objectContaining({
-                        position: new Vec2(1, 2),
-                        size: { width: 100, height: 50 }
-                    }),
-                    shape: expect.objectContaining({
-                        shapeType: PrimitiveType.Rectangle
-                    })
-                }),
-                expect.objectContaining({
-                    __type: 'GameObject',
-                    _name: 'testEntity6',
-                    transform: expect.objectContaining({
-                        position: new Vec2(10, 20),
-                        size: { width: 100, height: 50 }
-                    }),
-                    shape: expect.objectContaining({
-                        shapeType: PrimitiveType.Rectangle
-                    }),
-                    material: expect.objectContaining({
-                        diffuseColor: new Rgb(255)
-                    })
-                })
-            ]);
+            scene.loadFromJson(sceneJson);
+
+            expect(scene.toJson()).toMatchSnapshot("SceneSnapshot");
         });
 
         it('Should load the entities name when loading a scene', () => {
@@ -399,33 +360,7 @@ describe('/game/Scene', () => {
 
             await scene.loadFromFile('test.scene.json');
 
-            expect(scene.entities).toEqual([
-                expect.objectContaining({
-                    __type: 'GameObject',
-                    _name: 'testEntity5',
-                    transform: expect.objectContaining({
-                        position: new Vec2(1, 2),
-                        size: { width: 100, height: 50 }
-                    }),
-                    shape: expect.objectContaining({
-                        shapeType: PrimitiveType.Rectangle
-                    })
-                }),
-                expect.objectContaining({
-                    __type: 'GameObject',
-                    _name: 'testEntity6',
-                    transform: expect.objectContaining({
-                        position: new Vec2(10, 20),
-                        size: { width: 100, height: 50 }
-                    }),
-                    shape: expect.objectContaining({
-                        shapeType: PrimitiveType.Rectangle
-                    }),
-                    material: expect.objectContaining({
-                        diffuseColor: new Rgb(255)
-                    })
-                })
-            ]);
+            expect(scene.toJson()).toMatchSnapshot("SceneSnapshot")
         });
 
         it('Should load the entities name when loading a scene', async () => {
