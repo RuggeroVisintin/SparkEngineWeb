@@ -1,4 +1,4 @@
-import { BaseEntity, BoundingBoxComponent, BoundingBoxComponentProps, GameObject, ICollidableComponent, Physx, StaticObject, Vec2 } from "../../../../src";
+import { BaseEntity, BoundingBoxComponent, BoundingBoxComponentProps, CollisionCallbackParams, GameObject, ICollidableComponent, Physx, StaticObject, Vec2 } from "../../../../src";
 
 describe('ecs/components/BoundingBoxComponent', () => {
     let bbComponent = new BoundingBoxComponent();
@@ -44,7 +44,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
             parentEntity.addComponent(bbComponent);
 
             bbComponent.matchContainerTransform = true;
-            
+
             parentEntity.transform.position = new Vec2(15, 25);
             parentEntity.transform.size = { width: 10, height: 10 };
 
@@ -56,7 +56,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
         it('Should return the default AABB if .matchContainerTransform is true but parent container is null', () => {
             bbComponent.matchContainerTransform = true;
             bbComponent.aabb.x = 555;
-            
+
             expect(bbComponent.aabb).toEqual({
                 x: 555, y: 0, width: 0, height: 0
             })
@@ -65,7 +65,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
         it('Should return the default AABB if .matchContainerTransform is false', () => {
             const parentEntity = new GameObject();
             parentEntity.addComponent(bbComponent);
-            
+
             bbComponent.matchContainerTransform = false;
             bbComponent.aabb.x = 555;
 
@@ -80,7 +80,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
             bbComponent.matchContainerTransform = true;
             bbComponent.aabb.x = 555;
-            
+
             expect(bbComponent.aabb).toEqual({
                 x: 555, y: 0, width: 0, height: 0
             })
@@ -88,7 +88,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
     });
 
     describe('.update()', () => {
-        
+
         it.each([{
             aabb: { x: 0, y: 0, width: 0, height: 0 },
             expected: [0, 0, 0, 0]
@@ -139,7 +139,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
             const entity = new StaticObject();
             entity.transform.velocity = new Vec2(5, 5);
             entity.boundingBox.aabb.width = 10;
-            entity.boundingBox.aabb.height = 10; 
+            entity.boundingBox.aabb.height = 10;
 
             entity.boundingBox.update(physx);
 
@@ -169,7 +169,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
             bbComponent.aabb.y = 10;
             bbComponentB.aabb.width = 4;
             bbComponentB.aabb.height = 4;
- 
+
             bbComponentB.onCollisionCb = cbBBComponentB;
 
             bbComponent.update(physx);
@@ -184,12 +184,17 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
     describe('.toJson()', () => {
         it('Should return a JSON representation of the component', () => {
+            bbComponent.onCollisionCb = (params: CollisionCallbackParams): void => {
+                console.log('Collision detected', params);
+            }
+
             const json = bbComponent.toJson();
 
             expect(json).toEqual({
                 __type: 'BoundingBoxComponent',
                 aabb: { x: 0, y: 0, width: 0, height: 0 },
                 matchContainerTransform: false,
+                onCollisionCb: bbComponent.onCollisionCb,
                 isContainer: false
             })
         })
