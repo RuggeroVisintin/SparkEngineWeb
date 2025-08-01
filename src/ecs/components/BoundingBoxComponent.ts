@@ -34,7 +34,7 @@ export interface BoundingBoxComponentProps {
  */
 @Type('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {
-    private defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 }; 
+    private defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 };
 
     /**
      * Callback to invoke when a collision with another physical object is detected
@@ -55,7 +55,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
      * Returns the Axis Aligned Bounding Box of the component.
      * The returned value is overridden with the parent entity transform when `.matchContainerTransform` is set to true
      */
-    public get aabb(): AABB { 
+    public get aabb(): AABB {
 
         const container = this.getContainer();
         const containerTransform = container ? container.getComponent<TransformComponent>('TransformComponent') : undefined;
@@ -65,17 +65,17 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
             : this.defaultAABB
     }
 
-    public set aabb(value: AABB) { 
+    public set aabb(value: AABB) {
         this.defaultAABB = value;
     }
 
     public constructor(props?: BoundingBoxComponentProps) {
         super();
 
-        if(props?.aabb) this.aabb = props.aabb;
-        if(props?.isContainer) this.isContainer = props.isContainer;
-        if(props?.onCollisionCb) this.onCollisionCb = props.onCollisionCb;
-        if(props?.matchContainerTransform) this.matchContainerTransform = props.matchContainerTransform;
+        if (props?.aabb) this.aabb = props.aabb;
+        if (props?.isContainer) this.isContainer = props.isContainer;
+        if (props?.onCollisionCb) this.onCollisionCb = props.onCollisionCb;
+        if (props?.matchContainerTransform) this.matchContainerTransform = props.matchContainerTransform;
     }
 
     /**
@@ -101,6 +101,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
             ...super.toJson(),
             aabb: this.aabb,
             isContainer: this.isContainer,
+            onCollisionCb: this.onCollisionCb,
             matchContainerTransform: this.matchContainerTransform
         }
     }
@@ -115,9 +116,9 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
             velocity
         }
     }
-    
-    private onCollision(params: CollisionCallbackParams) { 
+
+    private onCollision(params: CollisionCallbackParams) {
         this.onCollisionCb && this.onCollisionCb(params);
     }
-    
+
 }
