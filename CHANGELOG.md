@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.1...sparkengineweb-v0.15.2) (2025-08-02)
+
+
+### Features
+
+* **ecs:** add onCollisionCb serialization ([0323201](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/03232018f1fa867db03b450bdcd05f7fe22a659a))
+
 ## [0.15.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.0...sparkengineweb-v0.15.1) (2025-07-19)
 
 
