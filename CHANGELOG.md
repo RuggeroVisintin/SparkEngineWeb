@@ -1,5 +1,140 @@
 # Changelog
 
+## [0.10.6](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.1...sparkengineweb-v0.10.6) (2025-08-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **engine:** GameEngine.renderSystem has been removed in favour of GameEngine.renderSystems
+* **engine:** allow scenes to be built before engine is ready
+* **gfx:** rename ImageLoader to DOMImageLoader and add ImageLoader interface
+* **renderer:** add texture loading when ShapeComponent material draw ([#398](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/398))
+* rename uniqueness decorators
+* **ecs:** apply BaseSystem abstract class to HierarchySystem
+* **gfx:** - DrawImageCommand.constructor.image
+* **ecs:** Removes `@IncrementallyUnique` property decorator due to buggy implementation. use `incrementallyUnique()` function instead
+* **ecs:** removes target param in favor of required props param
+* **ecs:** SoundComponent constructor does not require SoundLoader anymore which is now needed in SoundComponent.load
+* **ecs:** SoundComponentProps is required to create a new SoundComponent
+* **inputs:** fix delayed inputs when keeping button pressed - #82 ([#107](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/107))
+
+### Features
+
+* add camera mechanism ([a1b480c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a1b480c8b639dc34912503796f0248dd39f589a8))
+* add compiled source in release package ([1107763](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1107763475c64d4b77a1aac13edec5ee5d1110ea))
+* add entities init config ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+* **animations:** add animation assets loading ([22ebea4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/22ebea4563b7dd2a6323ea931e3c7662bb717fec))
+* **animations:** add animation controls ([9cc570f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9cc570f27e99d93fac4211b5b65d5c5e4160d75d))
+* **animations:** apply idle pose when stopping the animation ([8bbb401](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8bbb40105dfd2bcfaad676618ad8f372cfe23b45))
+* **core:** add rgb to hex string conversion ([8c60d87](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8c60d872a4ef1d5ad6186d8e9643de1d5c1945e4))
+* **core:** add whole type chain in type decorator ([9f90175](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9f901755e311807c8f9814ee3f9fb5fe9c73a168))
+* **core:** return Vec2 this instance in in place methods ([cd552c8](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/cd552c878a55dcb32cf6e992300ac07477072cd9))
+* **ecs:** add .toJson() method to get json representation of any component ([#352](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/352)) ([c189dd9](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/c189dd9c157f15de9ab437db91cff829b65d73d6))
+* **ecs:** add "isWireframe" property in ShapeComponent constructor props ([c3c4950](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/c3c4950efe9c3b3ede2be339fe9fc13e2a8a987c))
+* **ecs:** add ability to remove diffuseColor from materialComponent ([126624e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/126624eaa66fca44f2d414cb7507feef8dd5c931))
+* **ecs:** add abstraction for drawable components ([abdc5c5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/abdc5c51c21550863d3978cd5035ea62c856991d))
+* **ecs:** add animations ([1cd95d8](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1cd95d811f3be8fc25ec744b4f6f219f61df064d))
+* **ecs:** add BaseSystem abstract class ([1bfdaa4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1bfdaa494e92e7ec0cdce1af7d19155f8c071a34))
+* **ecs:** add BoundingBoxComponentProps to construct boundingBox from config ([#121](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/121)) ([522265d](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/522265dc1de955b7b84d8a4170b91fc7ae83a120))
+* **ecs:** add CameraComponent ([a1b480c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a1b480c8b639dc34912503796f0248dd39f589a8))
+* **ecs:** add default entity name with automatic incremental uniqueness ([#146](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/146)) ([60c7b08](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/60c7b084d08f422ce160eae625ebf5dd8ab51c4b))
+* **ecs:** add diffuse texture rendering in MaterialComponent ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+* **ecs:** add dynamic components serialization ([#559](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/559)) ([0e5cd89](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/0e5cd8945c446f3cf018992d95dd26f6d8291934))
+* **ecs:** add entities .toJson() serialization ([#367](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/367)) ([8c3ef7a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8c3ef7add04bf268041f9d3f1930cb823456a046))
+* **ecs:** add entities type metadata ([#131](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/131)) ([1a9a2e7](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1a9a2e72edc2af9cade9a6f012758440c9d7711b))
+* **ecs:** add GameObject init configuration ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+* **ecs:** add MaterialComponentProps to quickly initialize the component ([#122](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/122)) ([d1373e4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/d1373e43ac3d34922079de65d594b1eade15c91b))
+* **ecs:** add onCollisionCb serialization ([0323201](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/03232018f1fa867db03b450bdcd05f7fe22a659a))
+* **ecs:** add optional target in TriggerEntity ([#277](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/277)) ([b423994](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b423994262305e43aa349a7dee83aa8a1ab80f1e))
+* **ecs:** add RigidBodyComponent ([#191](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/191)) ([e64b4da](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/e64b4dab66c2425f338cbda03736f7b245fd75cf))
+* **ecs:** add scene loading from file ([#133](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/133)) ([1ca5619](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1ca5619ef3cd763f34d0ba822cf2e7e5f363669e))
+* **ecs:** add ShapeComponentProps to quickly initialize the component ([#123](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/123)) ([7792fc1](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7792fc1ec629ea97106c0c13f6a7ed44b539b71b))
+* **ecs:** add SoundComponentProps to quickly initialize the component ([#124](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/124)) ([3c7ba92](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3c7ba920d69da96437963692155d56ebf67f3b97))
+* **ecs:** add StaticObject init config ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+* **ecs:** add support to diffuse texture rendering ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+* **ecs:** add support to multiple components of the same type in Entities ([2d18ecf](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2d18ecf41192e4a41ed3759ce40b367ddb3f9312))
+* **ecs:** add the ability to pause/resume any given system ([#308](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/308)) ([53a6c52](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/53a6c52d9dabf33b14f2afb97846e8215a0e422a))
+* **ecs:** add TransformComponentProps to init the component ([#119](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/119)) ([6803e9f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6803e9f19aeb79b47f38eeb8a6f295726f7aa5e3))
+* **ecs:** add TriggerEntity init config ([21783d5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/21783d56e7aea42b417eb8a32245e70b8016e5da))
+* **ecs:** add TriggerEntity target setter to change or remove target ([b423994](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b423994262305e43aa349a7dee83aa8a1ab80f1e))
+* **ecs:** add unregisterComponent method to system ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+* **ecs:** add uuid to entities ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+* **ecs:** add wireframe rendering mode to ShapeComponent ([5a0f8e6](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/5a0f8e65a47c3f342ffa6f1c9964894de687f87a))
+* **ecs:** avoid using MaterialComponent default diffuse color when texture is applied ([17be7d0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/17be7d0f4b8a7ec0cd3266aed37afd0a08b4003c))
+* **ecs:** implement entity unique name setter and getter ([#150](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/150)) ([935e887](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/935e887fc2e260b6fd0dc36b1dfbe58cfd3297e7))
+* **ecs:** make added component retrievable with any type in its types chain ([bbef3b1](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bbef3b1fd7a588b6ce72e9bbf6dc98469509f20b))
+* **ecs:** make target optional in TriggerEntity constructor ([b423994](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b423994262305e43aa349a7dee83aa8a1ab80f1e))
+* **ecs:** prevent the same component from being added twice ([ef5759e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ef5759e3af6db914f6bb91c342e92cffe4ba5e90))
+* **ecs:** use ImageLoader interface for DOMImageLoader ([#466](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/466)) ([ca97278](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ca972781a7ecb21d5f75a38546008c905ac2cd39))
+* **engine:** add ability to control when scene should be drawn/hidden ([#420](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/420)) ([3b8de5e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3b8de5e22641cab0bd6a9131674fa8bc4931bcc3))
+* **engine:** add ability to draw scene by default on `Engine.createScene` invoke ([99af115](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/99af1153ea0a7435b4c03aba8f10b78b8baaccb8))
+* **engine:** add ability to override engine image loader ([092cea1](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/092cea1dd716fd20d62fffc79f5378f7d4434137))
+* **engine:** add ability to remove a scene from the engine ([ec6922d](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ec6922db622a4a1c64d7f7daec956182b04c240d))
+* **engine:** add animationCompont to scene ([57ee76b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/57ee76b00638b5202760adaa7569da1a6ee9bd17))
+* **engine:** add AnimationSystem to engine ([63d0dde](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/63d0dde08e68f98d996080d885445c43e1c47141))
+* **engine:** add physics cycles configuration ([#186](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/186)) ([241b726](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/241b726c16b208e6a066886c564a13968bcc6767))
+* **engine:** add public access pattern to renderer ([bf614f2](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bf614f24d075cd5b40fc6684e0a56723fcbf46c1))
+* **engine:** add scene .toJson() serialization ([#368](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/368)) ([4c4ee7d](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/4c4ee7dd5fb7cce94d0c8fb32858c565809f6019))
+* **engine:** add scene dispose functionality ([238001a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/238001aeece085b0c030429c577d5895a09ba905))
+* **engine:** add scene loading from given JSON object ([e621de0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/e621de060989a4a2abd9a3e77aa9ed82e6a66190))
+* **engine:** add Scene to automatically register components inside a scene systems [[#111](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/111)][[#113](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/113)] ([368fa4e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/368fa4edb2e5a221aba51070d90e9fb539049c28))
+* **engine:** add support to additional RenderSystem(s) ([#524](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/524)) ([5052f58](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/5052f582994047fef33c121d1aa38ec83b977be2))
+* **engine:** add unregisterEntity in Scene ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+* **engine:** hide scene from previous engine instance when drawn into new engine instance ([efa0651](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/efa0651e4abb77cb7f5d452fa3ec55c6079b70e5))
+* **gfx:** add drawImage command ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+* **gfx:** add ImageLoader ([7db1cc0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7db1cc01212fddf7f8055d507c6f28720de55430))
+* **gfx:** add textures opacity ([899a76e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/899a76ec3e5ac9afa89b969da7f58baa799bfc3e))
+* **gfx:** add type to ImageAsset ([a17e998](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a17e9989775ce7041a0d9df91f041e96c32a9057))
+* **gfx:** rename ImageLoader to DOMImageLoader and add ImageLoader interface ([3a2791e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3a2791e68b7ae2d6d1358f12c46a2855d3729e11))
+* **gfx:** switch image rendering from HTMLImageElement to ImageBitmap ([12e20cb](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/12e20cb69c223eb9e60f3a3535cf700539938581))
+* **inputs:** trigger input listener only once per frame ([9845b8c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9845b8c8f6efe8a83a752d8691ad9e17844720c0))
+* **physx:** add post simulation position on container collision ([#171](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/171)) ([e9b92dc](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/e9b92dc476951e0974ff088d88e54cc003c88e31))
+* **physx:** improve collisions detection and resolution ([bca7507](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bca75078f956a90d1cda0f6ebb43f40191827d0f))
+* **platform:** add assets cache to ImageLoader ([a435a03](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a435a03a55b9401e23af95ff7cd80d5526ed31ff))
+* **renderer:** add SetTransformCommand render command ([a1b480c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a1b480c8b639dc34912503796f0248dd39f589a8))
+* **renderer:** add support to wireframe thickness ([#296](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/296)) ([41a3ec2](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/41a3ec260ffe1f631569b5174f090349181bcc3c))
+* **renderer:** add texture loading when ShapeComponent material draw ([#398](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/398)) ([64ea774](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/64ea774de3b256c626f30dccddaf89c0f7b67c30))
+* **scene:** add unregisterEntity to remove an entity from a scene ([#274](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/274)) ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+
+
+### Bug Fixes
+
+* **core:** fix issue with unique names colliding with each other ([ad055af](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ad055afebe40c465448051612353d232b52c5aa4))
+* **core:** fix rgb alpha value being wrongly defaulted when 0 ([fec7fd3](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/fec7fd3525e0134ba5d6dd9bde7f932817798da6))
+* **core:** fix types decortator to not overwrite other constructors types chain ([54049e5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/54049e592c86319b7516e8dbdfd36335af364304))
+* **ecs:** fix material props serialization ([6edae6b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6edae6b2929925f5b6c9fd8d837365aa063b0170))
+* **ecs:** return early if component not found ([901fc23](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/901fc236fd30af4e29444e0b3a8a564a43de7de1))
+* **engine:** fix scene load not cleaning up existing data properly ([34e3fd4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/34e3fd41806eaefeb468de501ff470a1a2be400c))
+* **engine:** fix scene trowhing exception when entity name is removed and added back again ([14d48c0](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/14d48c038d222d18f3a383edd8471b18dd70fcbd))
+* **engine:** fix stuttering due to incorrect framepacing ([#149](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/149)) ([fbefc1e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/fbefc1e12be80ba5e39ae1bc64f45517a285a4e5))
+* **engine:** make sure only first scene created is automatically drawn ([3b8de5e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/3b8de5e22641cab0bd6a9131674fa8bc4931bcc3))
+* fix distributable missing in release artifact ([18bd2ce](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/18bd2ceba3ab7d6ba35e17d07cbbc025ceda6c28))
+* fix incrementally unique names colliding with already registered names ([#377](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/377)) ([8239b54](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8239b54d13f6de48537d781f17deb578354d66a1))
+* **inputs:** fix delayed inputs when keeping button pressed - [#82](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/82) ([#107](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/107)) ([91401aa](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/91401aa2b35e1c1c2aad9af317522b25ece4d0fd))
+* **physx:** fix broken physics in pong example due to values being used by reference ([dc9a4e4](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/dc9a4e492e015ac8a37857f224a22f14bb106732))
+* **physx:** fix collision detection being broken when same object added twice ([f7ed740](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/f7ed7406b18b07eca82dace51a6387e56326ea70))
+* **physx:** fix wrong uuid being used in post simulation and avoid unnecessary collision check ([b93c447](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b93c44714654985ec16b7116b14283495097316f))
+
+
+### Miscellaneous Chores
+
+* release 0.10.4 ([0edafc5](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/0edafc5c4f8fb5aac1317c63f0e7e8b39ee0abc3))
+* release 0.10.4 ([79ff43f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/79ff43f04ee857c59e60cb4b46970d988324297e))
+* release 0.10.5 ([83cf94c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/83cf94ccfb7d467aec699f2399f8c08e397b9b6c))
+
+
+### Code Refactoring
+
+* **ecs:** apply BaseSystem abstract class to HierarchySystem ([bbeddcd](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/bbeddcda22c4cdc4bc78b54cdf23bc0dfa722d59))
+* **ecs:** pass SoundLoader in SoundComponent.load ([2bfd28b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2bfd28bcf7dba834d8cbfc01e5f00f23b217a0ee))
+* **engine:** allow scenes to be built before engine is ready ([f30b649](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/f30b64955ad6e1f58b438b9202ba9eed386e3ce9))
+* rename uniqueness decorators ([8a2e6e3](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8a2e6e38209591eb9477af2c73b4a58348ba215a))
+
+
+### Continuous Integration
+
+* fix build:lib script ([a6a0f65](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a6a0f65d3e3101cd149bdaa6b26caf69e9c1014a))
+
 ## [0.15.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.0...sparkengineweb-v0.15.1) (2025-07-19)
 
 
