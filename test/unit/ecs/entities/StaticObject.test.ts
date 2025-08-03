@@ -1,10 +1,10 @@
-import { BoundingBoxComponent, BoundingBoxComponentProps, GameObject, StaticObject } from "../../../../src"
+import { BoundingBoxComponent, BoundingBoxComponentProps, GameObject, SerializableCallback, StaticObject } from "../../../../src"
 
 describe('ecs/entities/StaticObject', () => {
     let staticObject = new StaticObject();
 
     afterEach(() => {
-       staticObject = new StaticObject();
+        staticObject = new StaticObject();
     })
 
     describe('.constructor()', () => {
@@ -27,9 +27,9 @@ describe('ecs/entities/StaticObject', () => {
                 aabb: { x: 10, y: 5, width: 10, height: 5 },
                 isContainer: true,
                 matchContainerTransform: false,
-                onCollisionCb: () => { }
+                onCollisionCb: SerializableCallback.fromFunction(() => { })
             }
-            
+
             const staticObject = new StaticObject({
                 boundingBox: bbConfig
             });
@@ -44,7 +44,7 @@ describe('ecs/entities/StaticObject', () => {
                 aabb: { x: 10, y: 5, width: 10, height: 5 },
                 isContainer: true,
                 matchContainerTransform: false,
-                onCollisionCb: () => { }
+                onCollisionCb: SerializableCallback.fromFunction(() => { })
             })
 
             const staticObject = new StaticObject({

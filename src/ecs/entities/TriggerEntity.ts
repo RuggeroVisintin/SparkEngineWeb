@@ -1,6 +1,6 @@
 import { BoundingBoxComponent, CollisionCallbackParams } from "../components";
 import { StaticObject, StaticObjectProps } from "./StaticObject";
-import { RegisterUnique, Type } from "../../core";
+import { RegisterUnique, SerializableCallback, Type } from "../../core";
 import { IEntity } from ".";
 
 const ENTITY_TYPE = 'TriggerEntity';
@@ -38,18 +38,18 @@ export class TriggerEntity extends StaticObject {
         }
 
         const targetComponent = value.getComponent<BoundingBoxComponent>('BoundingBoxComponent');
-    
+
         if (!targetComponent) {
             throw new Error('Target entity must have a BoundingBox component attached');
         }
-    
+
         this._targetComponent = targetComponent;
     }
 
     public get target(): IEntity | undefined {
         return this._targetComponent?.getContainer();
     }
-    
+
 
     /**
      * The callback to trigger when a collision with the target entity is detected.
@@ -63,7 +63,7 @@ export class TriggerEntity extends StaticObject {
         super(props);
 
         this.target = props?.target;
-        this.boundingBox.onCollisionCb = this.onCollisionHandler.bind(this);
+        this.boundingBox.onCollisionCb = SerializableCallback.fromFunction(this.onCollisionHandler).bind(this);
     }
 
     private onCollisionHandler(params: CollisionCallbackParams): void {

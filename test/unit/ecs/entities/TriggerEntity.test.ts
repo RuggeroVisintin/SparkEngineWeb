@@ -1,4 +1,4 @@
-import { BaseEntity, StaticObject, TriggerEntity, Vec2 } from "../../../../src"
+import { BaseEntity, SerializableCallback, StaticObject, TriggerEntity, Vec2 } from "../../../../src"
 
 describe('ecs/entities/TriggerEntity', () => {
     const otherEntity = new StaticObject();
@@ -31,14 +31,14 @@ describe('ecs/entities/TriggerEntity', () => {
                     aabb: { x: 0, y: 0, width: 10, height: 10 },
                     isContainer: true,
                     matchContainerTransform: false,
-                    onCollisionCb: () => { }
+                    onCollisionCb: SerializableCallback.fromFunction(() => { })
                 }
             });
 
             const triggerEntity = new TriggerEntity({
                 target: targetEntity,
             });
-        
+
             expect(triggerEntity.toJson().components).toHaveLength(4);
         });
     })
@@ -53,19 +53,19 @@ describe('ecs/entities/TriggerEntity', () => {
         it('Should assign the target entity when defined', () => {
             const newEntity = new StaticObject();
             triggerEntity.target = newEntity;
-            expect(triggerEntity.target).toBe(newEntity);  
+            expect(triggerEntity.target).toBe(newEntity);
         })
 
         it('Should unset the target when undefined is given', () => {
             triggerEntity.target = undefined;
-            expect(triggerEntity.target).toBe(undefined);  
+            expect(triggerEntity.target).toBe(undefined);
         })
     })
 
     describe('.onTriggerCB', () => {
         it('Should be invoked when a collision between this entity and the target is detected', () => {
             triggerEntity.onTriggerCB = jest.fn();
-            triggerEntity.boundingBox.onCollisionCb?.({
+            triggerEntity.boundingBox.onCollisionCb?.call(this, {
                 collider: {
                     aabb: [1, 0, 1, 0],
                     velocity: new Vec2(),

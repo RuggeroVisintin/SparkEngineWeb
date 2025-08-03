@@ -1,4 +1,4 @@
-import { BaseEntity, BoundingBoxComponent, BoundingBoxComponentProps, CollisionCallbackParams, GameObject, ICollidableComponent, Physx, StaticObject, Vec2 } from "../../../../src";
+import { BaseEntity, BoundingBoxComponent, BoundingBoxComponentProps, CollisionCallbackParams, GameObject, ICollidableComponent, Physx, SerializableCallback, StaticObject, Vec2 } from "../../../../src";
 
 describe('ecs/components/BoundingBoxComponent', () => {
     let bbComponent = new BoundingBoxComponent();
@@ -15,7 +15,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
                 aabb: { x: 5, y: 10, width: 15, height: 5 },
                 matchContainerTransform: true,
                 isContainer: false,
-                onCollisionCb: () => { }
+                onCollisionCb: SerializableCallback.fromFunction(() => { })
             }
 
             const component = new BoundingBoxComponent(init);
@@ -119,12 +119,12 @@ describe('ecs/components/BoundingBoxComponent', () => {
             bbComponent.aabb.y = 5;
             bbComponent.aabb.height = 5;
             bbComponent.aabb.width = 5;
-            bbComponent.onCollisionCb = cbBBComponentA;
+            bbComponent.onCollisionCb = SerializableCallback.fromFunction(cbBBComponentA);
 
             const bbComponentB = new BoundingBoxComponent();
             bbComponentB.aabb.width = 10;
             bbComponentB.aabb.height = 10;
-            bbComponentB.onCollisionCb = cbBBComponentB;
+            bbComponentB.onCollisionCb = SerializableCallback.fromFunction(cbBBComponentB);
 
             bbComponent.update(physx);
             bbComponentB.update(physx);
@@ -161,7 +161,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
             bbComponent.aabb.y = 5;
             bbComponent.aabb.height = 5;
             bbComponent.aabb.width = 5;
-            bbComponent.onCollisionCb = cbBBComponentA;
+            bbComponent.onCollisionCb = SerializableCallback.fromFunction(cbBBComponentA);
             bbComponent.isContainer = true;
 
             const bbComponentB = new BoundingBoxComponent();
@@ -170,7 +170,7 @@ describe('ecs/components/BoundingBoxComponent', () => {
             bbComponentB.aabb.width = 4;
             bbComponentB.aabb.height = 4;
 
-            bbComponentB.onCollisionCb = cbBBComponentB;
+            bbComponentB.onCollisionCb = SerializableCallback.fromFunction(cbBBComponentB);
 
             bbComponent.update(physx);
             bbComponentB.update(physx);
@@ -184,9 +184,9 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
     describe('.toJson()', () => {
         it('Should return a JSON representation of the component', () => {
-            bbComponent.onCollisionCb = (params: CollisionCallbackParams): void => {
+            bbComponent.onCollisionCb = SerializableCallback.fromFunction((params: CollisionCallbackParams): void => {
                 console.log('Collision detected', params);
-            }
+            })
 
             const json = bbComponent.toJson();
 
