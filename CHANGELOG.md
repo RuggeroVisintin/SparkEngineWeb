@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.0...sparkengineweb-v0.16.1) (2025-08-04)
+
+
+### Bug Fixes
+
+* **ecs:** fix TriggerEntity not passing params in callback call ([cbf9c90](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/cbf9c90b7c3907f3ba1b365ea4ce67a7c9ce1f12))
+
 ## [0.16.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.3...sparkengineweb-v0.16.0) (2025-08-04)
 
 
