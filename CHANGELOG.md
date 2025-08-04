@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.16.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.3...sparkengineweb-v0.16.0) (2025-08-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ecs:** `TriggerEntity.onTriggerCB` and `BoundingBox.onCollisionCB` do not accept plain functions anymore. Use SerializableCallback.fromFunction Instead.
+
+### Features
+
+* **ecs:** add SerializableCallback to preserve serialized source code when needed (https://github.com/RuggeroVisintin/SparkEngineWeb/pull/596) ([6b799ba](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6b799ba49ef95dc22f96501ebad93cfa3939c5c8))
+
 ## [0.15.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.15.2...sparkengineweb-v0.15.3) (2025-08-02)
 
 
