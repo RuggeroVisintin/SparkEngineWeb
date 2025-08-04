@@ -197,6 +197,19 @@ describe('ecs/components/BoundingBoxComponent', () => {
                 onCollisionCb: bbComponent.onCollisionCb,
                 isContainer: false
             })
-        })
-    })
-})
+        });
+
+        it("Should not serialize the onCollisionCb if it's not serializable", () => {
+            bbComponent.onCollisionCb = SerializableCallback.fromFunction(() => { }, false);
+
+            const json = bbComponent.toJson();
+
+            expect(json).toEqual({
+                __type: 'BoundingBoxComponent',
+                aabb: { x: 0, y: 0, width: 0, height: 0 },
+                matchContainerTransform: false,
+                isContainer: false
+            });
+        });
+    });
+});

@@ -19,7 +19,7 @@ export type CollisionCallback = SerializableCallback<(params: CollisionCallbackP
  * @category Components
  */
 export interface ICollidableComponent extends IComponent {
-    onCollisionCb: CollisionCallback | undefined;
+    onCollisionCb?: CollisionCallback;
 
     update(physx: Physx): void;
 }

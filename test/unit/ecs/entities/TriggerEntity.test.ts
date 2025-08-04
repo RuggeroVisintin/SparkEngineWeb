@@ -41,6 +41,14 @@ describe('ecs/entities/TriggerEntity', () => {
 
             expect(triggerEntity.toJson().components).toHaveLength(4);
         });
+
+        it('Should register the onCollision handler as non serializaed SerializableCallback', () => {
+            const triggerEntity = new TriggerEntity({
+                target: otherEntity
+            });
+
+            expect(triggerEntity.boundingBox.onCollisionCb?.toJson()).toBe(undefined);
+        });
     })
 
     describe('.set target', () => {
@@ -64,7 +72,8 @@ describe('ecs/entities/TriggerEntity', () => {
 
     describe('.onTriggerCB', () => {
         it('Should be invoked when a collision between this entity and the target is detected', () => {
-            triggerEntity.onTriggerCB = jest.fn();
+            const callback = jest.fn();
+            triggerEntity.onTriggerCB = SerializableCallback.fromFunction(callback);
             triggerEntity.boundingBox.onCollisionCb?.call(this, {
                 collider: {
                     aabb: [1, 0, 1, 0],
@@ -78,8 +87,16 @@ describe('ecs/entities/TriggerEntity', () => {
                 }
             });
 
-            expect(triggerEntity.onTriggerCB).toHaveBeenCalled();
+            expect(callback).toHaveBeenCalled();
         });
-    })
+    });
 
-})
+    describe('.toJson()', () => {
+        it('Should serialize the onTriggerCB script', () => {
+            triggerEntity.onTriggerCB = SerializableCallback.fromFunction(jest.fn());
+            const json = triggerEntity.toJson();
+
+            expect(json.onTriggerCB).toEqual(triggerEntity.onTriggerCB?.toJson());
+        });
+    });
+});

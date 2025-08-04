@@ -1,23 +1,36 @@
-export class SerializableCallback<T extends Function> {
+export class SerializableCallback<T extends Function = Function> {
 
     private constructor(
         private func: T,
-        private readonly source: string
+        private readonly source: string,
+        private readonly shouldSerialize: boolean = true
     ) {
     }
 
-    static fromString<T extends Function>(source: string): SerializableCallback<T> {
+    static fromString<T extends Function = Function>(source: string, shouldSerialize?: boolean): SerializableCallback<T> {
         const func = new Function(`return (${source})`)();
 
-        return new SerializableCallback(func, source);
+        return new SerializableCallback(func, source, shouldSerialize);
     }
 
-    static fromFunction<T extends Function>(func: T): SerializableCallback<T> {
-        return new SerializableCallback(func, func.toString());
+    static fromFunction<T extends Function = Function>(func: T, shouldSerialize?: boolean): SerializableCallback<T> {
+        return new SerializableCallback(func, func.toString(), shouldSerialize);
     }
 
     toString(): string {
+        if (!this.shouldSerialize) {
+            return 'function [not serializable]';
+        }
+
         return this.source
+    }
+
+    toJson(): this | undefined {
+        if (!this.shouldSerialize) {
+            return undefined;
+        }
+
+        return this;
     }
 
     call(thisArg: any, ...args: any[]): any {
