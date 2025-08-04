@@ -79,6 +79,6 @@ export class TriggerEntity extends StaticObject implements TriggerEntityProps {
     }
 
     private onCollisionHandler(params: CollisionCallbackParams): void {
-        params.collider.uuid === this._targetComponent?.uuid && this.onTriggerCB?.call(params);
+        params.collider.uuid === this._targetComponent?.uuid && this.onTriggerCB?.call(this, params);
     }
 }

@@ -1,4 +1,4 @@
-import { SerializableCallback, Type, Vec2, WithType } from "../../core";
+import { Type, Vec2, WithType } from "../../core";
 import { PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";

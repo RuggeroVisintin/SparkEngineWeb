@@ -72,9 +72,7 @@ describe('ecs/entities/TriggerEntity', () => {
 
     describe('.onTriggerCB', () => {
         it('Should be invoked when a collision between this entity and the target is detected', () => {
-            const callback = jest.fn();
-            triggerEntity.onTriggerCB = SerializableCallback.fromFunction(callback);
-            triggerEntity.boundingBox.onCollisionCb?.call(this, {
+            const params = {
                 collider: {
                     aabb: [1, 0, 1, 0],
                     velocity: new Vec2(),
@@ -85,9 +83,12 @@ describe('ecs/entities/TriggerEntity', () => {
                     velocity: new Vec2(),
                     uuid: triggerEntity.boundingBox.uuid
                 }
-            });
+            }
+            const callback = jest.fn();
+            triggerEntity.onTriggerCB = SerializableCallback.fromFunction(callback);
+            triggerEntity.boundingBox.onCollisionCb?.call(this, params);
 
-            expect(callback).toHaveBeenCalled();
+            expect(callback).toHaveBeenCalledWith(params);
         });
     });
 
