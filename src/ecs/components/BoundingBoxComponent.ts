@@ -1,4 +1,4 @@
-import { Type, Vec2, WithType } from "../../core";
+import { SerializableCallback, Type, Vec2, WithType } from "../../core";
 import { PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
@@ -39,7 +39,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
     /**
      * Callback to invoke when a collision with another physical object is detected
      */
-    public onCollisionCb: CollisionCallback | undefined;
+    public onCollisionCb?: CollisionCallback;
 
     /**
      * If set to true it will automatically align the BoundingBox AABB to the parent entity transform
@@ -74,7 +74,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
 
         if (props?.aabb) this.aabb = props.aabb;
         if (props?.isContainer) this.isContainer = props.isContainer;
-        if (props?.onCollisionCb) this.onCollisionCb = props.onCollisionCb;
+        if (props?.onCollisionCb) this.onCollisionCb = props.onCollisionCb.bind(this);
         if (props?.matchContainerTransform) this.matchContainerTransform = props.matchContainerTransform;
     }
 
@@ -101,7 +101,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
             ...super.toJson(),
             aabb: this.aabb,
             isContainer: this.isContainer,
-            onCollisionCb: this.onCollisionCb,
+            onCollisionCb: this.onCollisionCb?.toJson(),
             matchContainerTransform: this.matchContainerTransform
         }
     }
@@ -118,7 +118,6 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
     }
 
     private onCollision(params: CollisionCallbackParams) {
-        this.onCollisionCb && this.onCollisionCb(params);
+        this.onCollisionCb && this.onCollisionCb.call(this, params);
     }
-
 }

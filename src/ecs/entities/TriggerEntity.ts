@@ -1,6 +1,6 @@
 import { BoundingBoxComponent, CollisionCallbackParams } from "../components";
 import { StaticObject, StaticObjectProps } from "./StaticObject";
-import { RegisterUnique, Type } from "../../core";
+import { RegisterUnique, SerializableCallback, Type, WithType } from "../../core";
 import { IEntity } from ".";
 
 const ENTITY_TYPE = 'TriggerEntity';
@@ -12,7 +12,12 @@ export interface TriggerEntityProps extends StaticObjectProps {
     /**
      * The target of the trigger component
      */
-    target?: IEntity
+    target?: IEntity;
+
+    /**
+     * The callback to trigger when a collision with the target entity is detected.
+     */
+    onTriggerCB?: SerializableCallback;
 }
 
 /**
@@ -23,7 +28,7 @@ export interface TriggerEntityProps extends StaticObjectProps {
  */
 @Type(ENTITY_TYPE)
 @RegisterUnique(ENTITY_TYPE)
-export class TriggerEntity extends StaticObject {
+export class TriggerEntity extends StaticObject implements TriggerEntityProps {
     private _targetComponent?: BoundingBoxComponent;
 
     /**
@@ -38,23 +43,23 @@ export class TriggerEntity extends StaticObject {
         }
 
         const targetComponent = value.getComponent<BoundingBoxComponent>('BoundingBoxComponent');
-    
+
         if (!targetComponent) {
             throw new Error('Target entity must have a BoundingBox component attached');
         }
-    
+
         this._targetComponent = targetComponent;
     }
 
     public get target(): IEntity | undefined {
         return this._targetComponent?.getContainer();
     }
-    
+
 
     /**
      * The callback to trigger when a collision with the target entity is detected.
      */
-    public onTriggerCB: Function | null = null;
+    public onTriggerCB: SerializableCallback | undefined;
 
     /**
      * @param props - the init props
@@ -63,10 +68,17 @@ export class TriggerEntity extends StaticObject {
         super(props);
 
         this.target = props?.target;
-        this.boundingBox.onCollisionCb = this.onCollisionHandler.bind(this);
+        this.boundingBox.onCollisionCb = SerializableCallback.fromFunction(this.onCollisionHandler, false).bind(this);
+    }
+
+    public toJson(): WithType<TriggerEntityProps> {
+        return {
+            ...super.toJson(),
+            onTriggerCB: this.onTriggerCB?.toJson(),
+        }
     }
 
     private onCollisionHandler(params: CollisionCallbackParams): void {
-        params.collider.uuid === this._targetComponent?.uuid && this.onTriggerCB?.(params);
+        params.collider.uuid === this._targetComponent?.uuid && this.onTriggerCB?.call(params);
     }
 }

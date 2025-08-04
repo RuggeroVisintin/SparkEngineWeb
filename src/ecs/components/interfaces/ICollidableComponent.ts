@@ -1,3 +1,4 @@
+import { SerializableCallback } from "../../../core";
 import { PhysicsObject, Physx } from "../../../physx";
 import { IComponent } from "./IComponent";
 
@@ -6,19 +7,19 @@ import { IComponent } from "./IComponent";
  */
 export interface CollisionCallbackParams {
     collider: PhysicsObject,
-    postSimulation: PhysicsObject 
+    postSimulation: PhysicsObject
 }
 
 /**
  * @category Components
  */
-export type CollisionCallback = (params: CollisionCallbackParams) => void;
+export type CollisionCallback = SerializableCallback<(params: CollisionCallbackParams) => void>;
 
 /**
  * @category Components
  */
 export interface ICollidableComponent extends IComponent {
-    onCollisionCb: CollisionCallback | undefined;
+    onCollisionCb?: CollisionCallback;
 
     update(physx: Physx): void;
 }

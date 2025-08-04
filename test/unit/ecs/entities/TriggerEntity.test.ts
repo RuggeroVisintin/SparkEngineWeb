@@ -1,4 +1,4 @@
-import { BaseEntity, StaticObject, TriggerEntity, Vec2 } from "../../../../src"
+import { BaseEntity, SerializableCallback, StaticObject, TriggerEntity, Vec2 } from "../../../../src"
 
 describe('ecs/entities/TriggerEntity', () => {
     const otherEntity = new StaticObject();
@@ -31,15 +31,23 @@ describe('ecs/entities/TriggerEntity', () => {
                     aabb: { x: 0, y: 0, width: 10, height: 10 },
                     isContainer: true,
                     matchContainerTransform: false,
-                    onCollisionCb: () => { }
+                    onCollisionCb: SerializableCallback.fromFunction(() => { })
                 }
             });
 
             const triggerEntity = new TriggerEntity({
                 target: targetEntity,
             });
-        
+
             expect(triggerEntity.toJson().components).toHaveLength(4);
+        });
+
+        it('Should register the onCollision handler as non serializaed SerializableCallback', () => {
+            const triggerEntity = new TriggerEntity({
+                target: otherEntity
+            });
+
+            expect(triggerEntity.boundingBox.onCollisionCb?.toJson()).toBe(undefined);
         });
     })
 
@@ -53,19 +61,20 @@ describe('ecs/entities/TriggerEntity', () => {
         it('Should assign the target entity when defined', () => {
             const newEntity = new StaticObject();
             triggerEntity.target = newEntity;
-            expect(triggerEntity.target).toBe(newEntity);  
+            expect(triggerEntity.target).toBe(newEntity);
         })
 
         it('Should unset the target when undefined is given', () => {
             triggerEntity.target = undefined;
-            expect(triggerEntity.target).toBe(undefined);  
+            expect(triggerEntity.target).toBe(undefined);
         })
     })
 
     describe('.onTriggerCB', () => {
         it('Should be invoked when a collision between this entity and the target is detected', () => {
-            triggerEntity.onTriggerCB = jest.fn();
-            triggerEntity.boundingBox.onCollisionCb?.({
+            const callback = jest.fn();
+            triggerEntity.onTriggerCB = SerializableCallback.fromFunction(callback);
+            triggerEntity.boundingBox.onCollisionCb?.call(this, {
                 collider: {
                     aabb: [1, 0, 1, 0],
                     velocity: new Vec2(),
@@ -78,8 +87,16 @@ describe('ecs/entities/TriggerEntity', () => {
                 }
             });
 
-            expect(triggerEntity.onTriggerCB).toHaveBeenCalled();
+            expect(callback).toHaveBeenCalled();
         });
-    })
+    });
 
-})
+    describe('.toJson()', () => {
+        it('Should serialize the onTriggerCB script', () => {
+            triggerEntity.onTriggerCB = SerializableCallback.fromFunction(jest.fn());
+            const json = triggerEntity.toJson();
+
+            expect(json.onTriggerCB).toEqual(triggerEntity.onTriggerCB?.toJson());
+        });
+    });
+});
