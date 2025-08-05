@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.1...sparkengineweb-v0.16.2) (2025-08-05)
+
+
+### Features
+
+* **ecs:** add onTriggerCB prop setting on new TriggerEntity construction ([8756c35](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8756c35180dde78489e0e41aecc1a46f30c82d4f))
+
 ## [0.16.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.0...sparkengineweb-v0.16.1) (2025-08-04)
 
 
