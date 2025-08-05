@@ -49,6 +49,18 @@ describe('ecs/entities/TriggerEntity', () => {
 
             expect(triggerEntity.boundingBox.onCollisionCb?.toJson()).toBe(undefined);
         });
+
+        it('Should register the onTargetCB when given', () => {
+            const callback = jest.fn();
+            triggerEntity = new TriggerEntity({
+                target: otherEntity,
+                onTriggerCB: SerializableCallback.fromFunction(callback)
+            });
+
+            triggerEntity.onTriggerCB?.call(this);
+
+            expect(callback).toHaveBeenCalled();
+        })
     })
 
     describe('.set target', () => {

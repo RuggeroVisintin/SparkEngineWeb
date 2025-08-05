@@ -69,6 +69,7 @@ export class TriggerEntity extends StaticObject implements TriggerEntityProps {
 
         this.target = props?.target;
         this.boundingBox.onCollisionCb = SerializableCallback.fromFunction(this.onCollisionHandler, false).bind(this);
+        this.onTriggerCB = props?.onTriggerCB;
     }
 
     public toJson(): WithType<TriggerEntityProps> {
