@@ -10,7 +10,11 @@ import { ISystem } from "./ISystem";
  * @category Systems
  */
 export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISystem {
-    protected camera: CameraComponent = new CameraComponent();
+    protected _camera: CameraComponent = new CameraComponent();
+
+    public get camera(): CameraComponent {
+        return this._camera;
+    }
 
     constructor(
         public readonly renderer: Renderer,
@@ -20,16 +24,16 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
     }
 
     public registerComponent(component: IDrawableComponent): void {
-        if (typeOf(component) === 'CameraComponent') {
-            this.camera = <CameraComponent>component;
+        if (component instanceof CameraComponent) {
+            this._camera = <CameraComponent>component;
         } else {
             super.registerComponent(component);
         }
     }
 
     public unregisterComponent(uuid: string): void {
-        if (this.camera.uuid === uuid) {
-            this.camera = new CameraComponent();
+        if (this._camera.uuid === uuid) {
+            this._camera = new CameraComponent();
         }
 
         super.unregisterComponent(uuid);
@@ -39,7 +43,7 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
         // TODO: use BM_Add by default to handle transparency correctly
         this.renderer.pushRenderCommand(new SetBlendingMethodCommand(BlendMethod.BM_Overwrite));
 
-        this.camera.draw(this.renderer);
+        this._camera.draw(this.renderer);
 
         this.components
             .sort((prevComponent, currentComponent) => currentComponent.transform.depthIndex - prevComponent.transform.depthIndex)
