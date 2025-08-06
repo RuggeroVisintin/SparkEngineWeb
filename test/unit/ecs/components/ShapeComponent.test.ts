@@ -1,4 +1,5 @@
-import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, TransformComponent, MaterialComponent, ShapeComponentProps, DrawImageCommand, DOMImageLoader } from "../../../../src";
+import { CanvasDevice, Rgb, DrawPrimitiveCommand, PrimitiveType, Renderer, ShapeComponent, BaseEntity, MaterialComponent, ShapeComponentProps, DrawImageCommand, DOMImageLoader } from "../../../../src";
+import { BaseDrawableComponent } from "../../../../src/ecs/components/ BaseDrawableComponent";
 import '../../__mocks__';
 import { asyncTick } from '../../utils';
 
@@ -7,10 +8,14 @@ describe('ecs/components/ShapeComponent', () => {
     let shapeComponent = new ShapeComponent();
 
     const imageLoader = new DOMImageLoader();
-        
+
     beforeEach(() => {
         renderer = new Renderer(new CanvasDevice(), { width: 1920, height: 1080 }, new CanvasRenderingContext2D());
         shapeComponent = new ShapeComponent();
+    });
+
+    it('Should extend BaseDrawableComponent', () => {
+        expect(shapeComponent).toBeInstanceOf(BaseDrawableComponent);
     });
 
     describe('.constructor()', () => {
@@ -24,7 +29,7 @@ describe('ecs/components/ShapeComponent', () => {
             expect(new ShapeComponent(init)).toEqual(expect.objectContaining(init))
         })
     })
-    
+
     describe('.draw()', () => {
         it('Should push the right draw command to the renderer', () => {
             shapeComponent.draw(renderer, imageLoader);
@@ -67,7 +72,7 @@ describe('ecs/components/ShapeComponent', () => {
 
             setTimeout(() => {
                 shapeComponent.draw(renderer, imageLoader);
-                
+
                 expect(renderer.commandBuffer).toEqual(expect.arrayContaining([new DrawImageCommand(
                     shapeComponent.material.diffuseTexture?.media!,
                     [0, 0],
@@ -88,32 +93,6 @@ describe('ecs/components/ShapeComponent', () => {
             expect(shapeComponent.material.diffuseTexture).toBeDefined();
         })
     })
-
-    describe('.transform', () => {
-        it('Should retrieve the component default transform when no container entity is defined', () => {
-            shapeComponent.transform.depthIndex = 2;
-
-            expect(shapeComponent.transform).toEqual(expect.objectContaining({
-                position: { x: 0, y: 0 },
-                size: { width: 0, height: 0 },
-                depthIndex: 2
-            }))
-        })
-
-        it('Should retrieve the transform from container entity when defined', () => {
-            const transformComponent = new TransformComponent();
-            transformComponent.depthIndex = 4;
-
-            const shapeComponent = new ShapeComponent();
-            const entity = new BaseEntity()
-            entity.addComponent(shapeComponent);
-            entity.addComponent(transformComponent);
-
-            expect(shapeComponent.transform).toEqual(expect.objectContaining({
-                depthIndex: 4
-            }))
-        })
-    });
 
     describe('.material', () => {
         it('Should retrieve the component default material when no container entity is defined', () => {

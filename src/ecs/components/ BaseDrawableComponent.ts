@@ -1,5 +1,5 @@
 import { WithType } from "../../core";
-import { DOMImageLoader } from "../../platform";
+import { DOMImageLoader, ImageLoader } from "../../platform";
 import { Renderer } from "../../renderer";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent, TransformComponentProps } from "./TransformComponent";
@@ -11,6 +11,15 @@ export interface DrawableComponentProps {
 
 export abstract class BaseDrawableComponent extends BaseComponent implements IDrawableComponent {
     private defaultTransform = new TransformComponent();
+    private _isVisible = true;
+
+
+    /**
+     * Whether the component is visible or not
+     */
+    public get isVisible(): boolean {
+        return this._isVisible;
+    }
 
     public constructor(props?: DrawableComponentProps) {
         super();
@@ -28,6 +37,15 @@ export abstract class BaseDrawableComponent extends BaseComponent implements IDr
         return this.getContainer()?.getComponent('TransformComponent') ?? this.defaultTransform;
     }
 
+    public hide(): void {
+        this._isVisible = false;
+    }
+
+    public show(): void {
+        this._isVisible = true;
+    }
+
+
     public toJson(): WithType<DrawableComponentProps> {
         return {
             ...super.toJson(),
@@ -35,5 +53,5 @@ export abstract class BaseDrawableComponent extends BaseComponent implements IDr
         }
     }
 
-    abstract draw(rendere: Renderer, imageLoader: DOMImageLoader): void;
+    abstract draw(rendere: Renderer, imageLoader: ImageLoader): void;
 }
