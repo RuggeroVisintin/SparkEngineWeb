@@ -24,11 +24,14 @@ export class Renderer {
         this.device.defaultStrokeThickness = value;
     }
 
+    /**
+     * @param resolution The default resolution to use during rendering
+     */
     public constructor(
         public readonly device: CanvasDevice,
         public readonly resolution: { width: number, height: number },
         private readonly ctx: CanvasRenderingContext2D
-    ) { 
+    ) {
         this.device.setResolution(ctx, this.resolution.width, this.resolution.height);
     }
 
