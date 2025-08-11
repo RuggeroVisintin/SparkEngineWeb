@@ -12,18 +12,16 @@ export type Matrix2D = [number, number, number, number, number, number]
  * @category Platform
  */
 export class CanvasDevice {
-    private wRatio = 1;
-    private hRatio = 1;
-
     public defaultStrokeThickness = 1;
 
-    public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void { 
+    // this is the number of pixels per single unit in the game world
+    // TODO: this should be moved in the game engine config and set through the setTransform method
+    private PixelsPerUnit = 1;
+
+    public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void {
         const canvas = ctx.canvas;
 
-        if(!canvas) return;
-
-        this.wRatio = width / canvas.width;
-        this.hRatio = height / canvas.height;
+        if (!canvas) return;
 
         canvas.width = width;
         canvas.height = height;
@@ -38,9 +36,11 @@ export class CanvasDevice {
     }
 
     public clear(ctx: CanvasRenderingContext2D, color?: string): void {
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        // This is needed to reset the transform matrix
+        // and clear the canvas before drawing anything
+        // otherwise when downscaling, the canvas will not be cleared properly
+        ctx.resetTransform();
         ctx.clearRect(0, 0, ctx.canvas?.width || 0, ctx.canvas?.height || 0);
-        ctx.scale(this.wRatio, this.hRatio);
     }
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
@@ -73,12 +73,12 @@ export class CanvasDevice {
 
     public setTransform(ctx: CanvasRenderingContext2D, matrix: Matrix2D): void {
         ctx.setTransform(
-            matrix[0] * this.wRatio,
+            matrix[0] * this.PixelsPerUnit,
             matrix[1],
             matrix[2],
-            matrix[3] * this.hRatio,
-            matrix[4] * this.wRatio,
-            matrix[5] * this.hRatio
+            matrix[3] * this.PixelsPerUnit,
+            matrix[4] * this.PixelsPerUnit,
+            matrix[5] * this.PixelsPerUnit
         );
     }
 }
