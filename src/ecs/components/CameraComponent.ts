@@ -13,6 +13,8 @@ export class CameraComponent extends BaseDrawableComponent implements IDrawableC
     public resolution?: Resolution;
 
     public draw(renderer: Renderer): void {
+        // TODO: push set resolution command if resolution is set
+
         renderer.pushRenderCommand(new SetTransformMatrixCommand([-this.transform.position.x, -this.transform.position.y]));
     }
 }
