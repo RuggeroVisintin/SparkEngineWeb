@@ -7,6 +7,10 @@ export type AABB = [number, number, number, number];
 
 /**
  * @category Core
+ * 
+ * Checks if two AABBs are colliding, including empty AABBs (zero width and height).
+ * 
+ * @return true if two AABBs are colliding
  */
 export function isCollision(objectA: AABB, objectB: AABB): boolean {
     const [x1, y1, w1, h1] = objectA;
