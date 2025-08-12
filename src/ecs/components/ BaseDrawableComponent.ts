@@ -30,8 +30,8 @@ export abstract class BaseDrawableComponent extends BaseComponent implements IDr
     }
 
     /**
-     * When attached to a parent Entity container, it returns its Tranform Component if present.
-     * Otherwise it returns the default transform of the Shape
+     * @returns The container's transform Component if present.
+     * Otherwise it returns the default transform attached to this component.
      */
     public get transform(): TransformComponent {
         return this.getContainer()?.getComponent('TransformComponent') ?? this.defaultTransform;
