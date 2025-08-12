@@ -1,6 +1,5 @@
-import { Vec2 } from "../core";
-import { AAABBCollisionResolver } from "./resolvers/aabbResolver";
-import { AABB } from "./types";
+import { AABB, isCollision, Vec2 } from "../core";
+import { AAABBCollisionResolver } from "./resolvers/aabbCollisionResolver";
 
 /**
  * @category Physx
@@ -126,7 +125,7 @@ export class Physx {
             return this.checkCollisionContainer(objectB, objectA);
         }
 
-        return this._resolver.test(objectA, objectB) ? this._resolver.resolve(objectA, objectB) : null;
+        return isCollision(objectA.aabb, objectB.aabb) ? this._resolver.resolve(objectA, objectB) : null;
     }
 
     private checkCollisionContainer(container: PhysicsObject, objectB: PhysicsObject): PhysicsObject | null {
