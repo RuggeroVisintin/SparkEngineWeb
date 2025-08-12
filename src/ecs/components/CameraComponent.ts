@@ -10,6 +10,10 @@ import { IDrawableComponent } from "./interfaces/IDrawableComponent";
  */
 @Type('CameraComponent')
 export class CameraComponent extends BaseDrawableComponent implements IDrawableComponent {
+    /**
+     * The rendering resolution of the camera.
+     * If not set, the internal resolution of the renderer will be used.
+     */
     public resolution?: Resolution;
 
     public draw(renderer: Renderer): void {
