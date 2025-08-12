@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.2...sparkengineweb-v0.16.3) (2025-08-12)
+
+
+### Performance Improvements
+
+* **renderer:** avoid unnecessary commands ([94e32d9](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/94e32d9ee5d17ea91e48f08a9e32c9b87328401a))
+
 ## [0.16.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.1...sparkengineweb-v0.16.2) (2025-08-05)
 
 
