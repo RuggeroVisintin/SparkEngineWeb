@@ -16,12 +16,16 @@ export class CanvasDevice {
 
     // this is the number of pixels per single unit in the game world
     // TODO: this should be moved in the game engine config and set through the setTransform method
-    private PixelsPerUnit = 1;
+    private UnitsPerPixel = 1;
 
     public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void {
         const canvas = ctx.canvas;
 
         if (!canvas) return;
+
+        // TODO: this may be useful in the future to ensure world units are consistent
+        // across different resolutions
+        // this.UnitsPerPixel = width / canvas.width;
 
         canvas.width = width;
         canvas.height = height;
@@ -41,6 +45,8 @@ export class CanvasDevice {
         // otherwise when downscaling, the canvas will not be cleared properly
         ctx.resetTransform();
         ctx.clearRect(0, 0, ctx.canvas?.width || 0, ctx.canvas?.height || 0);
+
+        ctx.scale(this.UnitsPerPixel, this.UnitsPerPixel);
     }
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
@@ -85,12 +91,12 @@ export class CanvasDevice {
         const centerY = canvasHeight / 2;
 
         ctx.setTransform(
-            matrix[0] * this.PixelsPerUnit,
+            matrix[0] * this.UnitsPerPixel,
             matrix[1],
             matrix[2],
-            matrix[3] * this.PixelsPerUnit,
-            matrix[4] * this.PixelsPerUnit + centerX,
-            matrix[5] * this.PixelsPerUnit + centerY
+            matrix[3] * this.UnitsPerPixel,
+            matrix[4] * this.UnitsPerPixel + centerX,
+            matrix[5] * this.UnitsPerPixel + centerY
         );
     }
 }
