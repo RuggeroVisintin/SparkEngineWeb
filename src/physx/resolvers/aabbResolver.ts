@@ -2,7 +2,7 @@ import { Vec2 } from "../../core";
 import { PhysicsObject } from "../Physx";
 
 /** @internal */
-export class AAABBResolver {
+export class AAABBCollisionResolver {
     test(objectA: PhysicsObject, objectB: PhysicsObject): boolean {
         const [x1, y1, w1, h1] = objectA.aabb;
         const [x2, y2, w2, h2] = objectB.aabb;

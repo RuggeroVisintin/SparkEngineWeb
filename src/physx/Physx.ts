@@ -1,5 +1,5 @@
 import { Vec2 } from "../core";
-import { AAABBResolver } from "./resolvers/aabbResolver";
+import { AAABBCollisionResolver } from "./resolvers/aabbResolver";
 import { AABB } from "./types";
 
 /**
@@ -73,7 +73,7 @@ export interface PhysicalObjectCallbackAggregate {
  */
 export class Physx {
     private _physicalWorld: PhysicalObjectCallbackAggregate[] = [];
-    private readonly _resolver: AAABBResolver = new AAABBResolver();
+    private readonly _resolver: AAABBCollisionResolver = new AAABBCollisionResolver();
 
     public get physicalWorld(): PhysicalObjectCallbackAggregate[] {
         return this._physicalWorld;
@@ -144,8 +144,8 @@ export class Physx {
             velocity: new Vec2()
         }
 
-        if (xw2 > xw1 || 
-            yh2 > yh1 || 
+        if (xw2 > xw1 ||
+            yh2 > yh1 ||
             x2 < x1 ||
             y2 < y1
         ) {
@@ -166,7 +166,7 @@ export class Physx {
                 result.aabb[1] = y2 + topCollisionCount;
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.DOWN);
-            } else if (bottomCollisionCount > 0 && bottomCollisionCount > leftCollisionCount && bottomCollisionCount > rightCollisionCount) {      
+            } else if (bottomCollisionCount > 0 && bottomCollisionCount > leftCollisionCount && bottomCollisionCount > rightCollisionCount) {
                 result.aabb[1] = y2 - bottomCollisionCount;
                 result.velocity = new Vec2(objectB.velocity.x, objectB.velocity.y);
                 result.velocity.reflect(Vec2.UP);
@@ -174,7 +174,7 @@ export class Physx {
 
             return result;
         }
-        
+
 
         return null;
     }
