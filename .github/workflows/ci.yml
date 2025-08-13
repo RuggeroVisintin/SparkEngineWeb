@@ -94,8 +94,19 @@ jobs:
           run: npm ci
         - name: Build project
           run: npm run build
+        - name: Cache Playwright Browsers
+          id: playwright-cache
+          uses: actions/cache@v4
+          with:
+            path: ~/.cache/ms-playwright
+            key: ${{ runner.os }}-playwright-browsers-${{ hashFiles('package-lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-playwright-browsers-
         - name: Install Playwright Browsers
+          if: steps.playwright-cache.outputs.cache-hit != 'true'
           run: npx playwright install --with-deps chromium
+        - name: Verify Playwright Installation
+          run: npx playwright install chromium --dry-run
         - name: Run Visual Tests
           id: visual_tests
           continue-on-error: true
