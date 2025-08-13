@@ -1,30 +1,35 @@
 import { test, expect } from '@playwright/test';
 
-// Assumes the dev server is running on http://localhost:3000 or similar
-const BASE_URL = 'http://localhost:3000'; // Adjust based on your server setup
+const BASE_URL = 'http://localhost:3000';
 
 test.describe('CanvasDevice Visual Tests via Examples', () => {
+    const frameTime = 1000;
+
+    const waitForNextFrame = async (page) => {
+        await page.waitForTimeout(frameTime + 100);
+    }
+
     test.beforeEach(async ({ page }) => {
-        // Mock the engine before any page loads to ensure consistent frame rates
+        // mocks the rendering loop to control frame rates
         await page.addInitScript(() => {
-            // Override requestAnimationFrame to control timing
             let frameId = 0;
             (window as any).originalRequestAnimationFrame = window.requestAnimationFrame;
             window.requestAnimationFrame = (callback) => {
                 frameId++;
-                // Run at 1fps for predictable screenshots
                 return setTimeout(() => callback(performance.now()), 1000) as unknown as number;
             };
+
+            (window as any).setInterval = (callback, interval) => {
+                frameId++;
+                return setTimeout(() => callback(performance.now()), 1000) as unknown as number;
+            }
         });
     });
 
     test('simpleRect example - basic rectangle rendering', async ({ page }) => {
-        await page.goto(`${BASE_URL}/simpleRect/index.html`);
+        await page.goto(`${BASE_URL}/simpleRect/index.html`, { waitUntil: 'domcontentloaded' });
 
-        // Wait for the canvas to be rendered
         await page.waitForSelector('#canvas');
-
-        // Wait for one animation frame cycle
         await page.waitForTimeout(1100);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('simple-rect.png');
@@ -43,7 +48,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/simpleShapeComponent/index.html`);
 
         await page.waitForSelector('#canvas');
-        await page.waitForTimeout(1100); // Wait for one slow frame
+        await waitForNextFrame(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('simple-shape-component.png');
     });
@@ -52,7 +57,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/simpleShapeTransparent/index.html`);
 
         await page.waitForSelector('#canvas');
-        await page.waitForTimeout(1100);
+        await waitForNextFrame(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('simple-shape-transparent.png');
     });
@@ -61,7 +66,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/simpleShapeDepthIndex/index.html`);
 
         await page.waitForSelector('#canvas');
-        await page.waitForTimeout(1100); // Wait for one slow frame
+        await waitForNextFrame(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('simple-shape-depth.png');
     });
@@ -72,6 +77,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.waitForSelector('#canvas');
         // Give more time for image loading
         await page.waitForTimeout(2000);
+        await waitForNextFrame(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('image-example.png');
     });
@@ -80,8 +86,8 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/animations/index.html`);
 
         await page.waitForSelector('#canvas');
-        // Let assets load, then wait for one slow animation frame
         await page.waitForTimeout(3000);
+        await waitForNextFrame(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('animations-idle-state.png');
     });
@@ -90,7 +96,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/cameraMovement/index.html`);
 
         await page.waitForSelector('#canvas');
-        await page.waitForTimeout(1100); // Wait for one slow frame
+        await waitForNextFrame(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-movement.png');
     });
@@ -99,7 +105,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/simpleCollision/index.html`);
 
         await page.waitForSelector('#canvas');
-        await page.waitForTimeout(1100); // Wait for one slow frame
+        await waitForNextFrame(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('simple-collision.png');
     });

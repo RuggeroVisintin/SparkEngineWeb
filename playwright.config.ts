@@ -31,8 +31,11 @@ export default defineConfig({
 
     /* Set timeouts */
     actionTimeout: 1000, // 1 second timeout for actions like waitForSelector
-    navigationTimeout: 5000, // 5 seconds for page navigation
-  },  /* Configure projects for major browsers */
+  },
+
+  /* Global test timeout */
+  timeout: 10000,
+  /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
