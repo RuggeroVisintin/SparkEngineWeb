@@ -100,24 +100,31 @@ jobs:
           id: visual_tests
           continue-on-error: true
           run: npm run test:visual:ci
-        - name: Generate Visual Report
+        - name: Add PR Context to Report
           if: failure() && github.event.number
           run: |
-            # Generate HTML report
-            node scripts/generate-visual-report.js test-results visual-report ${{ github.event.number }}
+            # Add PR context header to the HTML report
+            PR_HEADER='<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; margin: 0; text-align: center; border-radius: 0;"><h1 style="margin: 0; color: white;">🎨 Visual Test Results for PR #${{ github.event.number }}</h1><p style="margin: 10px 0 0 0; opacity: 0.9;"><a href="https://github.com/RuggeroVisintin/SparkEngineWeb/pull/${{ github.event.number }}" style="color: white;">View Pull Request →</a></p></div>'
             
-            # Create the visual reports index page
-            node scripts/create-visual-index.js
+            # Insert header after opening body tag
+            sed -i "/<body>/a\\$PR_HEADER" playwright-report/index.html
+        - name: Prepare Visual Report for GitHub Pages
+          if: failure() && github.event.number
+          run: |
+            # Create a temporary directory for Pages content
+            mkdir -p pages-deploy/visual-reports/pr-${{ github.event.number }}
             
-            # Create PR-specific directory for GitHub Pages
-            mkdir -p pages-content/visual-reports/pr-${{ github.event.number }}
-            cp -r visual-report/* pages-content/visual-reports/pr-${{ github.event.number }}/
-        - name: Upload Visual Report to Pages
+            # Copy the Playwright report to the PR-specific directory
+            cp -r playwright-report/* pages-deploy/visual-reports/pr-${{ github.event.number }}/
+            
+            # Copy the index page to the visual-reports root
+            cp visual-reports-index.html pages-deploy/visual-reports/index.html
+        - name: Deploy Visual Report to GitHub Pages
           if: failure() && github.event.number
           uses: peaceiris/actions-gh-pages@v3
           with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./pages-content
+            publish_dir: ./pages-deploy
             keep_files: true
             enable_jekyll: false
         - name: Comment PR with Visual Report Link
@@ -132,7 +139,11 @@ jobs:
               
               📊 **[View Interactive Visual Report](https://ruggerovisintin.github.io/SparkEngineWeb/visual-reports/pr-${{ github.event.number }})**
               
-              The report shows side-by-side comparisons of expected vs actual screenshots with highlighted differences.
+              The Playwright HTML report shows:
+              - 🖼️ Side-by-side image comparisons
+              - 📊 Test timeline and details  
+              - 🔍 Click to zoom on differences
+              - 📋 Full test execution logs
               
               ### 🛠️ Next Steps:
               1. **Review the visual differences** in the report above
