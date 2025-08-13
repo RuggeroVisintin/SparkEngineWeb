@@ -113,37 +113,62 @@ jobs:
               echo "### 📸 Visual Differences Found:" >> visual-summary.md
               echo "" >> visual-summary.md
               
-              # Find all diff images
-              find test-results -name "*-diff.png" | head -10 | while read -r diff_image; do
+              # Count total diff images
+              diff_count=$(find test-results -name "*-diff.png" | wc -l)
+              echo "Found $diff_count visual difference(s)" >> visual-summary.md
+              echo "" >> visual-summary.md
+              
+              # List all test failures and embed images
+              find test-results -name "*-diff.png" | head -5 | while read -r diff_image; do
                 # Extract test name from path
                 test_name=$(basename "$(dirname "$diff_image")")
-                echo "#### $test_name" >> visual-summary.md
-                echo "" >> visual-summary.md
-                echo "**Difference:**" >> visual-summary.md
-                echo "![Visual Diff]($diff_image)" >> visual-summary.md
+                echo "#### ❌ $test_name" >> visual-summary.md
                 echo "" >> visual-summary.md
                 
-                # Try to find actual and expected images
+                # Convert diff image to base64 and embed
+                if [ -f "$diff_image" ]; then
+                  echo "**🔴 Visual Difference:**" >> visual-summary.md
+                  echo "" >> visual-summary.md
+                  diff_base64=$(base64 -i "$diff_image")
+                  echo "![Visual Diff](data:image/png;base64,$diff_base64)" >> visual-summary.md
+                  echo "" >> visual-summary.md
+                fi
+                
+                # Check for actual and expected images
                 actual_image=$(echo "$diff_image" | sed 's/-diff\.png$/-actual.png/')
                 expected_image=$(echo "$diff_image" | sed 's/-diff\.png$/-expected.png/')
                 
                 if [ -f "$actual_image" ]; then
-                  echo "**Actual Result:**" >> visual-summary.md
-                  echo "![Actual]($actual_image)" >> visual-summary.md
+                  echo "**📷 Actual Result:**" >> visual-summary.md
+                  echo "" >> visual-summary.md
+                  actual_base64=$(base64 -i "$actual_image")
+                  echo "![Actual Result](data:image/png;base64,$actual_base64)" >> visual-summary.md
                   echo "" >> visual-summary.md
                 fi
                 
                 if [ -f "$expected_image" ]; then
-                  echo "**Expected Result:**" >> visual-summary.md
-                  echo "![Expected]($expected_image)" >> visual-summary.md
+                  echo "**✅ Expected Result:**" >> visual-summary.md
+                  echo "" >> visual-summary.md
+                  expected_base64=$(base64 -i "$expected_image")
+                  echo "![Expected Result](data:image/png;base64,$expected_base64)" >> visual-summary.md
                   echo "" >> visual-summary.md
                 fi
                 
                 echo "---" >> visual-summary.md
                 echo "" >> visual-summary.md
               done
+              
+              if [ $diff_count -gt 5 ]; then
+                echo "**Note:** Only showing first 5 failures. Total failures: $diff_count" >> visual-summary.md
+                echo "" >> visual-summary.md
+                echo "📎 **[Download visual-test-results artifact](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})** to see all images" >> visual-summary.md
+                echo "" >> visual-summary.md
+              fi
+            else
+              echo "⚠️ No test-results directory found. Check the test execution." >> visual-summary.md
             fi
             
+            echo "" >> visual-summary.md
             echo "### 🛠️ Next Steps:" >> visual-summary.md
             echo "1. **Review the visual differences** shown above" >> visual-summary.md
             echo "2. **If changes are intentional**: Update baselines with \`npm run test:visual:update-baseline\`" >> visual-summary.md
