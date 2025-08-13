@@ -166,14 +166,22 @@ jobs:
             
             echo "</body></html>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
             
+        - name: Setup Pages for Visual Tests
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
+          uses: actions/configure-pages@v5
+          
+        - name: Upload Visual Test Images to Pages
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
+          uses: actions/upload-pages-artifact@v3
+          with:
+            name: visual-test-pages
+            path: ./pages-deploy
+            
         - name: Deploy Visual Test Images to GitHub Pages
           if: steps.visual_tests.outcome == 'failure' && github.event.number
-          uses: peaceiris/actions-gh-pages@v3
+          uses: actions/deploy-pages@v4
           with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./pages-deploy
-            keep_files: true
-            enable_jekyll: false
+            artifact_name: visual-test-pages
             
         - name: Create Visual Test Summary with Images
           if: steps.visual_tests.outcome == 'failure' && github.event.number
