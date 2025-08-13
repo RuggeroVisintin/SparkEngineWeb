@@ -14,19 +14,19 @@
         const physicsSystem = new SparkEngine.PhysicsSystem(physx);
 
         const leftWall = new SparkEngine.StaticObject();
-        leftWall.transform.size = { width: 20, height: 150 };
+        leftWall.transform.size = { width: 60, height: 1080 };
         leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         leftWall.boundingBox.matchContainerTransform = true;
 
         const rightWall = new SparkEngine.StaticObject();
-        rightWall.transform.size = { width: 20, height: 150 };
-        rightWall.transform.position = new SparkEngine.Vec2(280, 0);
+        rightWall.transform.size = { width: 60, height: 1080 };
+        rightWall.transform.position = new SparkEngine.Vec2(1920 - rightWall.transform.size.width, 0);
         rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
         rightWall.boundingBox.matchContainerTransform = true;
 
         const pingPongBall = new SparkEngine.GameObject();
-        pingPongBall.transform.size = { width: 20, height: 20 };
-        pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
+        pingPongBall.transform.size = { width: 60, height: 60 };
+        pingPongBall.transform.position = new SparkEngine.Vec2(1920 / 2, 1080 / 2);
         pingPongBall.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
 
         const pingPongBB = new SparkEngine.BoundingBoxComponent()
@@ -42,7 +42,7 @@
         physicsSystem.registerComponent(rightWall.boundingBox);
         physicsSystem.registerComponent(pingPongBB);
 
-        let velocity = 5;
+        let velocity = 15;
 
         pingPongBB.onCollisionCb = () => {
             velocity *= -1;
