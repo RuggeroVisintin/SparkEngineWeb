@@ -269,6 +269,7 @@ jobs:
           uses: thollander/actions-comment-pull-request@v2
           with:
             pr_number: ${{ github.event.number }}
+            message: "Visual tests passed - removing comment"
             mode: delete
             comment_tag: visual_regression_report
         - uses: actions/upload-artifact@v4
