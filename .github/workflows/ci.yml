@@ -111,57 +111,124 @@ jobs:
           id: visual_tests
           continue-on-error: true
           run: npm run test:visual:ci
-        - name: Create Visual Test Summary
+        - name: Upload Visual Test Images to GitHub Pages
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
+          run: |
+            # Create directory structure for this PR
+            mkdir -p pages-deploy/visual-tests/pr-${{ github.event.number }}
+            
+            # Copy all test result images
+            if [ -d "test-results" ]; then
+              cp -r test-results/* pages-deploy/visual-tests/pr-${{ github.event.number }}/
+            fi
+            
+            # Create index.html for easy browsing
+            cat > pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html << 'EOF'
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Visual Test Results - PR #${{ github.event.number }}</title>
+                <style>
+                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; }
+                    .test-result { margin-bottom: 40px; padding: 20px; border: 1px solid #e1e4e8; border-radius: 6px; }
+                    .images { display: flex; gap: 20px; flex-wrap: wrap; }
+                    .image-container { text-align: center; }
+                    img { max-width: 300px; border: 1px solid #ddd; }
+                    h1 { color: #d73a49; }
+                    h2 { color: #586069; }
+                </style>
+            </head>
+            <body>
+                <h1>🎨 Visual Test Results for PR #${{ github.event.number }}</h1>
+                <p><a href="https://github.com/${{ github.repository }}/pull/${{ github.event.number }}">← Back to Pull Request</a></p>
+            EOF
+            
+            # Add each test result to the HTML
+            find pages-deploy/visual-tests/pr-${{ github.event.number }} -name "*-diff.png" | while read -r diff_image; do
+                test_name=$(basename "$(dirname "$diff_image")" | sed 's|pages-deploy/visual-tests/pr-${{ github.event.number }}/||')
+                if [ -n "$test_name" ]; then
+                    echo "<div class='test-result'>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+                    echo "<h2>❌ $test_name</h2>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+                    echo "<div class='images'>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+                    
+                    # Add diff image
+                    diff_rel=$(echo "$diff_image" | sed "s|pages-deploy/visual-tests/pr-${{ github.event.number }}/||")
+                    echo "<div class='image-container'><h3>🔴 Difference</h3><img src='$diff_rel' alt='Diff'></div>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+                    
+                    # Add actual image if exists
+                    actual_image=$(echo "$diff_image" | sed 's/-diff\.png$/-actual.png/')
+                    if [ -f "$actual_image" ]; then
+                        actual_rel=$(echo "$actual_image" | sed "s|pages-deploy/visual-tests/pr-${{ github.event.number }}/||")
+                        echo "<div class='image-container'><h3>📷 Actual</h3><img src='$actual_rel' alt='Actual'></div>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+                    fi
+                    
+                    # Add expected image if exists
+                    expected_image=$(echo "$diff_image" | sed 's/-diff\.png$/-expected.png/')
+                    if [ -f "$expected_image" ]; then
+                        expected_rel=$(echo "$expected_image" | sed "s|pages-deploy/visual-tests/pr-${{ github.event.number }}/||")
+                        echo "<div class='image-container'><h3>✅ Expected</h3><img src='$expected_rel' alt='Expected'></div>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+                    fi
+                    
+                    echo "</div></div>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+                fi
+            done
+            
+            echo "</body></html>" >> pages-deploy/visual-tests/pr-${{ github.event.number }}/index.html
+            
+        - name: Deploy Visual Test Images to GitHub Pages
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./pages-deploy
+            keep_files: true
+            enable_jekyll: false
+            
+        - name: Create Visual Test Summary with Images
           if: steps.visual_tests.outcome == 'failure' && github.event.number
           run: |
             echo "## 🎨 Visual Regression Test Results" > visual-summary.md
             echo "" >> visual-summary.md
             echo "❌ **Visual tests failed!** Some screenshots don't match the expected baselines." >> visual-summary.md
             echo "" >> visual-summary.md
+            echo "### 📸 Visual Differences Found:" >> visual-summary.md
+            echo "" >> visual-summary.md
             
-            # Find all diff images and add them to the summary
+            # Find all diff images and embed them
             if [ -d "test-results" ]; then
-              echo "### 📸 Visual Differences Found:" >> visual-summary.md
-              echo "" >> visual-summary.md
-              
-              # Count total diff images
               diff_count=$(find test-results -name "*-diff.png" | wc -l)
               echo "Found $diff_count visual difference(s)" >> visual-summary.md
               echo "" >> visual-summary.md
               
-              # List all test failures and embed images
-              find test-results -name "*-diff.png" | head -5 | while read -r diff_image; do
-                # Extract test name from path
+              # Add each test result with images
+              find test-results -name "*-diff.png" | head -3 | while read -r diff_image; do
                 test_name=$(basename "$(dirname "$diff_image")")
                 echo "#### ❌ $test_name" >> visual-summary.md
                 echo "" >> visual-summary.md
                 
-                # Convert diff image to base64 and embed
-                if [ -f "$diff_image" ]; then
-                  echo "**🔴 Visual Difference:**" >> visual-summary.md
-                  echo "" >> visual-summary.md
-                  diff_base64=$(base64 -i "$diff_image")
-                  echo "![Visual Diff](data:image/png;base64,$diff_base64)" >> visual-summary.md
-                  echo "" >> visual-summary.md
-                fi
+                # GitHub Pages URLs for images
+                base_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/visual-tests/pr-${{ github.event.number }}"
                 
-                # Check for actual and expected images
+                # Add diff image
+                diff_filename=$(basename "$diff_image")
+                echo "**🔴 Visual Difference:**" >> visual-summary.md
+                echo "![Visual Diff]($base_url/$test_name/$diff_filename)" >> visual-summary.md
+                echo "" >> visual-summary.md
+                
+                # Add actual and expected if they exist
                 actual_image=$(echo "$diff_image" | sed 's/-diff\.png$/-actual.png/')
-                expected_image=$(echo "$diff_image" | sed 's/-diff\.png$/-expected.png/')
-                
                 if [ -f "$actual_image" ]; then
+                  actual_filename=$(basename "$actual_image")
                   echo "**📷 Actual Result:**" >> visual-summary.md
-                  echo "" >> visual-summary.md
-                  actual_base64=$(base64 -i "$actual_image")
-                  echo "![Actual Result](data:image/png;base64,$actual_base64)" >> visual-summary.md
+                  echo "![Actual Result]($base_url/$test_name/$actual_filename)" >> visual-summary.md
                   echo "" >> visual-summary.md
                 fi
                 
+                expected_image=$(echo "$diff_image" | sed 's/-diff\.png$/-expected.png/')
                 if [ -f "$expected_image" ]; then
+                  expected_filename=$(basename "$expected_image")
                   echo "**✅ Expected Result:**" >> visual-summary.md
-                  echo "" >> visual-summary.md
-                  expected_base64=$(base64 -i "$expected_image")
-                  echo "![Expected Result](data:image/png;base64,$expected_base64)" >> visual-summary.md
+                  echo "![Expected Result]($base_url/$test_name/$expected_filename)" >> visual-summary.md
                   echo "" >> visual-summary.md
                 fi
                 
@@ -169,12 +236,14 @@ jobs:
                 echo "" >> visual-summary.md
               done
               
-              if [ $diff_count -gt 5 ]; then
-                echo "**Note:** Only showing first 5 failures. Total failures: $diff_count" >> visual-summary.md
-                echo "" >> visual-summary.md
-                echo "📎 **[Download visual-test-results artifact](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})** to see all images" >> visual-summary.md
+              if [ $diff_count -gt 3 ]; then
+                echo "**Note:** Only showing first 3 failures inline. " >> visual-summary.md
                 echo "" >> visual-summary.md
               fi
+              
+              echo "### 🌐 View All Results" >> visual-summary.md
+              echo "" >> visual-summary.md
+              echo "**[� Interactive Visual Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/visual-tests/pr-${{ github.event.number }})** - View all test results with side-by-side comparisons" >> visual-summary.md
             else
               echo "⚠️ No test-results directory found. Check the test execution." >> visual-summary.md
             fi
