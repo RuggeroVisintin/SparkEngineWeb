@@ -79,9 +79,12 @@ jobs:
             comment_tag: benchmark_comment
             create_if_not_exists: true
     test_visual:
-      name: Visual
+      name: Visual Regression Tests
       timeout-minutes: 5
       runs-on: ubuntu-latest
+      permissions:
+        pull-requests: write
+        contents: read
       steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-node@v4
@@ -94,7 +97,51 @@ jobs:
         - name: Install Playwright Browsers
           run: npx playwright install --with-deps chromium
         - name: Run Visual Tests
+          id: visual_tests
+          continue-on-error: true
           run: npm run test:visual:ci
+        - name: Generate Visual Report
+          if: failure() && github.event.number
+          run: |
+            # Generate HTML report
+            node scripts/generate-visual-report.js test-results visual-report ${{ github.event.number }}
+            
+            # Create the visual reports index page
+            node scripts/create-visual-index.js
+            
+            # Create PR-specific directory for GitHub Pages
+            mkdir -p pages-content/visual-reports/pr-${{ github.event.number }}
+            cp -r visual-report/* pages-content/visual-reports/pr-${{ github.event.number }}/
+        - name: Upload Visual Report to Pages
+          if: failure() && github.event.number
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./pages-content
+            keep_files: true
+            enable_jekyll: false
+        - name: Comment PR with Visual Report Link
+          if: failure() && github.event.number
+          uses: thollander/actions-comment-pull-request@v2
+          with:
+            pr_number: ${{ github.event.number }}
+            message: |
+              ## 🎨 Visual Regression Test Results
+              
+              ❌ **Visual tests failed!** Some screenshots don't match the expected baselines.
+              
+              📊 **[View Interactive Visual Report](https://ruggerovisintin.github.io/SparkEngineWeb/visual-reports/pr-${{ github.event.number }})**
+              
+              The report shows side-by-side comparisons of expected vs actual screenshots with highlighted differences.
+              
+              ### 🛠️ Next Steps:
+              1. **Review the visual differences** in the report above
+              2. **If changes are intentional**: Update baselines with `npm run test:visual:update-baseline`
+              3. **If changes are bugs**: Fix the rendering issue in your code
+              4. **Re-run tests** to verify the fix
+            mode: recreate
+            comment_tag: visual_regression_report
+            create_if_not_exists: true
         - uses: actions/upload-artifact@v4
           if: always()
           with:
