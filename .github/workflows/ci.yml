@@ -83,7 +83,7 @@ jobs:
       timeout-minutes: 5
       runs-on: ubuntu-latest
       container:
-        image: mcr.microsoft.com/playwright:v1.54.2-focal
+        image: mcr.microsoft.com/playwright:v1.54.2-jammy
       permissions:
         pull-requests: write
         contents: read
