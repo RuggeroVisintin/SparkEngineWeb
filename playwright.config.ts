@@ -35,6 +35,7 @@ export default defineConfig({
 
   /* Global test timeout */
   timeout: 10000,
+
   /* Configure projects for major browsers */
   projects: [
     {
@@ -52,6 +53,8 @@ export default defineConfig({
     // Allow for slight differences between local and CI environments
     toHaveScreenshot: {
       threshold: process.env.CI ? 0.2 : 0.1,
+      // Remove OS suffix from screenshot names - just use {testName}-{projectName}.png
+      pathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{ext}',
     },
   },
 
