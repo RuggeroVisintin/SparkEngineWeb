@@ -208,29 +208,29 @@ jobs:
                 # GitHub Pages URLs for images
                 base_url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/visual-tests/pr-${{ github.event.number }}"
                 
+                # Start HTML table for side-by-side images
+                echo "<table><tr>" >> visual-summary.md
+                
                 # Add diff image
                 diff_filename=$(basename "$diff_image")
-                echo "**🔴 Visual Difference:**" >> visual-summary.md
-                echo "![Visual Diff]($base_url/$test_name/$diff_filename)" >> visual-summary.md
-                echo "" >> visual-summary.md
+                echo "<td align=\"center\"><strong>🔴 Difference</strong><br/><img src=\"$base_url/$test_name/$diff_filename\" width=\"250\"/></td>" >> visual-summary.md
                 
-                # Add actual and expected if they exist
+                # Add actual image if exists
                 actual_image=$(echo "$diff_image" | sed 's/-diff\.png$/-actual.png/')
                 if [ -f "$actual_image" ]; then
                   actual_filename=$(basename "$actual_image")
-                  echo "**📷 Actual Result:**" >> visual-summary.md
-                  echo "![Actual Result]($base_url/$test_name/$actual_filename)" >> visual-summary.md
-                  echo "" >> visual-summary.md
+                  echo "<td align=\"center\"><strong>📷 Actual</strong><br/><img src=\"$base_url/$test_name/$actual_filename\" width=\"250\"/></td>" >> visual-summary.md
                 fi
                 
+                # Add expected image if exists
                 expected_image=$(echo "$diff_image" | sed 's/-diff\.png$/-expected.png/')
                 if [ -f "$expected_image" ]; then
                   expected_filename=$(basename "$expected_image")
-                  echo "**✅ Expected Result:**" >> visual-summary.md
-                  echo "![Expected Result]($base_url/$test_name/$expected_filename)" >> visual-summary.md
-                  echo "" >> visual-summary.md
+                  echo "<td align=\"center\"><strong>✅ Expected</strong><br/><img src=\"$base_url/$test_name/$expected_filename\" width=\"250\"/></td>" >> visual-summary.md
                 fi
                 
+                echo "</tr></table>" >> visual-summary.md
+                echo "" >> visual-summary.md
                 echo "---" >> visual-summary.md
                 echo "" >> visual-summary.md
               done
