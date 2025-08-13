@@ -101,7 +101,7 @@ jobs:
           continue-on-error: true
           run: npm run test:visual:ci
         - name: Add PR Context to Report
-          if: failure() && github.event.number
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
           run: |
             # Add PR context header to the HTML report
             PR_HEADER='<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; margin: 0; text-align: center; border-radius: 0;"><h1 style="margin: 0; color: white;">🎨 Visual Test Results for PR #${{ github.event.number }}</h1><p style="margin: 10px 0 0 0; opacity: 0.9;"><a href="https://github.com/RuggeroVisintin/SparkEngineWeb/pull/${{ github.event.number }}" style="color: white;">View Pull Request →</a></p></div>'
@@ -109,7 +109,7 @@ jobs:
             # Insert header after opening body tag
             sed -i "/<body>/a\\$PR_HEADER" playwright-report/index.html
         - name: Prepare Visual Report for GitHub Pages
-          if: failure() && github.event.number
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
           run: |
             # Create a temporary directory for Pages content
             mkdir -p pages-deploy/visual-reports/pr-${{ github.event.number }}
@@ -120,7 +120,7 @@ jobs:
             # Copy the index page to the visual-reports root
             cp visual-reports-index.html pages-deploy/visual-reports/index.html
         - name: Deploy Visual Report to GitHub Pages
-          if: failure() && github.event.number
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
           uses: peaceiris/actions-gh-pages@v3
           with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -128,7 +128,7 @@ jobs:
             keep_files: true
             enable_jekyll: false
         - name: Comment PR with Visual Report Link
-          if: failure() && github.event.number
+          if: steps.visual_tests.outcome == 'failure' && github.event.number
           uses: thollander/actions-comment-pull-request@v2
           with:
             pr_number: ${{ github.event.number }}
@@ -160,11 +160,17 @@ jobs:
             path: playwright-report/
             retention-days: 30
         - uses: actions/upload-artifact@v4
-          if: failure()
+          if: steps.visual_tests.outcome == 'failure'
           with:
             name: visual-test-results
             path: test-results/
             retention-days: 30
+        - name: Fail job if visual tests failed
+          if: steps.visual_tests.outcome == 'failure'
+          run: |
+            echo "❌ Visual tests failed!"
+            echo "Check the visual report and artifacts for details."
+            exit 1
     publish:
       name: Publish
       timeout-minutes: 2
