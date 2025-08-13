@@ -263,6 +263,14 @@ jobs:
             mode: recreate
             comment_tag: visual_regression_report
             create_if_not_exists: true
+            
+        - name: Remove Visual Test Comment on Success
+          if: steps.visual_tests.outcome == 'success' && github.event.number
+          uses: thollander/actions-comment-pull-request@v2
+          with:
+            pr_number: ${{ github.event.number }}
+            mode: delete
+            comment_tag: visual_regression_report
         - uses: actions/upload-artifact@v4
           if: always()
           with:
