@@ -100,56 +100,62 @@ jobs:
           id: visual_tests
           continue-on-error: true
           run: npm run test:visual:ci
-        - name: Add PR Context to Report
+        - name: Create Visual Test Summary
           if: steps.visual_tests.outcome == 'failure' && github.event.number
           run: |
-            # Add PR context header to the HTML report
-            PR_HEADER='<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; margin: 0; text-align: center; border-radius: 0;"><h1 style="margin: 0; color: white;">🎨 Visual Test Results for PR #${{ github.event.number }}</h1><p style="margin: 10px 0 0 0; opacity: 0.9;"><a href="https://github.com/RuggeroVisintin/SparkEngineWeb/pull/${{ github.event.number }}" style="color: white;">View Pull Request →</a></p></div>'
+            echo "## 🎨 Visual Regression Test Results" > visual-summary.md
+            echo "" >> visual-summary.md
+            echo "❌ **Visual tests failed!** Some screenshots don't match the expected baselines." >> visual-summary.md
+            echo "" >> visual-summary.md
             
-            # Insert header after opening body tag
-            sed -i "/<body>/a\\$PR_HEADER" playwright-report/index.html
-        - name: Prepare Visual Report for GitHub Pages
-          if: steps.visual_tests.outcome == 'failure' && github.event.number
-          run: |
-            # Create a temporary directory for Pages content
-            mkdir -p pages-deploy/visual-reports/pr-${{ github.event.number }}
+            # Find all diff images and add them to the summary
+            if [ -d "test-results" ]; then
+              echo "### 📸 Visual Differences Found:" >> visual-summary.md
+              echo "" >> visual-summary.md
+              
+              # Find all diff images
+              find test-results -name "*-diff.png" | head -10 | while read -r diff_image; do
+                # Extract test name from path
+                test_name=$(basename "$(dirname "$diff_image")")
+                echo "#### $test_name" >> visual-summary.md
+                echo "" >> visual-summary.md
+                echo "**Difference:**" >> visual-summary.md
+                echo "![Visual Diff]($diff_image)" >> visual-summary.md
+                echo "" >> visual-summary.md
+                
+                # Try to find actual and expected images
+                actual_image=$(echo "$diff_image" | sed 's/-diff\.png$/-actual.png/')
+                expected_image=$(echo "$diff_image" | sed 's/-diff\.png$/-expected.png/')
+                
+                if [ -f "$actual_image" ]; then
+                  echo "**Actual Result:**" >> visual-summary.md
+                  echo "![Actual]($actual_image)" >> visual-summary.md
+                  echo "" >> visual-summary.md
+                fi
+                
+                if [ -f "$expected_image" ]; then
+                  echo "**Expected Result:**" >> visual-summary.md
+                  echo "![Expected]($expected_image)" >> visual-summary.md
+                  echo "" >> visual-summary.md
+                fi
+                
+                echo "---" >> visual-summary.md
+                echo "" >> visual-summary.md
+              done
+            fi
             
-            # Copy the Playwright report to the PR-specific directory
-            cp -r playwright-report/* pages-deploy/visual-reports/pr-${{ github.event.number }}/
+            echo "### 🛠️ Next Steps:" >> visual-summary.md
+            echo "1. **Review the visual differences** shown above" >> visual-summary.md
+            echo "2. **If changes are intentional**: Update baselines with \`npm run test:visual:update-baseline\`" >> visual-summary.md
+            echo "3. **If changes are bugs**: Fix the rendering issue in your code" >> visual-summary.md
+            echo "4. **Re-run tests** to verify the fix" >> visual-summary.md
             
-            # Copy the index page to the visual-reports root
-            cp visual-reports-index.html pages-deploy/visual-reports/index.html
-        - name: Deploy Visual Report to GitHub Pages
-          if: steps.visual_tests.outcome == 'failure' && github.event.number
-          uses: peaceiris/actions-gh-pages@v3
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./pages-deploy
-            keep_files: true
-            enable_jekyll: false
-        - name: Comment PR with Visual Report Link
+        - name: Comment PR with Visual Results
           if: steps.visual_tests.outcome == 'failure' && github.event.number
           uses: thollander/actions-comment-pull-request@v2
           with:
             pr_number: ${{ github.event.number }}
-            message: |
-              ## 🎨 Visual Regression Test Results
-              
-              ❌ **Visual tests failed!** Some screenshots don't match the expected baselines.
-              
-              📊 **[View Interactive Visual Report](https://ruggerovisintin.github.io/SparkEngineWeb/visual-reports/pr-${{ github.event.number }})**
-              
-              The Playwright HTML report shows:
-              - 🖼️ Side-by-side image comparisons
-              - 📊 Test timeline and details  
-              - 🔍 Click to zoom on differences
-              - 📋 Full test execution logs
-              
-              ### 🛠️ Next Steps:
-              1. **Review the visual differences** in the report above
-              2. **If changes are intentional**: Update baselines with `npm run test:visual:update-baseline`
-              3. **If changes are bugs**: Fix the rendering issue in your code
-              4. **Re-run tests** to verify the fix
+            filePath: visual-summary.md
             mode: recreate
             comment_tag: visual_regression_report
             create_if_not_exists: true
