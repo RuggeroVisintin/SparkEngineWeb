@@ -25,7 +25,7 @@
     "test:perf:ci": "npm run test:perf -- --no-color",
     "test:visual": "npx playwright test",
     "test:visual:ci": "npx playwright test --reporter=list",
-    "test:visual:generate-baseline": "npx playwright test --update-snapshots",
+    "test:visual:update-baseline": "npx playwright test --update-snapshots",
     "postinstall": "sh ./scripts/install-additional-deps.sh",
     "lint": "eslint",
     "lint:fix": "eslint --fix",

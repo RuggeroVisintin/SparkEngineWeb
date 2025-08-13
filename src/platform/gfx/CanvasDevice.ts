@@ -22,8 +22,8 @@ export class CanvasDevice {
 
         if (!canvas) return;
 
-        this.wRatio = width / canvas.width;
-        this.hRatio = height / canvas.height;
+        canvas.width = width;
+        canvas.height = height;
     }
 
     public begin(ctx: CanvasRenderingContext2D): void {
