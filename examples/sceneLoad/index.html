@@ -11,7 +11,8 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
+        const scene = new SparkEngine.Scene();
+        scene.draw(engine);
 
         window.onclick = () => {
             window.showOpenFilePicker({
@@ -34,8 +35,13 @@
 
         addEventListener("keypress", (event) => {
             if (event.key === 'a') {
-                const name = window.prompt('name')
-                const gameObject = new SparkEngine.GameObject({ name });
+                console.info('Adding a new GameObject');
+                const gameObject = new SparkEngine.GameObject({
+                    transform: {
+                        size: { width: 50, height: 50 },
+                        position: { x: Math.random() * (1920 - 25), y: Math.random() * (1080 - 25) },
+                    }
+                });
 
                 scene.registerEntity(gameObject);
             }
