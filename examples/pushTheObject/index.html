@@ -11,16 +11,17 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
+        const scene = new SparkEngine.Scene();
 
         const leftWall = new SparkEngine.StaticObject();
-        leftWall.transform.size = { width: 20, height: 150 };
+        leftWall.transform.size = { width: 40, height: 1080 };
+        leftWall.transform.position = new SparkEngine.Vec2(20, 1080 / 2);
         leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         leftWall.boundingBox.matchContainerTransform = true;
 
         const rightWall = new SparkEngine.StaticObject();
-        rightWall.transform.size = { width: 20, height: 150 };
-        rightWall.transform.position = new SparkEngine.Vec2(280, 0);
+        rightWall.transform.size = { width: 40, height: 1080 };
+        rightWall.transform.position = new SparkEngine.Vec2(1920 - 20, 1080 / 2);
         rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
         rightWall.boundingBox.matchContainerTransform = true;
 
@@ -29,8 +30,8 @@
                 diffuseColor: new SparkEngine.Rgb(0, 0, 0)
             }
         });
-        player.transform.size = { width: 10, height: 10 };
-        player.transform.position = new SparkEngine.Vec2(25, 25);
+        player.transform.size = { width: 40, height: 40 };
+        player.transform.position = new SparkEngine.Vec2(60, 60);
         player.boundingBox.matchContainerTransform = true;
 
         const playerController = new SparkEngine.InputComponent();
@@ -61,27 +62,39 @@
 
 
         const movableObject = new SparkEngine.StaticObject();
-        movableObject.transform.size = { width: 30, height: 30 };
-        movableObject.transform.position = new SparkEngine.Vec2(55, 55);
+        movableObject.transform.size = { width: 90, height: 90 };
+        movableObject.transform.position = new SparkEngine.Vec2(120, 220);
         movableObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         movableObject.boundingBox.matchContainerTransform = true;
 
         const movableObjectWithRebound = new SparkEngine.StaticObject();
-        movableObjectWithRebound.transform.size = { width: 15, height: 15 };
-        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(70, 70);
+        movableObjectWithRebound.transform.size = { width: 45, height: 45 };
+        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(177.5, 277.5);
         movableObjectWithRebound.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
         movableObjectWithRebound.boundingBox.matchContainerTransform = true;
 
         movableObject.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
-            movableObject.transform.position = new SparkEngine.Vec2(postSimulation.aabb[0], postSimulation.aabb[1]);
+            // Convert from physics top-left coordinates to center coordinates
+            movableObject.transform.position = new SparkEngine.Vec2(
+                postSimulation.aabb[0],
+                postSimulation.aabb[1]
+            );
         }
 
         movableObjectWithRebound.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
-            movableObjectWithRebound.transform.position = new SparkEngine.Vec2(postSimulation.aabb[0], postSimulation.aabb[1]);
+            // Convert from physics top-left coordinates to center coordinates
+            movableObjectWithRebound.transform.position = new SparkEngine.Vec2(
+                postSimulation.aabb[0],
+                postSimulation.aabb[1]
+            );
         }
 
         player.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
-            player.transform.position = new SparkEngine.Vec2(postSimulation.aabb[0], postSimulation.aabb[1]);
+            // Convert from physics top-left coordinates to center coordinates
+            player.transform.position = new SparkEngine.Vec2(
+                postSimulation.aabb[0],
+                postSimulation.aabb[1]
+            );
         }
 
         scene.registerEntity(movableObject);
@@ -91,6 +104,7 @@
         scene.registerEntity(player);
 
 
+        scene.draw(engine);
         engine.run();
     </script>
 </body>

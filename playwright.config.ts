@@ -25,6 +25,16 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     actionTimeout: 1000, // 1 second timeout for actions like waitForSelector
+    launchOptions: {
+      args: [
+        '--disable-gpu-sandbox',
+        '--disable-software-rasterizer',
+        '--disable-background-timer-throttling',
+        '--disable-renderer-backgrounding',
+        '--disable-backgrounding-occluded-windows',
+        '--force-gpu-mem-available-mb=1024',
+      ]
+    }
   },
   timeout: 10000,
   projects: [
@@ -33,7 +43,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         // Use consistent viewport for CI
-        viewport: { width: 1280, height: 720 },
+        viewport: { width: 1920, height: 1080 },
       },
     },
   ],

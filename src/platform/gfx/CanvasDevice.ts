@@ -40,13 +40,17 @@ export class CanvasDevice {
     }
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
-        ctx.rect(x, y, width, height);
+        ctx.save();
+        ctx.translate(x - width / 2, y - height / 2);
+        ctx.rect(0, 0, width, height);
+        ctx.restore();
     }
 
     public drawImage(ctx: CanvasRenderingContext2D, image: ImageBitmap, x: number, y: number, width: number, height: number, opacity = 100): void {
         ctx.save();
         ctx.globalAlpha = opacity / 100;
-        ctx.drawImage(image, x, y, width, height);
+        ctx.translate(x - width / 2, y - height / 2);
+        ctx.drawImage(image, 0, 0, width, height);
         ctx.restore();
     }
 
