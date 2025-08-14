@@ -78,70 +78,10 @@ jobs:
             mode: recreate
             comment_tag: benchmark_comment
             create_if_not_exists: true
-    test_visual_main:
-      name: Visual Tests (Main Branch)
-      runs-on: ubuntu-latest
-      if: github.ref_name == 'main'
-      container:
-        image: mcr.microsoft.com/playwright:v1.54.2-jammy
-      permissions:
-        contents: read
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-        - name: Install dependencies
-          run: npm ci
-        - name: Build project
-          run: npm run build
-        - name: Run Visual Tests
-          run: |
-            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
-              echo "No CI baselines found - running tests with baseline generation, skipping"
-            else
-              echo "CI baselines exist - running in CI mode"
-              npm run test:visual:ci
-            fi
-    generate_baselines:
-      name: Generate Visual Baselines
-      runs-on: ubuntu-latest
-      if: github.ref_name == 'main'
-      needs: [test_visual_main]
-      container:
-        image: mcr.microsoft.com/playwright:v1.54.2-jammy
-      permissions:
-        contents: read
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-        - name: Install dependencies
-          run: npm ci
-        - name: Build project
-          run: npm run build
-        - name: Generate/Update baselines
-          run: |
-            echo "Generating fresh baselines for artifact storage..."
-            npm run test:visual:update-baseline
-        - name: Log baseline generation
-          run: |
-            echo "✅ Visual baselines generated successfully from main branch"
-            echo "CI Baseline files:"
-            find test/visual -name "*-ci-snapshots" -type d | head -5
-            find test/visual -name "*.png" | head -10
-        - name: Upload baselines
-          uses: actions/upload-artifact@v4
-          with:
-            name: visual-baselines
-            path: test/visual/
-            retention-days: 7
     test_visual:
-      name: Visual Regression Tests
+      name: Visual Tests
       timeout-minutes: 5
       runs-on: ubuntu-latest
-      if: github.event_name == 'pull_request'
       container:
         image: mcr.microsoft.com/playwright:v1.54.2-jammy
       permissions:
@@ -154,7 +94,10 @@ jobs:
         - uses: actions/setup-node@v4
           with:
             node-version: 20
+        
+        # Download baselines from main (only for PRs)
         - name: Download baselines from main
+          if: github.event_name == 'pull_request'
           uses: dawidd6/action-download-artifact@v6
           with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -163,11 +106,15 @@ jobs:
             name: visual-baselines
             path: test/visual/
             if_no_artifact_found: fail
+            
         - name: Install dependencies
           run: npm ci
         - name: Build project
           run: npm run build
+          
+        # Verify baselines exist (only for PRs)
         - name: Verify baselines exist
+          if: github.event_name == 'pull_request'
           run: |
             if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
               echo "❌ No visual baselines found!"
@@ -189,10 +136,28 @@ jobs:
               echo "Baseline files:"
               find test/visual -name "*.png" | head -5
             fi
+            
+        # Run visual tests with conditional logic
         - name: Run Visual Tests
           id: visual_tests
-          continue-on-error: true
-          run: npm run test:visual:ci
+          continue-on-error: ${{ github.event_name == 'pull_request' }}
+          run: |
+            if [ "${{ github.ref_name }}" = "main" ]; then
+              # Main branch: Check if CI baselines exist, skip test if none (first run)
+              if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
+                echo "No CI baselines found on main - this is the first run, tests will be skipped and baselines generated"
+                exit 0
+              else
+                echo "CI baselines exist on main - running in CI mode"
+                npm run test:visual:ci
+              fi
+            else
+              # PR branch: Run tests against downloaded baselines
+              echo "Running visual tests against main branch baselines"
+              npm run test:visual:ci
+            fi
+            
+        # PR-specific steps for visual test reporting
         - name: Upload Visual Test Images to GitHub Pages
           if: steps.visual_tests.outcome == 'failure' && github.event.number
           run: |
@@ -368,19 +333,53 @@ jobs:
           with:
             name: playwright-report
             path: playwright-report/
-            retention-days: 30
+            retention-days: 3
         - uses: actions/upload-artifact@v4
           if: steps.visual_tests.outcome == 'failure'
           with:
             name: visual-test-results
             path: test-results/
-            retention-days: 30
+            retention-days: 3
         - name: Fail job if visual tests failed
           if: steps.visual_tests.outcome == 'failure'
           run: |
             echo "❌ Visual tests failed!"
             echo "Check the visual report and artifacts for details."
             exit 1
+    generate_baselines:
+      name: Generate Visual Baselines
+      runs-on: ubuntu-latest
+      if: github.ref_name == 'main'
+      needs: [test_visual]
+      container:
+        image: mcr.microsoft.com/playwright:v1.54.2-jammy
+      permissions:
+        contents: read
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
+        - name: Build project
+          run: npm run build
+        - name: Generate/Update baselines
+          run: |
+            echo "Generating fresh baselines for artifact storage..."
+            npm run test:visual:update-baseline
+        - name: Log baseline generation
+          run: |
+            echo "✅ Visual baselines generated successfully from main branch"
+            echo "CI Baseline files:"
+            find test/visual -name "*-ci-snapshots" -type d | head -5
+            find test/visual -name "*.png" | head -10
+        - name: Upload baselines
+          uses: actions/upload-artifact@v4
+          with:
+            name: visual-baselines
+            path: test/visual/
+            retention-days: 7
     publish:
       name: Publish
       timeout-minutes: 2
@@ -440,7 +439,7 @@ jobs:
         - name: deploy docs artifact
           if: ${{ steps.docs.outputs.docs_created }}
           uses: actions/deploy-pages@v4
-      needs: [test_unit, test_visual_main, generate_baselines, build]
+      needs: [test_unit, test_visual, generate_baselines, build]
       if: github.ref_name == 'main'
 
         
