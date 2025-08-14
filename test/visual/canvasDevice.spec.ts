@@ -151,7 +151,6 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await triggerNextFrames(page);
         await page.keyboard.down('s');
 
-        await page.waitForTimeout(1000); // Wait for the object to start moving
         await triggerNextFrames(page, 5000);
 
         // Trigger a few more frames to show the final collision state
