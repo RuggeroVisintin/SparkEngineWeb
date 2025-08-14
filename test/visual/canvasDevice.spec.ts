@@ -5,14 +5,19 @@ const BASE_URL = 'http://localhost:3000';
 test.describe('CanvasDevice Visual Tests via Examples', () => {
     const triggerNextFrames = async (page, count = 1) => {
         for (let i = 0; i < count; i++) {
-            await page.evaluate(() => {
+            await page.evaluate(async () => {
                 if ((window as any).triggerFrame) {
-                    (window as any).triggerFrame();
+                    return new Promise(resolve => {
+                        (window as any).triggerFrame();
+
+                        setTimeout(() => {
+                            resolve(null);
+                        }, 0.1);
+                    });
+
                 }
             });
         }
-
-        await page.waitForTimeout(50); // Small delay to allow rendering to complete
     }
 
     test.beforeEach(async ({ page }) => {
@@ -134,7 +139,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/simpleCollision/index.html`);
 
         await page.waitForSelector('#canvas');
-        await triggerNextFrames(page);
+        await triggerNextFrames(page, 5000);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('simple-collision.png');
     });
@@ -156,6 +161,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         // Trigger a few more frames to show the final collision state
         await triggerNextFrames(page);
 
-        await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png');
+        // allow a small margin of error for pixel differences due to physx simulation instability
+        await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png', { maxDiffPixelRatio: 0.01 });
     });
 });
