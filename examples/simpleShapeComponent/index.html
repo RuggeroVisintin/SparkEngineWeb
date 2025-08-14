@@ -12,6 +12,7 @@
 
         const firstRect = new SparkEngine.ShapeComponent();
         firstRect.transform.size = { width: 50, height: 25 };
+        firstRect.transform.position = new SparkEngine.Vec2(25, 12.5);
         renderSystem.registerComponent(firstRect);
 
         let pos = 0;
@@ -20,7 +21,7 @@
             pos++;
             pos = pos % 60;
 
-            firstRect.transform.position = new SparkEngine.Vec2(pos + 25, pos + 12.5); // Adjusted for center origin: pos + (width/2), pos + (height/2)
+            firstRect.transform.position = new SparkEngine.Vec2(pos + 25, pos + 12.5);
 
             renderSystem.update();
             renderer.endFrame(context);

@@ -12,11 +12,13 @@
 
         const firstRect = new SparkEngine.ShapeComponent();
         firstRect.transform.size = { width: 50, height: 25 };
+        firstRect.transform.position = new SparkEngine.Vec2(25, 12.5);
         firstRect.material.diffuseColor = new SparkEngine.Rgb(255, 100, 0);
         renderSystem.registerComponent(firstRect);
 
         const secondRect = new SparkEngine.ShapeComponent();
         secondRect.transform.size = { width: 20, height: 20 };
+        secondRect.transform.position = new SparkEngine.Vec2(10, 10);
         secondRect.transform.depthIndex = 1;
         secondRect.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
         renderSystem.registerComponent(secondRect);

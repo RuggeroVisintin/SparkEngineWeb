@@ -19,6 +19,7 @@
 
         const secondRect = new SparkEngine.ShapeComponent();
         secondRect.transform.size = { width: 20, height: 20 };
+        secondRect.transform.position = new SparkEngine.Vec2(10, 10);
         secondRect.transform.depthIndex = 1;
         secondRect.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
         renderSystem.registerComponent(secondRect);
@@ -29,7 +30,7 @@
             pos++;
             pos = pos % 60;
 
-            firstRect.transform.position = new SparkEngine.Vec2(pos + 25, pos + 12.5); // Adjusted for center origin: pos + (50/2), pos + (25/2)
+            firstRect.transform.position = new SparkEngine.Vec2(pos + 25, pos + 12.5);
 
             renderSystem.update();
             renderer.endFrame(context);

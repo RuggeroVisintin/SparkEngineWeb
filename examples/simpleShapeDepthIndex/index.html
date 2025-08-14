@@ -16,6 +16,7 @@
 
         const secondRect = new SparkEngine.ShapeComponent();
         secondRect.transform.size = { width: 20, height: 20 };
+        secondRect.transform.position = new SparkEngine.Vec2(10, 10);
         secondRect.transform.depthIndex = 1;
         renderSystem.registerComponent(secondRect);
 
