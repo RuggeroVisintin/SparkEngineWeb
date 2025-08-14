@@ -1,4 +1,4 @@
-import { AABB, isCollision, Vec2 } from "../core";
+import { AABB, isCollision, toCenteredAABB, toTopLeftAABB, Vec2 } from "../core";
 import { AAABBCollisionResolver } from "./resolvers/aabbCollisionResolver";
 
 /**
@@ -74,14 +74,10 @@ export class Physx {
     private _physicalWorld: PhysicalObjectCallbackAggregate[] = [];
     private readonly _resolver: AAABBCollisionResolver = new AAABBCollisionResolver();
 
-    public get physicalWorld(): PhysicalObjectCallbackAggregate[] {
-        return this._physicalWorld;
-    }
-
     public pushPhysicalObject(object: PhysicalObjectCallbackAggregate): void {
         this._physicalWorld.push({
             ...object,
-            object: this.copyPhysicsObject(object.object)
+            object: this.fromCenteredPhysicsObject(object.object)
         });
     }
 
@@ -89,18 +85,18 @@ export class Physx {
         let next: PhysicalObjectCallbackAggregate[] = [];
 
         for (let i = 0; i < cycles; i++) {
-            this.physicalWorld.forEach((physicalObject) => {
+            this._physicalWorld.forEach((physicalObject) => {
                 let postSimulation = undefined;
 
-                this.physicalWorld.forEach((otherPhysicalObject) => {
+                this._physicalWorld.forEach((otherPhysicalObject) => {
                     if (physicalObject.object.uuid === otherPhysicalObject.object.uuid) return;
 
                     postSimulation = this.checkCollision(physicalObject.object, otherPhysicalObject.object);
 
                     if (postSimulation) {
                         physicalObject.onCollisionCallback({
-                            otherObject: otherPhysicalObject.object,
-                            postSimulation: postSimulation
+                            otherObject: this.toCenteredPhysicsObject(otherPhysicalObject.object),
+                            postSimulation: this.toCenteredPhysicsObject(postSimulation)
                         });
                     };
                 })
@@ -180,9 +176,24 @@ export class Physx {
 
     private copyPhysicsObject(object: PhysicsObject): PhysicsObject {
         return {
-            // Copy values due to javascript keeping the reference
             ...object,
             aabb: [...object.aabb],
+            velocity: Vec2.from(object.velocity),
+        }
+    }
+
+    private fromCenteredPhysicsObject(object: PhysicsObject): PhysicsObject {
+        return {
+            ...object,
+            aabb: toTopLeftAABB(object.aabb),
+            velocity: Vec2.from(object.velocity),
+        }
+    }
+
+    private toCenteredPhysicsObject(object: PhysicsObject): PhysicsObject {
+        return {
+            ...object,
+            aabb: toCenteredAABB(object.aabb),
             velocity: Vec2.from(object.velocity),
         }
     }

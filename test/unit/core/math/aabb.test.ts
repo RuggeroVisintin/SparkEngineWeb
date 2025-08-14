@@ -1,4 +1,4 @@
-import { AABB, isCollision, Vec2 } from "../../../../src";
+import { AABB, isCollision, toCenteredAABB, toTopLeftAABB, Vec2 } from "../../../../src";
 
 describe('core/math/AABB', () => {
     describe('.isCollision()', () => {
@@ -26,4 +26,22 @@ describe('core/math/AABB', () => {
             expect(isCollision(aabb1, aabb2)).toBe(true);
         });
     });
+
+    describe('.toTopLeftAABB()', () => {
+        it.each([
+            [[5, 5, 10, 10], [0, 0, 10, 10]]
+        ])('Should convert a centered AABB to top-left coordinates', (aabb, expected) => {
+            const result = toTopLeftAABB(aabb as AABB);
+            expect(result).toEqual(expected);
+        });
+    })
+
+    describe('.toCenteredAABB()', () => {
+        it.each([
+            [[0, 0, 10, 10], [5, 5, 10, 10]]
+        ])('Should convert a top-left AABB to centered coordinates', (aabb, expected) => {
+            const result = toCenteredAABB(aabb as AABB);
+            expect(result).toEqual(expected);
+        });
+    })
 })

@@ -24,3 +24,13 @@ export function isCollision(objectA: AABB, objectB: AABB): boolean {
 
     return x1 < xw2 && xw1 > x2 && y1 < yh2 && yh1 > y2;
 }
+
+export function toTopLeftAABB(aabb: AABB): AABB {
+    const [x, y, width, height] = aabb;
+    return [x - width / 2, y - height / 2, width, height];
+}
+
+export function toCenteredAABB(aabb: AABB): AABB {
+    const [x, y, width, height] = aabb;
+    return [x + width / 2, y + height / 2, width, height];
+}

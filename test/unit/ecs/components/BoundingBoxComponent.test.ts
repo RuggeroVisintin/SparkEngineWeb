@@ -1,4 +1,4 @@
-import { BaseEntity, BoundingBoxComponent, BoundingBoxComponentProps, CollisionCallbackParams, GameObject, ICollidableComponent, Physx, SerializableCallback, StaticObject, Vec2 } from "../../../../src";
+import { BaseEntity, BoundingBoxComponent, BoundingBoxComponentProps, CollisionCallbackParams, GameObject, ICollidableComponent, Physx, SerializableCallback, StaticObject, toTopLeftAABB, Vec2 } from "../../../../src";
 
 describe('ecs/components/BoundingBoxComponent', () => {
     let bbComponent = new BoundingBoxComponent();
@@ -96,20 +96,19 @@ describe('ecs/components/BoundingBoxComponent', () => {
             aabb: { x: 5, y: 10, width: 15, height: 5 },
             expected: [5, 10, 15, 5]
         }])('Should register the component in the Physx world', (test) => {
+            const pushObject = jest.spyOn(physx, 'pushPhysicalObject');
+
             bbComponent.aabb = test.aabb;
             bbComponent.update(physx);
 
-            expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
-                object: {
+            expect(pushObject).toHaveBeenCalledWith(expect.objectContaining({
+                object: expect.objectContaining({
                     aabb: test.expected,
                     isContainer: false,
-                    uuid: bbComponent.uuid,
-                    velocity: new Vec2()
-                },
-                onCollisionCallback: expect.any(Function)
-            }]));
+                    velocity: new Vec2(0, 0)
+                })
+            }));
         });
-
 
         it('Should trigger the onCollision callback when a collision is registered', () => {
             const cbBBComponentA = jest.fn(() => { });
@@ -136,6 +135,8 @@ describe('ecs/components/BoundingBoxComponent', () => {
         });
 
         it('Should get the velocity from a parent entity when present', () => {
+            const pushObject = jest.spyOn(physx, 'pushPhysicalObject');
+
             const entity = new StaticObject();
             entity.transform.velocity = new Vec2(5, 5);
             entity.boundingBox.aabb.width = 10;
@@ -143,13 +144,12 @@ describe('ecs/components/BoundingBoxComponent', () => {
 
             entity.boundingBox.update(physx);
 
-            expect(physx.physicalWorld).toEqual(expect.arrayContaining([{
+            expect(pushObject).toHaveBeenCalledWith(expect.objectContaining({
                 object: expect.objectContaining({
                     velocity: new Vec2(5, 5)
-                }),
-                onCollisionCallback: expect.any(Function)
-            }]));
-        })
+                })
+            }));
+        });
     });
 
     describe('.isContainer', () => {

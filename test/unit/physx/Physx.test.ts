@@ -1,50 +1,11 @@
 import { v4 } from "uuid";
-import { AABB, PhysicalObjectCallbackAggregate, PhysicsObject, Physx, Vec2 } from "../../../src"
+import { AABB, PhysicalObjectCallbackAggregate, Physx, toCenteredAABB, Vec2 } from "../../../src"
 
 describe('physx/Physx', () => {
     let physx = new Physx();
 
     afterEach(() => {
         physx = new Physx();
-    })
-
-    describe('.pushPhysicsObject()', () => {
-        it('Should add the physicx object to the physics objects list', () => {
-            const physicsObject: PhysicalObjectCallbackAggregate = {
-                object: {
-                    aabb: [10, 10, 25, 25],
-                    uuid: v4(),
-                    velocity: new Vec2()
-                },
-                onCollisionCallback: (postSimulation) => { },
-            };
-
-            physx.pushPhysicalObject(physicsObject);
-            expect(physx.physicalWorld).toContainEqual(physicsObject);
-        });
-
-        it('Should avoid copying the values by reference due to the values being updated during the simulaton', () => {
-            const physicsObject: PhysicalObjectCallbackAggregate = {
-                object: {
-                    aabb: [10, 10, 25, 25],
-                    uuid: v4(),
-                    velocity: new Vec2()
-                },
-                onCollisionCallback: (postSimulation) => { },
-            };
-
-            physx.pushPhysicalObject(physicsObject);
-
-            physicsObject.object.aabb[0] = 20;
-            
-            expect(physx.physicalWorld).toContainEqual({
-                ...physicsObject,
-                object: {
-                    ...physicsObject.object,
-                    aabb: [10, 10, 25, 25]
-                }
-            });
-        })
     })
 
     describe('.simulate()', () => {
@@ -71,9 +32,9 @@ describe('physx/Physx', () => {
             physx.pushPhysicalObject(physicsObject2);
 
             physx.simulate();
-            
+
             expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
-                    otherObject: physicsObject2.object
+                otherObject: physicsObject2.object
             }));
             expect(physicsObject2.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                 otherObject: physicsObject.object
@@ -103,7 +64,7 @@ describe('physx/Physx', () => {
             physx.pushPhysicalObject(physicsObject2);
 
             physx.simulate();
-            
+
             expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                 otherObject: physicsObject2.object
             }));
@@ -135,7 +96,7 @@ describe('physx/Physx', () => {
             physx.pushPhysicalObject(physicsObject2);
 
             physx.simulate();
-            
+
             expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                 otherObject: physicsObject2.object
             }));
@@ -158,35 +119,35 @@ describe('physx/Physx', () => {
             physx.pushPhysicalObject(physicsObject);
 
             physx.simulate();
-            
+
             expect(physicsObject.onCollisionCallback).not.toHaveBeenCalled();
         })
 
         it.each([[
             'case 1',
             new Vec2(5),
-            [5, 100, 16, 150],
-            [20, 100, 20, 150],
-            [4, 100, 16, 150]
+            toCenteredAABB([5, 100, 16, 150]),
+            toCenteredAABB([20, 100, 20, 150]),
+            toCenteredAABB([4, 100, 16, 150])
         ], [
             'case 2',
             new Vec2(0, 5),
-            [0, 5, 16, 10],
-            [0, 11, 16, 10],
-            [0, 1, 16, 10]
+            toCenteredAABB([0, 5, 16, 10]),
+            toCenteredAABB([0, 11, 16, 10]),
+            toCenteredAABB([0, 1, 16, 10])
         ], [
             'case 3',
             new Vec2(0, -5),
-            [0, 9, 16, 10],
-            [10, 0, 16, 10],
-            [0, 10, 16, 10]
+            toCenteredAABB([0, 9, 16, 10]),
+            toCenteredAABB([10, 0, 16, 10]),
+            toCenteredAABB([0, 10, 16, 10])
         ], [
             'case 4',
             new Vec2(-5),
-            [7, 0, 10, 10],
-            [0, 0, 10, 10],
-            [10, 0, 10, 10]
-        ]])('Should calculate and include in the Physics object callback the new position resulting from the collision %s', (_, velocity, a, b, result) => {            
+            toCenteredAABB([7, 0, 10, 10]),
+            toCenteredAABB([0, 0, 10, 10]),
+            toCenteredAABB([10, 0, 10, 10])
+        ]])('Should calculate and include in the Physics object callback the new position resulting from the collision %s', (_, velocity, a, b, result) => {
             const physicsObject: PhysicalObjectCallbackAggregate = {
                 object: {
                     uuid: v4(),
@@ -209,7 +170,7 @@ describe('physx/Physx', () => {
             physx.pushPhysicalObject(physicsObject2);
 
             physx.simulate();
-            
+
             expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                 postSimulation: expect.objectContaining({
                     aabb: result
@@ -241,26 +202,26 @@ describe('physx/Physx', () => {
             physx.pushPhysicalObject(physicsObject2);
 
             physx.simulate();
-            
+
             expect(physicsObject.onCollisionCallback).not.toHaveBeenCalled();
             expect(physicsObject2.onCollisionCallback).not.toHaveBeenCalled();
         });
 
         it.todo('Should calculate and include in the Physics object callback the new velocity resulting from the collision')
-        
+
         describe('.isContainer', () => {
             it.each([{
-                containerAabb: <AABB>[10, 10, 25, 25],
-                otherAabb: <AABB>[45, 45, 25, 25]
+                containerAabb: <AABB>toCenteredAABB([10, 10, 25, 25]),
+                otherAabb: <AABB>toCenteredAABB([45, 45, 25, 25])
             }, {
-                containerAabb: <AABB>[10, 10, 25, 25],
-                otherAabb: <AABB>[15, 15, 25, 25]
+                containerAabb: <AABB>toCenteredAABB([10, 10, 25, 25]),
+                otherAabb: <AABB>toCenteredAABB([15, 15, 25, 25])
             }, {
-                containerAabb: <AABB>[10, 10, 25, 25],
-                otherAabb: <AABB>[-5, 0, 115, 115]
+                containerAabb: <AABB>toCenteredAABB([10, 10, 25, 25]),
+                otherAabb: <AABB>toCenteredAABB([-5, 0, 115, 115])
             }, {
-                containerAabb: <AABB>[5, 5, 5, 5],
-                otherAabb: <AABB>[10, 10, 4, 4]
+                containerAabb: <AABB>toCenteredAABB([5, 5, 5, 5]),
+                otherAabb: <AABB>toCenteredAABB([10, 10, 4, 4])
             }])('Should trigger the Physics object callback if an object is outside the container boundaries', (test) => {
                 const physicsObject: PhysicalObjectCallbackAggregate = {
                     object: {
@@ -285,7 +246,7 @@ describe('physx/Physx', () => {
                 physx.pushPhysicalObject(physicsObject2);
 
                 physx.simulate();
-                
+
                 expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                     otherObject: physicsObject2.object
                 }));
@@ -318,7 +279,7 @@ describe('physx/Physx', () => {
                 physx.pushPhysicalObject(physicsObject2);
 
                 physx.simulate();
-                
+
                 expect(physicsObject.onCollisionCallback).not.toHaveBeenCalled();
                 expect(physicsObject2.onCollisionCallback).not.toHaveBeenCalled();
             });
@@ -371,7 +332,7 @@ describe('physx/Physx', () => {
                 physx.pushPhysicalObject(physicsObject2);
 
                 physx.simulate();
-                
+
                 expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                     postSimulation: expect.objectContaining({
                         velocity: result
@@ -382,27 +343,27 @@ describe('physx/Physx', () => {
             it.each([[
                 'case RIGHT',
                 new Vec2(5),
-                [297, 75, 5, 5],
-                [0, 0, 300, 150],
-                [295, 75, 5, 5]
+                toCenteredAABB([297, 75, 5, 5]),
+                toCenteredAABB([0, 0, 300, 150]),
+                toCenteredAABB([295, 75, 5, 5])
             ], [
                 'case UP',
                 new Vec2(0, -5),
-                [75, -2, 5, 5],
-                [0, 0, 300, 150],
-                [75, 0, 5, 5]
+                toCenteredAABB([75, -2, 5, 5]),
+                toCenteredAABB([0, 0, 300, 150]),
+                toCenteredAABB([75, 0, 5, 5])
             ], [
                 'case DOWN',
                 new Vec2(0, 5),
-                [75, 146, 5, 5],
-                [0, 0, 300, 150],
-                [75, 145, 5, 5]
+                toCenteredAABB([75, 146, 5, 5]),
+                toCenteredAABB([0, 0, 300, 150]),
+                toCenteredAABB([75, 145, 5, 5])
             ], [
                 'case LEFT',
                 new Vec2(-5),
-                [-2, 0, 10, 10],
-                [0, 0, 10, 10],
-                [0, 0, 10, 10]
+                toCenteredAABB([-2, 0, 10, 10]),
+                toCenteredAABB([0, 0, 10, 10]),
+                toCenteredAABB([0, 0, 10, 10])
             ]])('%s) Should return the position of the colliding object based on the collision', (_, velocity, a, b, result) => {
                 const physicsObject: PhysicalObjectCallbackAggregate = {
                     object: {
@@ -427,7 +388,7 @@ describe('physx/Physx', () => {
                 physx.pushPhysicalObject(physicsObject2);
 
                 physx.simulate();
-                
+
                 expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                     postSimulation: expect.objectContaining({
                         aabb: result
@@ -444,7 +405,7 @@ describe('physx/Physx', () => {
             }, {
                 rebound: 0.5,
                 result: new Vec2(2.5)
-            }])('Should take the rebound into account when computing the new velocity of the object', ({rebound, result}) => { 
+            }])('Should take the rebound into account when computing the new velocity of the object', ({ rebound, result }) => {
                 const velocity = new Vec2(5);
 
                 const physicsObject: PhysicalObjectCallbackAggregate = {
@@ -470,7 +431,7 @@ describe('physx/Physx', () => {
                 physx.pushPhysicalObject(physicsObject2);
 
                 physx.simulate();
-                
+
                 expect(physicsObject.onCollisionCallback).toHaveBeenCalledWith(expect.objectContaining({
                     postSimulation: expect.objectContaining({
                         velocity: result

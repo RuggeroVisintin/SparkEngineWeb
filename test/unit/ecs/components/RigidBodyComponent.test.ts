@@ -5,11 +5,18 @@ describe('ecs/components/RigidBodyComponent', () => {
 
     describe('.mapPhysicalObject', () => {
         it('Should inlcude the rebound in the physical object', () => {
+            const pushObject = jest.spyOn(physx, 'pushPhysicalObject');
+
             const rigidBody = new RigidBodyComponent();
             rigidBody.rebound = 1;
 
             rigidBody.update(physx);
-            expect(physx.physicalWorld[0].object.rebound).toEqual(1);
+
+            expect(pushObject).toHaveBeenCalledWith(expect.objectContaining({
+                object: expect.objectContaining({
+                    rebound: 1
+                })
+            }));
         })
     })
 
