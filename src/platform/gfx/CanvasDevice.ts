@@ -72,19 +72,24 @@ export class CanvasDevice {
     }
 
     public setTransform(ctx: CanvasRenderingContext2D, matrix: Matrix2D): void {
-        // TODO: matrix[0] / canvas.width,
         const hRatio = this.hRatio;
         const wRatio = this.wRatio;
 
+        // Get canvas dimensions for center-origin calculation
+        const canvasWidth = ctx.canvas?.width || 0;
+        const canvasHeight = ctx.canvas?.height || 0;
+
+        // Apply center-origin offset to translation components
+        const centerX = canvasWidth / 2;
+        const centerY = canvasHeight / 2;
+
         ctx.setTransform(
-            // TODO: matrix[0] / canvas.width,
             matrix[0] * wRatio,
             matrix[1],
             matrix[2],
-            // TODO: matrix[3] / canvas.height,
             matrix[3] * hRatio,
-            matrix[4] * wRatio,
-            matrix[5] * hRatio
+            matrix[4] * wRatio + centerX,
+            matrix[5] * hRatio + centerY
         );
     }
 }
