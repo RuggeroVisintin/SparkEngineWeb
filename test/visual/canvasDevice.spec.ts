@@ -7,17 +7,12 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         for (let i = 0; i < count; i++) {
             await page.evaluate(async () => {
                 if ((window as any).triggerFrame) {
-                    return new Promise(resolve => {
-                        (window as any).triggerFrame();
-
-                        setTimeout(() => {
-                            resolve(null);
-                        }, 0.1);
-                    });
-
+                    (window as any).triggerFrame();
                 }
             });
         }
+
+        page.waitForTimeout(100);
     }
 
     test.beforeEach(async ({ page }) => {
