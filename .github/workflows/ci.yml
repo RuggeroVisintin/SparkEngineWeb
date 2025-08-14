@@ -78,10 +78,69 @@ jobs:
             mode: recreate
             comment_tag: benchmark_comment
             create_if_not_exists: true
+    test_visual_main:
+      name: Visual Tests (Main Branch)
+      runs-on: ubuntu-latest
+      if: github.ref_name == 'main'
+      container:
+        image: mcr.microsoft.com/playwright:v1.54.2-jammy
+      permissions:
+        contents: read
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
+        - name: Build project
+          run: npm run build
+        - name: Run Visual Tests
+          run: |
+            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*.png" 2>/dev/null | wc -l)" -eq 0 ]; then
+              echo "No baselines found - running tests with baseline generation, skipping"
+            else
+              echo "Baselines exist - running in CI mode"
+              npm run test:visual:ci
+            fi
+    generate_baselines:
+      name: Generate Visual Baselines
+      runs-on: ubuntu-latest
+      if: github.ref_name == 'main'
+      needs: [test_visual_main]
+      container:
+        image: mcr.microsoft.com/playwright:v1.54.2-jammy
+      permissions:
+        contents: read
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
+        - name: Build project
+          run: npm run build
+        - name: Generate/Update baselines
+          run: |
+            echo "Generating fresh baselines for artifact storage..."
+            npm run test:visual:update-baseline
+        - name: Log baseline generation
+          run: |
+            echo "✅ Visual baselines generated successfully from main branch"
+            echo "Baseline files:"
+            find test/visual -name "*.png" | head -10
+        - name: Upload baselines
+          uses: actions/upload-artifact@v4
+          with:
+            name: visual-baselines
+            path: test/visual/
+            retention-days: 7
     test_visual:
       name: Visual Regression Tests
       timeout-minutes: 5
       runs-on: ubuntu-latest
+      if: github.event_name == 'pull_request'
       container:
         image: mcr.microsoft.com/playwright:v1.54.2-jammy
       permissions:
@@ -94,10 +153,41 @@ jobs:
         - uses: actions/setup-node@v4
           with:
             node-version: 20
+        - name: Download baselines from main
+          uses: dawidd6/action-download-artifact@v6
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            workflow: ci.yml
+            branch: main
+            name: visual-baselines
+            path: test/visual/
+            if_no_artifact_found: fail
         - name: Install dependencies
           run: npm ci
         - name: Build project
           run: npm run build
+        - name: Verify baselines exist
+          run: |
+            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*.png" | wc -l)" -eq 0 ]; then
+              echo "❌ No visual baselines found!"
+              echo ""
+              echo "This means either:"
+              echo "1. No baselines have been generated on main branch yet"
+              echo "2. The baseline artifacts have expired (older than 7 days)"
+              echo ""
+              echo "🔧 To fix this:"
+              echo "1. Go to Actions tab: https://github.com/${{ github.repository }}/actions"
+              echo "2. Find the latest successful workflow run on main branch"
+              echo "3. Click 'Re-run jobs' to regenerate baselines"
+              echo "4. Once baselines are generated, re-run this PR workflow"
+              echo ""
+              exit 1
+            else
+              baseline_count=$(find test/visual -name "*.png" | wc -l)
+              echo "✅ Found $baseline_count baseline images from main branch"
+              echo "Baseline files:"
+              find test/visual -name "*.png" | head -5
+            fi
         - name: Run Visual Tests
           id: visual_tests
           continue-on-error: true
@@ -250,7 +340,7 @@ jobs:
             echo "" >> visual-summary.md
             echo "### 🛠️ Next Steps:" >> visual-summary.md
             echo "1. **Review the visual differences** shown above" >> visual-summary.md
-            echo "2. **If changes are intentional**: Update baselines with \`npm run test:visual:update-baseline\`" >> visual-summary.md
+            echo "2. **If changes are intentional**: The baselines will be updated when this PR is merged to main" >> visual-summary.md
             echo "3. **If changes are bugs**: Fix the rendering issue in your code" >> visual-summary.md
             echo "4. **Re-run tests** to verify the fix" >> visual-summary.md
             
@@ -349,7 +439,7 @@ jobs:
         - name: deploy docs artifact
           if: ${{ steps.docs.outputs.docs_created }}
           uses: actions/deploy-pages@v4
-      needs: [test_unit, test_visual, build]
+      needs: [test_unit, test_visual_main, generate_baselines, build]
       if: github.ref_name == 'main'
 
         
