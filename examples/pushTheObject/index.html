@@ -11,17 +11,17 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
+        const scene = new SparkEngine.Scene();
 
         const leftWall = new SparkEngine.StaticObject();
-        leftWall.transform.size = { width: 20, height: 150 };
-        leftWall.transform.position = new SparkEngine.Vec2(10, 75);
+        leftWall.transform.size = { width: 40, height: 1080 };
+        leftWall.transform.position = new SparkEngine.Vec2(20, 1080 / 2);
         leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         leftWall.boundingBox.matchContainerTransform = true;
 
         const rightWall = new SparkEngine.StaticObject();
-        rightWall.transform.size = { width: 20, height: 150 };
-        rightWall.transform.position = new SparkEngine.Vec2(290, 75);
+        rightWall.transform.size = { width: 40, height: 1080 };
+        rightWall.transform.position = new SparkEngine.Vec2(1920 - 20, 1080 / 2);
         rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
         rightWall.boundingBox.matchContainerTransform = true;
 
@@ -30,8 +30,8 @@
                 diffuseColor: new SparkEngine.Rgb(0, 0, 0)
             }
         });
-        player.transform.size = { width: 10, height: 10 };
-        player.transform.position = new SparkEngine.Vec2(30, 30);
+        player.transform.size = { width: 40, height: 40 };
+        player.transform.position = new SparkEngine.Vec2(60, 60);
         player.boundingBox.matchContainerTransform = true;
 
         const playerController = new SparkEngine.InputComponent();
@@ -62,14 +62,14 @@
 
 
         const movableObject = new SparkEngine.StaticObject();
-        movableObject.transform.size = { width: 30, height: 30 };
-        movableObject.transform.position = new SparkEngine.Vec2(70, 70);
+        movableObject.transform.size = { width: 90, height: 90 };
+        movableObject.transform.position = new SparkEngine.Vec2(120, 220);
         movableObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         movableObject.boundingBox.matchContainerTransform = true;
 
         const movableObjectWithRebound = new SparkEngine.StaticObject();
-        movableObjectWithRebound.transform.size = { width: 15, height: 15 };
-        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(77.5, 77.5);
+        movableObjectWithRebound.transform.size = { width: 45, height: 45 };
+        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(177.5, 277.5);
         movableObjectWithRebound.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
         movableObjectWithRebound.boundingBox.matchContainerTransform = true;
 
@@ -104,6 +104,7 @@
         scene.registerEntity(player);
 
 
+        scene.draw(engine);
         engine.run();
     </script>
 </body>
