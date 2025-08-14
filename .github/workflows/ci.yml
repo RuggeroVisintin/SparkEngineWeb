@@ -81,7 +81,7 @@ jobs:
     test_visual:
       name: Visual Tests
       timeout-minutes: 5
-      runs-on: ubuntu-24.04-arm
+      runs-on: ubuntu-latest
       container:
         image: mcr.microsoft.com/playwright:v1.54.2-jammy
       permissions:
