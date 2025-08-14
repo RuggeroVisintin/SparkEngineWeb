@@ -97,10 +97,10 @@ jobs:
           run: npm run build
         - name: Run Visual Tests
           run: |
-            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*.png" 2>/dev/null | wc -l)" -eq 0 ]; then
-              echo "No baselines found - running tests with baseline generation, skipping"
+            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
+              echo "No CI baselines found - running tests with baseline generation, skipping"
             else
-              echo "Baselines exist - running in CI mode"
+              echo "CI baselines exist - running in CI mode"
               npm run test:visual:ci
             fi
     generate_baselines:
@@ -128,7 +128,8 @@ jobs:
         - name: Log baseline generation
           run: |
             echo "✅ Visual baselines generated successfully from main branch"
-            echo "Baseline files:"
+            echo "CI Baseline files:"
+            find test/visual -name "*-ci-snapshots" -type d | head -5
             find test/visual -name "*.png" | head -10
         - name: Upload baselines
           uses: actions/upload-artifact@v4
@@ -168,7 +169,7 @@ jobs:
           run: npm run build
         - name: Verify baselines exist
           run: |
-            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*.png" | wc -l)" -eq 0 ]; then
+            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
               echo "❌ No visual baselines found!"
               echo ""
               echo "This means either:"

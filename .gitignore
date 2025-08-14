@@ -20,6 +20,7 @@ docs/tsdoc
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+**/*-ci-snapshots/
 
 /vendors
 

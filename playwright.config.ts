@@ -40,7 +40,9 @@ export default defineConfig({
 
   expect: {
     toHaveScreenshot: {
-      pathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{ext}',
+      pathTemplate: process.env.CI
+        ? '{testDir}/{testFileDir}/{testFileName}-ci-snapshots/{arg}{ext}'
+        : '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}{ext}',
     },
   },
 
