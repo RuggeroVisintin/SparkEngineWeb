@@ -25,7 +25,7 @@
             pos++;
             pos = pos % 60;
 
-            firstRect.transform.position = new SparkEngine.Vec2(pos, pos);
+            firstRect.transform.position = new SparkEngine.Vec2(pos + 25, pos + 12.5); // Adjusted for center origin: pos + (50/2), pos + (25/2)
 
             renderSystem.update();
             renderer.endFrame(context);

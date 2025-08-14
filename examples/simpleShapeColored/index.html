@@ -27,8 +27,8 @@
             pos++;
             pos = pos % 60;
 
-            firstRect.transform.position.x = pos;
-            firstRect.transform.position.y = pos;
+            firstRect.transform.position.x = pos + 25; // Adjusted for center origin: pos + (50/2)
+            firstRect.transform.position.y = pos + 12.5; // Adjusted for center origin: pos + (25/2)
 
             renderSystem.update();
             renderer.endFrame(context);

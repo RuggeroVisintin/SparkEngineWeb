@@ -15,12 +15,13 @@
 
         const leftWall = new SparkEngine.StaticObject();
         leftWall.transform.size = { width: 60, height: 1080 };
+        leftWall.transform.position = new SparkEngine.Vec2(30, 540); // Adjusted for center origin: 0 + (60/2), 0 + (1080/2)
         leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         leftWall.boundingBox.matchContainerTransform = true;
 
         const rightWall = new SparkEngine.StaticObject();
         rightWall.transform.size = { width: 60, height: 1080 };
-        rightWall.transform.position = new SparkEngine.Vec2(1920 - rightWall.transform.size.width, 0);
+        rightWall.transform.position = new SparkEngine.Vec2(1890, 540); // Adjusted for center origin: (1920 - 60) + (60/2), 0 + (1080/2)
         rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
         rightWall.boundingBox.matchContainerTransform = true;
 
