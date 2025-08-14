@@ -109,4 +109,13 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
 
         await expect(page.locator('#canvas')).toHaveScreenshot('simple-collision.png');
     });
+
+    test('pushTheObject example - object pushing and collision', async ({ page }) => {
+        await page.goto(`${BASE_URL}/pushTheObject/index.html`);
+
+        await page.waitForSelector('#canvas');
+        await waitForNextFrame(page);
+
+        await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png');
+    });
 });
