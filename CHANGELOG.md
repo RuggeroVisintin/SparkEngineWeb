@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.17.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.3...sparkengineweb-v0.17.0) (2025-08-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **gfx:** move object origin from top-left to center ([#617](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/617))
+
+### Features
+
+* **gfx:** move object origin from top-left to center ([#617](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/617)) ([562f00a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/562f00ac2374012d8a7985f2492ab6f837cbd128))
+
+
+### Bug Fixes
+
+* **gfx:** fix setResolution logic ([9b8db21](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9b8db219cdebbc9ff477af731932be407b666e04))
+
 ## [0.16.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.2...sparkengineweb-v0.16.3) (2025-08-12)
 
 
