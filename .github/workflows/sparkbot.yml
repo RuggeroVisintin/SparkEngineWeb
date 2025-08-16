@@ -1,0 +1,119 @@
+name: Update Visual Baselines (Manual)
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  update_baselines:
+    name: Update Visual Baselines
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.54.2-jammy
+    permissions:
+      contents: write
+      pull-requests: write
+    if: |
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '@sparkbot /update-baseline') &&
+      (github.event.comment.author_association == 'OWNER' || 
+       github.event.comment.author_association == 'MEMBER' || 
+       github.event.comment.author_association == 'COLLABORATOR')
+    steps:
+      - name: Add reaction to comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'thumbs_up'
+            });
+
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            core.setOutput('head-sha', pr.data.head.sha);
+            core.setOutput('head-ref', pr.data.head.ref);
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ steps.pr.outputs.head-sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Update baselines for PR
+        run: |
+          echo "🔧 Updating baselines for PR #${{ github.event.issue.number }}..."
+          npm run test:visual:update-baseline
+
+      - name: Upload updated baselines as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated-visual-baselines-pr-${{ github.event.issue.number }}
+          path: test/visual/
+          retention-days: 1
+
+      - name: Trigger visual tests to rerun
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'visual-tests-only.yml',
+              ref: '${{ steps.pr.outputs.head-ref }}',
+              inputs: {
+                pr_number: context.issue.number.toString(),
+                ref: '${{ steps.pr.outputs.head-sha }}'
+              }
+            });
+            
+            // Add comment to PR explaining what's happening
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🔄 **Visual baselines updated!**\n\nNew baselines have been generated and uploaded as artifacts.\n\nVisual tests are now re-running with the updated baselines.\n\nCheck the [Actions tab](https://github.com/${context.repo.owner}/${context.repo.repo}/actions) to see the progress.`
+            });
+
+      - name: Add success reaction
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1'
+            });
+
+      - name: Add failure reaction
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });
