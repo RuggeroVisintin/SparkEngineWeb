@@ -15,13 +15,13 @@
 
         const leftWall = new SparkEngine.StaticObject();
         leftWall.transform.size = { width: 40, height: 1080 };
-        leftWall.transform.position = new SparkEngine.Vec2(20, 1080 / 2);
+        leftWall.transform.position = new SparkEngine.Vec2(-940, 0); // 20 - 960, 540 - 540 (center Y)
         leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         leftWall.boundingBox.matchContainerTransform = true;
 
         const rightWall = new SparkEngine.StaticObject();
         rightWall.transform.size = { width: 40, height: 1080 };
-        rightWall.transform.position = new SparkEngine.Vec2(1920 - 20, 1080 / 2);
+        rightWall.transform.position = new SparkEngine.Vec2(940, 0); // 1900 - 960, 540 - 540 (center Y)
         rightWall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 255);
         rightWall.boundingBox.matchContainerTransform = true;
 
@@ -31,7 +31,7 @@
             }
         });
         player.transform.size = { width: 40, height: 40 };
-        player.transform.position = new SparkEngine.Vec2(60, 60);
+        player.transform.position = new SparkEngine.Vec2(-900, -480); // 60 - 960, 60 - 540
         player.boundingBox.matchContainerTransform = true;
 
         const playerController = new SparkEngine.InputComponent();
@@ -63,18 +63,17 @@
 
         const movableObject = new SparkEngine.StaticObject();
         movableObject.transform.size = { width: 90, height: 90 };
-        movableObject.transform.position = new SparkEngine.Vec2(120, 220);
+        movableObject.transform.position = new SparkEngine.Vec2(-840, -320); // 120 - 960, 220 - 540
         movableObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         movableObject.boundingBox.matchContainerTransform = true;
 
         const movableObjectWithRebound = new SparkEngine.StaticObject();
         movableObjectWithRebound.transform.size = { width: 45, height: 45 };
-        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(177.5, 277.5);
+        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(-782.5, -262.5); // 177.5 - 960, 277.5 - 540
         movableObjectWithRebound.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
         movableObjectWithRebound.boundingBox.matchContainerTransform = true;
 
         movableObject.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
-            // Convert from physics top-left coordinates to center coordinates
             movableObject.transform.position = new SparkEngine.Vec2(
                 postSimulation.aabb[0],
                 postSimulation.aabb[1]
@@ -82,7 +81,6 @@
         }
 
         movableObjectWithRebound.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
-            // Convert from physics top-left coordinates to center coordinates
             movableObjectWithRebound.transform.position = new SparkEngine.Vec2(
                 postSimulation.aabb[0],
                 postSimulation.aabb[1]
@@ -90,7 +88,6 @@
         }
 
         player.boundingBox.onCollisionCb = ({ collider, postSimulation }) => {
-            // Convert from physics top-left coordinates to center coordinates
             player.transform.position = new SparkEngine.Vec2(
                 postSimulation.aabb[0],
                 postSimulation.aabb[1]

@@ -11,26 +11,27 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
+        const scene = new SparkEngine.Scene();
 
         const soundLoader = new SparkEngine.SoundLoader();
 
         const baseColor = new SparkEngine.Rgb(0, 0, 0);
-        const raquetteSpeed = 10;
+        const raquetteSpeed = 30;
 
         const leftRaquetteController = new SparkEngine.InputComponent();
 
         const worldBoundingBox = new SparkEngine.StaticObject();
-        worldBoundingBox.transform.size = { width: 400, height: 150 };
-        worldBoundingBox.transform.position.x = -50;
+        worldBoundingBox.transform.size = { width: 2000, height: 1080 };
+        worldBoundingBox.transform.position.x = 0;
+        worldBoundingBox.transform.position.y = 0;
         worldBoundingBox.boundingBox.isContainer = true;
         worldBoundingBox.boundingBox.matchContainerTransform = true;
-        worldBoundingBox.material.diffuseColor = new SparkEngine.Rgb(0, 0, 0);
-        worldBoundingBox.material.opacity = 1;
+        worldBoundingBox.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
+        worldBoundingBox.material.opacity = 50;
 
         const leftRaquette = new SparkEngine.StaticObject();
-        leftRaquette.transform.size = { width: 10, height: 30 };
-        leftRaquette.transform.position.y = 60;
+        leftRaquette.transform.size = { width: 30, height: 90 };
+        leftRaquette.transform.position.x = -930;
         leftRaquette.material.diffuseColor = baseColor;
         leftRaquette.boundingBox.matchContainerTransform = true;
         leftRaquette.addComponent(leftRaquetteController);
@@ -54,8 +55,8 @@
         const rightRaquetteController = new SparkEngine.InputComponent();
 
         const rightRaquette = new SparkEngine.StaticObject();
-        rightRaquette.transform.size = { width: 10, height: 30 };
-        rightRaquette.transform.position = new SparkEngine.Vec2(290, 60);
+        rightRaquette.transform.size = { width: 30, height: 90 };
+        rightRaquette.transform.position.x = 930;
         rightRaquette.material.diffuseColor = baseColor;
         rightRaquette.boundingBox.matchContainerTransform = true;
         rightRaquette.addComponent(rightRaquetteController);
@@ -79,9 +80,9 @@
         const pingPongBall = new SparkEngine.GameObject();
 
         const resetBall = () => {
-            pingPongBall.transform.size = { width: 10, height: 10 };
-            pingPongBall.transform.position = new SparkEngine.Vec2(140, 70);
-            pingPongBall.transform.velocity = new SparkEngine.Vec2(3, 5);
+            pingPongBall.transform.size = { width: 30, height: 30 };
+            pingPongBall.transform.position = new SparkEngine.Vec2(0, 0);
+            pingPongBall.transform.velocity = new SparkEngine.Vec2(9, 15);
             pingPongBall.material.diffuseColor = new SparkEngine.Rgb(0, 0, 0);
         }
 
@@ -98,17 +99,19 @@
         wallSound.load(soundLoader);
 
         const rightGoal = new SparkEngine.TriggerEntity({ target: pingPongBall });
-        rightGoal.transform.size = { width: 10, height: 200 };
-        rightGoal.transform.position = new SparkEngine.Vec2(305);
+        rightGoal.transform.size = { width: 30, height: 1080 };
+        rightGoal.transform.position.x = 960;
         rightGoal.boundingBox.matchContainerTransform = true;
         rightGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
+        rightGoal.material.opacity = 0;
         rightGoal.onTriggerCB = resetBall;
 
         const leftGoal = new SparkEngine.TriggerEntity({ target: pingPongBall });
-        leftGoal.transform.size = { width: 10, height: 200 };
-        leftGoal.transform.position = new SparkEngine.Vec2(-15);
+        leftGoal.transform.size = { width: 30, height: 1080 };
+        leftGoal.transform.position.x = -960;
         leftGoal.boundingBox.matchContainerTransform = true;
         leftGoal.material.diffuseColor = new SparkEngine.Rgb(255, 125, 0);
+        leftGoal.material.opacity = 0;
         leftGoal.onTriggerCB = resetBall;
 
         scene.registerEntity(leftRaquette);
@@ -131,13 +134,13 @@
             pingPongBall.transform.velocity.y = postSimulation.velocity.y;
 
             if (collider.uuid === rightRaquette.boundingBox.uuid) {
-                pingPongBall.transform.velocity.x -= 1
-                pingPongBall.transform.velocity.y -= 1
+                pingPongBall.transform.velocity.x -= 3
+                pingPongBall.transform.velocity.y -= 3
             }
 
             if (collider.uuid === leftRaquette.boundingBox.uuid) {
-                pingPongBall.transform.velocity.x += 1
-                pingPongBall.transform.velocity.y += 1
+                pingPongBall.transform.velocity.x += 3
+                pingPongBall.transform.velocity.y += 3
             }
 
             if (collider.uuid === rightRaquette.boundingBox.uuid || collider.uuid === leftRaquette.boundingBox.uuid) {
@@ -163,6 +166,7 @@
             }
         })
 
+        scene.draw(engine);
         engine.run();
     </script>
 </body>
