@@ -80,6 +80,11 @@ jobs:
             create_if_not_exists: true
     test_visual:
       name: Visual Tests
+      permissions:
+        pull-requests: write
+        contents: read
+        pages: write
+        id-token: write
       uses: ./.github/workflows/visual-tests-only.yml
       with:
         pr_number: ${{ github.event.number }}
