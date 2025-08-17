@@ -62,6 +62,7 @@ jobs:
 
       # Verify baselines exist (only for PRs)
       - name: Verify baselines exist
+        id: verify_baselines
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
           if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
@@ -86,7 +87,7 @@ jobs:
           fi
 
       - name: Download baselines from main (fallback or for PRs)
-        if: (inputs.event_name == 'pull_request' && steps.download_updated_pr_baseline.outcome == 'failure')
+        if: (inputs.event_name == 'pull_request' && steps.verify_baselines.outcome == 'failure')
         uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
