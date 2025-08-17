@@ -141,22 +141,31 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
 
     test('pushTheObject example - object pushing and collision', async ({ page }) => {
         await page.goto(`${BASE_URL}/pushTheObject/index.html`);
-
         await page.waitForSelector('#canvas');
 
-        // Focus the canvas to ensure it receives key events
         await page.locator('#canvas').focus();
-
-        // Trigger initial frame to set up the scene
         await triggerNextFrames(page);
         await page.keyboard.down('s');
 
         await triggerNextFrames(page, 5000);
-
-        // Trigger a few more frames to show the final collision state
         await triggerNextFrames(page);
 
-        // allow a small margin of error for pixel differences due to physx simulation instability
         await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png', { maxDiffPixelRatio: 0.01 });
+    });
+
+    test('CameraMovement example - Camera Movements', async ({ page }) => {
+        await page.goto(`${BASE_URL}/cameraMovent/index.html`);
+
+        await page.waitForSelector('#canvas');
+        await page.locator('#canvas').focus();
+
+        await triggerNextFrames(page);
+        await page.keyboard.down('s');
+        await page.keyboard.down('d');
+
+        await triggerNextFrames(page, 5000);
+        await triggerNextFrames(page);
+
+        await expect(page.locator('#canvas')).toHaveScreenshot('camera-example.png');
     });
 });
