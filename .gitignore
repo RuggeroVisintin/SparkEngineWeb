@@ -22,5 +22,7 @@ docs/tsdoc
 /playwright/.cache/
 **/*-ci-snapshots/
 
+test/visual/**/*.png
+
 /vendors
 
