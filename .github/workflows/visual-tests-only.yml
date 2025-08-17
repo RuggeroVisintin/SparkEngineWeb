@@ -60,24 +60,10 @@ jobs:
           path: test/visual/
           if_no_artifact_found: ignore
 
-      - name: Download baselines from main (fallback or for PRs)
-        if: (inputs.event_name == 'pull_request' && steps.download_updated_pr_baseline.outcome == 'failure')
-        uses: dawidd6/action-download-artifact@v6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: ci.yml
-          branch: main
-          name: visual-baseline
-          path: test/visual/
-          if_no_artifact_found: fail
-          
-      - name: Install dependencies
-        run: npm ci
-      - name: Build project
-        run: npm run build
-        
       # Verify baselines exist (only for PRs)
       - name: Verify baselines exist
+        id: verify_baselines
+        continue-on-error: true
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
           if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
@@ -100,6 +86,22 @@ jobs:
             echo "Baseline files:"
             find test/visual -name "*.png" | head -5
           fi
+
+      - name: Download baselines from main (fallback or for PRs)
+        if: (inputs.event_name == 'pull_request' && steps.verify_baselines.outcome == 'failure')
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: ci.yml
+          branch: main
+          name: visual-baseline
+          path: test/visual/
+          if_no_artifact_found: fail
+          
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build   
           
       # Run visual tests
       - name: Run Visual Tests

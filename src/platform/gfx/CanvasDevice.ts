@@ -12,15 +12,20 @@ export type Matrix2D = [number, number, number, number, number, number]
  * @category Platform
  */
 export class CanvasDevice {
-    private wRatio = 1;
-    private hRatio = 1;
-
     public defaultStrokeThickness = 1;
+
+    // this is the number of pixels per single unit in the game world
+    // TODO: this should be moved in the game engine config and set through the setTransform method
+    private UnitsPerPixel = 1;
 
     public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void {
         const canvas = ctx.canvas;
 
         if (!canvas) return;
+
+        // TODO: this may be useful in the future to ensure world units are consistent
+        // across different resolutions
+        // this.UnitsPerPixel = width / canvas.width;
 
         canvas.width = width;
         canvas.height = height;
@@ -35,8 +40,13 @@ export class CanvasDevice {
     }
 
     public clear(ctx: CanvasRenderingContext2D, color?: string): void {
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        // This is needed to reset the transform matrix
+        // and clear the canvas before drawing anything
+        // otherwise when downscaling, the canvas will not be cleared properly
+        ctx.resetTransform();
         ctx.clearRect(0, 0, ctx.canvas?.width || 0, ctx.canvas?.height || 0);
+
+        // ctx.scale(this.UnitsPerPixel, this.UnitsPerPixel);
     }
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
@@ -72,9 +82,6 @@ export class CanvasDevice {
     }
 
     public setTransform(ctx: CanvasRenderingContext2D, matrix: Matrix2D): void {
-        const hRatio = this.hRatio;
-        const wRatio = this.wRatio;
-
         // Get canvas dimensions for center-origin calculation
         const canvasWidth = ctx.canvas?.width || 0;
         const canvasHeight = ctx.canvas?.height || 0;
@@ -84,12 +91,12 @@ export class CanvasDevice {
         const centerY = canvasHeight / 2;
 
         ctx.setTransform(
-            matrix[0] * wRatio,
+            matrix[0] * this.UnitsPerPixel,
             matrix[1],
             matrix[2],
-            matrix[3] * hRatio,
-            matrix[4] * wRatio + centerX,
-            matrix[5] * hRatio + centerY
+            matrix[3] * this.UnitsPerPixel,
+            matrix[4] * this.UnitsPerPixel + centerX,
+            matrix[5] * this.UnitsPerPixel + centerY
         );
     }
 }
