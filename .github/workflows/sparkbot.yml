@@ -67,7 +67,7 @@ jobs:
       - name: Upload updated baselines as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: updated-visual-baselines-pr-${{ github.event.issue.number }}
+          name: updated-visual-baseline-pr-${{ github.event.issue.number }}
           path: test/visual/
           retention-days: 1
 

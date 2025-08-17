@@ -122,7 +122,7 @@ jobs:
         - name: Upload baselines
           uses: actions/upload-artifact@v4
           with:
-            name: visual-baselines
+            name: visual-baseline
             path: test/visual/
             retention-days: 7
     publish:

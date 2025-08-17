@@ -48,26 +48,26 @@ jobs:
           node-version: 20
       
       # Download updated baselines from sparkbot (if available) or main branch baselines
-      - name: Download updated baselines from sparkbot
-        id: download_updated
+      - name: Download updated baselines from PR
+        id: download_updated_pr_baseline
         continue-on-error: true
         if: inputs.pr_number
         uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: sparkbot.yml
-          name: updated-visual-baselines-pr-${{ inputs.pr_number }}
+          name: updated-visual-baseline-pr-${{ inputs.pr_number }}
           path: test/visual/
           if_no_artifact_found: ignore
 
       - name: Download baselines from main (fallback or for PRs)
-        if: (inputs.pr_number && steps.download_updated.outcome == 'failure') || (inputs.event_name == 'pull_request' && !inputs.pr_number)
+        if: (inputs.event_name == 'pull_request' && steps.download_updated_pr_baseline.outcome == 'failure')
         uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: ci.yml
           branch: main
-          name: visual-baselines
+          name: visual-baseline
           path: test/visual/
           if_no_artifact_found: fail
           
@@ -88,7 +88,7 @@ jobs:
             echo "2. The baseline artifacts have expired (older than 7 days)"
             echo ""
             echo "🔧 To fix this:"
-            echo "1. Go to Actions tab: https://github.com/${{ github.repository }}/actions"
+            echo "1. Go to Actions tab: https://github.com/${{ github.repository }}/actions?query=branch%3Amain"
             echo "2. Find the latest successful workflow run on main branch"
             echo "3. Click 'Re-run jobs' to regenerate baselines"
             echo "4. Once baselines are generated, re-run this PR workflow"
