@@ -11,10 +11,11 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
+        const scene = new SparkEngine.Scene();
 
         const leftWall = new SparkEngine.StaticObject();
-        leftWall.transform.size = { width: 20, height: 150 };
+        leftWall.transform.size = { width: 40, height: 1080 };
+        leftWall.transform.position = new SparkEngine.Vec2(-940, 0); // 20 - 960, 540 - 540 (center Y)
         leftWall.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         leftWall.boundingBox.matchContainerTransform = true;
 
@@ -56,14 +57,14 @@
 
 
         const movableObject = new SparkEngine.StaticObject();
-        movableObject.transform.size = { width: 30, height: 30 };
-        movableObject.transform.position = new SparkEngine.Vec2(55, 55);
+        movableObject.transform.size = { width: 90, height: 90 };
+        movableObject.transform.position = new SparkEngine.Vec2(-840, -320); // 120 - 960, 220 - 540
         movableObject.material.diffuseColor = new SparkEngine.Rgb(255, 0, 0);
         movableObject.boundingBox.matchContainerTransform = true;
 
         const movableObjectWithRebound = new SparkEngine.StaticObject();
-        movableObjectWithRebound.transform.size = { width: 15, height: 15 };
-        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(70, 70);
+        movableObjectWithRebound.transform.size = { width: 45, height: 45 };
+        movableObjectWithRebound.transform.position = new SparkEngine.Vec2(-782.5, -262.5); // 177.5 - 960, 277.5 - 540
         movableObjectWithRebound.material.diffuseColor = new SparkEngine.Rgb(0, 255, 0);
         movableObjectWithRebound.boundingBox.matchContainerTransform = true;
 
@@ -84,7 +85,7 @@
         scene.registerEntity(leftWall);
         scene.registerEntity(camera);
 
-
+        scene.draw(engine);
         engine.run();
     </script>
 </body>
