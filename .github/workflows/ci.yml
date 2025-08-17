@@ -180,10 +180,13 @@ jobs:
           if: ${{ steps.docs.outputs.docs_created }}
           uses: actions/upload-pages-artifact@v3
           with: 
+            name: docs-pages
             path: ".github/pages/"
         - name: deploy docs artifact
           if: ${{ steps.docs.outputs.docs_created }}
           uses: actions/deploy-pages@v4
+          with:
+            artifact_name: docs-pages
       needs: [test_unit, test_visual, generate_baselines, build]
       if: github.ref_name == 'main'
 
