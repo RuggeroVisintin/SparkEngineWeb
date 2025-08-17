@@ -46,7 +46,7 @@ export class CanvasDevice {
         ctx.resetTransform();
         ctx.clearRect(0, 0, ctx.canvas?.width || 0, ctx.canvas?.height || 0);
 
-        ctx.scale(this.UnitsPerPixel, this.UnitsPerPixel);
+        // ctx.scale(this.UnitsPerPixel, this.UnitsPerPixel);
     }
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
