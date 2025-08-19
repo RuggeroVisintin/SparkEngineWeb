@@ -110,6 +110,7 @@ jobs:
             # Main branch: Check if CI baselines exist, skip test if none (first run)
             if [ ! -d "test-results/visual" ] || [ "$(find test-results/visual -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
               echo "No CI baselines found on main - this is the first run, tests will be skipped and baselines generated"
+              echo "GENERATE_BASELINES=true" >> "$GITHUB_OUTPUT"
               exit 0
             else
               echo "CI baselines exist on main - running in CI mode"
@@ -120,6 +121,21 @@ jobs:
             echo "Running visual tests against main branch baselines"
             npm run test:visual:ci
           fi
+          
+      # Generate baselines on main branch when none exist
+      - name: Generate Visual Baselines
+        if: steps.visual_tests.outputs.GENERATE_BASELINES == 'true'
+        run: |
+          echo "🔧 Generating fresh baselines for main branch..."
+          npm run test:visual:update-baseline
+          
+      - name: Upload Generated Baselines
+        if: steps.visual_tests.outputs.GENERATE_BASELINES == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baseline
+          path: test-results/visual/
+          retention-days: 7
           
       # PR-specific steps for visual test reporting
       - name: Upload Visual Test Images to GitHub Pages
