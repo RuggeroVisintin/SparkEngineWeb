@@ -140,4 +140,16 @@ export class Vec2 {
             toRounded(this.y / resolution.height, 2)
         );
     }
+
+    /**
+     * Converts this vector to world space coordinates.
+     * 
+     * @returns a new vec2 in world space coordinates
+     */
+    public toWorldSpace(resolution: Resolution): Vec2 {
+        return new Vec2(
+            toRounded(this.x * resolution.width, 2),
+            toRounded(this.y * resolution.height, 2)
+        );
+    }
 }

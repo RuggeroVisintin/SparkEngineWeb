@@ -120,4 +120,19 @@ describe('core/math/Vec2', () => {
             });
         });
     });
+
+    describe('.toWorldSpace()', () => {
+        it('Should convert the vector to world space coordinates', () => {
+            const vec = new Vec2(0.125, 0.333);
+            const worldSpaceVec = vec.toWorldSpace({
+                width: 800,
+                height: 600
+            });
+
+            expect(worldSpaceVec).toEqual({
+                x: toRounded(0.125 * 800, 2),
+                y: toRounded(0.333 * 600, 2)
+            });
+        });
+    });
 });
