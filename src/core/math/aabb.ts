@@ -25,11 +25,27 @@ export function isCollision(objectA: AABB, objectB: AABB): boolean {
     return x1 < xw2 && xw1 > x2 && y1 < yh2 && yh1 > y2;
 }
 
+/**
+ * @category Core
+ * 
+ * Converts a centered AABB to a top-left AABB.
+ * 
+ * @param aabb - the centered AABB to convert
+ * @returns - a new top-left AABB
+ */
 export function toTopLeftAABB(aabb: AABB): AABB {
     const [x, y, width, height] = aabb;
     return [x - width / 2, y - height / 2, width, height];
 }
 
+/**
+ * @category Core
+ * 
+ * Converts a top-left AABB to a centered AABB.
+ * 
+ * @param aabb - the top-left AABB to convert
+ * @returns - a new centered AABB
+ */
 export function toCenteredAABB(aabb: AABB): AABB {
     const [x, y, width, height] = aabb;
     return [x + width / 2, y + height / 2, width, height];
