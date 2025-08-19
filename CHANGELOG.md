@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.17.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.3...sparkengineweb-v0.17.0) (2025-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **gfx:** The 0,0 position in the world is now found at the center of the screen, affecting how entities are placed in the world space. May require reviewing the entities' position
+* **gfx:** The objects' origin is now placed at the center of their position, affecting how they are placed in space
+
+### Features
+
+* **core:** add utility to convert Vec2 into world space coordinates ([ea4616f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ea4616f58d34038e7a14622c3a4c746184d415d7))
+* **core:** add utility to convert Vec2 to screen space ([e7d87af](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/e7d87afec1a02c3b701ec4d50ab5ca3142978ef9))
+* **gfx:** make world coordinates origin screen centered ([1a30c64](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1a30c64eedfce241abd447c2a24975c854f7b8a7))
+* **gfx:** move object origin from top-left to center ([562f00a](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/562f00ac2374012d8a7985f2492ab6f837cbd128))
+
+
+### Bug Fixes
+
+* **gfx:** fix setResolution logic ([9b8db21](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9b8db219cdebbc9ff477af731932be407b666e04))
+
 ## [0.16.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.2...sparkengineweb-v0.16.3) (2025-08-12)
 
 
