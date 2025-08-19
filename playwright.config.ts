@@ -16,7 +16,7 @@ export default defineConfig({
   retries: 0,
   reporter: [
     ['html', {
-      outputFolder: 'playwright-report',
+      outputFolder: 'test-results/visual/reports/html',
       open: process.env.CI ? 'never' : 'on-failure'
     }],
     ...(process.env.CI ? [['github', {}] as const] : [])
