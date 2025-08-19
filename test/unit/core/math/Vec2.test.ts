@@ -1,4 +1,4 @@
-import { Vec2 } from "../../../../src";
+import { toRounded, Vec2 } from "../../../../src";
 
 describe('core/math/Vec2', () => {
     describe('constructor', () => {
@@ -31,14 +31,14 @@ describe('core/math/Vec2', () => {
                 x: -1,
                 y: -2
             });
-        }) 
+        })
     })
 
     describe('.getNegated()', () => {
         it('Should return a new vector with the negated values', () => {
             const vec = new Vec2(1, 2);
             const negated = vec.getNegated();
-            
+
             expect(negated).toEqual({
                 x: -1,
                 y: -2
@@ -84,7 +84,7 @@ describe('core/math/Vec2', () => {
     describe('.multiply()', () => {
         it('Should multiply the vector by the given scalar in place', () => {
             const vec = new Vec2(1, 2);
-            
+
             vec.multiply(2);
 
             expect(vec).toEqual({
@@ -104,5 +104,20 @@ describe('core/math/Vec2', () => {
                 y: 2
             });
         })
-    })
-})
+    });
+
+    describe('.toScreenSpace()', () => {
+        it('Should convert the vector to screen space coordinates', () => {
+            const vec = new Vec2(100, 200);
+            const screenSpaceVec = vec.toScreenSpace({
+                width: 800,
+                height: 600
+            });
+
+            expect(screenSpaceVec).toEqual({
+                x: toRounded(100 / 800, 2),
+                y: toRounded(200 / 600, 2)
+            });
+        });
+    });
+});

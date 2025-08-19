@@ -1,4 +1,11 @@
+import { toRounded } from "./numbers";
+
 type This = Vec2;
+
+interface Resolution {
+    width: number;
+    height: number;
+}
 
 /**
  * Bidimentional Vector
@@ -25,7 +32,7 @@ export class Vec2 {
     /**
      * A default vec2 facing up
      */
-    public static get UP(): Vec2 { 
+    public static get UP(): Vec2 {
         return new Vec2(0, 1);
     }
 
@@ -82,7 +89,7 @@ export class Vec2 {
      * Multiplies this vector in place by a scalar value.
      * @returns Chainable this
      */
-    public multiply(scalar: number): This { 
+    public multiply(scalar: number): This {
         this.x *= scalar;
         this.y *= scalar;
 
@@ -97,11 +104,11 @@ export class Vec2 {
         const dot = this.dot(normal);
 
         this.x -= 2 * dot * normal.x;
-        this.y -= 2 * dot * normal.y; 
+        this.y -= 2 * dot * normal.y;
 
         // is it really needed
         // this.multiply(1); // avoid floating point errors
-        
+
         return this;
     }
 
@@ -120,5 +127,17 @@ export class Vec2 {
         const length = this.length;
 
         return new Vec2(this.x / length, this.y / length);
+    }
+
+    /**
+     * Converts this vector to screen space coordinates.
+     * 
+     * @returns a new vec2 in screen space coordinates
+     */
+    public toScreenSpace(resolution: Resolution): Vec2 {
+        return new Vec2(
+            toRounded(this.x / resolution.width, 2),
+            toRounded(this.y / resolution.height, 2)
+        );
     }
 }
