@@ -57,7 +57,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: sparkbot.yml
           name: updated-visual-baseline-pr-${{ inputs.pr_number }}
-          path: test/visual/
+          path: test-results/visual/
           if_no_artifact_found: ignore
 
       - name: Download baselines from main (fallback or for PRs)
@@ -68,7 +68,7 @@ jobs:
           workflow: ci.yml
           branch: main
           name: visual-baseline
-          path: test/visual/
+          path: test-results/visual/
           if_no_artifact_found: fail
           
       - name: Install dependencies
@@ -80,7 +80,7 @@ jobs:
       - name: Verify baselines exist
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
-          if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
+          if [ ! -d "test-results/visual" ] || [ "$(find test-results/visual -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
             echo "❌ No visual baselines found!"
             echo ""
             echo "This means either:"
@@ -95,10 +95,10 @@ jobs:
             echo ""
             exit 1
           else
-            baseline_count=$(find test/visual -name "*.png" | wc -l)
+            baseline_count=$(find test-results/visual -name "*.png" | wc -l)
             echo "✅ Found $baseline_count baseline images from main branch"
             echo "Baseline files:"
-            find test/visual -name "*.png" | head -5
+            find test-results/visual -name "*.png" | head -5
           fi
           
       # Run visual tests
@@ -108,7 +108,7 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" = "main" ] && [ "${{ inputs.pr_number }}" = "" ]; then
             # Main branch: Check if CI baselines exist, skip test if none (first run)
-            if [ ! -d "test/visual" ] || [ "$(find test/visual -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
+            if [ ! -d "test-results/visual" ] || [ "$(find test-results/visual -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
               echo "No CI baselines found on main - this is the first run, tests will be skipped and baselines generated"
               exit 0
             else
@@ -130,7 +130,7 @@ jobs:
           
           # Copy all test result images
           if [ -d "test-results" ]; then
-            cp -r test-results/* pages-deploy/visual-tests/pr-${{ inputs.pr_number }}/
+            cp -r test-results/visual/* pages-deploy/visual-tests/pr-${{ inputs.pr_number }}/
           fi
           
           # Create index.html for easy browsing
@@ -214,13 +214,13 @@ jobs:
           echo "" >> visual-summary.md
           
           # Find all diff images and embed them
-          if [ -d "test-results" ]; then
-            diff_count=$(find test-results -name "*-diff.png" | wc -l)
+          if [ -d "test-results/visual" ]; then
+            diff_count=$(find test-results/visual -name "*-diff.png" | wc -l)
             echo "Found $diff_count visual difference(s)" >> visual-summary.md
             echo "" >> visual-summary.md
             
             # Add each test result with images
-            find test-results -name "*-diff.png" | head -3 | while read -r diff_image; do
+            find test-results/visual -name "*-diff.png" | head -3 | while read -r diff_image; do
               test_name=$(basename "$(dirname "$diff_image")")
               echo "#### ❌ $test_name" >> visual-summary.md
               echo "" >> visual-summary.md
@@ -302,7 +302,7 @@ jobs:
         if: steps.visual_tests.outcome == 'failure'
         with:
           name: visual-test-results
-          path: test-results/
+          path: test-results/visual/
           retention-days: 3
       - name: Fail job if visual tests failed
         if: steps.visual_tests.outcome == 'failure'
