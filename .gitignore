@@ -17,12 +17,9 @@ docs/tsdoc
 .github/pages
 
 /test-results/
-/playwright-report/
 /blob-report/
 /playwright/.cache/
 **/*-ci-snapshots/
-
-test/visual/**/*.png
 
 /vendors
 
