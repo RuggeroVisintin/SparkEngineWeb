@@ -8,7 +8,7 @@ fi
 
 echo "Installing additional dependencies..."
 
-if [ CI = true ]; then
+if [ -n "$CI" ]; then
     echo "Running in CI mode, skipping ADR Tools installation..."
 elif [ -d ./vendors/adr-tools ]; then
     echo "ADR Tools already installed, skipping..."
