@@ -91,40 +91,6 @@ jobs:
         ref: ${{ github.sha }}
         event_name: ${{ github.event_name }}
       secrets: inherit
-    generate_baselines:
-      name: Generate Visual Baselines
-      runs-on: ubuntu-latest
-      if: github.ref_name == 'main'
-      needs: [test_visual]
-      container:
-        image: mcr.microsoft.com/playwright:v1.54.2-jammy
-      permissions:
-        contents: read
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-        - name: Install dependencies
-          run: npm ci
-        - name: Build project
-          run: npm run build
-        - name: Generate/Update baselines
-          run: |
-            echo "Generating fresh baselines for artifact storage..."
-            npm run test:visual:update-baseline
-        - name: Log baseline generation
-          run: |
-            echo "✅ Visual baselines generated successfully from main branch"
-            echo "CI Baseline files:"
-            find test/visual -name "*-ci-snapshots" -type d | head -5
-            find test/visual -name "*.png" | head -10
-        - name: Upload baselines
-          uses: actions/upload-artifact@v4
-          with:
-            name: visual-baseline
-            path: test/visual/
-            retention-days: 7
     publish:
       name: Publish
       timeout-minutes: 2
@@ -187,7 +153,7 @@ jobs:
           uses: actions/deploy-pages@v4
           with:
             artifact_name: docs-pages
-      needs: [test_unit, test_visual, generate_baselines, build]
+      needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
 
         
