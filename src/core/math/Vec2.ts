@@ -136,8 +136,8 @@ export class Vec2 {
      */
     public toScreenSpace(resolution: Resolution): Vec2 {
         return new Vec2(
-            toRounded(this.x / resolution.width, 2),
-            toRounded(this.y / resolution.height, 2)
+            toRounded(this.x - resolution.width / 2, 2),
+            toRounded(this.y - resolution.height / 2, 2)
         );
     }
 
@@ -148,8 +148,8 @@ export class Vec2 {
      */
     public toWorldSpace(resolution: Resolution): Vec2 {
         return new Vec2(
-            toRounded(this.x * resolution.width, 2),
-            toRounded(this.y * resolution.height, 2)
+            toRounded(this.x + resolution.width / 2, 2),
+            toRounded(this.y + resolution.height / 2, 2)
         );
     }
 }

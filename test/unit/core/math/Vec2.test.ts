@@ -109,29 +109,32 @@ describe('core/math/Vec2', () => {
     describe('.toScreenSpace()', () => {
         it('Should convert the vector to screen space coordinates', () => {
             const vec = new Vec2(100, 200);
-            const screenSpaceVec = vec.toScreenSpace({
+            const resolution = {
                 width: 800,
                 height: 600
-            });
+            }
+
+            const screenSpaceVec = vec.toScreenSpace(resolution);
 
             expect(screenSpaceVec).toEqual({
-                x: toRounded(100 / 800, 2),
-                y: toRounded(200 / 600, 2)
+                x: toRounded(vec.x - resolution.width / 2, 2),
+                y: toRounded(vec.y - resolution.height / 2, 2)
             });
         });
     });
 
     describe('.toWorldSpace()', () => {
         it('Should convert the vector to world space coordinates', () => {
-            const vec = new Vec2(0.125, 0.333);
-            const worldSpaceVec = vec.toWorldSpace({
+            const vec = new Vec2(200, 300);
+            const resolution = {
                 width: 800,
                 height: 600
-            });
+            }
+            const worldSpaceVec = vec.toWorldSpace(resolution);
 
             expect(worldSpaceVec).toEqual({
-                x: toRounded(0.125 * 800, 2),
-                y: toRounded(0.333 * 600, 2)
+                x: toRounded(vec.x + resolution.width / 2, 2),
+                y: toRounded(vec.y + resolution.height / 2, 2)
             });
         });
     });
