@@ -87,7 +87,7 @@ jobs:
             find test-results/visual/snapshots -name "*.png" | head -5
           fi
 
-      - name: Download baselines from main (fallback or for PRs)
+      - name: Download baselines from main
         if: (inputs.event_name == 'pull_request' && steps.verify_baselines.outcome == 'failure')
         uses: dawidd6/action-download-artifact@v6
         with:
@@ -95,7 +95,7 @@ jobs:
           workflow: ci.yml
           branch: main
           name: visual-baseline
-          path: test/visual/
+          path: test-results/visual/snapshots/
           if_no_artifact_found: fail
           
       - name: Install dependencies
