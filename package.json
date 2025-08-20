@@ -61,7 +61,7 @@
     "jest-environment-jsdom": "^30.0.5",
     "jest-extended": "^6.0.0",
     "make-coverage-badge": "^1.2.0",
-    "release-please": "^17.1.1",
+    "release-please": "^17.1.2",
     "semantic-release": "^24.2.7",
     "ts-jest": "^29.4.1",
     "ts-loader": "^9.5.2",
