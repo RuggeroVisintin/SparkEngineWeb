@@ -18,14 +18,20 @@ describe('ecs/components/TransformComponent', () => {
                 width: 0,
                 height: 0
             })
-        })
+        });
+
+        it('Should have a default scale of 1', () => {
+            const transformComponent = new TransformComponent();
+            expect(transformComponent.scale).toEqual(1);
+        });
 
         it('Should init from a props object', () => {
             const init: TransformComponentProps = {
                 position: new Vec2(0, 2),
                 depthIndex: 1,
                 velocity: new Vec2(3, 4),
-                size: { width: 10, height: 15 }
+                size: { width: 10, height: 15 },
+                scale: 2
             }
 
             const transformComponent = new TransformComponent(init);
@@ -38,7 +44,7 @@ describe('ecs/components/TransformComponent', () => {
         it('Should apply the velocity to the position of the component', () => {
             const transformComponent = new TransformComponent();
             transformComponent.velocity.x = 3;
-            
+
             transformComponent.update();
 
             expect(transformComponent.position.x).toEqual(3);
@@ -63,7 +69,8 @@ describe('ecs/components/TransformComponent', () => {
                 size: {
                     width: 0,
                     height: 0
-                }
+                },
+                scale: 1
             })
         })
     })

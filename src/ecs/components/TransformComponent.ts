@@ -14,6 +14,7 @@ export interface TransformComponentProps extends ComponentProps {
     size?: Size2D;
     depthIndex?: number;
     velocity?: Vec2;
+    scale?: number;
 }
 
 /**
@@ -25,6 +26,7 @@ export class TransformComponent extends BaseComponent {
     public size: Size2D = { width: 0, height: 0 };
     public depthIndex: number = 0;
     public velocity: Vec2 = new Vec2();
+    public scale: number = 1;
 
     constructor(props?: TransformComponentProps) {
         super();
@@ -33,6 +35,7 @@ export class TransformComponent extends BaseComponent {
         if (props?.size) this.size = props.size;
         if (props?.depthIndex) this.depthIndex = props.depthIndex;
         if (props?.velocity) this.velocity = Vec2.from(props.velocity);
+        if (props?.scale) this.scale = props.scale;
     }
 
     public update(deltaTime?: number): void {
@@ -46,7 +49,8 @@ export class TransformComponent extends BaseComponent {
             position: this.position,
             size: this.size,
             depthIndex: this.depthIndex,
-            velocity: this.velocity
+            velocity: this.velocity,
+            scale: this.scale
         };
     }
 }
