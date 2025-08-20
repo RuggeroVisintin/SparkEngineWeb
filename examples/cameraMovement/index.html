@@ -11,7 +11,7 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
+        const scene = new SparkEngine.Scene();
 
         const leftWall = new SparkEngine.StaticObject();
         leftWall.transform.size = { width: 20, height: 150 };
@@ -31,7 +31,7 @@
         const playerCamera = new SparkEngine.CameraComponent();
         camera.addComponent(playerCamera);
 
-        cameraController.onInputEventCb = (({ KeyW, KeyS, KeyA, KeyD }) => {
+        cameraController.onInputEventCb = (({ KeyW, KeyS, KeyA, KeyD, KeyQ, KeyE }) => {
             const parentTransform = cameraController.getContainer().getComponent('TransformComponent');
 
             if (KeyW === SparkEngine.KeyStatus.Down) {
@@ -51,6 +51,12 @@
                 isInput = true;
             } else {
                 parentTransform.velocity.x = -0;
+            }
+
+            if (KeyQ === SparkEngine.KeyStatus.Down) {
+                parentTransform.scale += 0.3;
+            } else if (KeyE === SparkEngine.KeyStatus.Down) {
+                parentTransform.scale -= 0.3;
             }
         });
 
@@ -85,6 +91,7 @@
         scene.registerEntity(camera);
 
 
+        scene.draw(engine);
         engine.run();
     </script>
 </body>
