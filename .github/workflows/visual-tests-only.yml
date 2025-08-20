@@ -314,12 +314,6 @@ jobs:
           name: playwright-report
           path: test-results/visual/reports/html/
           retention-days: 3
-      - uses: actions/upload-artifact@v4
-        if: steps.visual_tests.outcome == 'failure'
-        with:
-          name: visual-test-results
-          path: test-results/visual/
-          retention-days: 3
       - name: Fail job if visual tests failed
         if: steps.visual_tests.outcome == 'failure'
         run: |
