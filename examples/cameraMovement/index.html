@@ -11,7 +11,7 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
+        const scene = new SparkEngine.Scene();
 
         const leftWall = new SparkEngine.StaticObject();
         leftWall.transform.size = { width: 20, height: 150 };
@@ -53,10 +53,10 @@
                 parentTransform.velocity.x = -0;
             }
 
-            if (KeyQ === SparkEngine.KeyStatus.Press) {
-                playerCamera.transform.size += 0.3;
-            } else if (KeyE === SparkEngine.KeyStatus.Press) {
-                playerCamera.transform.size -= 0.3;
+            if (KeyQ === SparkEngine.KeyStatus.Down) {
+                parentTransform.scale += 0.3;
+            } else if (KeyE === SparkEngine.KeyStatus.Down) {
+                parentTransform.scale -= 0.3;
             }
         });
 
@@ -91,6 +91,7 @@
         scene.registerEntity(camera);
 
 
+        scene.draw(engine);
         engine.run();
     </script>
 </body>
