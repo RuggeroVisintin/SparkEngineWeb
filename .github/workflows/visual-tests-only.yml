@@ -47,7 +47,7 @@ jobs:
         with:
           node-version: 20
       
-      # Download updated baselines from sparkbot (if available) or main branch baselines
+            # Download updated baselines from sparkbot (if available) or main branch baselines
       - name: Download updated baselines from PR
         id: download_updated_pr_baseline
         continue-on-error: true
@@ -57,7 +57,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: sparkbot.yml
           name: updated-visual-baseline-pr-${{ inputs.pr_number }}
-          path: test-results/visual/
+          path: test-results/visual/snapshots/
           if_no_artifact_found: ignore
 
       - name: Download baselines from main (fallback or for PRs)
@@ -68,7 +68,7 @@ jobs:
           workflow: ci.yml
           branch: main
           name: visual-baseline
-          path: test-results/visual/
+          path: test-results/visual/snapshots/
           if_no_artifact_found: fail
           
       - name: Install dependencies
@@ -80,7 +80,7 @@ jobs:
       - name: Verify baselines exist
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
-          if [ ! -d "test-results/visual" ] || [ "$(find test-results/visual -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
+          if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
             echo "❌ No visual baselines found!"
             echo ""
             echo "This means either:"
@@ -95,10 +95,10 @@ jobs:
             echo ""
             exit 1
           else
-            baseline_count=$(find test-results/visual -name "*.png" | wc -l)
+            baseline_count=$(find test-results/visual/snapshots -name "*.png" | wc -l)
             echo "✅ Found $baseline_count baseline images from main branch"
             echo "Baseline files:"
-            find test-results/visual -name "*.png" | head -5
+            find test-results/visual/snapshots -name "*.png" | head -5
           fi
           
       # Run visual tests
@@ -108,7 +108,7 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" = "main" ] && [ "${{ inputs.pr_number }}" = "" ]; then
             # Main branch: Check if CI baselines exist, skip test if none (first run)
-            if [ ! -d "test-results/visual" ] || [ "$(find test-results/visual -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
+            if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
               echo "No CI baselines found on main - this is the first run, tests will be skipped and baselines generated"
               echo "GENERATE_BASELINES=true" >> "$GITHUB_OUTPUT"
               exit 0
@@ -312,7 +312,13 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: test-results/visual/reports/html/
+          path: test-results/reports/html/
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        if: steps.visual_tests.outcome == 'failure'
+        with:
+          name: visual-test-results
+          path: test-results/playwright-output/
           retention-days: 3
       - name: Fail job if visual tests failed
         if: steps.visual_tests.outcome == 'failure'

@@ -11,6 +11,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './test/visual',
+  outputDir: 'test-results/visual/test-output',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
@@ -51,8 +52,8 @@ export default defineConfig({
   expect: {
     toHaveScreenshot: {
       pathTemplate: process.env.CI
-        ? 'test-results/visual/{testFileDir}/{testFileName}-ci-snapshots/{arg}{ext}'
-        : 'test-results/visual/{testFileDir}/{testFileName}-snapshots/{arg}{ext}',
+        ? 'test-results/visual/snapshots/{testFileDir}/{testFileName}-ci-snapshots/{arg}{ext}'
+        : 'test-results/visual/snapshots/{testFileDir}/{testFileName}-snapshots/{arg}{ext}',
     },
   },
 
