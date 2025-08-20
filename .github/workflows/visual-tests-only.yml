@@ -134,7 +134,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: visual-baseline
-          path: test-results/visual/
+          path: test-results/visual/snapshots/
           retention-days: 7
           
       # PR-specific steps for visual test reporting
@@ -146,7 +146,7 @@ jobs:
           
           # Copy all test result images
           if [ -d "test-results" ]; then
-            cp -r test-results/visual/* pages-deploy/visual-tests/pr-${{ inputs.pr_number }}/
+            cp -r test-results/visual/snapshots/* pages-deploy/visual-tests/pr-${{ inputs.pr_number }}/
           fi
           
           # Create index.html for easy browsing
@@ -230,13 +230,13 @@ jobs:
           echo "" >> visual-summary.md
           
           # Find all diff images and embed them
-          if [ -d "test-results/visual" ]; then
-            diff_count=$(find test-results/visual -name "*-diff.png" | wc -l)
+          if [ -d "test-results/visual/snapshots" ]; then
+            diff_count=$(find test-results/visual/snapshots -name "*-diff.png" | wc -l)
             echo "Found $diff_count visual difference(s)" >> visual-summary.md
             echo "" >> visual-summary.md
             
             # Add each test result with images
-            find test-results/visual -name "*-diff.png" | head -3 | while read -r diff_image; do
+            find test-results/visual/snapshots -name "*-diff.png" | head -3 | while read -r diff_image; do
               test_name=$(basename "$(dirname "$diff_image")")
               echo "#### ❌ $test_name" >> visual-summary.md
               echo "" >> visual-summary.md
