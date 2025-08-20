@@ -5,24 +5,19 @@ describe('ecs/components/CameraComponent', () => {
     let cameraComponent = new CameraComponent();
 
     beforeEach(() => {
-        renderer = new Renderer(new CanvasDevice(), {width: 1920, height: 1080}, new CanvasRenderingContext2D());
+        renderer = new Renderer(new CanvasDevice(), { width: 1920, height: 1080 }, new CanvasRenderingContext2D());
         cameraComponent = new CameraComponent();
     });
 
     describe('.draw()', () => {
-        it('Should push the right draw command to the renderer', () => {
-            cameraComponent.draw(renderer);
-
-            expect(renderer.commandBuffer).toEqual([new SetTransformMatrixCommand([-0, -0])])
-        })
-
-        it('Should push the camera position into the render command', () => {
+        it('Should push the camera transform position and scale into the renderer', () => {
             cameraComponent.transform.position.x = 10;
             cameraComponent.transform.position.y = 20;
+            cameraComponent.transform.scale = 2;
 
             cameraComponent.draw(renderer);
 
-            expect(renderer.commandBuffer).toEqual([new SetTransformMatrixCommand([-10, -20])])
+            expect(renderer.commandBuffer).toEqual([new SetTransformMatrixCommand([-10, -20], [2, 2])])
         })
     })
 
@@ -62,6 +57,4 @@ describe('ecs/components/CameraComponent', () => {
             })
         })
     })
-
-    
 })
