@@ -13,6 +13,7 @@ exports[`/game/Scene .loadFromFile() Should load the entities configuration as w
             "x": 1,
             "y": 2,
           },
+          "scale": 1,
           "size": {
             "height": 50,
             "width": 100,
@@ -33,6 +34,7 @@ exports[`/game/Scene .loadFromFile() Should load the entities configuration as w
               "x": 1,
               "y": 2,
             },
+            "scale": 1,
             "size": {
               "height": 50,
               "width": 100,
@@ -66,6 +68,7 @@ exports[`/game/Scene .loadFromFile() Should load the entities configuration as w
             "x": 10,
             "y": 20,
           },
+          "scale": 1,
           "size": {
             "height": 50,
             "width": 100,
@@ -96,6 +99,7 @@ exports[`/game/Scene .loadFromFile() Should load the entities configuration as w
               "x": 10,
               "y": 20,
             },
+            "scale": 1,
             "size": {
               "height": 50,
               "width": 100,
@@ -126,6 +130,7 @@ exports[`/game/Scene .loadFromJson() Should load the entities configuration as w
             "x": 1,
             "y": 2,
           },
+          "scale": 1,
           "size": {
             "height": 50,
             "width": 100,
@@ -146,6 +151,7 @@ exports[`/game/Scene .loadFromJson() Should load the entities configuration as w
               "x": 1,
               "y": 2,
             },
+            "scale": 1,
             "size": {
               "height": 50,
               "width": 100,
@@ -179,6 +185,7 @@ exports[`/game/Scene .loadFromJson() Should load the entities configuration as w
             "x": 10,
             "y": 20,
           },
+          "scale": 1,
           "size": {
             "height": 50,
             "width": 100,
@@ -209,6 +216,7 @@ exports[`/game/Scene .loadFromJson() Should load the entities configuration as w
               "x": 10,
               "y": 20,
             },
+            "scale": 1,
             "size": {
               "height": 50,
               "width": 100,

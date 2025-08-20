@@ -5,7 +5,7 @@ import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scene
 describe('/game/Scene', () => {
     let scene: Scene;
     let engine: GameEngine;
-    
+
 
     beforeEach(() => {
         engine = new GameEngine({
@@ -15,14 +15,14 @@ describe('/game/Scene', () => {
                 width: 800,
                 height: 600
             },
-            additionalRenderSystems: (renderer, imageLoader) => { 
+            additionalRenderSystems: (renderer, imageLoader) => {
                 return [
                     new RenderSystem(renderer, imageLoader),
                     new RenderSystem(renderer, imageLoader)
                 ];
             }
         });
-        
+
         scene = new Scene();
     })
 
@@ -204,7 +204,7 @@ describe('/game/Scene', () => {
                 expect(engine.soundSystem.components).not.toContain(soundComponent);
             });
         });
-        
+
 
         it('Should throw if the same entity is added twice', () => {
             const entity = new StaticObject();
