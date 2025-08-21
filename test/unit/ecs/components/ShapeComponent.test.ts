@@ -61,6 +61,7 @@ describe('ecs/components/ShapeComponent', () => {
                 PrimitiveType.Rectangle,
                 [0, 0],
                 [0, 0],
+                1,
                 expect.any(Boolean),
                 'rgba(255, 0, 0, 1)'
             )]);
@@ -128,6 +129,7 @@ describe('ecs/components/ShapeComponent', () => {
                 PrimitiveType.Rectangle,
                 [0, 0],
                 [0, 0],
+                1,
                 false
             )]);
         })
