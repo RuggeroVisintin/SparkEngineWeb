@@ -14,6 +14,7 @@ export class DrawPrimitiveCommand implements RenderCommand {
      * @param primitiveType - the type of the Primitive
      * @param position - the position of the Primitive (x, y)
      * @param size - the size of the Primitive (width, height)
+     * @param scale - the scale of the Primitive. Default is 1
      * @param fill - if the Primitive should be filled. Default is true
      * @param color - the color of the primitive. Default is #d16cd8 
      * @param thickness - the thickness of the stroke when used when fill is set to false

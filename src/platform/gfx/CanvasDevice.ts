@@ -1,5 +1,6 @@
 /**
  * @category Platform
+ * @internal
  */
 export enum BlendMethod {
     BM_Overwrite = 'source-over',
@@ -10,6 +11,7 @@ export type Matrix2D = [number, number, number, number, number, number]
 
 /**
  * @category Platform
+ * @internal
  */
 export class CanvasDevice {
     private wRatio = 1;
