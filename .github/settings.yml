@@ -30,3 +30,14 @@ branches:
       allow_force_pushes: false
       allow_deletions: false
       restrictions: null
+
+  - name: "release-please--*"
+    protection:
+      required_pull_request_reviews: null
+      required_status_checks: null
+      enforce_admins: false
+      required_linear_history: false
+      allow_force_pushes: true
+      allow_deletions: true
+      restrictions:
+        apps: ["release-please"]  # Allow release-please bot
