@@ -201,7 +201,7 @@ jobs:
         if: steps.visual_tests.outcome == 'failure'
         with:
           name: visual-test-results
-          path: test-results/playwright-output/
+          path: test-results/visual/reports/html/
           retention-days: 3
       - name: Fail job if visual tests failed
         if: steps.visual_tests.outcome == 'failure'
