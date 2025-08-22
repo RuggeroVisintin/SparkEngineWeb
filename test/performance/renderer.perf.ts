@@ -1,10 +1,10 @@
 import { CanvasDevice, DrawPrimitiveCommand, PrimitiveType, RenderCommandID, Renderer } from '../../src';
-import {Canvas} from './__mocks__/canvas';
+import { Canvas } from './__mocks__/canvas';
 const bench = require('fastbench');
 
 const device = new CanvasDevice();
 const ctx = new Canvas().getContext();
-const renderer = new Renderer(device, {width: 1920, height: 1080}, ctx);
+const renderer = new Renderer(device, { width: 1920, height: 1080 }, ctx);
 
 export default bench([
     function RendererPushRenderCommand(done: Function) {
@@ -12,6 +12,7 @@ export default bench([
             PrimitiveType.Rectangle,
             [Math.random(), Math.random()],
             [Math.random(), Math.random()],
+            1,
             true
         ));
         done();
