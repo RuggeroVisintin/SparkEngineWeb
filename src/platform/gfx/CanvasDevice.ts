@@ -17,6 +17,14 @@ export class CanvasDevice {
 
     public defaultStrokeThickness = 1;
 
+    public enableImageSmoothing(ctx: CanvasRenderingContext2D): void {
+        ctx.imageSmoothingEnabled = true;
+    }
+
+    public disableImageSmoothing(ctx: CanvasRenderingContext2D): void {
+        ctx.imageSmoothingEnabled = false;
+    }
+
     public setResolution(ctx: CanvasRenderingContext2D, width: number, height: number): void {
         const canvas = ctx.canvas;
 
