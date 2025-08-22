@@ -24,7 +24,7 @@
     "test:perf": "npx ts-node test/performance/bench.perf.ts",
     "test:perf:ci": "npm run test:perf -- --no-color",
     "test:visual": "npx playwright test",
-    "test:visual:ci": "npx playwright test --reporter=list",
+    "test:visual:ci": "npx playwright test --reporter=list,html",
     "test:visual:update-baseline": "npx playwright test --update-snapshots",
     "postinstall": "sh ./scripts/install-additional-deps.sh",
     "lint": "eslint",
