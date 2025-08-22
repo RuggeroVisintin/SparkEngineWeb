@@ -17,12 +17,6 @@ repository:
   has_packages: true
   has_deployments: true
 
-pages:
-  source:
-    branch: main
-    path: /
-  cname: null
-
 branches:
   - name: main
     protection:
