@@ -1,6 +1,6 @@
 repository:
   name: SparkEngineWeb
-  description: Spark Engine Web
+  description: SparkEngineWeb is a Typescript GameEngine that aims to run in the Browser and in Browser based solutions
   private: false
   has_issues: true
   has_projects: true
@@ -13,6 +13,15 @@ repository:
   delete_branch_on_merge: true
   enable_automated_security_fixes: true
   enable_vulnerability_alerts: true
+  has_releases: true
+  has_packages: true
+  has_deployments: true
+
+pages:
+  source:
+    branch: main
+    path: /
+  cname: null
 
 branches:
   - name: main
