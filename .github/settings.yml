@@ -1,0 +1,29 @@
+repository:
+  name: SparkEngineWeb
+  description: Spark Engine Web
+  private: false
+  has_issues: true
+  has_projects: true
+  has_wiki: false
+  has_downloads: true
+  default_branch: main
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: true
+  delete_branch_on_merge: true
+  enable_automated_security_fixes: true
+  enable_vulnerability_alerts: true
+
+branches:
+  - name: main
+    protection:
+      required_pull_request_reviews: null
+      required_status_checks:
+        strict: false
+        contexts:
+          - "CI Status"
+      enforce_admins: false
+      required_linear_history: false
+      allow_force_pushes: false
+      allow_deletions: false
+      restrictions: null

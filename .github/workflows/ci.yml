@@ -157,6 +157,29 @@ jobs:
             artifact_name: docs-pages
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
+  
+  # Summary job for branch protection - always runs and fails if any required job fails
+  ci-status:
+    name: CI Status
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'pull_request'
+    needs: [build, test_unit, test_visual]
+    steps:
+      - name: Check CI status
+        run: |
+          if [[ "${{ needs.build.result }}" != "success" ]]; then
+            echo "Build failed"
+            exit 1
+          fi
+          if [[ "${{ needs.test_unit.result }}" != "success" ]]; then
+            echo "Unit tests failed"
+            exit 1
+          fi
+          if [[ "${{ needs.test_visual.result }}" != "success" ]]; then
+            echo "Visual tests failed"
+            exit 1
+          fi
+          echo "All required checks passed!"
 
         
         
