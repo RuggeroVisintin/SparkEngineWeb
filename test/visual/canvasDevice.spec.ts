@@ -115,10 +115,18 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/animations/index.html`);
 
         await page.waitForSelector('#canvas');
+        await page.locator('#canvas').focus();
+
         await page.waitForTimeout(1000); // Wait for animation setup
         await triggerNextFrames(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('animations-idle-state.png');
+
+        await page.keyboard.down('p');
+        await triggerNextFrames(page, 3); // Advance several frames
+
+        // Check play state
+        await expect(page.locator('#canvas')).toHaveScreenshot('animations-play-state.png');
     });
 
     test('cameraMovement example - transform and camera operations', async ({ page }) => {
@@ -159,4 +167,8 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         // allow a small margin of error for pixel differences due to physx simulation instability
         await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png', { maxDiffPixelRatio: 0.01 });
     });
+
+
+
+
 });
