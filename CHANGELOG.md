@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.17.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.0...sparkengineweb-v0.17.1) (2025-08-24)
+
+
+### Features
+
+* **ecs:** add camera zoom in/out ([#629](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/629)) ([a8d9506](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a8d9506bc6c74a1163890aa4b4153c5c4d013cee))
+* **ecs:** add transform scale property ([a8d9506](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/a8d9506bc6c74a1163890aa4b4153c5c4d013cee))
+* **gfx:** add image smoothing enable/disable ([#633](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/633)) ([6aee64f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6aee64fdd47e46d079a9633fe8cdeb98b1694e13))
+* **gfx:** add support for primitives scaling factor ([#632](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/632)) ([f2f565b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/f2f565b0d7b5a3969744209ad021ee8b61d4efc2))
+
 ## [0.17.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.16.3...sparkengineweb-v0.17.0) (2025-08-19)
 
 
