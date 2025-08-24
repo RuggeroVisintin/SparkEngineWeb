@@ -11,8 +11,8 @@
             resolution: { width: 1920, height: 1080 }
         });
 
-        const scene = engine.createScene();
-        const imageLoader = new SparkEngine.ImageLoader();
+        const scene = new SparkEngine.Scene();
+        const imageLoader = new SparkEngine.DOMImageLoader();
 
         const frames = [];
 
@@ -33,12 +33,12 @@
 
         const staticObject2 = new SparkEngine.StaticObject();
         staticObject2.transform.size = { width: 1550, height: 1550 };
+        staticObject2.material.opacity = 0;
         staticObject2.transform.depthIndex = 100;
 
         const staticObject = new SparkEngine.StaticObject();
-        staticObject.transform.size = { width: 120, height: 80 };
+        staticObject.transform.size = { width: 120 * 3, height: 80 * 3 };
         staticObject.material.diffuseTexturePath = '../assets/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Idle/tile000.png';
-        staticObject.material.opacity = 105;
 
         staticObject.addComponent(animationComponent);
         staticObject.addComponent(inputComponent);
@@ -56,6 +56,7 @@
         scene.registerEntity(staticObject);
         scene.registerEntity(staticObject2);
 
+        scene.draw(engine);
         engine.run();
 
         alert('Click P to play, S to pause and R to reset the animation');
