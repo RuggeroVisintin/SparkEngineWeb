@@ -1,6 +1,9 @@
 import { CanvasDevice } from "../../platform";
 import { RenderCommand, RenderCommandID } from "./RenderCommand";
 
+/**
+ * @category Renderer
+ */
 export class DrawImageCommand implements RenderCommand {
     public readonly renderCommandID: RenderCommandID = RenderCommandID.RC_DrawImage;
 
@@ -10,7 +13,7 @@ export class DrawImageCommand implements RenderCommand {
         public readonly size: [number, number],
         public readonly opacity = 100
     ) { }
-    
+
     public execute(ctx: CanvasRenderingContext2D, gfx: CanvasDevice): void {
         // gfx.begin(ctx);
         gfx.drawImage(ctx, this.image, this.position[0], this.position[1], this.size[0], this.size[1], this.opacity);

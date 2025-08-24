@@ -1,6 +1,6 @@
 import { Type, WithType } from "../../core";
 import { DOMImageLoader } from "../../platform";
-import { Renderer, DrawPrimitiveCommand, DrawImageCommand, PrimitiveType} from "../../renderer";
+import { Renderer, DrawPrimitiveCommand, DrawImageCommand, PrimitiveType } from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { MaterialComponent } from "./MaterialComponent";
 import { IDrawableComponent } from "./interfaces/IDrawableComponent";
@@ -35,7 +35,7 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
     public get material(): MaterialComponent {
         return this.getContainer()?.getComponent('MaterialComponent') ?? this.defaultMaterial;
     }
-    
+
     public constructor(props?: ShapeComponentProps) {
         super();
 
@@ -55,6 +55,7 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
             PrimitiveType.Rectangle,
             [position.x, position.y],
             [size.width, size.height],
+            this.transform.scale,
             !this.isWireframe,
             diffuseColor.toRgbaString(opacity),
         ));

@@ -20,7 +20,7 @@ export default defineConfig({
       outputFolder: 'test-results/visual/reports/html',
       open: process.env.CI ? 'never' : 'on-failure'
     }],
-    ...(process.env.CI ? [['github', {}] as const] : [])
+    ...(process.env.CI ? [['list', {}] as const] : [])
   ],
   use: {
     baseURL: 'http://localhost:3000',

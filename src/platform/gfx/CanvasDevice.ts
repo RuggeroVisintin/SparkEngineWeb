@@ -1,5 +1,6 @@
 /**
  * @category Platform
+ * @internal
  */
 export enum BlendMethod {
     BM_Overwrite = 'source-over',
@@ -10,6 +11,7 @@ export type Matrix2D = [number, number, number, number, number, number]
 
 /**
  * @category Platform
+ * @internal
  */
 export class CanvasDevice {
     private wRatio = 1;
@@ -47,10 +49,12 @@ export class CanvasDevice {
         ctx.clearRect(0, 0, ctx.canvas?.width || 0, ctx.canvas?.height || 0);
     }
 
-    public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number): void {
+    public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, scale: number): void {
         ctx.save();
-        ctx.translate(x - width / 2, y - height / 2);
-        ctx.rect(0, 0, width, height);
+        // Translate to position, then scale from center
+        ctx.translate(x, y);
+        ctx.scale(scale, scale);
+        ctx.rect(-width / 2, -height / 2, width, height);
         ctx.restore();
     }
 
