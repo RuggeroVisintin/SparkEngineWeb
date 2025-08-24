@@ -5,7 +5,8 @@ on:
         - main
     workflow_dispatch:
     pull_request:
-
+      branches-ignore:
+      - 'release-please--*'
 jobs:
     build:
       name: Build
@@ -162,17 +163,9 @@ jobs:
     ci-status:
       name: CI Status
       runs-on: ubuntu-latest
-      if: always() && github.event_name == 'pull_request'
       needs: [build, test_unit, test_visual]
       steps:
-        - name: Auto-pass for release branches
-          if: startsWith(github.head_ref, 'release-please--')
-          run: |
-            echo "Auto-passing CI status for release branch: ${{ github.head_ref }}"
-            echo "Release branches are automatically approved"
-            
         - name: Check CI status for regular branches
-          if: ${{ !startsWith(github.head_ref, 'release-please--') }}
           run: |
             if [[ "${{ needs.build.result }}" != "success" ]]; then
               echo "Build failed"
