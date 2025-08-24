@@ -100,8 +100,8 @@ export class CanvasDevice {
             matrix[1],
             matrix[2],
             matrix[3] * hRatio,
-            matrix[4] * wRatio + centerX,
-            matrix[5] * hRatio + centerY
+            centerX + matrix[4] * wRatio,
+            centerY + matrix[5] * hRatio
         );
     }
 }
