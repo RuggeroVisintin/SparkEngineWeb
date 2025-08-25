@@ -56,12 +56,23 @@ jobs:
           workflow: sparkbot.yml
           name: updated-visual-baseline-pr-${{ inputs.pr_number }}
           path: test-results/visual/snapshots/
-          if_no_artifact_found: ignore
+          if_no_artifact_found: error
+
+      - name: Download baselines from main
+        if: (inputs.event_name == 'pull_request' && steps.download_updated_pr_baseline.outcome == 'failure')
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: ci.yml
+          branch: main
+          name: visual-baseline
+          path: test-results/visual/snapshots/
+          if_no_artifact_found: fail
 
       # Verify baselines exist (only for PRs)
       - name: Verify baselines exist
         id: verify_baselines
-        continue-on-error: true
+        continue-on-error: false
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
           if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
@@ -84,17 +95,6 @@ jobs:
             echo "Baseline files:"
             find test-results/visual/snapshots -name "*.png" | head -5
           fi
-
-      - name: Download baselines from main
-        if: (inputs.event_name == 'pull_request' && steps.verify_baselines.outcome == 'failure')
-        uses: dawidd6/action-download-artifact@v6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: ci.yml
-          branch: main
-          name: visual-baseline
-          path: test-results/visual/snapshots/
-          if_no_artifact_found: fail
           
       - name: Install dependencies
         run: npm ci
@@ -114,12 +114,12 @@ jobs:
               exit 0
             else
               echo "CI baselines exist on main - running in CI mode"
-              npm run test:visual
+              npm run test:visual:ci
             fi
           else
             # PR branch: Run tests against downloaded baselines
             echo "Running visual tests against main branch baselines"
-            npm run test:visual
+            npm run test:visual:ci
           fi
           
       # Generate baselines on main branch when none exist
@@ -195,6 +195,12 @@ jobs:
         if: always()
         with:
           name: playwright-report
+          path: test-results/visual/reports/html/
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        if: steps.visual_tests.outcome == 'failure'
+        with:
+          name: visual-test-results
           path: test-results/visual/reports/html/
           retention-days: 3
       - name: Fail job if visual tests failed
