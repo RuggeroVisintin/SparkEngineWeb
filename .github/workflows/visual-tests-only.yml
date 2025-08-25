@@ -45,9 +45,8 @@ jobs:
         with:
           node-version: 20
       
-            # Download updated baselines from sparkbot (if available) or main branch baselines
-      - name: Download updated baselines from PR
-        id: download_updated_pr_baseline
+      - name: Download updated baseline
+        id: download_updated_baseline
         continue-on-error: true
         if: inputs.pr_number
         uses: dawidd6/action-download-artifact@v6
@@ -58,8 +57,8 @@ jobs:
           path: test-results/visual/snapshots/
           if_no_artifact_found: error
 
-      - name: Download baselines from main
-        if: (inputs.event_name == 'pull_request' && steps.download_updated_pr_baseline.outcome == 'failure')
+      - name: Download main baseline
+        if: (inputs.event_name == 'pull_request' && steps.download_updated_baseline.outcome == 'failure')
         uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -69,9 +68,8 @@ jobs:
           path: test-results/visual/snapshots/
           if_no_artifact_found: fail
 
-      # Verify baselines exist (only for PRs)
-      - name: Verify baselines exist
-        id: verify_baselines
+      - name: Verify baseline
+        id: verify_baseline
         continue-on-error: false
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
@@ -97,11 +95,10 @@ jobs:
           fi
           
       - name: Install dependencies
-        run: npm ci
+        run: npm ci   
       - name: Build project
-        run: npm run build   
+        run: npm run build
           
-      # Run visual tests
       - name: Run Visual Tests
         id: visual_tests
         continue-on-error: ${{ inputs.pr_number != '' || inputs.event_name == 'pull_request' }}
@@ -122,7 +119,6 @@ jobs:
             npm run test:visual:ci
           fi
           
-      # Generate baselines on main branch when none exist
       - name: Generate Visual Baselines
         if: steps.visual_tests.outputs.GENERATE_BASELINES == 'true'
         run: |
@@ -137,7 +133,6 @@ jobs:
           path: test-results/visual/snapshots/
           retention-days: 7
           
-      # PR-specific steps for visual test reporting
       - name: Create Visual Test Summary
         if: steps.visual_tests.outcome == 'failure' && inputs.pr_number
         run: |
