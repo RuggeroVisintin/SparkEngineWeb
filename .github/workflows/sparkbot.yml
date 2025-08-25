@@ -8,7 +8,7 @@ jobs:
     name: Update Visual Baseline
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.54.2-jammy
+      image: mcr.microsoft.com/playwright:v1.55.0-jammy
     permissions:
       contents: write
       pull-requests: write
