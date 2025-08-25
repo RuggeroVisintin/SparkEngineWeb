@@ -136,6 +136,16 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await triggerNextFrames(page);
 
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-movement.png');
+
+        // Test zoom in
+        await page.keyboard.down('z');
+        await triggerNextFrames(page, 10);
+        await expect(page.locator('#canvas')).toHaveScreenshot('camera-zoom-in.png');
+
+        // Test zoom out
+        await page.keyboard.down('x');
+        await triggerNextFrames(page, 10);
+        await expect(page.locator('#canvas')).toHaveScreenshot('camera-zoom-out.png');
     });
 
     test('simpleCollision example - complex scene rendering', async ({ page }) => {
