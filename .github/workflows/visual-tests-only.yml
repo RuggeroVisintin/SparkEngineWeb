@@ -61,7 +61,6 @@ jobs:
       # Verify baselines exist (only for PRs)
       - name: Verify baselines exist
         id: verify_baselines
-        continue-on-error: true
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
           if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
