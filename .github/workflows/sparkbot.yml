@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: updated-visual-baseline-pr-${{ github.event.issue.number }}
-          path: test-results/visual/
+          path: test-results/visual/snapshots/
           retention-days: 1
 
       - name: Trigger visual tests to rerun
