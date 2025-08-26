@@ -13,6 +13,8 @@ repository:
   delete_branch_on_merge: true
   enable_automated_security_fixes: true
   enable_vulnerability_alerts: true
+  default_workflow_permissions: write
+  allow_actions_to_trigger_workflows: true
   has_releases: true
   has_packages: true
   has_deployments: true
