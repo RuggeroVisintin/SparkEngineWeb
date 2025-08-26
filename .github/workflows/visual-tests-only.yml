@@ -111,12 +111,12 @@ jobs:
               exit 0
             else
               echo "CI baselines exist on main - running in CI mode"
-              npm run test:visual:ci
+              npm run test:visual
             fi
           else
             # PR branch: Run tests against downloaded baselines
             echo "Running visual tests against main branch baselines"
-            npm run test:visual:ci
+            npm run test:visual
           fi
           
       - name: Generate Visual Baselines
