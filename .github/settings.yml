@@ -20,7 +20,7 @@ repository:
   has_deployments: true
 
 branches:
-  - name: "*""
+  - name: "*"
     protection:
       required_up_to_date_branch: false
   - name: main
@@ -46,3 +46,4 @@ branches:
       allow_deletions: true
       restrictions:
         apps: ["release-please"]  # Allow release-please bot
+

@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - .github/settings.yml
+      - .github/workflows/sync-repo-settings.yml
 
 jobs:
   sync-settings:
