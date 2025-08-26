@@ -45,7 +45,7 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_SPARKBOT_TOKEN }}
           ref: ${{ steps.pr.outputs.head-sha }}
           fetch-depth: 0
 
@@ -74,6 +74,7 @@ jobs:
       - name: Trigger visual tests to rerun
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GH_SPARKBOT_TOKEN }}
           script: |
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
