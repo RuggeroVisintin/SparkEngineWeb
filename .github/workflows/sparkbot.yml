@@ -86,14 +86,6 @@ jobs:
                 ref: '${{ steps.pr.outputs.head-sha }}'
               }
             });
-            
-            // Add comment to PR explaining what's happening
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `🔄 **Visual baselines updated!**\n\nNew baselines have been generated and uploaded as artifacts.\n\nVisual tests are now re-running with the updated baselines.\n\nCheck the [Actions tab](https://github.com/${context.repo.owner}/${context.repo.repo}/actions) to see the progress.`
-            });
 
       - name: Add success reaction
         if: success()
