@@ -80,6 +80,7 @@ jobs:
           github-token: ${{ secrets.GH_SPARKBOT_TOKEN }}
           script: |
             // Find the latest failed run of visual-tests-only.yml for this PR branch
+            core.info('Fetching last runs...');
             const workflowRuns = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -90,21 +91,30 @@ jobs:
               status: 'completed'
             });
 
+
+            core.info(`Found ${workflowRuns.data.total_count} runs`);
             let rerunSuccess = false;
             if (workflowRuns.data.total_count > 0) {
               // Find the most recent failed run
               const lastRun = workflowRuns.data.workflow_runs[0];
+
+              core.info(`Last run ID: ${lastRun.id} with conclusion: ${lastRun.conclusion}`);
               if (lastRun) {
+                core.info(`Rerunning workflow run ID: ${lastRun.id}`);
+
                 await github.rest.actions.reRunWorkflow({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   run_id: lastRun.id
                 });
+
+                core.info('Rerun triggered successfully.');
                 rerunSuccess = true;
               }
             }
               
             if (!rerunSuccess) {
+              core.info('Rerun failed or no suitable run found.');
               // Fallback: dispatch a new run
               await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
