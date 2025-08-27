@@ -133,18 +133,25 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/cameraMovement/index.html`);
 
         await page.waitForSelector('#canvas');
+        await page.locator('#canvas').focus();
         await triggerNextFrames(page);
 
+        await page.keyboard.down('w');
+        await triggerNextFrames(page, 10);
+        await page.keyboard.up('w');
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-movement.png');
 
         // Test zoom in
         await page.keyboard.down('z');
         await triggerNextFrames(page, 10);
+        await page.keyboard.up('z');
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-zoom-in.png');
+
 
         // Test zoom out
         await page.keyboard.down('x');
         await triggerNextFrames(page, 10);
+        await page.keyboard.up('x');
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-zoom-out.png');
     });
 
@@ -177,8 +184,4 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         // allow a small margin of error for pixel differences due to physx simulation instability
         await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png', { maxDiffPixelRatio: 0.01 });
     });
-
-
-
-
 });
