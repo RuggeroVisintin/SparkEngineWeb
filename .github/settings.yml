@@ -28,6 +28,10 @@ branches:
         strict: false
         contexts:
           - "CI Status"
+          - "Visual Tests"
+          - "Performance Tests"
+          - "Unit Tests"
+          - 
       enforce_admins: false
       required_linear_history: false
       allow_force_pushes: false

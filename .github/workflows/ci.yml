@@ -159,27 +159,6 @@ jobs:
             artifact_name: docs-pages
       needs: [test_unit, test_visual, build]
       if: github.ref_name == 'main'
-    
-    ci-status:
-      name: CI Status
-      runs-on: ubuntu-latest
-      needs: [build, test_unit, test_visual]
-      steps:
-        - name: Check CI status for regular branches
-          run: |
-            if [[ "${{ needs.build.result }}" != "success" ]]; then
-              echo "Build failed"
-              exit 1
-            fi
-            if [[ "${{ needs.test_unit.result }}" != "success" ]]; then
-              echo "Unit tests failed"
-              exit 1
-            fi
-            if [[ "${{ needs.test_visual.result }}" != "success" ]]; then
-              echo "Visual tests failed"
-              exit 1
-            fi
-            echo "All required checks passed!"
 
         
         
