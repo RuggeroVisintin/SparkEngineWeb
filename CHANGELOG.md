@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.1...sparkengineweb-v0.17.2) (2025-08-27)
+
+
+### Bug Fixes
+
+* **gfx:** fix camera scale to be screen-centered ([#636](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/636)) ([2bf8647](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/2bf8647df91e4dcff33672c1e37a3b0bf8b8265e))
+
 ## [0.17.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.0...sparkengineweb-v0.17.1) (2025-08-24)
 
 
