@@ -31,7 +31,7 @@
         const playerCamera = new SparkEngine.CameraComponent();
         camera.addComponent(playerCamera);
 
-        cameraController.onInputEventCb = (({ KeyW, KeyS, KeyA, KeyD, KeyQ, KeyE }) => {
+        cameraController.onInputEventCb = (({ KeyW, KeyS, KeyA, KeyD, KeyZ, KeyX }) => {
             const parentTransform = cameraController.getContainer().getComponent('TransformComponent');
 
             if (KeyW === SparkEngine.KeyStatus.Down) {
@@ -53,9 +53,9 @@
                 parentTransform.velocity.x = -0;
             }
 
-            if (KeyQ === SparkEngine.KeyStatus.Down) {
+            if (KeyZ === SparkEngine.KeyStatus.Down) {
                 parentTransform.scale += 0.3;
-            } else if (KeyE === SparkEngine.KeyStatus.Down) {
+            } else if (KeyX === SparkEngine.KeyStatus.Down) {
                 parentTransform.scale -= 0.3;
             }
         });
