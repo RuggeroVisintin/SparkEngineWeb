@@ -18,7 +18,7 @@ repository:
   has_deployments: true
 
 branches:
-  - name: "*"
+  - name: *
     protection:
       required_up_to_date_branch: false
   - name: main
@@ -38,7 +38,7 @@ branches:
       allow_deletions: false
       restrictions: null
 
-  - name: "release-please--*"
+  - name: release-please--*
     protection:
       required_pull_request_reviews: null
       required_status_checks: null
