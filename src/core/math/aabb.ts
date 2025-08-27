@@ -1,15 +1,13 @@
 /**
  * @category Core
- * 
  * @todo Convert to a AABB Class
  */
 export type AABB = [number, number, number, number];
 
 /**
- * @category Core
- * 
  * Checks if two AABBs are colliding, including empty AABBs (zero width and height).
  * 
+ * @category Core
  * @return true if two AABBs are colliding
  */
 export function isCollision(objectA: AABB, objectB: AABB): boolean {
@@ -26,10 +24,9 @@ export function isCollision(objectA: AABB, objectB: AABB): boolean {
 }
 
 /**
- * @category Core
- * 
  * Converts a centered AABB to a top-left AABB.
  * 
+ * @category Core
  * @param aabb - the centered AABB to convert
  * @returns - a new top-left AABB
  */
@@ -39,10 +36,9 @@ export function toTopLeftAABB(aabb: AABB): AABB {
 }
 
 /**
- * @category Core
- * 
  * Converts a top-left AABB to a centered AABB.
  * 
+ * @category Core
  * @param aabb - the top-left AABB to convert
  * @returns - a new centered AABB
  */

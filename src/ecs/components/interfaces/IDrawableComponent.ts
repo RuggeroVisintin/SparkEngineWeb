@@ -3,6 +3,9 @@ import { Renderer } from "../../../renderer";
 import { TransformComponent } from "../TransformComponent";
 import { IComponent } from "./IComponent";
 
+/** 
+ * @category Components
+ */
 export interface IDrawableComponent extends IComponent {
     transform: TransformComponent;
     isVisible: boolean;

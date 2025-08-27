@@ -6,7 +6,11 @@ const sanitizeScope = (scope: string): string => {
     return scope;
 }
 
-/** Decorator function */
+/** 
+ * Decorator function 
+ * 
+ * @category Core
+ * */
 export function incrementallyUnique(value: string) {
     // TODO - Should probably use the registerUnique?
     if (uniqueCounterMap['global'][value] === undefined) {
@@ -22,6 +26,7 @@ export function incrementallyUnique(value: string) {
 export interface UniquenessOpts {
     scope?: string
 }
+
 
 export function registerUniqueValue(value: string, options?: UniquenessOpts) {
     const scope = sanitizeScope(options?.scope ?? 'global');
@@ -60,7 +65,7 @@ export function unregisterUnique(value: string, options?: UniquenessOpts) {
  * 
  * Register the entity in the unique registry 
  */
-export function RegisterUnique(value: string) {    
+export function RegisterUnique(value: string) {
     return function (constructor: any) {
         // TODO -- we can use constructor.name
         registerUniqueValue(value);

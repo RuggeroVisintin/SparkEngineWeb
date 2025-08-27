@@ -9,6 +9,12 @@ export interface DrawableComponentProps {
     transform?: TransformComponentProps;
 }
 
+/**
+ * Base class for all drawable components in the ECS framework.
+ * It provides common properties and methods for drawable components, such as visibility and transformation.
+ * 
+ * @category Components
+ */
 export abstract class BaseDrawableComponent extends BaseComponent implements IDrawableComponent {
     private defaultTransform = new TransformComponent();
     private _isVisible = true;

@@ -1,8 +1,8 @@
 
 /**
- * @category Core
  * Rounds a number to a specified precision.
  * 
+ * @category Core
  * @param num - the number to round
  * @param precision = - the number of decimal places to round to
  * @returns - the rounded number

@@ -1,9 +1,8 @@
 
 /** 
+ * Represents a serializable function, which can be serialized to a string and later deserialized back to a function.
+ * 
  * @category Core
- * 
- * SerializableCallback represents a serializable function, which can be serialized to a string and later deserialized back to a function.
- * 
  */
 export class SerializableCallback<T extends Function = Function> {
 
