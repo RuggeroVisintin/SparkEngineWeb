@@ -12,9 +12,7 @@ Previously, object scaling was handled by maintaining a separate `scale` propert
 
 While this separation could potentially useful in the future (for example for animated objects changing scale very often), there is no reason at the moment to default to this approach.
 
-### Pros and Cons Analysis
-
-#### Treating `scale` as an Individual Property
+### Solution - Treating `scale` as an Individual Property
 
 This is the current solution, it basically treats scale as an individual property, without applying the scale to the size of the object.
 
@@ -32,7 +30,7 @@ On the other hand this solution offers the main benefit of allowing to move the 
 **Bad** because it forces recomputation of final size every frame, even if scale is unchanged.
 **Bad** because it requires state synchronization, as dependent systems must update if scale changes.
 
-#### Using a Scaling Method w/ backward compatibilty
+### Solution - Using a Scaling Method w/ backward compatibilty
 
 In the proposed solution, changing the scale also affects the size, which results in compute omptization for objects changing scale very infrequently and does not require different systems to also handle scaling, resulting in a more straightforard logic overall
 
