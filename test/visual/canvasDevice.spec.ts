@@ -179,7 +179,7 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await triggerNextFrames(page, 5000);
 
         // Trigger a few more frames to show the final collision state
-        await triggerNextFrames(page);
+        await triggerNextFrames(page, 4);
 
         // allow a small margin of error for pixel differences due to physx simulation instability
         await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png', { maxDiffPixelRatio: 0.01 });

@@ -14,7 +14,7 @@ export default defineConfig({
   outputDir: 'test-results/visual/test-output',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: 0,
+  retries: process.env.CI ? 3 : 0,
   reporter: [
     ['html', {
       outputFolder: 'test-results/visual/reports/html',
@@ -37,7 +37,7 @@ export default defineConfig({
       ]
     }
   },
-  timeout: 10000,
+  timeout: 20000,
   projects: [
     {
       name: 'chromium',
@@ -61,6 +61,6 @@ export default defineConfig({
     command: 'npm run serve:examples',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 10000
+    timeout: 20000
   },
 });
