@@ -58,7 +58,7 @@ jobs:
           if_no_artifact_found: fail
 
       - name: Download main baseline
-        if: (inputs.event_name == 'pull_request' && steps.download_updated_baseline.conclusion == 'failure')
+        if: (inputs.event_name == 'pull_request' && steps.download_updated_baseline.outputs.found_artifact == 'false')
         uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
