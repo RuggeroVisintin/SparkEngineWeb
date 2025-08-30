@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.2...sparkengineweb-v0.17.3) (2025-08-30)
+
+
+### Bug Fixes
+
+* **gfx:** fix setTransform to scale relatively to its own position ([#644](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/644)) ([9ab0f90](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/9ab0f9068ed05eb63dddf9acb857aed2e051cfca))
+
 ## [0.17.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.1...sparkengineweb-v0.17.2) (2025-08-27)
 
 
