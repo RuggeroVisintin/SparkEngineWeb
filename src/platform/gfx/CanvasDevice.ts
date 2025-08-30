@@ -51,8 +51,6 @@ export class CanvasDevice {
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, scale: number): void {
         ctx.save();
-        console.log('DRAW RECT');
-        // Translate to position, then scale from center
         ctx.translate(x, y);
         ctx.scale(scale, scale);
         ctx.rect(-width / 2, -height / 2, width, height);
