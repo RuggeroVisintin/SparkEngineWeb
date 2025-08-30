@@ -17,7 +17,7 @@ describe('ecs/components/CameraComponent', () => {
 
             cameraComponent.draw(renderer);
 
-            expect(renderer.commandBuffer).toEqual([new SetTransformMatrixCommand([-10, -20], [2, 2])])
+            expect(renderer.commandBuffer).toEqual([new SetTransformMatrixCommand([-10, -20], [1 / 2, 1 / 2])])
         })
     })
 
