@@ -21,6 +21,7 @@ branches:
   - name: "*"
     protection:
       required_up_to_date_branch: false
+      
   - name: "main"
     protection:
       required_pull_request_reviews: null

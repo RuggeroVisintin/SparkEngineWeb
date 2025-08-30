@@ -114,3 +114,26 @@ jobs:
             if (!rerunSuccess) {
               core.info('Rerun failed or no suitable run found.');
             }
+
+      - name: Add success reaction
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1'
+            });
+
+      - name: Add error reaction
+        uses: actions/github-script@v7
+        if: failure()
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1'
+            });
