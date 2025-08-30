@@ -51,6 +51,7 @@ export class CanvasDevice {
 
     public drawRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, scale: number): void {
         ctx.save();
+        console.log('DRAW RECT');
         // Translate to position, then scale from center
         ctx.translate(x, y);
         ctx.scale(scale, scale);
@@ -87,21 +88,24 @@ export class CanvasDevice {
         const hRatio = this.hRatio;
         const wRatio = this.wRatio;
 
-        // Get canvas dimensions for center-origin calculation
         const canvasWidth = ctx.canvas?.width || 0;
         const canvasHeight = ctx.canvas?.height || 0;
 
-        // Apply center-origin offset to translation components
         const centerX = canvasWidth / 2;
         const centerY = canvasHeight / 2;
 
+        const scaleX = matrix[0] * wRatio;
+        const scaleY = matrix[3] * hRatio;
+        const translateX = matrix[4] * wRatio;
+        const translateY = matrix[5] * hRatio;
+
         ctx.setTransform(
-            matrix[0] * wRatio,
-            matrix[1],
-            matrix[2],
-            matrix[3] * hRatio,
-            centerX + matrix[4] * wRatio,
-            centerY + matrix[5] * hRatio
+            scaleX,
+            0,
+            0,
+            scaleY,
+            centerX + translateX * scaleX,
+            centerY + translateY * scaleY
         );
     }
 }
