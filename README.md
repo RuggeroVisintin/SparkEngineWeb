@@ -25,7 +25,10 @@ Here you can find the list of commands. **Commands with the `:ci` flag are reser
 
 * `npm test` to run the unit test suite
 * `npm run test:perf` to run the performance test suite
+* `npm run test:visual` to run visual tests
+* `npm run test:visual:update-baseline` to generate/update visual tests snapshots
 * `npm run build` to build the engine
+* `npm run build:lib` to build the engine in its library version
 * `npm run build:dev` to build the engine in development mode
 * `npm run build:docs` to build the documentation directory
 * `npm run clean` to clean the dist folder
