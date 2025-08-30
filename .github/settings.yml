@@ -27,11 +27,11 @@ branches:
       required_status_checks:
         strict: false
         contexts:
-          - "CI Status"
+          - "Build"
           - "Visual Tests"
           - "Performance Tests"
           - "Unit Tests"
-          
+
       enforce_admins: false
       required_linear_history: false
       allow_force_pushes: false
