@@ -68,9 +68,11 @@ or just visit <https://ruggerovisintin.github.io/SparkEngineWeb/examples> for a 
 
 ## Contributing
 
-To contribute to the project just open a pull request. If you are working on an existing issue remember to link the pull request to it.
+You can contribute to the project via pull requests. If you are working on an existing issue remember to link the pull request to it.
 
-Once opened a core maintainer will review the PR and eventually approve it
+Once opened a core maintainer will review the PR and eventually approve it.
+
+When contributing, make sure to follow our [coding guidelines](./docs/coding-guidelines.md)
 
 ## License
 
