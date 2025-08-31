@@ -55,7 +55,7 @@
     "express": "^5.1.0",
     "fastbench": "^1.0.1",
     "husky": "^9.1.7",
-    "jest": "^30.0.5",
+    "jest": "^30.1.1",
     "jest-canvas-mock": "^2.5.2",
     "jest-environment-jsdom": "^30.1.1",
     "jest-extended": "^6.0.0",
