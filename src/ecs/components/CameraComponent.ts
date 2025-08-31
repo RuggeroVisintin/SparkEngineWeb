@@ -11,6 +11,6 @@ import { IDrawableComponent } from "./interfaces/IDrawableComponent";
 @Type('CameraComponent')
 export class CameraComponent extends BaseDrawableComponent implements IDrawableComponent {
     public draw(renderer: Renderer): void {
-        renderer.pushRenderCommand(new SetTransformMatrixCommand([-this.transform.position.x, -this.transform.position.y], [this.transform.scale, this.transform.scale]));
+        renderer.pushRenderCommand(new SetTransformMatrixCommand([-this.transform.position.x, -this.transform.position.y], [1 / this.transform.scale, 1 / this.transform.scale]));
     }
-}
+} 
