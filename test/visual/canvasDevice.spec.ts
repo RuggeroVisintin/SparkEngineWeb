@@ -164,15 +164,27 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await triggerNextFrames(page, 60);
         await page.keyboard.up('w');
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-movement.png');
+    });
 
-        // Test zoom in
+    test('cameraMovement example - zoom in', async ({ page }) => {
+        await page.goto(`${BASE_URL}/cameraMovement/index.html`);
+        await waitReady(page);
+
+        await triggerNextFrames(page);
+
         await page.keyboard.down('z');
         await triggerNextFrames(page, 30);
         await page.keyboard.up('z');
 
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-zoom-in.png');
+    });
 
-        // Test zoom out
+    test('cameraMovement example - zoom out', async ({ page }) => {
+        await page.goto(`${BASE_URL}/cameraMovement/index.html`);
+        await waitReady(page);
+
+        await triggerNextFrames(page);
+
         await page.keyboard.down('x');
         await triggerNextFrames(page, 30);
         await page.keyboard.up('x');
@@ -193,13 +205,11 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
         await page.goto(`${BASE_URL}/pushTheObject/index.html`);
         await waitReady(page);
 
-        // Trigger initial frame to set up the scene
         await triggerNextFrames(page);
         await page.keyboard.down('s');
 
         await triggerNextFrames(page, 5000);
 
-        // allow a small margin of error for pixel differences due to physx simulation instability
-        await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png', { maxDiffPixelRatio: 0.01 });
+        await expect(page.locator('#canvas')).toHaveScreenshot('push-the-object.png');
     });
 });
