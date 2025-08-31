@@ -167,14 +167,14 @@ test.describe('CanvasDevice Visual Tests via Examples', () => {
 
         // Test zoom in
         await page.keyboard.down('z');
-        await triggerNextFrames(page, 60);
+        await triggerNextFrames(page, 30);
         await page.keyboard.up('z');
 
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-zoom-in.png');
 
         // Test zoom out
         await page.keyboard.down('x');
-        await triggerNextFrames(page, 60);
+        await triggerNextFrames(page, 30);
         await page.keyboard.up('x');
 
         await expect(page.locator('#canvas')).toHaveScreenshot('camera-zoom-out.png');

@@ -54,9 +54,11 @@
             }
 
             if (KeyZ === SparkEngine.KeyStatus.Down) {
-                parentTransform.scale += 0.3;
-            } else if (KeyX === SparkEngine.KeyStatus.Down) {
-                parentTransform.scale -= 0.3;
+                parentTransform.scale -= 0.02;
+            }
+
+            if (KeyX === SparkEngine.KeyStatus.Down) {
+                parentTransform.scale += 0.02;
             }
         });
 
