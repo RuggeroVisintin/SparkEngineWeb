@@ -70,29 +70,33 @@ jobs:
 
       - name: Verify baseline
         id: verify_baseline
-        continue-on-error: false
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
           if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
             echo "❌ No visual baselines found!"
             echo ""
-            echo "This means either:"
-            echo "1. No baselines have been generated on main branch yet"
-            echo "2. The baseline artifacts have expired (older than 7 days)"
-            echo ""
-            echo "🔧 To fix this:"
-            echo "1. Go to Actions tab: https://github.com/${{ github.repository }}/actions?query=branch%3Amain"
-            echo "2. Find the latest successful workflow run on main branch"
-            echo "3. Click 'Re-run jobs' to regenerate baselines"
-            echo "4. Once baselines are generated, re-run this PR workflow"
-            echo ""
-            exit 1
+            echo "New Baseline will be generated from main branch"
+            echo "GENERATE_BASELINES=true" >> "$GITHUB_OUTPUT"
           else
             baseline_count=$(find test-results/visual/snapshots -name "*.png" | wc -l)
             echo "✅ Found $baseline_count baseline images from main branch"
             echo "Baseline files:"
             find test-results/visual/snapshots -name "*.png" | head -5
           fi
+
+      - name: Generate Visual Baselines
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true' 
+        run: |
+          if: steps.verify_baseline.outcome == 'failure' && (inputs.event_name == 'pull_request' || inputs.pr_number != '')
+          echo "🔧 Generating fresh baselines for main branch..."
+          git checkout main
+          git pull origin main
+
+          npm ci
+          npm run build
+
+          npm run test:visual:update-baseline
+          git checkout ${{ inputs.ref }}
           
       - name: Install dependencies
         run: npm ci   
@@ -101,29 +105,12 @@ jobs:
           
       - name: Run Visual Tests
         id: visual_tests
+        if: ${{ inputs.pr_number != '' || inputs.event_name == 'pull_request' }}
         continue-on-error: ${{ inputs.pr_number != '' || inputs.event_name == 'pull_request' }}
         run: |
-          if [ "${{ github.ref_name }}" = "main" ] && [ "${{ inputs.pr_number }}" = "" ]; then
-            # Main branch: Check if CI baselines exist, skip test if none (first run)
-            if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
-              echo "No CI baselines found on main - this is the first run, tests will be skipped and baselines generated"
-              echo "GENERATE_BASELINES=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            else
-              echo "CI baselines exist on main - running in CI mode"
-              npm run test:visual
-            fi
-          else
-            # PR branch: Run tests against downloaded baselines
-            echo "Running visual tests against main branch baselines"
-            npm run test:visual
-          fi
-          
-      - name: Generate Visual Baselines
-        if: steps.visual_tests.outputs.GENERATE_BASELINES == 'true'
-        run: |
-          echo "🔧 Generating fresh baselines for main branch..."
-          npm run test:visual:update-baseline
+          # PR branch: Run tests against downloaded baselines
+          echo "Running visual tests against main branch baselines"
+          npm run test:visual
           
       - name: Upload Generated Baselines
         if: steps.visual_tests.outputs.GENERATE_BASELINES == 'true'
