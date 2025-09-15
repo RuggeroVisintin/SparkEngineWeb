@@ -84,28 +84,33 @@ jobs:
             find test-results/visual/snapshots -name "*.png" | head -5
           fi
 
-      - name: Generate Visual Baselines
-        uses: actions/checkout@v4
-        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true'
+      
+      - uses: actions/checkout@v4
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true' && inputs.ref != 'main'
         with:
           ref: main
-      - run: |
-          if: steps.verify_baseline.outcome == 'failure' && (inputs.event_name == 'pull_request' || inputs.pr_number != '')
+          
+      - name: Generate Visual Baselines
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true' || inputs.ref != 'main'
+        run: |
           npm ci
           npm run build
 
           npm run test:visual:update-baseline
-          git checkout ${{ inputs.ref }}
+      
+      - uses: actions/checkout@v4
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true' && inputs.ref != 'main'
+        with:
+          ref: ${{ inputs.ref }}
           
-      - name: Install dependencies
-        run: npm ci   
-      - name: Build project
-        run: npm run build
+      - name: Install & Build
+        run: |
+          npm ci
+          npm run build
           
       - name: Run Visual Tests
         id: visual_tests
         if: ${{ inputs.pr_number != '' || inputs.event_name == 'pull_request' }}
-        continue-on-error: ${{ inputs.pr_number != '' || inputs.event_name == 'pull_request' }}
         run: |
           # PR branch: Run tests against downloaded baselines
           echo "Running visual tests against main branch baselines"
