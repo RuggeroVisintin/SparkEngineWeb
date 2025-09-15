@@ -102,7 +102,11 @@ jobs:
         if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true' && inputs.ref != 'main'
         with:
           ref: ${{ inputs.ref }}
-          
+          sparse-checkout: |
+            /*
+            !test-results/
+          sparse-checkout-cone-mode: false
+
       - name: Install & Build
         run: |
           npm ci
@@ -123,18 +127,21 @@ jobs:
           name: visual-baseline
           path: test-results/visual/snapshots/
           retention-days: 7
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
           path: test-results/visual/reports/html/
           retention-days: 3
+
       - uses: actions/upload-artifact@v4
         if: steps.visual_tests.outcome == 'failure'
         with:
           name: visual-test-results
           path: test-results/visual/reports/html/
           retention-days: 3
+
       - name: Fail job if visual tests failed
         if: steps.visual_tests.outcome == 'failure'
         run: |
