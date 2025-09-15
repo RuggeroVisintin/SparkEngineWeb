@@ -85,13 +85,12 @@ jobs:
           fi
 
       - name: Generate Visual Baselines
-        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true' 
-        run: |
+        uses: actions/checkout@v4
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true'
+        with:
+          ref: main
+      - run: |
           if: steps.verify_baseline.outcome == 'failure' && (inputs.event_name == 'pull_request' || inputs.pr_number != '')
-          echo "🔧 Generating fresh baselines for main branch..."
-          git checkout main
-          git pull origin main
-
           npm ci
           npm run build
 
