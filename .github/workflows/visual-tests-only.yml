@@ -97,7 +97,11 @@ jobs:
           npm run build
 
           npm run test:visual:update-baseline
-          cp -r test-results/visual/* $GITHUB_WORKSPACE/test-results/visual/
+          
+          # Backup baselines to temp directory
+          echo "📦 Backing up generated baselines to /tmp/"
+          mkdir -p /tmp/test-results/visual
+          cp -r test-results/visual/* /tmp/test-results/visual/
       
       - uses: actions/checkout@v4
         if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true'
@@ -113,7 +117,8 @@ jobs:
 
           if [[ "$RESTORE_TEMP_BASELINE" == "true" ]]; then
             echo "🔧 Restoring temporary baseline files for PR testing..."
-            cp -r $GITHUB_WORKSPACE/test-results/visual/snapshots/* test-results/visual/snapshots/
+            mkdir -p test-results/visual
+            cp -r /tmp/test-results/visual/* test-results/visual/
           fi
           
       - name: Run Visual Tests
