@@ -66,64 +66,68 @@ jobs:
           branch: main
           name: visual-baseline
           path: test-results/visual/snapshots/
-          if_no_artifact_found: fail
+          if_no_artifact_found: ignore
 
       - name: Verify baseline
         id: verify_baseline
-        continue-on-error: false
         if: inputs.pr_number || inputs.event_name == 'pull_request'
         run: |
           if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d | wc -l)" -eq 0 ]; then
             echo "❌ No visual baselines found!"
             echo ""
-            echo "This means either:"
-            echo "1. No baselines have been generated on main branch yet"
-            echo "2. The baseline artifacts have expired (older than 7 days)"
-            echo ""
-            echo "🔧 To fix this:"
-            echo "1. Go to Actions tab: https://github.com/${{ github.repository }}/actions?query=branch%3Amain"
-            echo "2. Find the latest successful workflow run on main branch"
-            echo "3. Click 'Re-run jobs' to regenerate baselines"
-            echo "4. Once baselines are generated, re-run this PR workflow"
-            echo ""
-            exit 1
+            echo "New Baseline will be generated from main branch"
+            echo "GENERATE_BASELINES=true" >> "$GITHUB_OUTPUT"
           else
             baseline_count=$(find test-results/visual/snapshots -name "*.png" | wc -l)
             echo "✅ Found $baseline_count baseline images from main branch"
             echo "Baseline files:"
             find test-results/visual/snapshots -name "*.png" | head -5
           fi
+
+      
+      - uses: actions/checkout@v4
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true'
+        with:
+          ref: main
           
-      - name: Install dependencies
-        run: npm ci   
-      - name: Build project
-        run: npm run build
+      - name: Generate Visual Baselines
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true'
+        run: |
+          npm ci
+          npm run build
+
+          npm run test:visual:update-baseline
+          
+          # Backup baselines to temp directory
+          echo "📦 Backing up generated baselines to /tmp/"
+          mkdir -p /tmp/test-results/visual
+          cp -r test-results/visual/* /tmp/test-results/visual/
+      
+      - uses: actions/checkout@v4
+        if: steps.verify_baseline.outputs.GENERATE_BASELINES == 'true'
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Install & Build
+        env:
+          RESTORE_TEMP_BASELINE: ${{ steps.verify_baseline.outputs.GENERATE_BASELINES }}
+        run: |
+          npm ci
+          npm run build
+
+          if [ "$RESTORE_TEMP_BASELINE" = "true" ]; then
+            echo "🔧 Restoring temporary baseline files for PR testing..."
+            mkdir -p test-results/visual
+            cp -r /tmp/test-results/visual/* test-results/visual/
+          fi
           
       - name: Run Visual Tests
         id: visual_tests
-        continue-on-error: ${{ inputs.pr_number != '' || inputs.event_name == 'pull_request' }}
+        if: ${{ inputs.pr_number != '' || inputs.event_name == 'pull_request' }}
         run: |
-          if [ "${{ github.ref_name }}" = "main" ] && [ "${{ inputs.pr_number }}" = "" ]; then
-            # Main branch: Check if CI baselines exist, skip test if none (first run)
-            if [ ! -d "test-results/visual/snapshots" ] || [ "$(find test-results/visual/snapshots -name "*-ci-snapshots" -type d 2>/dev/null | wc -l)" -eq 0 ]; then
-              echo "No CI baselines found on main - this is the first run, tests will be skipped and baselines generated"
-              echo "GENERATE_BASELINES=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            else
-              echo "CI baselines exist on main - running in CI mode"
-              npm run test:visual
-            fi
-          else
-            # PR branch: Run tests against downloaded baselines
-            echo "Running visual tests against main branch baselines"
-            npm run test:visual
-          fi
-          
-      - name: Generate Visual Baselines
-        if: steps.visual_tests.outputs.GENERATE_BASELINES == 'true'
-        run: |
-          echo "🔧 Generating fresh baselines for main branch..."
-          npm run test:visual:update-baseline
+          # PR branch: Run tests against downloaded baselines
+          echo "Running visual tests against main branch baselines"
+          npm run test:visual
           
       - name: Upload Generated Baselines
         if: steps.visual_tests.outputs.GENERATE_BASELINES == 'true'
@@ -132,18 +136,21 @@ jobs:
           name: visual-baseline
           path: test-results/visual/snapshots/
           retention-days: 7
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
           path: test-results/visual/reports/html/
           retention-days: 3
+
       - uses: actions/upload-artifact@v4
         if: steps.visual_tests.outcome == 'failure'
         with:
           name: visual-test-results
           path: test-results/visual/reports/html/
           retention-days: 3
+
       - name: Fail job if visual tests failed
         if: steps.visual_tests.outcome == 'failure'
         run: |
