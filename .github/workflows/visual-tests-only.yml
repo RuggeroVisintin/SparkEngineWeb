@@ -115,7 +115,7 @@ jobs:
           npm ci
           npm run build
 
-          if [ "$RESTORE_TEMP_BASELINE" == "true" ]; then
+          if [ "$RESTORE_TEMP_BASELINE" = "true" ]; then
             echo "🔧 Restoring temporary baseline files for PR testing..."
             mkdir -p test-results/visual
             cp -r /tmp/test-results/visual/* test-results/visual/
