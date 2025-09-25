@@ -42,7 +42,7 @@
   "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^19.8.1",
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "^1.55.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.3.1",
     "@types/uuid": "^10.0.0",
