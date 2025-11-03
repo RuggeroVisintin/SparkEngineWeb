@@ -44,7 +44,7 @@
     "@commitlint/config-conventional": "^20.0.0",
     "@playwright/test": "^1.55.1",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.9.2",
+    "@types/node": "^24.10.0",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.1",
