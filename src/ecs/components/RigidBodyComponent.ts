@@ -1,6 +1,7 @@
-import { Type, WithType } from "../../core";
+import { WithType } from "../../core";
 import { PhysicsObject } from "../../physx";
 import { BoundingBoxComponent, BoundingBoxComponentProps } from "./BoundingBoxComponent";
+import { Component } from "./interfaces";
 
 export interface RigidBodyComponentProps extends BoundingBoxComponentProps {
     rebound: number;
@@ -9,7 +10,7 @@ export interface RigidBodyComponentProps extends BoundingBoxComponentProps {
 /**
  * @category Components
  */
-@Type('RigidBodyComponent')
+@Component('RigidBodyComponent')
 export class RigidBodyComponent extends BoundingBoxComponent {
     public rebound: number = 1;
 

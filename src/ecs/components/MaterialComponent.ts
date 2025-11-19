@@ -1,6 +1,7 @@
-import { Rgb, RgbProps, Type, WithType } from "../../core";
+import { Rgb, RgbProps, WithType } from "../../core";
 import { ImageAsset, DOMImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
+import { Component } from "./interfaces";
 
 /**
  * @category Components
@@ -24,12 +25,12 @@ export interface MaterialComponentProps {
 /**
  * @category Components
  */
-@Type('MaterialComponent')
+@Component('MaterialComponent')
 export class MaterialComponent extends BaseComponent implements MaterialComponentProps {
     private _diffuseTexture?: ImageAsset;
     private _diffuseTexturePath?: string;
     private _diffuseColor?: Rgb = Rgb.fromHex('#d16cd8');
-    
+
     private _isDefaultDiffuseColor = true;
 
     public opacity: number = 100;
@@ -38,7 +39,7 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         this._diffuseColor = color;
         this._isDefaultDiffuseColor = false;
     }
-    
+
     public get diffuseColor(): Rgb | undefined {
         return this._diffuseColor;
     }
@@ -78,7 +79,7 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
     public removeDiffuseColor(): void {
         this._diffuseColor = undefined;
     }
-    
+
     /**
      * Lazy load the diffuse texture from the path set in diffuseTexturePath
      * once loaded it will be set to the diffuseTexture property and be available for rendering

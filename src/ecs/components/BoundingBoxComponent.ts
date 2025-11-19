@@ -1,8 +1,8 @@
-import { Type, Vec2, WithType } from "../../core";
+import { Vec2, WithType } from "../../core";
 import { PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
-import { CollisionCallback, CollisionCallbackParams, ICollidableComponent } from "./interfaces";
+import { CollisionCallback, CollisionCallbackParams, Component, ICollidableComponent } from "./interfaces";
 
 /**
  * @category Components
@@ -32,7 +32,7 @@ export interface BoundingBoxComponentProps {
  * 
  * @category Components
  */
-@Type('BoundingBoxComponent')
+@Component('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {
     private defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 };
 

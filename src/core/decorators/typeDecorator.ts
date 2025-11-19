@@ -1,4 +1,5 @@
-import { registerTypeFactory } from "../factory";
+import { get } from "http";
+import { getRegisteredTypes, registerTypeFactory } from "../factory";
 
 export type WithType<T extends {}> = T & {
     __type: string;
@@ -10,7 +11,7 @@ export type WithType<T extends {}> = T & {
  * @category Core
  * @param value - the type of the class
  */
-export function Type(value: string) {
+export function Type(value: string, category?: string) {
     return function (constructor: any) {
         if (constructor.prototype.__types) {
             constructor.prototype.__types = [value, ...constructor.prototype.__types];
@@ -19,7 +20,7 @@ export function Type(value: string) {
         }
 
         constructor.prototype.__type = value;
-        registerTypeFactory(value, constructor);
+        registerTypeFactory(value, constructor, category);
     };
 }
 
@@ -43,4 +44,8 @@ export function typeOf(object: any): string {
  */
 export function typesOf(object: any): string[] {
     return object.__types;
+}
+
+export function allOf(category?: string): Record<string, Function> {
+    return getRegisteredTypes(category);
 }

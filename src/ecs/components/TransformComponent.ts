@@ -1,6 +1,6 @@
-import { Type, Vec2, WithType } from "../../core";
+import { Vec2, WithType } from "../../core";
 import { BaseComponent } from "./BaseComponent";
-import { ComponentProps } from "./interfaces";
+import { Component, ComponentProps } from "./interfaces";
 
 interface Size2D {
     /**
@@ -20,7 +20,7 @@ export interface TransformComponentProps extends ComponentProps {
 /**
  * @category Components
  */
-@Type('TransformComponent')
+@Component('TransformComponent')
 export class TransformComponent extends BaseComponent {
     public position: Vec2 = new Vec2();
     public size: Size2D = { width: 0, height: 0 };

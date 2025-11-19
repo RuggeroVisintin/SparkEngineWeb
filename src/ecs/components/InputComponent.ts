@@ -1,13 +1,13 @@
-import { Type } from "../../core";
-import {  KeyStatusMap, KeyboardDevice } from "../../platform/inputs";
+import { KeyStatusMap, KeyboardDevice } from "../../platform/inputs";
 import { BaseComponent } from "./BaseComponent";
+import { Component } from "./interfaces";
 
 type OnInputEventTriggeredCallback = (keyStatusMap: KeyStatusMap) => void;
 
 /**
  * @category Components
  */
-@Type('InputComponent')
+@Component('InputComponent')
 export class InputComponent extends BaseComponent {
     public onInputEventCb: OnInputEventTriggeredCallback | undefined;
 

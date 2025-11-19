@@ -1,8 +1,9 @@
-import { Type, WithType } from "../../core";
+import { WithType } from "../../core";
 import { DOMImageLoader } from "../../platform";
 import { Renderer, DrawPrimitiveCommand, DrawImageCommand, PrimitiveType } from "../../renderer";
 import { BaseDrawableComponent } from "./ BaseDrawableComponent";
 import { MaterialComponent } from "./MaterialComponent";
+import { Component } from "./interfaces";
 import { IDrawableComponent } from "./interfaces/IDrawableComponent";
 
 /**
@@ -18,7 +19,7 @@ export interface ShapeComponentProps {
  * 
  * @category Components
  */
-@Type('ShapeComponent')
+@Component('ShapeComponent')
 export class ShapeComponent extends BaseDrawableComponent implements IDrawableComponent, ShapeComponentProps {
     /**
      * The primitive type of the shape

@@ -1,7 +1,7 @@
-import { Type, typeOf, typesOf } from "../../../../src"
+import { allOf, Type, typeOf, typesOf } from "../../../../src"
 
 describe('core/decorators/Type', () => {
-    @Type('TestClass')
+    @Type('TestClass', 'TestCategory')
     class TestClass {
 
     }
@@ -24,4 +24,8 @@ describe('core/decorators/Type', () => {
     it('Should track the whole type chain of the class', () => {
         expect(typesOf(new InerithedTestClass())).toEqual(['InheritedTestClass', 'TestClass']);
     })
+
+    it('Should allow to retrieve all registered types for a given class', () => {
+        expect(allOf('TestCategory')).toEqual({ 'TestClass': TestClass });
+    });
 })

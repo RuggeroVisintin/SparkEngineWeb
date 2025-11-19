@@ -1,8 +1,8 @@
-import { Type, WithType } from "../../core";
+import { WithType } from "../../core";
 import { Nullable } from "../../core/types";
 import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
-import { ComponentProps } from "./interfaces";
+import { Component, ComponentProps } from "./interfaces";
 
 /**
  * @category Components
@@ -16,7 +16,7 @@ export interface SoundComponentProps extends ComponentProps {
  * 
  * @category Components
  */
-@Type('SoundComponent')
+@Component('SoundComponent')
 export class SoundComponent extends BaseComponent {
     private _isPlaying = false;
 
@@ -32,7 +32,7 @@ export class SoundComponent extends BaseComponent {
     }
 
     private _asset: Nullable<SoundAsset> = null;
-    
+
     /**
      * The asset of the sound
      * 
@@ -52,7 +52,7 @@ export class SoundComponent extends BaseComponent {
      */
     public constructor(
         props: SoundComponentProps,
-    ) { 
+    ) {
         super();
 
         this.filePath = props.filePath;
@@ -63,7 +63,7 @@ export class SoundComponent extends BaseComponent {
      * Flag is reset to false at the next update.
      */
     public update(): void {
-        if(!!this._asset && this.isPlaying === true) {
+        if (!!this._asset && this.isPlaying === true) {
             this._asset.play();
             this._isPlaying = false;
         }

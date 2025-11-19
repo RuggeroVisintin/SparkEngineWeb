@@ -1,12 +1,10 @@
 import { v4 as uuid } from 'uuid';
-import { Type, WithType, typeOf } from "../../core";
+import { WithType, typeOf } from "../../core";
 import { IEntity } from "../entities";
-import { ComponentProps, IComponent } from "./interfaces";
-
-
+import { Component, ComponentProps, IComponent } from "./interfaces";
 
 /** @category Components */
-@Type('BaseComponent')
+@Component('BaseComponent')
 export class BaseComponent implements IComponent {
     public readonly uuid = uuid();
 
