@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.3...sparkengineweb-v0.17.4) (2025-11-30)
+
+
+### Features
+
+* **ecs:** add ability to retrieve all registered components ([c685368](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/c6853687e49cbe9edb1bd99edde5682d703cc696))
+
 ## [0.17.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.2...sparkengineweb-v0.17.3) (2025-08-31)
 
 
