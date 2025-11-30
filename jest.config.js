@@ -14,6 +14,10 @@ module.exports = {
   transform: {
     '.+(\.test\.ts)$': ['ts-jest', {
       tsconfig: './test/unit/tsconfig.json'
-    }]
+    }],
+    'node_modules/uuid/.+\\.js$': 'ts-jest'
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(uuid)/)'
+  ],
 };
