@@ -4,15 +4,35 @@ on:
     types: [created, edited]
 
 jobs:
+  get_playwright_version:
+    name: Get Playwright Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    if: ${{github.event.issue.pull_request && contains(github.event.comment.body, '/update-baseline-visual') && (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'COLLABORATOR') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_SPARKBOT_TOKEN }}
+          sparse-checkout: |
+            package.json
+
+      - name: Get Playwright version from package.json
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').devDependencies['@playwright/test'].replace(/[\^~]/, '')")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using Playwright version: $VERSION"
+
   update_baselines:
     name: Update Visual Baseline
+    needs: get_playwright_version
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.57.0-jammy
+      image: mcr.microsoft.com/playwright:v${{ needs.get_playwright_version.outputs.version }}-jammy
     permissions:
       contents: write
       pull-requests: write
-    if: ${{github.event.issue.pull_request && contains(github.event.comment.body, '/update-baseline-visual') && (github.event.comment.author_association == 'OWNER' || github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'COLLABORATOR') }}
     steps:
       - name: Add reaction to comment
         uses: actions/github-script@v7

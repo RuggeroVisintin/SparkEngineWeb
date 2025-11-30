@@ -28,12 +28,32 @@ on:
         type: string
 
 jobs:
+  get_playwright_version:
+    name: Get Playwright Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          sparse-checkout: |
+            package.json
+
+      - name: Get Playwright version from package.json
+        id: get_version
+        run: |
+          VERSION=$(node -p "require('./package.json').devDependencies['@playwright/test'].replace(/[\^~]/, '')")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using Playwright version: $VERSION"
+
   test_visual:
     name: Visual Tests
+    needs: get_playwright_version
     timeout-minutes: 5
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.57.0-jammy
+      image: mcr.microsoft.com/playwright:v${{ needs.get_playwright_version.outputs.version }}-jammy
     permissions:
       pull-requests: write
       contents: read
