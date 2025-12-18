@@ -1,4 +1,3 @@
-import { get } from "http";
 import { getRegisteredTypes, registerTypeFactory } from "../factory";
 
 export type WithType<T extends {}> = T & {
@@ -32,7 +31,7 @@ export function Type(value: string, category?: string) {
  * @returns the type of the object
  */
 export function typeOf(object: any): string {
-    return object.__type;
+    return object.__type ?? object.prototype.__type;
 }
 
 /**
@@ -43,7 +42,7 @@ export function typeOf(object: any): string {
  * @returns the type chain of the object
  */
 export function typesOf(object: any): string[] {
-    return object.__types;
+    return object.__types || object.prototype.__types;
 }
 
 export function allOf(category?: string): Record<string, Function> {
