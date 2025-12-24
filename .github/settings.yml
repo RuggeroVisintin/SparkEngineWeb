@@ -33,4 +33,12 @@ branches:
       required_linear_history: true
       allow_force_pushes: false
       allow_deletions: false
-      restrictions: null
+      block_creations: false
+      required_conversation_resolution: false
+      lock_branch: false
+      allow_fork_syncing: false
+      restrictions:
+        apps:
+          - release-please[bot]
+        users: []
+        teams: []
