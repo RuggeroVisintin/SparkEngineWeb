@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.4...sparkengineweb-v0.17.5) (2025-12-24)
+
+
+### Features
+
+* **core:** add ability to infer type from class name ([4ac70e9](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/4ac70e92568a8a21df5eac8cf752dedd0f730525))
+
 ## [0.17.4](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.3...sparkengineweb-v0.17.4) (2025-11-30)
 
 
