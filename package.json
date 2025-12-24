@@ -68,7 +68,8 @@
     "typedoc": "^0.28.15",
     "typescript": "^5.9.3",
     "webpack": "^5.103.0",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "release-please": "github:RuggeroVisintin/release-please"
   },
   "dependencies": {
     "uuid": "^13.0.0"

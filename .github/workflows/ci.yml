@@ -103,39 +103,42 @@ jobs:
         pages: write
         id-token: write
       steps:
-        - uses: googleapis/release-please-action@v4
-          id: release
-          with:
-            # this assumes that you have created a personal access token
-            # (PAT) and configured it as a GitHub action secret named
-            # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
-            token: ${{ secrets.GITHUB_TOKEN }}
         - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
         - uses: actions/setup-node@v4
           with:
             node-version: 20
+        
+        - name: Install dependencies (includes release-please fork)
+          run: npm ci
+        
+        - name: Run release-please
+          run: |
+            npx release-please release-pr \
+              --token="${{ secrets.GITHUB_TOKEN }}" \
+              --repo-url="${{ github.repository }}"
+        
         - uses: actions/download-artifact@master
           with:
             name: coverage-badge-artifact
             path: .github/pages/badges/coverage.badge.svg
-        - name: install
-          run: npm ci
         - name: build web bundle
           run: npm run build
         - name: build lib
           run: npm run build:lib
         - name: upload release artifact
-          if: ${{ steps.release.outputs.release_created }}
           env: 
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            tar -czvf "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz" -C dist/jsbundle .
-            tar -czvf "${{ steps.release.outputs.tag_name }}-lib.tar.gz" -C dist/lib .
-            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz"
-            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-lib.tar.gz"
+            if gh release view "${GITHUB_TAG_NAME}" >/dev/null 2>&1; then
+              tar -czvf "${GITHUB_TAG_NAME}-jsbundle.tar.gz" -C dist/jsbundle .
+              tar -czvf "${GITHUB_TAG_NAME}-lib.tar.gz" -C dist/lib .
+              gh release upload "${GITHUB_TAG_NAME}" "${GITHUB_TAG_NAME}-jsbundle.tar.gz"
+              gh release upload "${GITHUB_TAG_NAME}" "${GITHUB_TAG_NAME}-lib.tar.gz"
+            fi
         - name: build docs
           id: docs
-          if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}
           run: |
             npm run build:docs
             mkdir -p .github/pages/
