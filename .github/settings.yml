@@ -37,8 +37,8 @@ branches:
       required_conversation_resolution: false
       lock_branch: false
       allow_fork_syncing: false
-      restrictions:
+      bypass_pull_request_allowances:
         apps:
-          - release-please[bot]
+          - github-actions[bot]
         users: []
         teams: []
