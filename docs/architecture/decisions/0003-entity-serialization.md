@@ -23,9 +23,6 @@ While this makes sense from a readability perspective, it needs an entity specif
 - Desiarilazion code is much more complicated, as it is based on specific Entity class
 - Components added dynamically through `addComponent` are not serialized in the structure
 
-### Solution - Flat Component List
-
-
 ## Decision
 
 While we still want to retain link properties like `transform` and `material` in specific entity classes --Like `GameObject`-- for easier access we want to store them like so
