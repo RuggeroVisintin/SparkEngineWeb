@@ -141,17 +141,19 @@ Use decorators to register nullable property metadata in a global registry, simi
 ```typescript
 @Component('MaterialComponent')
 export class MaterialComponent extends BaseComponent {
-    @NullableProperty(Rgb)
+    @Optional(Rgb)
     diffuseColor?: Rgb;
     
-    @NullableProperty(ImageAsset)
+    @Optional(ImageAsset)
     diffuseTexture?: ImageAsset;
 }
 
 // In UI
-const propertyType = nullablePropertiesRegistry.get(componentType)?.get(propertyName);
-if (propertyType === Rgb) {
-    // render color picker
+
+const material = new MatierialComponent();
+
+if(getOptionalType(material, 'color') === Rgb) {
+    // Do something
 }
 ```
 
@@ -166,19 +168,21 @@ if (propertyType === Rgb) {
 
 **Good** because it is transparent and easy to debug
 
-**Bad** because it requires decorators to be applied to nullable properties
+**Bad** because it requires decorators to be applied to optional properties
 
-**Bad** because it introduces a new global registry which comes with minimal runtime footprint
+**Bad** because it introduces a new global registry alongside the type factory
 
 ## Decision
 
-1) We will use a decoratero-based approach due to its ability to scale well with new properties / components without requiring mapping from outside the engine core
+We will use a decorator-based approach with a global registry to store optional property type information. This leverages the existing type factory pattern and avoids external dependencies.
 
-2) We will avoid using external libraries to avoid bloating up the source size
+1) Create a global `optionalPropertiesRegistry` Map to store optional property types
 
-3) We will provide utilities to check if a null property is of a given type at runtime
+2) Create an `@Optional(Type)` decorator that registers type metadata to the registry
 
-4) We will enforce each nullable properties to have its own decorator through static analysis
+3) Update component classes to use the decorator on optional properties
+
+4) Update the editor UI to query the registry when initializing property editors
 
 ## Consequences
 
@@ -191,5 +195,5 @@ if (propertyType === Rgb) {
 - No external dependencies required
 
 **Tradeoffs:**
-- Developers must apply decorators to new nullable properties
+- Developers must apply the `@Optional` decorator to optional properties
 - Adds a new global registry alongside the type factory

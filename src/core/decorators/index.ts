@@ -1,2 +1,2 @@
-export * from './typeDecorator';
+export * from './typed';
 export * from './incrementallyUniqueDecorator';

@@ -1,5 +1,4 @@
-import { WithType } from "../../core";
-import { Nullable } from "../../core/types";
+import { WithType, Nullable } from "../../core";
 import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { Component, ComponentProps } from "./interfaces";
