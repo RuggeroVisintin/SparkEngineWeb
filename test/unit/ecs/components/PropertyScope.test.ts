@@ -1,9 +1,10 @@
+import { BaseComponent } from "../../../../src";
 import { PropertyScope } from "../../../../src/ecs/components/PropertyScope";
 
 describe('ecs/components/PropertyScope', () => {
     describe('PropertyScope.getPublicProperties', () => {
         it('should return all public properties from a component instance', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 public name: string = 'test';
                 public value: number = 42;
                 private _internal: string = 'hidden';
@@ -23,7 +24,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should include getter properties', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 private _x: number = 10;
 
                 public get x(): number {
@@ -43,7 +44,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should filter out private properties starting with underscore', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 public visible: string = 'public';
                 private _hidden: string = 'private';
                 protected _protected: string = 'protected';
@@ -58,7 +59,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should handle inheritance', () => {
-            class BaseComponent {
+            class ParentComponent extends BaseComponent {
                 public baseProperty: string = 'base';
 
                 public get baseProp(): string {
@@ -66,11 +67,11 @@ describe('ecs/components/PropertyScope', () => {
                 }
             }
 
-            class DerivedComponent extends BaseComponent {
+            class ChildComponent extends ParentComponent {
                 public derivedProperty: number = 42;
             }
 
-            const instance = new DerivedComponent();
+            const instance = new ChildComponent();
             const props = PropertyScope.getPublicProperties(instance);
 
             expect(props).toContain('baseProperty');
@@ -79,7 +80,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should exclude methods but include properties', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 public data: string = 'value';
 
                 public method() {
@@ -100,7 +101,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should filter writable properties with getters/setters', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 private _x: number = 10;
                 private _y: number = 20;
 
@@ -131,7 +132,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should filter readonly properties (getter-only) correctly', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 private _id: string = '123';
                 public name: string = 'test';
 
@@ -148,7 +149,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should filter writable data properties correctly', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 public name: string = 'test';
                 public age: number = 25;
             }
@@ -163,7 +164,7 @@ describe('ecs/components/PropertyScope', () => {
 
     describe('PropertyScope.getPropertyInfo', () => {
         it('should return property value and accessor info', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 public name: string = 'test';
             }
 
@@ -176,7 +177,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should detect getter-only properties', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 private _x: number = 42;
 
                 public get x(): number {
@@ -193,7 +194,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should detect setter-only properties', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 private _x: number = 0;
 
                 public set x(value: number) {
@@ -210,7 +211,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should detect getter and setter properties', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 private _x: number = 10;
 
                 public get x(): number {
@@ -231,7 +232,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should return undefined for non-existent properties', () => {
-            class TestComponent {
+            class TestComponent extends BaseComponent {
                 public name: string = 'test';
             }
 
@@ -244,7 +245,7 @@ describe('ecs/components/PropertyScope', () => {
         });
 
         it('should handle inherited getter/setter properties', () => {
-            class BaseComponent {
+            class ParentComponent extends BaseComponent {
                 private _base: number = 100;
 
                 public get baseValue(): number {
@@ -256,11 +257,11 @@ describe('ecs/components/PropertyScope', () => {
                 }
             }
 
-            class DerivedComponent extends BaseComponent {
+            class ChildComponent extends ParentComponent {
                 public value: number = 42;
             }
 
-            const instance = new DerivedComponent();
+            const instance = new ChildComponent();
             const info = PropertyScope.getPropertyInfo(instance, 'baseValue');
 
             expect(info.value).toBe(100);

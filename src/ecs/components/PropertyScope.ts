@@ -1,3 +1,5 @@
+import { IComponent } from "./interfaces";
+
 /**
  * @category Components
  * 
@@ -34,7 +36,7 @@ export class PropertyScope {
      * // Returns: ['uuid'] (only getter-only properties)
      * ```
      */
-    public static getPublicProperties(instance: any, options?: { writable?: boolean }): string[] {
+    public static getPublicProperties(instance: IComponent, options?: { writable?: boolean }): string[] {
         const properties = new Set<string>();
 
         // Get own enumerable properties (data properties)
@@ -89,7 +91,7 @@ export class PropertyScope {
      * @returns Object with value and whether it's a getter/setter
      */
     public static getPropertyInfo(
-        instance: any,
+        instance: IComponent,
         property: string
     ): { value: any; hasGetter: boolean; hasSetter: boolean } {
         let obj = instance;
