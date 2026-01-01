@@ -207,15 +207,15 @@ function getNonNullableTypeNode(typeNode) {
 function resolveToRuntimeType(tsPropertyTypeNode, propertyTypeName, checker) {
     // Get the type from the type node
     const type = checker.getTypeAtLocation(tsPropertyTypeNode);
-    
+
     // For union types (including instantiated generics like Nullable<T> = T | null),
     // find the first non-undefined/non-null member
     if (type.isUnion && type.isUnion()) {
         for (const unionType of type.types) {
             const flags = unionType.flags;
             // Skip undefined, null, and void types
-            if (!(flags & ts.TypeFlags.Undefined) && 
-                !(flags & ts.TypeFlags.Null) && 
+            if (!(flags & ts.TypeFlags.Undefined) &&
+                !(flags & ts.TypeFlags.Null) &&
                 !(flags & ts.TypeFlags.Void)) {
                 const symbol = unionType.symbol || unionType.aliasSymbol;
                 if (symbol) {
@@ -224,7 +224,7 @@ function resolveToRuntimeType(tsPropertyTypeNode, propertyTypeName, checker) {
             }
         }
     }
-    
+
     const symbol = type.symbol || type.aliasSymbol;
 
     if (!symbol) {
