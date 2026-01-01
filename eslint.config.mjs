@@ -31,5 +31,32 @@ export default defineConfig([{
         eqeqeq: "error",
         "no-eval": "error",
         "no-implied-eval": "error",
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                selector: "classProperty",
+                modifiers: ["private", "protected"],
+                format: ["camelCase"],
+                leadingUnderscore: "require",
+            },
+            {
+                selector: "classProperty",
+                modifiers: ["public"],
+                format: ["camelCase"],
+                leadingUnderscore: "forbid",
+            },
+            {
+                selector: "classMethod",
+                modifiers: ["private", "protected"],
+                format: ["camelCase"],
+                leadingUnderscore: "require",
+            },
+            {
+                selector: "classMethod",
+                modifiers: ["public"],
+                format: ["camelCase"],
+                leadingUnderscore: "forbid",
+            },
+        ],
     },
 }]);
