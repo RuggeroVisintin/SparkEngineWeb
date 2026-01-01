@@ -1,4 +1,4 @@
-import { KeyEvent, KeyStatus, KeyStatusMap, KeyboardDevice } from "../../../../src";
+import { KeyStatus, KeyStatusMap, KeyboardDevice } from "../../../../src";
 
 describe('platform/inputs/KeyboardDevice', () => {
     let keyboardDevice = new KeyboardDevice();
@@ -9,7 +9,7 @@ describe('platform/inputs/KeyboardDevice', () => {
 
     describe('.pushInputListener()', () => {
         it('Should register a new inputListener in the listener list', () => {
-            const callback = jest.fn((keyStatusMap: KeyStatusMap) => {});
+            const callback = jest.fn((keyStatusMap: KeyStatusMap) => { });
 
             keyboardDevice.pushInputListener(callback);
 
@@ -56,7 +56,7 @@ describe('platform/inputs/KeyboardDevice', () => {
 
             const keyDownEvent = new KeyboardEvent('keydown', { code: 'KeyA' });
             const keyUpEvent = new KeyboardEvent('keyup', { code: 'KeyA' });
-            
+
             window.dispatchEvent(keyDownEvent);
             window.dispatchEvent(keyUpEvent);
 

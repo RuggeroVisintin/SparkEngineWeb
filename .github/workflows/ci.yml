@@ -38,7 +38,7 @@ jobs:
           run: npm ci
   
         - name: test
-          run: npm run test:ci
+          run: npm run test:unit:ci
 
         - name: issue badge
           run: |
@@ -92,7 +92,24 @@ jobs:
         ref: ${{ github.sha }}
         event_name: ${{ github.event_name }}
       secrets: inherit
-      
+
+    test_eslint:
+      name: Eslint Rules Tests
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v4
+        
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 20
+
+        - name: install
+          run: npm ci
+
+        - name: test
+          run: npm run test:eslint-rules:ci
+
     publish:
       name: Publish
       timeout-minutes: 2

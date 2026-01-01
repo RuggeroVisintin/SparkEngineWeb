@@ -3,7 +3,10 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['<rootDir>/test'],
   testEnvironment: 'jsdom',
-  testMatch: ['<rootDir>/test/unit/**/*.test.ts'],
+  testMatch: [
+    '<rootDir>/test/unit/**/*.test.ts',
+    '<rootDir>/test/eslint-rules/**/*.test.js'
+  ],
   workerThreads: true,
   setupFiles: [
     "jest-canvas-mock"
@@ -12,8 +15,11 @@ module.exports = {
     "jest-extended/all"
   ],
   transform: {
-    '.+(\.test\.ts)$': ['ts-jest', {
+    '^.+\\.test\\.ts$': ['ts-jest', {
       tsconfig: './test/unit/tsconfig.json'
+    }],
+    '^.+\\.test\\.js$': ['ts-jest', {
+      tsconfig: './test/eslint-rules/tsconfig.json'
     }],
     'node_modules/uuid/.+\\.js$': 'ts-jest'
   },

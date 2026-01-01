@@ -1,4 +1,4 @@
-import { Vec2, WithType } from "../../core";
+import { Optional, SerializableCallback, Vec2, WithType } from "../../core";
 import { PhysicsObject, Physx } from "../../physx";
 import { BaseComponent } from "./BaseComponent";
 import { TransformComponent } from "./TransformComponent";
@@ -39,6 +39,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
     /**
      * Callback to invoke when a collision with another physical object is detected
      */
+    @Optional(SerializableCallback)
     public onCollisionCb?: CollisionCallback;
 
     /**

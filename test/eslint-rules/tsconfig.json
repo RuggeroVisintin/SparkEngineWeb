@@ -12,9 +12,14 @@
         "strictBindCallApply": true,
         "strictPropertyInitialization": true,
         "resolveJsonModule": true,
+        "allowJs": true,
         "noEmit": true
     },
     "files": [
         "../../node_modules/jest-extended/types/index.d.ts"
-    ]
+    ],
+    "include": [
+        "./**/*.test.ts",
+        "./fixtures/**/*.ts"
+    ],
 }

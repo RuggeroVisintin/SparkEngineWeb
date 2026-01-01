@@ -1,4 +1,4 @@
-import { Rgb, RgbProps, WithType } from "../../core";
+import { Optional, Rgb, RgbProps, WithType } from "../../core";
 import { ImageAsset, DOMImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { Component } from "./interfaces";
@@ -40,6 +40,7 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         this._isDefaultDiffuseColor = false;
     }
 
+    @Optional(Rgb)
     public get diffuseColor(): Rgb | undefined {
         return this._diffuseColor;
     }
@@ -56,10 +57,12 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         if (this._isDefaultDiffuseColor === true) this._diffuseColor = undefined;
     }
 
+    @Optional(String)
     public get diffuseTexturePath(): string | undefined {
         return this._diffuseTexturePath;
     }
 
+    @Optional(ImageAsset)
     get diffuseTexture(): ImageAsset | undefined {
         return this._diffuseTexture;
     }

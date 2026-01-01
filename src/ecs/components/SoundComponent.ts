@@ -1,5 +1,4 @@
-import { WithType } from "../../core";
-import { Nullable } from "../../core/types";
+import { WithType, Nullable, Optional } from "../../core";
 import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { Component, ComponentProps } from "./interfaces";
@@ -40,11 +39,16 @@ export class SoundComponent extends BaseComponent {
      * @returns {SoundAsset} if the sound is fonud and loaded
      * @returns {null} if the sound is not found or not loaded
      */
+    @Optional(SoundAsset)
     public get asset(): Nullable<SoundAsset> {
         return this._asset;
     }
 
-    public readonly filePath: string;
+    private _filePath: string;
+
+    public get filePath(): string {
+        return this._filePath;
+    }
 
     /**
      * @param filePath - Path of the file to load
@@ -55,7 +59,7 @@ export class SoundComponent extends BaseComponent {
     ) {
         super();
 
-        this.filePath = props.filePath;
+        this._filePath = props.filePath;
     }
 
     /**
