@@ -3,7 +3,10 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['<rootDir>/test'],
   testEnvironment: 'jsdom',
-  testMatch: ['<rootDir>/test/unit/**/*.test.ts'],
+  testMatch: [
+    '<rootDir>/test/unit/**/*.test.ts',
+    '<rootDir>/test/eslint-rules/**/*.test.js'
+  ],
   workerThreads: true,
   setupFiles: [
     "jest-canvas-mock"

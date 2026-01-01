@@ -21,6 +21,7 @@
     "clean": "npx tsc --build --clean",
     "test": "jest --watch",
     "test:ci": "jest --config jest.ci.config.js",
+    "test:eslint-rules": "node test/eslint-rules/optional-decorator-type-consistency.test.js",
     "test:perf": "npx ts-node test/performance/bench.perf.ts",
     "test:perf:ci": "npm run test:perf -- --no-color",
     "test:visual": "npx playwright test",
