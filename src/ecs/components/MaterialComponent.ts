@@ -57,6 +57,7 @@ export class MaterialComponent extends BaseComponent implements MaterialComponen
         if (this._isDefaultDiffuseColor === true) this._diffuseColor = undefined;
     }
 
+    @Optional(String)
     public get diffuseTexturePath(): string | undefined {
         return this._diffuseTexturePath;
     }

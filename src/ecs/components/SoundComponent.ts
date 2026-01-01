@@ -1,4 +1,4 @@
-import { WithType, Nullable } from "../../core";
+import { WithType, Nullable, Optional } from "../../core";
 import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { Component, ComponentProps } from "./interfaces";
@@ -39,6 +39,7 @@ export class SoundComponent extends BaseComponent {
      * @returns {SoundAsset} if the sound is fonud and loaded
      * @returns {null} if the sound is not found or not loaded
      */
+    @Optional(SoundAsset)
     public get asset(): Nullable<SoundAsset> {
         return this._asset;
     }

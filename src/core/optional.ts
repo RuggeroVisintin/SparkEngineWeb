@@ -12,18 +12,33 @@ const classRegistry = new WeakMap<Function, Map<string, any>>();
  * Decorator to register optional property types for runtime type inference.
  * Enables type inference directly from class instances.
  *
+ * For type aliases, pass the resolved runtime class, not the alias itself.
+ * The ESLint rule `optional-decorator-type-consistency` enforces this automatically.
+ *
+ * @param type The runtime class/constructor that represents the property's type.
+ *             For type aliases, use the base runtime class they resolve to.
+ *
  * @example
  * ```typescript
+ * // For direct class types:
  * class MaterialComponent {
  *   @Optional(Rgb)
  *   diffuseColor?: Rgb;
  * }
+ * 
+ * // For type aliases, use the base runtime class:
+ * // type CollisionCallback = SerializableCallback<...>
+ * class BoundingBoxComponent {
+ *   @Optional(SerializableCallback)  // Use runtime class, not alias
+ *   onCollision?: CollisionCallback;  // Type annotation can use alias
+ * }
  *
  * const material = new MaterialComponent();
  * getOptionalType(material, 'diffuseColor') // Returns Rgb
+ * getOptionalType(material, 'onCollision') // Returns SerializableCallback
  * ```
  */
-export function Optional(type: any): PropertyDecorator {
+export function Optional<T>(type: T): PropertyDecorator {
     return (target: Object, propertyKey: string | symbol) => {
         const ctor = target.constructor;
 
