@@ -9,3 +9,4 @@ export * from './SoundComponent';
 export * from './RigidBodyComponent';
 export * from './CameraComponent';
 export * from './AnimationComponent';
+export * as EcsUtils from './utils';

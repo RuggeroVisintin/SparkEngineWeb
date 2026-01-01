@@ -57,7 +57,7 @@ const readonly = PropertyScope.getPublicProperties(component, { writable: false 
 
 ## Enforcement
 
-Component classes are enforced to use the getter pattern for public readonly properties (not the TypeScript `readonly` keyword) via a custom ESLint rule. Private/protected properties can use `readonly` as needed. This ensures readonly properties are detectable at runtime through `PropertyScope.getPropertyInfo()`.
+Component classes are enforced to use the getter pattern for public readonly properties (not the TypeScript `readonly` keyword) via a custom ESLint rule. Private/protected properties can use `readonly` as needed. This ensures readonly properties are detectable at runtime through runtime inspection of property descriptors.
 
 Example enforcement:
 ```typescript
