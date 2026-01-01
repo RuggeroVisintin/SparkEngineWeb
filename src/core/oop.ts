@@ -3,6 +3,9 @@
  * 
  * PropertyScope utility for discovering public, protected, and private properties on class instances.
  * Handles both own properties and getter/setter properties from the prototype chain.
+ * 
+ * Note: Component classes must use the getter pattern (no setters) for readonly properties.
+ * This enables runtime detectability via PropertyScope.
  */
 export class PropertyScope {
     /**
@@ -10,22 +13,32 @@ export class PropertyScope {
      * Excludes private properties (starting with _) and methods.
      * 
      * @param instance The class instance to inspect
+     * @param options Optional filtering options
+     * @param options.writable If true, only include read/write properties; if false, only readonly. If undefined, include all.
      * @returns Array of public property names
      * 
      * @example
      * ```typescript
-     * const material = new MaterialComponent();
-     * PropertyScope.getPublicProperties(material) 
-     * // Returns: ['diffuseColor', 'opacity', 'diffuseTexture', 'diffuseTexturePath']
+     * const transform = new TransformComponent();
+     * PropertyScope.getPublicProperties(transform) 
+     * // Returns: ['position', 'rotation', 'scale']
+     * 
+     * PropertyScope.getPublicProperties(transform, { writable: true })
+     * // Returns: ['position', 'rotation', 'scale'] (only settable properties)
+     * 
+     * PropertyScope.getPublicProperties(transform, { writable: false })
+     * // Returns: ['uuid'] (only getter-only properties)
      * ```
      */
-    public static getPublicProperties(instance: any): string[] {
+    public static getPublicProperties(instance: any, options?: { writable?: boolean }): string[] {
         const properties = new Set<string>();
 
-        // Get own enumerable properties
+        // Get own enumerable properties (data properties)
         for (const key of Object.keys(instance)) {
             if (!key.startsWith('_')) {
-                properties.add(key);
+                if (options?.writable === undefined || options.writable === true) {
+                    properties.add(key);
+                }
             }
         }
 
@@ -40,10 +53,19 @@ export class PropertyScope {
                     continue;
                 }
 
-                // Include getters, setters, and data properties
-                if (descriptor.get || descriptor.set || descriptor.value) {
-                    // Skip if it's a function (method)
-                    if (typeof descriptor.value !== 'function') {
+                // Process getters and setters
+                if (descriptor.get || descriptor.set) {
+                    const isWritable = !!descriptor.set;
+
+                    // Filter based on writable option
+                    if (options?.writable === undefined) {
+                        // Include all
+                        properties.add(key);
+                    } else if (options.writable === true && isWritable) {
+                        // Only include writable (has setter)
+                        properties.add(key);
+                    } else if (options.writable === false && !isWritable) {
+                        // Only include readonly (getter only)
                         properties.add(key);
                     }
                 }

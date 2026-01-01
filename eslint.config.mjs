@@ -4,6 +4,7 @@ import jestExtended from "eslint-plugin-jest-extended";
 import tsdoc from "eslint-plugin-tsdoc";
 import globals from "globals";
 import tsParser from "@typescript-eslint/parser";
+import noReadonlyInComponents from "./eslint-rules/no-readonly-in-components.js";
 
 export default defineConfig([{
     files: ["**/*.ts"],
@@ -11,6 +12,7 @@ export default defineConfig([{
         "@typescript-eslint": typescriptEslint,
         "jest-extended": jestExtended,
         tsdoc,
+        "no-readonly-in-components": { rules: { "no-readonly": noReadonlyInComponents } },
     },
 
     languageOptions: {
@@ -31,6 +33,7 @@ export default defineConfig([{
         eqeqeq: "error",
         "no-eval": "error",
         "no-implied-eval": "error",
+        "no-readonly-in-components/no-readonly": "error",
         "@typescript-eslint/naming-convention": [
             "error",
             {

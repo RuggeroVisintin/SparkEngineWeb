@@ -98,6 +98,67 @@ describe('core/oop', () => {
             expect(props).not.toContain('method');
             expect(props).not.toContain('anotherMethod');
         });
+
+        it('should filter writable properties with getters/setters', () => {
+            class TestComponent {
+                private _x: number = 10;
+                private _y: number = 20;
+
+                public get x(): number {
+                    return this._x;
+                }
+
+                public set x(value: number) {
+                    this._x = value;
+                }
+
+                public get y(): number {
+                    return this._y;
+                }
+            }
+
+            const instance = new TestComponent();
+            const allProps = PropertyScope.getPublicProperties(instance);
+            const writableProps = PropertyScope.getPublicProperties(instance, { writable: true });
+            const readonlyProps = PropertyScope.getPublicProperties(instance, { writable: false });
+
+            expect(allProps).toContain('x');
+            expect(allProps).toContain('y');
+            expect(writableProps).toContain('x');
+            expect(writableProps).not.toContain('y');
+            expect(readonlyProps).not.toContain('x');
+            expect(readonlyProps).toContain('y');
+        });
+
+        it('should filter readonly properties (getter-only) correctly', () => {
+            class TestComponent {
+                private _id: string = '123';
+                public name: string = 'test';
+
+                public get id(): string {
+                    return this._id;
+                }
+            }
+
+            const instance = new TestComponent();
+            const readonlyProps = PropertyScope.getPublicProperties(instance, { writable: false });
+
+            expect(readonlyProps).toContain('id');
+            expect(readonlyProps).not.toContain('name');
+        });
+
+        it('should filter writable data properties correctly', () => {
+            class TestComponent {
+                public name: string = 'test';
+                public age: number = 25;
+            }
+
+            const instance = new TestComponent();
+            const writableProps = PropertyScope.getPublicProperties(instance, { writable: true });
+
+            expect(writableProps).toContain('name');
+            expect(writableProps).toContain('age');
+        });
     });
 
     describe('PropertyScope.getPropertyInfo', () => {

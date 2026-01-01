@@ -21,23 +21,65 @@ This approach was favored over alternatives (e.g., decorators or reflect-metadat
 ```typescript
 @Component('TransformComponent')
 export class TransformComponent extends BaseComponent {
-  // Public properties (no prefix) - discovered by PropertyScope
+  // Writable data properties (public, no underscore)
   position: Vector2 = new Vector2(0, 0);
   rotation: number = 0;
   scale: Vector2 = new Vector2(1, 1);
 
-  // Protected properties (underscore prefix)
-  protected _isDirty: boolean = false;
+  // Readonly property (getter-only, no setter)
+  private _uuid: string = generateId();
+  public get uuid(): string {
+    return this._uuid;
+  }
 
-  // Private properties (underscore prefix)
+  // Protected/internal state (underscore prefix - not exposed)
+  protected _isDirty: boolean = false;
   private _cachedMatrix: Matrix4 | null = null;
 }
 
 // Usage with PropertyScope
 const component = new TransformComponent();
-const publicProps = PropertyScope.getPublicProperties(component);
+
+// Get all public properties (data + getters/setters)
+const allProps = PropertyScope.getPublicProperties(component);
+// Result: ['position', 'rotation', 'scale', 'uuid']
+
+// Get only writable properties (data + getters with setters)
+const writable = PropertyScope.getPublicProperties(component, { writable: true });
 // Result: ['position', 'rotation', 'scale']
-// Filtered out: '_isDirty', '_cachedMatrix'
+
+// Get only readonly properties (getter-only)
+const readonly = PropertyScope.getPublicProperties(component, { writable: false });
+// Result: ['uuid']
+```
+
+## Enforcement
+
+Component classes are enforced to use the getter pattern for public readonly properties (not the TypeScript `readonly` keyword) via a custom ESLint rule. Private/protected properties can use `readonly` as needed. This ensures readonly properties are detectable at runtime through `PropertyScope.getPropertyInfo()`.
+
+Example enforcement:
+```typescript
+// ❌ Forbidden in components
+@Component('Example')
+export class Example extends BaseComponent {
+    public readonly id: string = uuid();  // Error: must use getter
+}
+
+// ✅ Allowed in components
+@Component('Example')
+export class Example extends BaseComponent {
+    private _id: string = uuid();
+    
+    public get id(): string {
+        return this._id;
+    }
+}
+
+// ✅ OK - private readonly is allowed
+@Component('Example')
+export class Example extends BaseComponent {
+    private readonly _uuid = uuid();
+}
 ```
 
 ## Consequences

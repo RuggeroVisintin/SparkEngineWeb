@@ -43,7 +43,11 @@ export class SoundComponent extends BaseComponent {
         return this._asset;
     }
 
-    public readonly filePath: string;
+    private _filePath: string;
+
+    public get filePath(): string {
+        return this._filePath;
+    }
 
     /**
      * @param filePath - Path of the file to load
@@ -54,7 +58,7 @@ export class SoundComponent extends BaseComponent {
     ) {
         super();
 
-        this.filePath = props.filePath;
+        this._filePath = props.filePath;
     }
 
     /**
