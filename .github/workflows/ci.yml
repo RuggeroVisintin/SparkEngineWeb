@@ -38,7 +38,7 @@ jobs:
           run: npm ci
   
         - name: test
-          run: npm run test:ci
+          run: npm run test:unit:ci
 
         - name: issue badge
           run: |
@@ -108,7 +108,7 @@ jobs:
           run: npm ci
 
         - name: test
-          run: npm run test:eslint-rules
+          run: npm run test:eslint-rules:ci
 
     publish:
       name: Publish

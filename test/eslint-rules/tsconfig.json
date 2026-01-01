@@ -12,6 +12,7 @@
         "strictBindCallApply": true,
         "strictPropertyInitialization": true,
         "resolveJsonModule": true,
+        "allowJs": true,
         "noEmit": true
     },
     "files": [
