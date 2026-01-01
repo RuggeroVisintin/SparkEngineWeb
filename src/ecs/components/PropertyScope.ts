@@ -1,18 +1,22 @@
 /**
- * @category Core
+ * @category Components
  * 
- * PropertyScope utility for discovering public, protected, and private properties on class instances.
+ * PropertyScope utility for discovering public properties on component instances.
  * Handles both own properties and getter/setter properties from the prototype chain.
  * 
- * Note: Component classes must use the getter pattern (no setters) for readonly properties.
- * This enables runtime detectability via PropertyScope.
+ * This is a component-specific utility that relies on the naming convention:
+ * - Underscore prefix (_) for private/protected properties (hidden from UI)
+ * - No prefix for public properties (exposed for editing)
+ * 
+ * Component classes must use the getter pattern (no setters) for readonly properties
+ * to enable runtime detectability via PropertyScope.
  */
 export class PropertyScope {
     /**
-     * Get all public properties from a class instance, including getters and setters.
+     * Get all public properties from a component instance, including getters and setters.
      * Excludes private properties (starting with _) and methods.
      * 
-     * @param instance The class instance to inspect
+     * @param instance The component instance to inspect
      * @param options Optional filtering options
      * @param options.writable If true, only include read/write properties; if false, only readonly. If undefined, include all.
      * @returns Array of public property names
@@ -80,7 +84,7 @@ export class PropertyScope {
     /**
      * Get the value and descriptor of a property (handles getters/setters).
      * 
-     * @param instance The class instance
+     * @param instance The component instance
      * @param property The property name
      * @returns Object with value and whether it's a getter/setter
      */

@@ -1,8 +1,8 @@
-import { PropertyScope } from "../../../src/core/oop";
+import { PropertyScope } from "../../../../src/ecs/components/PropertyScope";
 
-describe('core/oop', () => {
+describe('ecs/components/PropertyScope', () => {
     describe('PropertyScope.getPublicProperties', () => {
-        it('should return all public properties from a class instance', () => {
+        it('should return all public properties from a component instance', () => {
             class TestComponent {
                 public name: string = 'test';
                 public value: number = 42;
