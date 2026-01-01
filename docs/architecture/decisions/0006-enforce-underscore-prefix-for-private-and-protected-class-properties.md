@@ -12,11 +12,13 @@ SparkEngineWeb's ECS architecture requires runtime introspection of **component 
 
 ## Decision
 
-Enforce an underscore prefix (`_`) for all private and protected class properties and methods in **component classes**, with no prefix for public members. This convention is automatically enforced via ESLint rule `@typescript-eslint/naming-convention` targeting `classProperty` and `classMethod` selectors.
+1. We will use underscore prefix (`_`) for all private and protected properties and methods in component classes to distinguish them with respect to public ones.
 
-This approach was favored over alternatives (e.g., decorators or reflect-metadata) because it is simple, effective, and requires minimal additional work. It leverages native JavaScript APIs and ESLint infrastructure already present in the project, avoiding unnecessary bundle bloat and runtime overhead.
+3. We will use the getter pattern (private backing field + public getter) for public readonly properties in components to enable runtime detection of readonly semantics via `Object.getOwnPropertyDescriptors()`.
 
-The `PropertyScope` utility (in `src/ecs/components/PropertyScope.ts`) is component-specific and enables runtime property introspection for UI generation and serialization.
+4. We will scope this convention to component classes only, identified by the `@Component` decorator or `BaseComponent` extension, avoiding unnecessary restrictions in other contexts.
+
+6. We will avoid decorators and reflect-metadata in favor of convention-based introspection using native JavaScript APIs, eliminating bundle bloat and runtime overhead while remaining simple and maintainable.
 
 ## Example
 
@@ -55,39 +57,10 @@ const readonly = PropertyScope.getPublicProperties(component, { writable: false 
 // Result: ['uuid']
 ```
 
-## Enforcement
-
-Component classes are enforced to use the getter pattern for public readonly properties (not the TypeScript `readonly` keyword) via a custom ESLint rule. Private/protected properties can use `readonly` as needed. This ensures readonly properties are detectable at runtime through runtime inspection of property descriptors.
-
-Example enforcement:
-```typescript
-// ❌ Forbidden in components
-@Component('Example')
-export class Example extends BaseComponent {
-    public readonly id: string = uuid();  // Error: must use getter
-}
-
-// ✅ Allowed in components
-@Component('Example')
-export class Example extends BaseComponent {
-    private _id: string = uuid();
-    
-    public get id(): string {
-        return this._id;
-    }
-}
-
-// ✅ OK - private readonly is allowed
-@Component('Example')
-export class Example extends BaseComponent {
-    private readonly _uuid = uuid();
-}
-```
-
 ## Consequences
 
 **Positive:**
-- Enables `PropertyScope` utility (component-specific) to reliably identify public properties using `Object.getOwnPropertyDescriptors()` 
+- Enables utility (component-specific) to reliably identify public properties using `Object.getOwnPropertyDescriptors()` 
 - Supports dynamic component property discovery without reflect-metadata overhead
 - Provides clear visual distinction between public API and internal implementation
 - Automatically enforced by linting, eliminating manual review burden
