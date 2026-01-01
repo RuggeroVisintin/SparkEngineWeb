@@ -208,19 +208,32 @@ function resolveToRuntimeType(tsPropertyTypeNode, propertyTypeName, checker) {
     // Get the type from the type node
     const type = checker.getTypeAtLocation(tsPropertyTypeNode);
 
+    // Check if this is a reference to a global constructor (String, Number, Boolean)
+    if (type.symbol) {
+        const symbolName = type.symbol.getName();
+        if (symbolName === 'StringConstructor') return 'String';
+        if (symbolName === 'NumberConstructor') return 'Number';
+        if (symbolName === 'BooleanConstructor') return 'Boolean';
+    }
+
     // For union types (including instantiated generics like Nullable<T> = T | null),
     // find the first non-undefined/non-null member
-    if (type.isUnion && type.isUnion()) {
-        for (const unionType of type.types) {
-            const flags = unionType.flags;
+    if (type.flags & ts.TypeFlags.Union) {
+        const unionType = type;
+        for (const memberType of unionType.types) {
+            const flags = memberType.flags;
             // Skip undefined, null, and void types
             if (!(flags & ts.TypeFlags.Undefined) &&
                 !(flags & ts.TypeFlags.Null) &&
                 !(flags & ts.TypeFlags.Void)) {
-                const symbol = unionType.symbol || unionType.aliasSymbol;
+                const symbol = memberType.symbol || memberType.aliasSymbol;
                 if (symbol) {
                     return resolveSymbolToRuntimeType(symbol, checker);
                 }
+                // Handle primitive types (string, number, boolean) directly
+                if (flags & ts.TypeFlags.String) return 'String';
+                if (flags & ts.TypeFlags.Number) return 'Number';
+                if (flags & ts.TypeFlags.Boolean) return 'Boolean';
             }
         }
     }
