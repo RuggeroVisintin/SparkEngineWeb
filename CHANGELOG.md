@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.17.6](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.5...sparkengineweb-v0.17.6) (2026-01-01)
+
+
+### Features
+
+* **core:** add `@Optional` decorator ([ccb1a3f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ccb1a3f9634a09b38ce472d0913bfb54d75ea5c6))
+* **ecs:** add utilities to list publicly available properties on any given component ([ccb1a3f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ccb1a3f9634a09b38ce472d0913bfb54d75ea5c6))
+* **ecs:** properly mark optional properties in components ([ccb1a3f](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/ccb1a3f9634a09b38ce472d0913bfb54d75ea5c6))
+
 ## [0.17.5](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.4...sparkengineweb-v0.17.5) (2025-12-24)
 
 
