@@ -1,8 +1,8 @@
 import { BaseComponent } from "../../../../../src";
-import { PropertyScope } from "../../../../../src/ecs/components/utils";
+import { getPublicProperties } from "../../../../../src/ecs/components/utils";
 
-describe('ecs/components/PropertyScope', () => {
-    describe('PropertyScope.getPublicProperties', () => {
+describe('ecs/components/getPublicProperties', () => {
+    describe('getPublicProperties', () => {
         it('should return all public properties from a component instance', () => {
             class TestComponent extends BaseComponent {
                 public name: string = 'test';
@@ -15,7 +15,7 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new TestComponent();
-            const props = PropertyScope.getPublicProperties(instance);
+            const props = getPublicProperties(instance);
 
             expect(props).toHaveProperty('name', 'test');
             expect(props).toHaveProperty('value', 42);
@@ -37,7 +37,7 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new TestComponent();
-            const props = PropertyScope.getPublicProperties(instance);
+            const props = getPublicProperties(instance);
 
             expect(props).toHaveProperty('x', 10);
             expect(props).not.toHaveProperty('_x');
@@ -51,7 +51,7 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new TestComponent();
-            const props = PropertyScope.getPublicProperties(instance);
+            const props = getPublicProperties(instance);
 
             expect(props).toHaveProperty('visible', 'public');
             expect(props).not.toHaveProperty('_hidden');
@@ -72,7 +72,7 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new ChildComponent();
-            const props = PropertyScope.getPublicProperties(instance);
+            const props = getPublicProperties(instance);
 
             expect(props).toHaveProperty('baseProperty', 'base');
             expect(props).toHaveProperty('baseProp', 'base');
@@ -93,7 +93,7 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new TestComponent();
-            const props = PropertyScope.getPublicProperties(instance);
+            const props = getPublicProperties(instance);
 
             expect(props).toHaveProperty('data', 'value');
             expect(props).not.toHaveProperty('method');
@@ -119,9 +119,9 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new TestComponent();
-            const allProps = PropertyScope.getPublicProperties(instance);
-            const writableProps = PropertyScope.getPublicProperties(instance, { writable: true });
-            const readonlyProps = PropertyScope.getPublicProperties(instance, { writable: false });
+            const allProps = getPublicProperties(instance);
+            const writableProps = getPublicProperties(instance, { writable: true });
+            const readonlyProps = getPublicProperties(instance, { writable: false });
 
             expect(allProps).toHaveProperty('x', 10);
             expect(allProps).toHaveProperty('y', 20);
@@ -142,7 +142,7 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new TestComponent();
-            const readonlyProps = PropertyScope.getPublicProperties(instance, { writable: false });
+            const readonlyProps = getPublicProperties(instance, { writable: false });
 
             expect(readonlyProps).toHaveProperty('id', '123');
             expect(readonlyProps).not.toHaveProperty('name');
@@ -155,7 +155,7 @@ describe('ecs/components/PropertyScope', () => {
             }
 
             const instance = new TestComponent();
-            const writableProps = PropertyScope.getPublicProperties(instance, { writable: true });
+            const writableProps = getPublicProperties(instance, { writable: true });
 
             expect(writableProps).toHaveProperty('name', 'test');
             expect(writableProps).toHaveProperty('age', 25);
