@@ -51,7 +51,7 @@ module.exports = {
 
                     // Get the property's type annotation
                     let propertyTypeNode;
-                    
+
                     // Handle regular properties
                     if (node.type === 'PropertyDefinition' && node.typeAnnotation?.typeAnnotation) {
                         propertyTypeNode = node.typeAnnotation.typeAnnotation;
@@ -60,7 +60,7 @@ module.exports = {
                     else if (node.type === 'MethodDefinition' && node.kind === 'get' && node.value?.returnType?.typeAnnotation) {
                         propertyTypeNode = node.value.returnType.typeAnnotation;
                     }
-                    
+
                     if (!propertyTypeNode) {
                         continue;
                     }
@@ -73,11 +73,11 @@ module.exports = {
 
                     // Get the actual type node (filtering out undefined/null from unions)
                     const actualPropertyTypeNode = getNonNullableTypeNode(propertyTypeNode);
-                    
+
                     // Convert ESTree node for the property type annotation to TS node
                     const tsPropertyTypeNode = parserServices.esTreeNodeToTSNodeMap.get(actualPropertyTypeNode);
                     const tsDecoratorArgNode = parserServices.esTreeNodeToTSNodeMap.get(decoratorArg);
-                    
+
                     if (!tsPropertyTypeNode || !tsDecoratorArgNode) {
                         continue;
                     }
@@ -100,7 +100,7 @@ module.exports = {
                         // Allow both TypeScript primitives (string) and JS constructors (String)
                         const normalizedProperty = propertyTypeName.toLowerCase();
                         const normalizedDecorator = decoratorTypeName.toLowerCase();
-                        
+
                         if (normalizedProperty !== normalizedDecorator) {
                             context.report({
                                 node: decorator,
@@ -158,7 +158,7 @@ function getTypeNameFromAnnotation(typeNode) {
     if (typeNode.type === 'TSStringKeyword') return 'string';
     if (typeNode.type === 'TSNumberKeyword') return 'number';
     if (typeNode.type === 'TSBooleanKeyword') return 'boolean';
-    
+
     // Handle TSTypeReference (e.g., CollisionCallback)
     if (typeNode.type === 'TSTypeReference' && typeNode.typeName) {
         return typeNode.typeName.name;
@@ -171,7 +171,7 @@ function getTypeNameFromAnnotation(typeNode) {
             if (unionType.type === 'TSStringKeyword') return 'string';
             if (unionType.type === 'TSNumberKeyword') return 'number';
             if (unionType.type === 'TSBooleanKeyword') return 'boolean';
-            
+
             // Then try type references
             if (unionType.type === 'TSTypeReference' && unionType.typeName) {
                 return unionType.typeName.name;
@@ -207,6 +207,24 @@ function getNonNullableTypeNode(typeNode) {
 function resolveToRuntimeType(tsPropertyTypeNode, propertyTypeName, checker) {
     // Get the type from the type node
     const type = checker.getTypeAtLocation(tsPropertyTypeNode);
+    
+    // For union types (including instantiated generics like Nullable<T> = T | null),
+    // find the first non-undefined/non-null member
+    if (type.isUnion && type.isUnion()) {
+        for (const unionType of type.types) {
+            const flags = unionType.flags;
+            // Skip undefined, null, and void types
+            if (!(flags & ts.TypeFlags.Undefined) && 
+                !(flags & ts.TypeFlags.Null) && 
+                !(flags & ts.TypeFlags.Void)) {
+                const symbol = unionType.symbol || unionType.aliasSymbol;
+                if (symbol) {
+                    return resolveSymbolToRuntimeType(symbol, checker);
+                }
+            }
+        }
+    }
+    
     const symbol = type.symbol || type.aliasSymbol;
 
     if (!symbol) {
@@ -224,7 +242,7 @@ function resolveSymbolToRuntimeType(symbol, checker) {
     if (symbol.flags & ts.SymbolFlags.Alias) {
         symbol = checker.getAliasedSymbol(symbol);
     }
-    
+
     const declarations = symbol.declarations;
     if (!declarations || declarations.length === 0) {
         return null;
