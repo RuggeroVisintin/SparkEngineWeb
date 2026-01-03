@@ -18,39 +18,7 @@ SparkEngineWeb components need to express enumerated types for properties like `
 
 This is problematic for:
 - **Editor UI**: Cannot detect enum properties to render appropriate select/dropdown controls
-- **Serialization**: Cannot distinguish enum values from regular strings/numbers
 - **Type Safety**: Property types are not enforced at runtime
-
-## Decision
-
-We will adopt a **class-based enum pattern** inspired by Java enums:
-
-1. Create a `BaseEnum<T>` abstract class in `src/core/enums/BaseEnum.ts` with:
-   - A protected constructor accepting a value (string | number)
-   - A `value` property exposing the enum value
-   - A static method for retrieving all enum members
-
-2. Define specific enums by extending `BaseEnum<T>`, declaring static readonly instances:
-   ```typescript
-   class BlendMethod extends BaseEnum<BlendMethod> {
-     static readonly Overwrite = new BlendMethod('source-over');
-     static readonly Add = new BlendMethod('lighter');
-     private constructor(value: string) { super(value); }
-     static getValues(): BlendMethod[] { return [this.Overwrite, this.Add]; }
-   }
-   ```
-
-3. Export enums from `src/core/enums/index.ts` for use in components.
-
-4. Update components to use enum types for enum properties instead of primitive types:
-   ```typescript
-   @Component('RenderComponent')
-   class RenderComponent {
-     blendMethod: BlendMethod = BlendMethod.Overwrite;
-   }
-   ```
-
-5. Create an ESLint rule to enforce that enum properties are instances of `BaseEnum` subclasses (preventing raw enum usage).
 
 ## Alternatives Considered
 
@@ -80,10 +48,9 @@ const options = Object.values(enumType);
 
 **Cons:**
 - Manual decoration on every property (easy to forget)
-- Another global registry to maintain
+- Another global registry to maintain (O(n) Map lookups per detection)
 - Type info separated from value (lookup required)
 - Need ESLint rule to enforce consistency
-- At runtime: values are just primitives, not self-describing
 
 ### Alternative 2: Hardcoded Registry
 
@@ -108,94 +75,55 @@ const enumType = enumRegistry[componentType]?.[propertyName];
 - Duplicates type information
 - Violates DRY principle
 
-## Selected Approach: Class-Based Enums
+## Alternative 3: Class-Based Enums
 
-### Example: Creating a New Enum
+Define enums as classes with static enum instances and a `getValues()` method. This enables:
+- **Type safety**: TypeScript enforces correct enum class usage
+- **Runtime detection**: Check if a type has a `getValues()` static method
+- **Minimal overhead**: No object instantiation, just static class definitions
+
+#### Example
 
 ```typescript
 // src/core/enums/BlendMethod.ts
-import { Type } from '../decorators/typed';
-import { BaseEnum } from './BaseEnum';
-BaseEnum } from './BaseEnum';
+import { Enum } from './Enum';
 
 /**
  * Blend method enumeration for canvas rendering.
  * @category Core
- */erwrite = new BlendMethod('source-over');
-  static readonly Add = new BlendMethod('lighter');
-
-  private constructor(value: string) {
-    super(value);
-  }
+ */
+export class BlendMethod extends BaseEnum<number> {
+  static readonly Overwrite = new BlendMethod(0);
+  static readonly Add = new BlendMethod(1);
 
   static getValues(): BlendMethod[] {
     return [this.Overwrite, this.Add];
   }
 }
-```
 
-### Example: Using Enums in Components
-
-```typescript
-import { Component, Type } from '../decorators/typed';
-import { BaseComponent } from './BaseComponent';
-import { BlendMeth } from '../decorators/typed';
-import { BaseComponent } from './BaseComponent';
-import { BlendMethod } from '../enums';
-
-@ComponentEnum property - type-safe
-  blendMethod: BlendMethod = BlendMethod.Overwrite;
-
-  // Regular properties
-  opacity: number = 1.0;
+export class RenderComponent {
+    public blendMethod: BlendMethod = BlendMethod.Overwrite;
 }
 ```
 
-### Example: Editor Detection
+## Decision
 
-```typescript
-// In spark-engine-web-editor
-import { BaseEnum } from 'sparkengineweb';
+1. We will use a class based approach to make sure enum can be reflected at runtime
 
-const valueToFormInput = (propertyName: string, value: any, component: any) => {
-  // Check if value is an enum
-  if (value instanceof BaseEnum) {
-    const enumClass = Object.getPrototypeOf(value).constructor;
-    const options = enumClass.getValues?.() || [];
-    
-    return (
-      <select 
-        value={value.value} 
-        onChange={(e) => {
-          const selected = options.find(opt => opt.value === e.target.value);
-          onChange?.(propertyName, selected);
-        }}
-      >
-        {options.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.value}
-          </option>
-        ))}
-      </select>
-    );
-  }
-  
-  // ... other type handling
-};
-```
+3. We will enforce usage of class based enum across the codebase to prevent potential bugs due to usage of primitive enums
 
 ## Consequences
 
 **Positive:**
-- Self-describing values (`value instanceof BaseEnum` is unambiguous)
-- Type-safe: TypeScript enforces enum values at compile time
-- No external registries needed (value carries all metadata)
+- Enum values are primitives (minimal memory footprint)
+- Type-safe: TypeScript enforces property types at compile time
+- No object instantiation overhead
 - Editor can detect and render enum properties automatically
-- One-time creation, then consistent pattern for all enums
-- Scales well (same pattern for all future enums)
-- ESLint rule is simple (`instanceof BaseEnum` checks)
-- Looks and feels like real enums (similar to Java)
-- Backward compatible (no changes to serialization format)
+- Consistent pattern for all enums
+- Scales well
+- ESLint rule enforces proper usage
+- Looks and feels like real enums
+- Fully backward compatible (primitives = no serialization changes)
 
 **Tradeoffs:**
 
