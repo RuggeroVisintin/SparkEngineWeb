@@ -7,7 +7,7 @@ describe('ecs/entities/BaseEntity', () => {
         baseEntity = new BaseEntity();
     });
 
-    describe('.constructor()', () => { 
+    describe('.constructor()', () => {
         it('Should have a name mathcing the entity type by default', () => {
             expect(baseEntity.name).toEqual('BaseEntity1');
         });
@@ -28,7 +28,7 @@ describe('ecs/entities/BaseEntity', () => {
             expect(baseEntity.getComponent<TransformComponent>('TransformComponent')?.toJson()).toEqual(testComponent.toJson());
         });
     })
-    
+
     describe('.addComponent()', () => {
         it('Should add component to entity', () => {
             const testComponent = new BaseComponent();
@@ -47,7 +47,7 @@ describe('ecs/entities/BaseEntity', () => {
         it('Should make the added component available with every type in the types chain', () => {
             @Type('ExtendedComponent')
             class ExtendedComponent extends BaseComponent { }
-            
+
 
             const testComponent = new ExtendedComponent();
 
@@ -57,10 +57,10 @@ describe('ecs/entities/BaseEntity', () => {
         })
     })
 
-    describe('.getComponent()', () => { 
+    describe('.getComponent()', () => {
         it('Should retrieve a specific component given a specific key', () => {
             const testComponent = new BaseComponent();
-            baseEntity.addComponent( testComponent);
+            baseEntity.addComponent(testComponent);
 
             expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toEqual(testComponent);
         })
@@ -82,7 +82,23 @@ describe('ecs/entities/BaseEntity', () => {
                 baseComponentA
             ]);
         })
-    })
+    });
+
+    describe('.components', () => {
+        it('Should return all components in the entity', () => {
+            const baseComponentA = new BaseComponent();
+            const baseComponentB = new BaseComponent();
+
+            baseEntity.addComponent(baseComponentA);
+            baseEntity.addComponent(baseComponentB);
+
+            expect(baseEntity.components).toEqual([
+                baseComponentA,
+                baseComponentB
+            ]);
+        });
+    });
+
 
     describe('.toJson()', () => {
         it('Should serialize the name and type of the entity', () => {
@@ -112,7 +128,7 @@ describe('ecs/entities/BaseEntity', () => {
 
         it('Should serialize the same component only once', () => {
             const testComponent = new TransformComponent();
-            
+
             baseEntity.addComponent(testComponent);
 
             expect(baseEntity.toJson()).toEqual(expect.objectContaining({
