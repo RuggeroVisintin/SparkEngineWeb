@@ -31,10 +31,10 @@ export class ShapeComponent extends BaseDrawableComponent implements IDrawableCo
      */
     public isWireframe = false;
 
-    private defaultMaterial = new MaterialComponent();
+    private _defaultMaterial = new MaterialComponent();
 
     public get material(): MaterialComponent {
-        return this.getContainer()?.getComponent('MaterialComponent') ?? this.defaultMaterial;
+        return this.getContainer()?.getComponent('MaterialComponent') ?? this._defaultMaterial;
     }
 
     public constructor(props?: ShapeComponentProps) {

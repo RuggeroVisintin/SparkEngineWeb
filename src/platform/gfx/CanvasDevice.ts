@@ -14,8 +14,8 @@ export type Matrix2D = [number, number, number, number, number, number]
  * @internal
  */
 export class CanvasDevice {
-    private wRatio = 1;
-    private hRatio = 1;
+    private _wRatio = 1;
+    private _hRatio = 1;
 
     public defaultStrokeThickness = 1;
 
@@ -83,8 +83,8 @@ export class CanvasDevice {
     }
 
     public setTransform(ctx: CanvasRenderingContext2D, matrix: Matrix2D): void {
-        const hRatio = this.hRatio;
-        const wRatio = this.wRatio;
+        const hRatio = this._hRatio;
+        const wRatio = this._wRatio;
 
         const canvasWidth = ctx.canvas?.width || 0;
         const canvasHeight = ctx.canvas?.height || 0;

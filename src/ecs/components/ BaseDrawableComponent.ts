@@ -16,7 +16,7 @@ export interface DrawableComponentProps {
  * @category Components
  */
 export abstract class BaseDrawableComponent extends BaseComponent implements IDrawableComponent {
-    private defaultTransform = new TransformComponent();
+    private _defaultTransform = new TransformComponent();
     private _isVisible = true;
 
 
@@ -31,7 +31,7 @@ export abstract class BaseDrawableComponent extends BaseComponent implements IDr
         super();
 
         if (props?.transform) {
-            this.defaultTransform = new TransformComponent(props.transform);
+            this._defaultTransform = new TransformComponent(props.transform);
         }
     }
 
@@ -40,7 +40,7 @@ export abstract class BaseDrawableComponent extends BaseComponent implements IDr
      * Otherwise it returns the default transform of the Shape
      */
     public get transform(): TransformComponent {
-        return this.getContainer()?.getComponent('TransformComponent') ?? this.defaultTransform;
+        return this.getContainer()?.getComponent('TransformComponent') ?? this._defaultTransform;
     }
 
     public hide(): void {

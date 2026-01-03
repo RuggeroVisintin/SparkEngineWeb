@@ -34,7 +34,7 @@ export interface BoundingBoxComponentProps {
  */
 @Component('BoundingBoxComponent')
 export class BoundingBoxComponent extends BaseComponent implements ICollidableComponent {
-    private defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 };
+    private _defaultAABB: AABB = { x: 0, y: 0, width: 0, height: 0 };
 
     /**
      * Callback to invoke when a collision with another physical object is detected
@@ -63,11 +63,11 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
 
         return this.matchContainerTransform && containerTransform
             ? { ...containerTransform.position, ...containerTransform.size }
-            : this.defaultAABB
+            : this._defaultAABB
     }
 
     public set aabb(value: AABB) {
-        this.defaultAABB = value;
+        this._defaultAABB = value;
     }
 
     public constructor(props?: BoundingBoxComponentProps) {

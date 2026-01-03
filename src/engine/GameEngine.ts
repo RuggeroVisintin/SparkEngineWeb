@@ -44,13 +44,13 @@ export interface GameEngineOptions {
  * @category Engine
  */
 export class GameEngine {
-    private readonly frametime: number;
-    private readonly physicsCycles: number;
-    private lastTick: number = 0;
+    private readonly _frametime: number;
+    private readonly _physicsCycles: number;
+    private _lastTick: number = 0;
 
-    private readonly physx: Physx;
-    private readonly context: CanvasRenderingContext2D;
-    private readonly inputs: KeyboardDevice;
+    private readonly _physx: Physx;
+    private readonly _context: CanvasRenderingContext2D;
+    private readonly _inputs: KeyboardDevice;
     public readonly renderer: Renderer;
 
     public readonly renderSystems: RenderSystem[];
@@ -66,22 +66,22 @@ export class GameEngine {
      * @param config - The configuration to use for this instance of GameEngine
      */
     constructor(config: GameEngineOptions) {
-        this.frametime = parseFloat((1000 / config.framerate).toFixed(2));
-        this.physicsCycles = config.physicsCycles ?? 2;
-        this.context = config.context;
+        this._frametime = parseFloat((1000 / config.framerate).toFixed(2));
+        this._physicsCycles = config.physicsCycles ?? 2;
+        this._context = config.context;
 
-        this.physx = new Physx();
-        this.renderer = new Renderer(new CanvasDevice(), config.resolution, this.context);
-        this.inputs = new KeyboardDevice();
+        this._physx = new Physx();
+        this.renderer = new Renderer(new CanvasDevice(), config.resolution, this._context);
+        this._inputs = new KeyboardDevice();
 
         this.imageLoader = config.imageLoader ?? new DOMImageLoader();
 
         this.renderSystems = [new RenderSystem(this.renderer, this.imageLoader)].concat(
             config.additionalRenderSystems ? config.additionalRenderSystems(this.renderer, this.imageLoader) : []
         );
-        this.physicsSystem = new PhysicsSystem(this.physx);
+        this.physicsSystem = new PhysicsSystem(this._physx);
         this.hierarchySystem = new HierarchySystem();
-        this.inputSystem = new InputSystem(this.inputs);
+        this.inputSystem = new InputSystem(this._inputs);
         this.soundSystem = new SoundSystem();
         this.animationSystem = new AnimationSystem();
     }
@@ -93,7 +93,7 @@ export class GameEngine {
     public run(): void {
         // TODO: this.renderer.init()
 
-        this.lastTick = performance.now();
+        this._lastTick = performance.now();
         this.tick();
     }
 
@@ -102,28 +102,28 @@ export class GameEngine {
         requestAnimationFrame(this.tick.bind(this));
 
         const currentTime = performance.now();
-        const elapsedTime = currentTime - this.lastTick;
+        const elapsedTime = currentTime - this._lastTick;
 
-        if (elapsedTime < this.frametime) return;
-        
+        if (elapsedTime < this._frametime) return;
+
         this.inputSystem.update();
-        
+
         this.animationSystem.update(elapsedTime);
 
         this.hierarchySystem.update(elapsedTime);
-        
+
         this.physicsSystem.update();
-        this.physx.simulate(this.physicsCycles);
-       
+        this._physx.simulate(this._physicsCycles);
+
         this.soundSystem.update();
         // this.hierarchySystem.update(elapsedTime);
-            
+
         this.renderSystems.forEach(renderSystem => {
             renderSystem.update();
             renderSystem.renderer.endFrame();
         });
 
-        const excessTime = elapsedTime % this.frametime;
-        this.lastTick = currentTime - excessTime;
+        const excessTime = elapsedTime % this._frametime;
+        this._lastTick = currentTime - excessTime;
     }
 }
