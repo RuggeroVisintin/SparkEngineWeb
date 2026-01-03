@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.7](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.6...sparkengineweb-v0.17.7) (2026-01-03)
+
+
+### Features
+
+* **ecs:** add ability to retrieve all components in a given entity ([7a986bc](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/7a986bc08ca80c4304b3556010c4dac03daca0dd))
+
 ## [0.17.6](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.5...sparkengineweb-v0.17.6) (2026-01-01)
 
 
