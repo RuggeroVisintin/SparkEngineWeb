@@ -28,7 +28,7 @@ export interface TriggerEntityProps extends StaticObjectProps {
  */
 @Type(ENTITY_TYPE)
 @RegisterUnique(ENTITY_TYPE)
-export class TriggerEntity extends StaticObject implements TriggerEntityProps {
+export class TriggerEntity extends StaticObject {
     private _targetComponent?: BoundingBoxComponent;
 
     /**

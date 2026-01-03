@@ -6,7 +6,7 @@ import { create } from '../../core/factory';
 
 const ENTITY_TYPE = 'BaseEntity';
 
-export interface BaseEntityProps extends EntityProps {}
+export interface BaseEntityProps extends EntityProps { }
 
 /**
  * @category Entities
@@ -46,6 +46,10 @@ export class BaseEntity implements IEntity {
         return this._name;
     }
 
+    public get components(): IComponent[] {
+        return this._flattenedComponents;
+    }
+
     /**
      * Adds a component to this entity.
      * 
@@ -62,7 +66,7 @@ export class BaseEntity implements IEntity {
             this._components.set(type, [component, ...this.getComponents(type)])
         });
 
-        this._flattenedComponents.push(component);        
+        this._flattenedComponents.push(component);
         component.setContainer(this);
     }
 

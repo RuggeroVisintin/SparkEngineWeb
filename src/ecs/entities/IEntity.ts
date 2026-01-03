@@ -13,6 +13,8 @@ export interface IEntity {
     uuid: string;
     name: string;
 
+    components: IComponent[];
+
     addComponent(component: IComponent): void;
     getComponent<T extends IComponent>(type: string): T | undefined;
 
