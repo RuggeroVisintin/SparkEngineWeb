@@ -47,24 +47,18 @@ export default defineConfig([{
             "error",
             {
                 selector: "classProperty",
-                modifiers: ["private", "protected"],
+                modifiers: ["private"],
                 format: ["camelCase"],
                 leadingUnderscore: "require",
             },
             {
                 selector: "classProperty",
-                modifiers: ["public"],
-                format: ["camelCase"],
-                leadingUnderscore: "forbid",
-            },
-            {
-                selector: "classMethod",
-                modifiers: ["private", "protected"],
+                modifiers: ["protected"],
                 format: ["camelCase"],
                 leadingUnderscore: "require",
             },
             {
-                selector: "classMethod",
+                selector: "classProperty",
                 modifiers: ["public"],
                 format: ["camelCase"],
                 leadingUnderscore: "forbid",
