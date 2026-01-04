@@ -5,8 +5,8 @@ import { Enum } from "../../core";
  * @internal
  */
 export class BlendMethod extends Enum<string>{
-    static BM_Overwrite = new BlendMethod('source-over');
-    static BM_Add = new BlendMethod('lighter');
+    static readonly BM_Overwrite = new BlendMethod('source-over');
+    static readonly BM_Add = new BlendMethod('lighter');
 }
 
 export type Matrix2D = [number, number, number, number, number, number]

@@ -5,17 +5,17 @@ import { CanvasDevice } from "../../platform";
  * @category Renderer
  */
 export class RenderCommandID extends Enum {
-    static RC_DrawPrimitive = new RenderCommandID(0);
-    static RC_SetBlendingMethodCommand = new RenderCommandID(1);
-    static RC_SetTransformMatrix = new RenderCommandID(2);
-    static RC_DrawImage = new RenderCommandID(3);
+    static readonly RC_DrawPrimitive = new RenderCommandID(0);
+    static readonly RC_SetBlendingMethodCommand = new RenderCommandID(1);
+    static readonly RC_SetTransformMatrix = new RenderCommandID(2);
+    static readonly RC_DrawImage = new RenderCommandID(3);
 }
 
 /**
  * @category Renderer
  */
 export class PrimitiveType extends Enum {
-    static Rectangle = new PrimitiveType(0);
+    static readonly Rectangle = new PrimitiveType(0);
 }
 
 /**

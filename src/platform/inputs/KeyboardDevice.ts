@@ -4,8 +4,8 @@ import { Enum } from "../../core";
  * @category Platform
  */
 export class KeyStatus extends Enum {
-    static Up = new KeyStatus(0);
-    static Down = new KeyStatus(1);
+    static readonly Up = new KeyStatus(0);
+    static readonly Down = new KeyStatus(1);
 };
 
 /**
