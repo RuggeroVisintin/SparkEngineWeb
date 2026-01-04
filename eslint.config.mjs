@@ -7,6 +7,7 @@ import tsParser from "@typescript-eslint/parser";
 import noReadonlyInComponents from "./eslint-rules/no-readonly-in-components.js";
 import requireOptionalDecorator from "./eslint-rules/require-optional-decorator-on-component-optional-properties.js";
 import optionalDecoratorTypeConsistency from "./eslint-rules/optional-decorator-type-consistency.js";
+import enforceEnumValues from "./eslint-rules/enforce-enum-values.js";
 
 export default defineConfig([{
     files: ["src/**/*.ts"],
@@ -17,6 +18,7 @@ export default defineConfig([{
         "no-readonly-in-components": { rules: { "no-readonly": noReadonlyInComponents } },
         "require-optional-decorator": { rules: { "require-optional": requireOptionalDecorator } },
         "optional-decorator-type-consistency": { rules: { "type-consistency": optionalDecoratorTypeConsistency } },
+        "enforce-enum-values": { rules: { "enforce-enum": enforceEnumValues } },
     },
     languageOptions: {
         globals: {
@@ -43,6 +45,7 @@ export default defineConfig([{
         "no-readonly-in-components/no-readonly": "error",
         "require-optional-decorator/require-optional": "error",
         "optional-decorator-type-consistency/type-consistency": "error",
+        "enforce-enum-values/enforce-enum": "error",
         "@typescript-eslint/naming-convention": [
             "error",
             {
