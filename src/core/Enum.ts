@@ -9,13 +9,9 @@
  *
  * @example
  * ```typescript
- * export class BlendMethod extends BaseEnum<BlendMethod> {
+ * export class BlendMethod extends Enum<string> {
  *   static readonly Overwrite = new BlendMethod('source-over');
  *   static readonly Add = new BlendMethod('lighter');
- *
- *   static getValues(): BlendMethod[] {
- *     return [this.Overwrite, this.Add];
- *   }
  * }
  * ```
  *
