@@ -1,9 +1,11 @@
+import { Enum } from "../../core";
+
 /**
  * @category Platform
  */
-export enum KeyStatus {
-    Up,
-    Down
+export class KeyStatus extends Enum {
+    static Up = new KeyStatus(0);
+    static Down = new KeyStatus(1);
 };
 
 /**
@@ -45,14 +47,14 @@ export class KeyboardDevice {
         window.addEventListener("keyup", (e) => this.onKeyUp(e), true);
         window.addEventListener("keydown", (e) => this.onKeyDown(e), true);
     }
-    
+
     public pushInputListener(callback: InputListenerCallback): void {
         this._listeners.push(callback);
     }
 
-    public update(): void {       
+    public update(): void {
         this._listeners.forEach(listener => listener(this._keyStatusMap));
-        
+
         // Empty listeners after every update
         this._listeners = [];
     }
