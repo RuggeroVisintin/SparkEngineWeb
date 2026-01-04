@@ -7,6 +7,8 @@ import tsParser from "@typescript-eslint/parser";
 import noReadonlyInComponents from "./eslint-rules/no-readonly-in-components.js";
 import requireOptionalDecorator from "./eslint-rules/require-optional-decorator-on-component-optional-properties.js";
 import optionalDecoratorTypeConsistency from "./eslint-rules/optional-decorator-type-consistency.js";
+import enforceEnumValues from "./eslint-rules/enforce-enum-values.js";
+import namingConvention from "./eslint-rules/naming-convention.js";
 
 export default defineConfig([{
     files: ["src/**/*.ts"],
@@ -17,6 +19,8 @@ export default defineConfig([{
         "no-readonly-in-components": { rules: { "no-readonly": noReadonlyInComponents } },
         "require-optional-decorator": { rules: { "require-optional": requireOptionalDecorator } },
         "optional-decorator-type-consistency": { rules: { "type-consistency": optionalDecoratorTypeConsistency } },
+        "enforce-enum-values": { rules: { "enforce-enum": enforceEnumValues } },
+        "naming-convention": { rules: { "naming-convention": namingConvention } },
     },
     languageOptions: {
         globals: {
@@ -33,7 +37,7 @@ export default defineConfig([{
     },
 
     rules: {
-        camelcase: "error",
+        camelcase: "off",
         "default-case-last": "error",
         curly: ["error", "multi-line"],
         "default-param-last": "error",
@@ -43,7 +47,8 @@ export default defineConfig([{
         "no-readonly-in-components/no-readonly": "error",
         "require-optional-decorator/require-optional": "error",
         "optional-decorator-type-consistency/type-consistency": "error",
-        "@typescript-eslint/naming-convention": [
+        "enforce-enum-values/enforce-enum": "error",
+        "naming-convention/naming-convention": [
             "error",
             {
                 selector: "classProperty",
@@ -60,6 +65,12 @@ export default defineConfig([{
             {
                 selector: "classProperty",
                 modifiers: ["public"],
+                format: ["camelCase"],
+                leadingUnderscore: "forbid",
+            },
+            {
+                selector: "classProperty",
+                modifiers: ["static"],
                 format: ["camelCase"],
                 leadingUnderscore: "forbid",
             },

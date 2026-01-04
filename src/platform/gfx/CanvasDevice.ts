@@ -1,10 +1,12 @@
+import { Enum } from "../../core";
+
 /**
  * @category Platform
  * @internal
  */
-export enum BlendMethod {
-    BM_Overwrite = 'source-over',
-    BM_Add = 'lighter'
+export class BlendMethod extends Enum<string>{
+    static readonly BM_Overwrite = new BlendMethod('source-over');
+    static readonly BM_Add = new BlendMethod('lighter');
 }
 
 export type Matrix2D = [number, number, number, number, number, number]
@@ -79,7 +81,7 @@ export class CanvasDevice {
     }
 
     public setBlendMethod(ctx: CanvasRenderingContext2D, method: BlendMethod): void {
-        ctx.globalCompositeOperation = method;
+        ctx.globalCompositeOperation = method.value as GlobalCompositeOperation;
     }
 
     public setTransform(ctx: CanvasRenderingContext2D, matrix: Matrix2D): void {
