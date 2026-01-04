@@ -8,10 +8,6 @@ describe('Enum - String', () => {
     static readonly Option1 = new TestEnum('option1');
     static readonly Option2 = new TestEnum('option2');
     static readonly Option3 = new TestEnum('option3');
-
-    static getValues(): TestEnum[] {
-      return [this.Option1, this.Option2, this.Option3];
-    }
   }
 
   it('Should allow to read value', () => {
@@ -43,5 +39,10 @@ describe('Enum - String', () => {
   it('Should correctly convert to string', () => {
     const enumInstance = TestEnum.Option2;
     expect(enumInstance.toString()).toBe('option2');
+  });
+
+  it('Should correctly convert to JSON', () => {
+    const enumInstance = TestEnum.Option3;
+    expect(enumInstance.toJSON()).toBe('option3');
   });
 });

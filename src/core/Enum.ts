@@ -40,25 +40,24 @@ export abstract class Enum<T extends string | number = number> {
 
     /**
      * Retrieve all available enum values.
-     * Must be implemented by subclasses.
      *
      * @returns Array of all enum members
      */
-    protected getValues(): [] {
-        return [];
+    static getValues(): Enum[] {
+        return Object.values((this));
     }
 
     /**
      * Convert enum to its primitive value.
      */
-    toString(): string {
+    public toString(): string {
         return String(this.value);
     }
 
     /**
      * Convert enum to its primitive value (JSON serialization).
      */
-    toJSON(): T {
+    public toJSON(): T {
         return this.value;
     }
 }
