@@ -4,11 +4,11 @@
 
 ![Alt text](./assets/a_gear_icon_with_electric_spar%20(2).jpeg)
 
-Spark Engine Web is a lightweight browser-based web game engine we build for fun.
+Spark Engine Web is a lightweight, browser-based web game engine project for fun.
 
-We are building the engine to be simple and fairly performant, and we want to provide the best possible experience to our engine's users and contributors.
+The engine is being built to be simple and fairly performant, aiming to provide the best possible experience to game developers and contributors.
 
-That being said, it will be an iterative journey and we won't bump the major version until we feel confident we have reached our goal.
+The MVP is currently being iterated through until the target is reached, so expect no major version and few breaking changes until then.
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ Here you can find the list of commands. **Commands with the `:ci` flag are reser
 Download the latest release here: <https://github.com/RuggeroVisintin/SparkEngineWeb/releases/latest>.
 Then `npm i` and `npm build` to install dependencies and build the .js distribution file.
 
-You can now include it in your html page like so
+You can now include it in your HTML page like so
 
 ```html
 <html>
@@ -71,9 +71,9 @@ or just visit <https://ruggerovisintin.github.io/SparkEngineWeb/examples> for a 
 
 ## Contributing
 
-You can contribute to the project via pull requests. If you are working on an existing issue remember to link the pull request to it.
+You can contribute to the project via pull requests. If you are working on an existing issue, remember to link the pull request to it.
 
-Once opened a core maintainer will review the PR and eventually approve it.
+Once opened, a core maintainer will review the PR and eventually approve it.
 
 When contributing, make sure to follow our [coding guidelines](./docs/coding-guidelines.md)
 
