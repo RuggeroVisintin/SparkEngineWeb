@@ -7,7 +7,7 @@ describe('ecs/components/AnimationComponent', () => {
     let parentEntity: BaseEntity;
 
     beforeEach(() => {
-        parentEntity = new BaseEntity();    
+        parentEntity = new BaseEntity();
         materialComponet = new MaterialComponent();
 
         parentEntity.addComponent(materialComponet);
@@ -33,6 +33,12 @@ describe('ecs/components/AnimationComponent', () => {
         component.play();
 
         parentEntity.addComponent(component);
+    });
+
+    it('Should default to empty array when frames are not defined', () => {
+        const emptyComponent = new AnimationComponent();
+
+        expect(emptyComponent.frames).toEqual([]);
     });
 
     describe('.update()', () => {
@@ -87,7 +93,7 @@ describe('ecs/components/AnimationComponent', () => {
         })
     });
 
-    describe('.play()', () => { 
+    describe('.play()', () => {
         it('Should play the animation', () => {
             component.play();
 

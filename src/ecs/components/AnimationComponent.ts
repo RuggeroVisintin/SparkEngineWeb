@@ -24,16 +24,13 @@ export interface AnimationComponentProps {
  */
 @Component('AnimationComponent')
 export class AnimationComponent extends BaseComponent {
-    private _frames: AnimationFrame[];
     private _currentFrame: number = 0;
     private _accumulatedDeltaTime: number = 0;
     private _isPlaying: boolean = false;
 
     private _frameAssets: Record<string, ImageAsset> = {};
 
-    public get frames(): AnimationFrame[] {
-        return this._frames;
-    }
+    public frames: AnimationFrame[] = [];
 
     public get currentFrame(): number {
         return this._currentFrame;
@@ -43,14 +40,16 @@ export class AnimationComponent extends BaseComponent {
         return this._isPlaying;
     }
 
-    constructor(props: AnimationComponentProps) {
+    constructor(props?: AnimationComponentProps) {
         super();
 
-        this._frames = props.frames;
+        if (props) {
+            this.frames = props.frames;
+        }
     }
 
     public loadAssets(loader: DOMImageLoader): void {
-        for (const frame of this._frames) {
+        for (const frame of this.frames) {
             if (frame.material?.diffuseTexturePath) {
                 const location = frame.material.diffuseTexturePath;
 
@@ -79,13 +78,13 @@ export class AnimationComponent extends BaseComponent {
     }
 
     public update(deltaTime: number): void {
-        if (this._frames.length === 0) return;
+        if (this.frames.length === 0) return;
 
         this._accumulatedDeltaTime += deltaTime;
 
-        if (this._accumulatedDeltaTime > this._frames[this._currentFrame].duration) {
+        if (this._accumulatedDeltaTime > this.frames[this._currentFrame].duration) {
             this._accumulatedDeltaTime = 0;
-            this._currentFrame = (this._currentFrame + 1) % this._frames.length;
+            this._currentFrame = (this._currentFrame + 1) % this.frames.length;
         }
 
         this.applyAnimation();
@@ -94,12 +93,12 @@ export class AnimationComponent extends BaseComponent {
     public toJson(): WithType<AnimationComponentProps> {
         return {
             ...super.toJson(),
-            frames: [...this._frames]
+            frames: [...this.frames]
         }
     }
 
     private applyAnimation() {
-        const currentFrame = this._frames[this._currentFrame];
+        const currentFrame = this.frames[this._currentFrame];
         const parentMaterial = this.getContainer()?.getComponent<MaterialComponent>('MaterialComponent');
 
         if (currentFrame.material?.diffuseColor && parentMaterial) {
