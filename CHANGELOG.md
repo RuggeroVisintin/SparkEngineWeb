@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.8](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.7...sparkengineweb-v0.17.8) (2026-01-18)
+
+
+### Features
+
+* **ecs:** allow to set/update frames at any time ([8e8420b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8e8420b5e11a0f106e2252a8b9c09c48356f7077))
+
 ## [0.17.7](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.6...sparkengineweb-v0.17.7) (2026-01-04)
 
 
