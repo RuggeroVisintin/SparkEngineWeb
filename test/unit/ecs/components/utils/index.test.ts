@@ -160,5 +160,37 @@ describe('ecs/components/getPublicProperties', () => {
             expect(writableProps).toHaveProperty('name', 'test');
             expect(writableProps).toHaveProperty('age', 25);
         });
+
+        it('should include optional properties decorated with @Optional even when undefined', () => {
+            const { Optional } = require('../../../../../src/core/optional');
+            
+            class TestComponent extends BaseComponent {
+                @Optional(String)
+                public decoratedProp?: string;
+                
+                public undecoratedProp?: string;
+            }
+
+            const instance = new TestComponent();
+            const props = getPublicProperties(instance);
+
+            // Properties with @Optional decorator are included even when undefined
+            expect(props).toHaveProperty('decoratedProp');
+            expect(props.decoratedProp).toBeUndefined();
+            
+            // Properties without decorator are not included when undefined
+            expect(props).not.toHaveProperty('undecoratedProp');
+        });
+
+        it('should include BoundingBoxComponent onCollisionCb even when undefined', () => {
+            const { BoundingBoxComponent } = require('../../../../../src/ecs/components/BoundingBoxComponent');
+            
+            const bbox = new BoundingBoxComponent();
+            const props = getPublicProperties(bbox);
+
+            // onCollisionCb is decorated with @Optional, so it should be included
+            expect(props).toHaveProperty('onCollisionCb');
+            expect(props.onCollisionCb).toBeUndefined();
+        });
     });
 });

@@ -1,3 +1,4 @@
+import { getOptionalProperties } from "../../../core/optional";
 import { IComponent } from "../interfaces";
 
 /**
@@ -5,6 +6,8 @@ import { IComponent } from "../interfaces";
  * 
  * Get all public properties from a component instance, including getters and setters.
  * Excludes private properties and methods.
+ * 
+ * Properties decorated with @Optional are included even when their value is undefined.
  * 
  * @param instance The component instance to inspect
  * @param options Optional filtering options
@@ -22,6 +25,10 @@ import { IComponent } from "../interfaces";
  * 
  * PropertyScope.getPublicProperties(transform, { writable: false })
  * // Returns: { uuid: '...' } (only getter-only properties)
+ * 
+ * const bbox = new BoundingBoxComponent();
+ * PropertyScope.getPublicProperties(bbox)
+ * // Returns: { ..., onCollisionCb: undefined, ... } (includes @Optional properties even when undefined)
  * ```
  */
 export function getPublicProperties(instance: IComponent, options?: { writable?: boolean }): Record<string, any> {
@@ -36,7 +43,18 @@ export function getPublicProperties(instance: IComponent, options?: { writable?:
         }
     }
 
-    // Get getters/setters from prototype chain
+    // Get optional properties registered with @Optional decorator (even if undefined)
+    const optionalProps = getOptionalProperties(instance);
+    for (const key of optionalProps) {
+        if (!key.startsWith('_') && !values.hasOwnProperty(key)) {
+            // Optional properties are always writable, so include based on filter
+            if (options?.writable === undefined || options.writable === true) {
+                values[key] = (instance as any)[key];
+            }
+        }
+    }
+
+    // Get properties from prototype chain (getters/setters and regular data properties)
     let obj = Object.getPrototypeOf(instance);
     while (obj && obj !== Object.prototype) {
         const descriptors = Object.getOwnPropertyDescriptors(obj);
@@ -47,7 +65,17 @@ export function getPublicProperties(instance: IComponent, options?: { writable?:
                 continue;
             }
 
-            // Process getters and setters
+            // Skip if already processed from instance
+            if (values.hasOwnProperty(key)) {
+                continue;
+            }
+
+            // Skip methods (functions without get/set)
+            if (typeof descriptor.value === 'function') {
+                continue;
+            }
+
+            // Process getters/setters
             if (descriptor.get || descriptor.set) {
                 const isWritable = !!descriptor.set;
 

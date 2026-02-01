@@ -66,11 +66,34 @@ export function getOptionalType(instance: any, property: string | symbol): any {
     const propertiesMap = classRegistry.get(instance.constructor);
     const propertyType = propertiesMap?.get(String(property));
 
+    // console.log('getOptionalType', instance, property, propertyType);
+
     if (propertyType === undefined) {
-
-
         return instance[property]?.constructor?.name ?? undefined;
     }
 
     return propertyType;
+}
+
+/**
+ * @category Core
+ * 
+ * Get all property names that were registered with @Optional decorator
+ * @param instance The class instance
+ * @returns Array of property names registered as optional, walking up the prototype chain
+ */
+export function getOptionalProperties(instance: any): string[] {
+    const properties = new Set<string>();
+    
+    // Walk up the prototype chain
+    let proto = instance.constructor;
+    while (proto && proto !== Object) {
+        const propertiesMap = classRegistry.get(proto);
+        if (propertiesMap) {
+            propertiesMap.forEach((_, key) => properties.add(key));
+        }
+        proto = Object.getPrototypeOf(proto);
+    }
+    
+    return Array.from(properties);
 }
