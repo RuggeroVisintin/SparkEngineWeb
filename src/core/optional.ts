@@ -54,25 +54,46 @@ export function Optional<T>(type: T): PropertyDecorator {
     };
 }
 
+
 /**
  * @category Core
  * 
- * Get the type of a specific optional property from an instance
+ * Get the type of a specific optional property of a class instance
  * @param instance The class instance
  * @param property The property name
- * @returns The type registered for this property or its value if not registered
+ * @returns The type registered for this property or its type string if not registered
  */
 export function getOptionalType(instance: any, property: string | symbol): any {
     const propertiesMap = classRegistry.get(instance.constructor);
     const propertyType = propertiesMap?.get(String(property));
 
-    // console.log('getOptionalType', instance, property, propertyType);
-
-    if (propertyType === undefined) {
-        return instance[property]?.constructor?.name ?? undefined;
+    if (propertyType !== undefined) {
+        return propertyType;
     }
 
-    return propertyType;
+    return typeof instance[property];
+}
+
+/**
+ * @category Core
+ * 
+ * Check if an optional class property is an instance of a given type
+ * @param instance The class instance
+ * @param property The property name
+ * @param type The type to check against
+ * @returns True if the property is an instance of the given type
+ */
+export function isOptionallyInstanceOf(instance: any, property: string | symbol, type: any): boolean {
+    const propertiesMap = classRegistry.get(instance.constructor);
+    const propertyType = propertiesMap?.get(String(property));
+
+    if (propertyType !== undefined) {
+        // For @Optional properties, check if a new instance of the registered type is an instance of the given type
+        return new propertyType() instanceof type;
+    }
+
+    // For non-@Optional properties, check if the actual value is an instance of the given type
+    return instance[property] instanceof type;
 }
 
 /**
@@ -84,7 +105,7 @@ export function getOptionalType(instance: any, property: string | symbol): any {
  */
 export function getOptionalProperties(instance: any): string[] {
     const properties = new Set<string>();
-    
+
     // Walk up the prototype chain
     let proto = instance.constructor;
     while (proto && proto !== Object) {
@@ -94,6 +115,6 @@ export function getOptionalProperties(instance: any): string[] {
         }
         proto = Object.getPrototypeOf(proto);
     }
-    
+
     return Array.from(properties);
 }
