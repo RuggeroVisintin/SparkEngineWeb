@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.17.8](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.7...sparkengineweb-v0.17.8) (2026-02-01)
+
+
+### Features
+
+* **core:** add isOptionallyInstanceOf ([fa341bc](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/fa341bcd40446071476814af1a13e748fe05f059))
+* **ecs:** allow to set/update frames at any time ([8e8420b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8e8420b5e11a0f106e2252a8b9c09c48356f7077))
+
+
+### Bug Fixes
+
+* **core:** fix optional properties not being listed when retrieving all public properties in a class ([b801e59](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/b801e59c93d8e2a76ddf581d6f8d6b826e342c37))
+
 ## [0.17.7](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.6...sparkengineweb-v0.17.7) (2026-01-04)
 
 
