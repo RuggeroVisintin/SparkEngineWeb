@@ -46,3 +46,27 @@ describe('Enum - String', () => {
     expect(enumInstance.toJSON()).toBe('option3');
   });
 });
+
+describe('Enum - Number', () => {
+  class AutoEnum extends Enum {
+    static readonly First = new AutoEnum();
+    static readonly Second = new AutoEnum();
+    static readonly Third = new AutoEnum();
+  }
+
+  class OtherAutoEnum extends Enum {
+    static readonly Alpha = new OtherAutoEnum();
+    static readonly Beta = new OtherAutoEnum();
+  }
+
+  it('Should auto-increment when value is omitted', () => {
+    expect(AutoEnum.First.value).toBe(0);
+    expect(AutoEnum.Second.value).toBe(1);
+    expect(AutoEnum.Third.value).toBe(2);
+  });
+
+  it('Should not share auto-increment counters across subclasses', () => {
+    expect(OtherAutoEnum.Alpha.value).toBe(0);
+    expect(OtherAutoEnum.Beta.value).toBe(1);
+  });
+});

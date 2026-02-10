@@ -19,6 +19,13 @@
  * @category Core
  */
 export abstract class Enum<T extends string | number = number> {
+    private static readonly _autoIdMap = new WeakMap<Function, number>();
+
+    private static nextAutoId(ctor: Function): number {
+        const nextValue = Enum._autoIdMap.get(ctor) ?? 0;
+        Enum._autoIdMap.set(ctor, nextValue + 1);
+        return nextValue;
+    }
     /**
      * The primitive value of this enum member.
      */
@@ -30,7 +37,13 @@ export abstract class Enum<T extends string | number = number> {
      *
      * @param value - The primitive value for this enum member
      */
-    protected constructor(value: T) {
+    protected constructor(value?: T) {
+        if (value === undefined) {
+            const ctor = this.constructor as typeof Enum;
+            this.value = Enum.nextAutoId(ctor) as T;
+            return;
+        }
+
         this.value = value;
     }
 
