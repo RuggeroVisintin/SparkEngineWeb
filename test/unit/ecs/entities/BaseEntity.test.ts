@@ -57,6 +57,63 @@ describe('ecs/entities/BaseEntity', () => {
         })
     })
 
+    describe('.removeComponent()', () => {
+        it('Should remove component from entity by UUID', () => {
+            const testComponent = new BaseComponent();
+
+            baseEntity.addComponent(testComponent);
+
+            baseEntity.removeComponent(testComponent.uuid);
+            expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toBeUndefined();
+        });
+
+        it('Should remove component from flattened components array', () => {
+            const componentA = new BaseComponent();
+            const componentB = new BaseComponent();
+
+            baseEntity.addComponent(componentA);
+            baseEntity.addComponent(componentB);
+
+            baseEntity.removeComponent(componentA.uuid);
+
+            expect(baseEntity.components).toEqual([componentB]);
+        });
+
+        it('Should remove component from all type keys in type chain', () => {
+            @Type('ExtendedComponent')
+            class ExtendedComponent extends BaseComponent { }
+
+            const testComponent = new ExtendedComponent();
+
+            baseEntity.addComponent(testComponent);
+            baseEntity.removeComponent(testComponent.uuid);
+
+            expect(baseEntity.getComponent<ExtendedComponent>('ExtendedComponent')).toBeUndefined();
+            expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toBeUndefined();
+        });
+
+        it('Should not remove other components of the same type', () => {
+            const componentA = new BaseComponent();
+            const componentB = new BaseComponent();
+
+            baseEntity.addComponent(componentA);
+            baseEntity.addComponent(componentB);
+
+            baseEntity.removeComponent(componentA.uuid);
+
+            expect(baseEntity.getComponent<BaseComponent>('BaseComponent')).toEqual(componentB);
+            expect(baseEntity.getComponents<BaseComponent>('BaseComponent')).toEqual([componentB]);
+        });
+
+        it('Should handle removing non-existent component gracefully', () => {
+            const componentA = new BaseComponent();
+            baseEntity.addComponent(componentA);
+
+            expect(() => baseEntity.removeComponent('non-existent-uuid')).not.toThrow();
+            expect(baseEntity.components).toHaveLength(1);
+        });
+    })
+
     describe('.getComponent()', () => {
         it('Should retrieve a specific component given a specific key', () => {
             const testComponent = new BaseComponent();

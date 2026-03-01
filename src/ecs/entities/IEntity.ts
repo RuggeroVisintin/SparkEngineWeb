@@ -16,6 +16,7 @@ export interface IEntity {
     components: IComponent[];
 
     addComponent(component: IComponent): void;
+    removeComponent(uuid: string): void;
     getComponent<T extends IComponent>(type: string): T | undefined;
 
     /**
