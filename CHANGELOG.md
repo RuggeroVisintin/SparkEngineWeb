@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.9](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.8...sparkengineweb-v0.17.9) (2026-03-01)
+
+
+### Features
+
+* **ecs:** add ability to remove components from entities ([92836a6](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/92836a6c96e138932c6840a7bbb2e676828c553d))
+
 ## [0.17.8](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.7...sparkengineweb-v0.17.8) (2026-02-01)
 
 
