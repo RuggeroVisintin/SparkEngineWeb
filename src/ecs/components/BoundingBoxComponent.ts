@@ -118,7 +118,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
         }
     }
 
-    private onCollision(params: CollisionCallbackParams) {
+    protected onCollision(params: CollisionCallbackParams) {
         this.onCollisionCb && this.onCollisionCb.call(this, params);
     }
 }
