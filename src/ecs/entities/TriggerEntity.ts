@@ -1,23 +1,14 @@
-import { BoundingBoxComponent, CollisionCallbackParams } from "../components";
-import { StaticObject, StaticObjectProps } from "./StaticObject";
-import { RegisterUnique, SerializableCallback, Type, WithType } from "../../core";
-import { IEntity } from ".";
+import { TriggerComponent, TriggerComponentProps } from "../components";
+import { RegisterUnique, Type, typeOf } from "../../core";
+import { GameObject, GameObjectProps } from ".";
 
 const ENTITY_TYPE = 'TriggerEntity';
 
 /**
  * @category Entities
  */
-export interface TriggerEntityProps extends StaticObjectProps {
-    /**
-     * The target of the trigger component
-     */
-    target?: IEntity;
-
-    /**
-     * The callback to trigger when a collision with the target entity is detected.
-     */
-    onTriggerCB?: SerializableCallback;
+export interface TriggerEntityProps extends GameObjectProps {
+    trigger?: TriggerComponentProps;
 }
 
 /**
@@ -28,58 +19,20 @@ export interface TriggerEntityProps extends StaticObjectProps {
  */
 @Type(ENTITY_TYPE)
 @RegisterUnique(ENTITY_TYPE)
-export class TriggerEntity extends StaticObject {
-    private _targetComponent?: BoundingBoxComponent;
-
-    /**
-     * The target entity that triggers the collision detection
-     * 
-     * @throws {Error} If target entity does not have a BoundingBox component attached
-     */
-    public set target(value: IEntity | undefined) {
-        if (!value) {
-            this._targetComponent = undefined;
-            return;
-        }
-
-        const targetComponent = value.getComponent<BoundingBoxComponent>('BoundingBoxComponent');
-
-        if (!targetComponent) {
-            throw new Error('Target entity must have a BoundingBox component attached');
-        }
-
-        this._targetComponent = targetComponent;
+export class TriggerEntity extends GameObject {
+    public get trigger(): TriggerComponent {
+        return this.getComponent<TriggerComponent>(typeOf(TriggerComponent))!;
     }
 
-    public get target(): IEntity | undefined {
-        return this._targetComponent?.getContainer();
+    public set trigger(triggerComponent: TriggerComponent) {
+        this.addComponent(triggerComponent);
     }
 
-
-    /**
-     * The callback to trigger when a collision with the target entity is detected.
-     */
-    public onTriggerCB: SerializableCallback | undefined;
-
-    /**
-     * @param props - the init props
-     */
-    constructor(props?: TriggerEntityProps) {
+    public constructor(props?: TriggerEntityProps) {
         super(props);
 
-        this.target = props?.target;
-        this.boundingBox.onCollisionCb = SerializableCallback.fromFunction(this.onCollisionHandler, false).bind(this);
-        this.onTriggerCB = props?.onTriggerCB;
-    }
-
-    public toJson(): WithType<TriggerEntityProps> {
-        return {
-            ...super.toJson(),
-            onTriggerCB: this.onTriggerCB?.toJson(),
+        if (!this.trigger) {
+            this.trigger = new TriggerComponent(props?.trigger);
         }
-    }
-
-    private onCollisionHandler(params: CollisionCallbackParams): void {
-        params.collider.uuid === this._targetComponent?.uuid && this.onTriggerCB?.call(this, params);
     }
 }
