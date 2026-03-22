@@ -96,6 +96,13 @@ module.exports = {
 
                     // Handle case where property is a primitive (string, number, boolean)
                     if (!resolvedPropertyType) {
+                        // If property type is an interface, allow a decorator runtime class
+                        // whose instances are assignable to that interface.
+                        if (!isPrimitiveTypeName(propertyTypeName) &&
+                            isConstructedTypeAssignableTo(tsDecoratorArgNode, tsPropertyTypeNode, checker)) {
+                            continue;
+                        }
+
                         // Property is a primitive, check if decorator arg is compatible
                         // Allow both TypeScript primitives (string) and JS constructors (String)
                         const normalizedProperty = propertyTypeName.toLowerCase();
@@ -180,6 +187,42 @@ function getTypeNameFromAnnotation(typeNode) {
     }
 
     return null;
+}
+
+function isPrimitiveTypeName(typeName) {
+    const normalized = typeName.toLowerCase();
+    return normalized === 'string' || normalized === 'number' || normalized === 'boolean';
+}
+
+/**
+ * Check whether the decorator argument is a constructible type and its instance
+ * is assignable to the property type.
+ */
+function isConstructedTypeAssignableTo(tsDecoratorArgNode, tsPropertyTypeNode, checker) {
+    const decoratorArgType = checker.getTypeAtLocation(tsDecoratorArgNode);
+    const propertyType = checker.getTypeAtLocation(tsPropertyTypeNode);
+
+    if (!decoratorArgType || !propertyType) {
+        return false;
+    }
+
+    const signatures = decoratorArgType.getConstructSignatures?.() ?? [];
+
+    if (signatures.length === 0) {
+        return false;
+    }
+
+    for (const signature of signatures) {
+        const instanceType = checker.getReturnTypeOfSignature(signature);
+
+        // TypeChecker exposes this API on current TS versions used by the project.
+        if (typeof checker.isTypeAssignableTo === 'function' &&
+            checker.isTypeAssignableTo(instanceType, propertyType)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**

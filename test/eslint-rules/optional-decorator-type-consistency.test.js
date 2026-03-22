@@ -36,6 +36,7 @@ ruleTester.run('optional-decorator-type-consistency', rule, {
         readFixture('valid-string.ts'),
         readFixture('valid-number.ts'),
         readFixture('valid-class.ts'),
+        readFixture('valid-interface-runtime-class.ts'),
         readFixture('valid-nullable.ts'),
         readFixture('valid-getter.ts'),
     ],
