@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.18.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.9...sparkengineweb-v0.18.0) (2026-03-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ecs:** `new TriggerEntity({ target })` no longer sets the trigger target. Use `new TriggerEntity({ trigger: { target } })` and access the value via `TriggerEntity.trigger.target`.
+
+### Features
+
+* **ecs:** add TriggerComponent ([#761](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/761)) ([4bcb011](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/4bcb011df76cce4e4a734fc58603244c8e4c0611))
+
+
+### Bug Fixes
+
+* **core:** fix optional checks not resolving inheritance tree ([#764](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/764)) ([8fc82f2](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/8fc82f24c404c8d6ed5124c1fe10d117f7353126))
+
 ## [0.17.9](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.8...sparkengineweb-v0.17.9) (2026-03-01)
 
 
