@@ -52,9 +52,15 @@ describe('ecs/components/TriggerComponent', () => {
 
             public simulate(): void {
                 this.objects.forEach((physicalObject) => {
-                    physicalObject.onCollisionCallback({
-                        otherObject: physicalObject.object,
-                        postSimulation: physicalObject.object
+                    this.objects.forEach((otherObject) => {
+                        if (physicalObject.object.uuid === otherObject.object.uuid) {
+                            return;
+                        }
+
+                        physicalObject.onCollisionCallback({
+                            otherObject: otherObject.object,
+                            postSimulation: physicalObject.object
+                        });
                     });
                 });
             }
@@ -64,7 +70,11 @@ describe('ecs/components/TriggerComponent', () => {
             }
         }
 
-        const physxDouble = new PhysxDouble();
+        let physxDouble: PhysxDouble;
+
+        beforeEach(() => {
+            physxDouble = new PhysxDouble();
+        });
 
         it('Should be called when a collision with target entity is detected', () => {
             const target = new StaticObject();
@@ -75,6 +85,8 @@ describe('ecs/components/TriggerComponent', () => {
             triggerComponent.update(
                 physxDouble
             );
+
+            target.boundingBox.update(physxDouble);
 
             physxDouble.simulate();
 
