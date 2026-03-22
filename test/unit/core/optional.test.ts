@@ -49,6 +49,24 @@ describe('core/optional', () => {
             expect(getOptionalType(material, 'color')).toBe(Rgb);
         });
 
+        it('should return inherited optional property type from a subclass instance', () => {
+            class Rgb {
+                constructor(public r: number = 0, public g: number = 0, public b: number = 0) { }
+            }
+
+            class BaseMaterialComponent {
+                @Optional(Rgb)
+                color?: Rgb;
+            }
+
+            class InheritedMaterialComponent extends BaseMaterialComponent {
+            }
+
+            const material = new InheritedMaterialComponent();
+
+            expect(getOptionalType(material, 'color')).toBe(Rgb);
+        });
+
         it.each([
             [undefined],
             [null],

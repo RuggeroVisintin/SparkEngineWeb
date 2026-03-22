@@ -6,6 +6,24 @@ export type Nullable<T> = T | null;
 // Maps class constructors to their optional properties and their types
 const classRegistry = new WeakMap<Function, Map<string, any>>();
 
+function getRegisteredOptionalType(ctor: Function, property: string | symbol): any {
+    const key = String(property);
+    let currentCtor: any = ctor;
+
+    while (currentCtor && currentCtor !== Function.prototype) {
+        const propertiesMap = classRegistry.get(currentCtor);
+        const propertyType = propertiesMap?.get(key);
+
+        if (propertyType !== undefined) {
+            return propertyType;
+        }
+
+        currentCtor = Object.getPrototypeOf(currentCtor);
+    }
+
+    return undefined;
+}
+
 /**
  * @category Core
  * 
@@ -64,8 +82,7 @@ export function Optional<T>(type: T): PropertyDecorator {
  * @returns The type registered for this property or its type string if not registered
  */
 export function getOptionalType(instance: any, property: string | symbol): any {
-    const propertiesMap = classRegistry.get(instance.constructor);
-    const propertyType = propertiesMap?.get(String(property));
+    const propertyType = getRegisteredOptionalType(instance.constructor, property);
 
     if (propertyType !== undefined) {
         return propertyType;
@@ -84,8 +101,7 @@ export function getOptionalType(instance: any, property: string | symbol): any {
  * @returns True if the property is an instance of the given type
  */
 export function isOptionallyInstanceOf(instance: any, property: string | symbol, type: any): boolean {
-    const propertiesMap = classRegistry.get(instance.constructor);
-    const propertyType = propertiesMap?.get(String(property));
+    const propertyType = getRegisteredOptionalType(instance.constructor, property);
 
     if (propertyType !== undefined) {
         // For @Optional properties, check if a new instance of the registered type is an instance of the given type
