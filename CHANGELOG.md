@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.19.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.18.0...sparkengineweb-v0.19.0) (2026-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump node version
+
+### Build System
+
+* bump node version ([1f87a61](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1f87a61ae1ce5e74798479a7be9a7ddd405eab58))
+
 ## [0.18.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.9...sparkengineweb-v0.18.0) (2026-03-22)
 
 
