@@ -25,13 +25,13 @@ function getRegisteredOptionalType(ctor: Function, property: string | symbol): a
 }
 
 /**
- * @category Core
- * 
  * Decorator to register optional property types for runtime type inference.
  * Enables type inference directly from class instances.
  *
  * For type aliases, pass the resolved runtime class, not the alias itself.
  * The ESLint rule `optional-decorator-type-consistency` enforces this automatically.
+ * 
+ * @category Core
  *
  * @param type The runtime class/constructor that represents the property's type.
  *             For type aliases, use the base runtime class they resolve to.
@@ -74,9 +74,9 @@ export function Optional<T>(type: T): PropertyDecorator {
 
 
 /**
- * @category Core
- * 
  * Get the type of a specific optional property of a class instance
+ * 
+ * @category Core
  * @param instance The class instance
  * @param property The property name
  * @returns The type registered for this property or its type string if not registered
@@ -92,9 +92,9 @@ export function getOptionalType(instance: any, property: string | symbol): any {
 }
 
 /**
- * @category Core
- * 
  * Check if an optional class property is an instance of a given type
+ * 
+ * @category Core
  * @param instance The class instance
  * @param property The property name
  * @param type The type to check against
@@ -113,9 +113,9 @@ export function isOptionallyInstanceOf(instance: any, property: string | symbol,
 }
 
 /**
- * @category Core
- * 
  * Get all property names that were registered with @Optional decorator
+ * 
+ * @category Core
  * @param instance The class instance
  * @returns Array of property names registered as optional, walking up the prototype chain
  */

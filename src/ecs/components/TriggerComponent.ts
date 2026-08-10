@@ -8,10 +8,10 @@ export interface TriggerComponentProps extends BoundingBoxComponentProps {
 }
 
 /**
- * @category Components
- * 
  * This component represents a trigger that can be used to detect collisions with a target entity. 
  * The target entity must have a BoundingBoxComponent attached to be valid.
+ * 
+ * @category Components
  */
 @Component('TriggerComponent')
 export class TriggerComponent extends BoundingBoxComponent {

@@ -2,12 +2,12 @@ import { getOptionalProperties } from "../../../core/optional";
 import { IComponent } from "../interfaces";
 
 /**
- * @category Components
- * 
  * Get all public properties from a component instance, including getters and setters.
  * Excludes private properties and methods.
  * 
  * Properties decorated with @Optional are included even when their value is undefined.
+ * 
+ * @category Components
  * 
  * @param instance The component instance to inspect
  * @param options Optional filtering options
