@@ -1,9 +1,9 @@
-import { InputComponent, KeyStatusMap, KeyboardDevice } from "../../../../src";
+import { InputComponent, KeyStatusMap, KeyboardDevice, SerializableCallback } from "../../../../src";
 
 describe('ecs/components/InputComponent', () => {
     let inputDevice = new KeyboardDevice();
     let inputComponent = new InputComponent();
-    
+
     beforeEach(() => {
         inputDevice = new KeyboardDevice();
         inputComponent = new InputComponent();
@@ -13,7 +13,7 @@ describe('ecs/components/InputComponent', () => {
         it('Should push a listener in the inputDevice', () => {
             const onInputCb = jest.fn((e: KeyStatusMap) => { });
 
-            inputComponent.onInputEventCb = onInputCb;
+            inputComponent.onInputEventCb = SerializableCallback.fromFunction(onInputCb);
             inputComponent.update(inputDevice);
 
             expect(inputDevice.listeners.length).toBe(1);
