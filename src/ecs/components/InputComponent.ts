@@ -1,15 +1,17 @@
+import { Optional, SerializableCallback } from "../../core";
 import { KeyStatusMap, KeyboardDevice } from "../../platform/inputs";
 import { BaseComponent } from "./BaseComponent";
 import { Component } from "./interfaces";
 
-type OnInputEventTriggeredCallback = (keyStatusMap: KeyStatusMap) => void;
+type OnInputEventTriggeredCallback = SerializableCallback<(keyStatusMap: KeyStatusMap) => void>;
 
 /**
  * @category Components
  */
 @Component('InputComponent')
 export class InputComponent extends BaseComponent {
-    public onInputEventCb: OnInputEventTriggeredCallback | undefined;
+    @Optional(SerializableCallback)
+    public onInputEventCb?: OnInputEventTriggeredCallback;
 
     public update(inputDevice: KeyboardDevice): void {
         // TODO: Does it make sense to push listeners instead of checking the map directly?
@@ -19,6 +21,6 @@ export class InputComponent extends BaseComponent {
     private onKeyUpdate(keyStatusMap: KeyStatusMap): void {
         if (!this.onInputEventCb) return;
 
-        this.onInputEventCb(keyStatusMap);
+        this.onInputEventCb.call(this, keyStatusMap);
     }
 }
