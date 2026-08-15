@@ -10,6 +10,11 @@ type OnInputEventTriggeredCallback = SerializableCallback<(keyStatusMap: KeyStat
  */
 @Component('InputComponent')
 export class InputComponent extends BaseComponent {
+
+    /**
+     * Callback to invoke when a key event is triggered. 
+     * The callback will be called with the current key status map as parameter.
+     */
     @Optional(SerializableCallback)
     public onInputEventCb?: OnInputEventTriggeredCallback;
 
