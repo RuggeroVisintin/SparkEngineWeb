@@ -1,4 +1,4 @@
-import { InputComponent, InputSystem, KeyStatus, KeyboardDevice } from "../../../../src";
+import { InputComponent, InputSystem, KeyStatus, KeyboardDevice, SerializableCallback } from "../../../../src";
 
 describe('ecs/systems/InputSystem', () => {
     const inputDevice = new KeyboardDevice();
@@ -19,18 +19,18 @@ describe('ecs/systems/InputSystem', () => {
             expect(spyUpdate).toHaveBeenCalled();
         });
 
-         it('Should trigger the inputDevice update', () => {
-            const fakeCb = jest.fn();
+        it('Should trigger the inputDevice update', () => {
+            const fakeCb = jest.fn(() => { });
             const inputComponent = new InputComponent();
-            inputComponent.onInputEventCb = fakeCb;
-            
+            inputComponent.onInputEventCb = SerializableCallback.fromFunction(fakeCb);
+
             const event = new KeyboardEvent('keydown', { code: 'KeyA' });
             window.dispatchEvent(event);
 
             inputSystem.registerComponent(inputComponent);
             inputSystem.update();
 
-             expect(fakeCb).toHaveBeenCalledWith({
+            expect(fakeCb).toHaveBeenCalledWith({
                 'KeyA': KeyStatus.Down
             });
         })

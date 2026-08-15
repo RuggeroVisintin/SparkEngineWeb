@@ -1,181 +1,188 @@
 name: Continuos Integration
 on:
-    push:
-      branches:
-        - main
-    workflow_dispatch:
-    pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-    build:
-      name: Build
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-  
-        - name: install
-          run: npm ci
-        
-        - name: eslint
-          run: npm run lint
-          
-        - name: build
-          run: npm run build
-          
-    test_unit:
-      name: Unit Tests
-      runs-on: ubuntu-latest
-  
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-  
-        - name: install
-          run: npm ci
-  
-        - name: test
-          run: npm run test:unit:ci
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-        - name: issue badge
-          run: |
-            mkdir -p .github/pages/badges
-            npx make-coverage-badge --report-path .coverage/coverage-summary.json --output-path .github/pages/badges/coverage.badge.svg
-          
-        - uses: actions/upload-artifact@v4
-          with:
-            name: coverage-badge-artifact
-            path: .github/pages/badges/coverage.badge.svg
+      - name: install
+        run: npm ci
 
-    test_perf:
-      name: Performance Tests
-      runs-on: ubuntu-latest
-      permissions:
-        pull-requests: write
+      - name: eslint
+        run: npm run lint
 
-      if: github.event_name == 'pull_request'
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-  
-        - name: install
-          run: npm ci
-  
-        - name: test
-          id: perf_test
-          run: |
-            npm run test:perf:ci
+      - name: build
+        run: npm run build
 
-        - name: attach report
-          if: github.event.number
-          uses: thollander/actions-comment-pull-request@v2
-          with:
-            pr_number: ${{ github.event.number }}
-            filePath: .benchmark
-            mode: recreate
-            comment_tag: benchmark_comment
-            create_if_not_exists: true
+  test_unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
 
-    test_visual:
-      name: Visual Tests
-      permissions:
-        pull-requests: write
-        contents: read
-      uses: ./.github/workflows/visual-tests-only.yml
-      with:
-        pr_number: ${{ github.event.number }}
-        ref: ${{ github.sha }}
-        event_name: ${{ github.event_name }}
-      secrets: inherit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-    test_eslint:
-      name: Eslint Rules Tests
-      runs-on: ubuntu-latest
+      - name: install
+        run: npm ci
 
-      steps:
-        - uses: actions/checkout@v4
-        
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
+      - name: test
+        run: npm run test:unit:ci
 
-        - name: install
-          run: npm ci
+      - name: issue badge
+        run: |
+          mkdir -p .github/pages/badges
+          npx make-coverage-badge --report-path .coverage/coverage-summary.json --output-path .github/pages/badges/coverage.badge.svg
 
-        - name: test
-          run: npm run test:eslint-rules:ci
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-badge-artifact
+          path: .github/pages/badges/coverage.badge.svg
 
-    publish:
-      name: Publish
-      timeout-minutes: 2
-      runs-on: ubuntu-latest
-      permissions: 
-        contents: write
-        pull-requests: write
-        pages: write
-        id-token: write
-      steps:
-        - uses: RuggeroVisintin/release-please-action@main
-          id: release
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 20
-        - uses: actions/download-artifact@master
-          with:
-            name: coverage-badge-artifact
-            path: .github/pages/badges/coverage.badge.svg
-        - name: install
-          run: npm ci
-        - name: build web bundle
-          run: npm run build
-        - name: build lib
-          run: npm run build:lib
-        - name: upload release artifact
-          if: ${{ steps.release.outputs.release_created }}
-          env: 
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            tar -czvf "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz" -C dist/jsbundle .
-            tar -czvf "${{ steps.release.outputs.tag_name }}-lib.tar.gz" -C dist/lib .
-            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz"
-            gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-lib.tar.gz"
-        - name: build docs
-          id: docs
-          if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}
-          run: |
-            npm run build:docs
-            mkdir -p .github/pages/
-            cp -r docs/tsdoc/* .github/pages/
-            echo "docs_created=true" >> "$GITHUB_OUTPUT"
-        - name: Setup Pages
-          if: ${{ steps.docs.outputs.docs_created }}
-          uses: actions/configure-pages@v5
-        - name: upload docs artifact
-          if: ${{ steps.docs.outputs.docs_created }}
-          uses: actions/upload-pages-artifact@v3
-          with: 
-            name: docs-pages
-            path: ".github/pages/"
-        - name: deploy docs artifact
-          if: ${{ steps.docs.outputs.docs_created }}
-          uses: actions/deploy-pages@v4
-          with:
-            artifact_name: docs-pages
-      needs: [test_unit, test_visual, build]
-      if: github.ref_name == 'main'
+  test_perf:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
-        
-        
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: install
+        run: npm ci
+
+      - name: test
+        id: perf_test
+        run: |
+          npm run test:perf:ci
+
+      - name: attach report
+        if: github.event.number
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          pr_number: ${{ github.event.number }}
+          filePath: .benchmark
+          mode: recreate
+          comment_tag: benchmark_comment
+          create_if_not_exists: true
+
+  test_visual:
+    name: Visual Tests
+    permissions:
+      pull-requests: write
+      contents: read
+    uses: ./.github/workflows/visual-tests-only.yml
+    with:
+      pr_number: ${{ github.event.number }}
+      ref: ${{ github.sha }}
+      event_name: ${{ github.event_name }}
+    secrets: inherit
+
+  test_eslint:
+    name: Eslint Rules Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: install
+        run: npm ci
+
+      - name: test
+        run: npm run test:eslint-rules:ci
+  code_scan:
+    name: "Code Scan"
+    uses: "./.github/workflows/codeql.yml"
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: RuggeroVisintin/release-please-action@main
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@master
+        with:
+          name: coverage-badge-artifact
+          path: .github/pages/badges/coverage.badge.svg
+      - name: install
+        run: npm ci
+      - name: build web bundle
+        run: npm run build
+      - name: build lib
+        run: npm run build:lib
+      - name: upload release artifact
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tar -czvf "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz" -C dist/jsbundle .
+          tar -czvf "${{ steps.release.outputs.tag_name }}-lib.tar.gz" -C dist/lib .
+          gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-jsbundle.tar.gz"
+          gh release upload ${{ steps.release.outputs.tag_name }} "${{ steps.release.outputs.tag_name }}-lib.tar.gz"
+      - name: build docs
+        id: docs
+        if: ${{ steps.release.outputs.prs_created != true || steps.release.outputs.releases_created == true }}
+        run: |
+          npm run build:docs
+          mkdir -p .github/pages/
+          cp -r docs/tsdoc/* .github/pages/
+          echo "docs_created=true" >> "$GITHUB_OUTPUT"
+      - name: Setup Pages
+        if: ${{ steps.docs.outputs.docs_created }}
+        uses: actions/configure-pages@v5
+      - name: upload docs artifact
+        if: ${{ steps.docs.outputs.docs_created }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: docs-pages
+          path: ".github/pages/"
+      - name: deploy docs artifact
+        if: ${{ steps.docs.outputs.docs_created }}
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: docs-pages
+    needs: [test_unit, test_visual, build, code_scan]
+    if: github.ref_name == 'main'

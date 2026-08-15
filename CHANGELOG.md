@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.19.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.0...sparkengineweb-v0.19.1) (2026-08-10)
+
+
+### Features
+
+* **engine:** add support to render system overwrite ([1fea539](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1fea5391d098bc5d9d5596ae204fc49ab546a107))
+
+## [0.19.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.18.0...sparkengineweb-v0.19.0) (2026-06-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump node version
+
+### Build System
+
+* bump node version ([1f87a61](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/1f87a61ae1ce5e74798479a7be9a7ddd405eab58))
+
 ## [0.18.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.17.9...sparkengineweb-v0.18.0) (2026-03-22)
 
 

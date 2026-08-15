@@ -5,9 +5,9 @@ import { TransformComponent } from "./TransformComponent";
 import { CollisionCallback, CollisionCallbackParams, Component, ICollidableComponent } from "./interfaces";
 
 /**
- * @category Components
- * 
  * The axis aligned bounding box defining the bounds of this component
+ * 
+ * @category Components
  */
 interface AABB {
     x: number;

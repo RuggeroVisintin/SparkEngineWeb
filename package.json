@@ -1,9 +1,9 @@
 {
   "name": "sparkengineweb",
-  "version": "0.18.0",
+  "version": "0.19.1",
   "engines": {
     "npm": "^10",
-    "node": "^20"
+    "node": "^22"
   },
   "maintainers": [
     "https://github.com/RuggeroVisintin"
@@ -75,6 +75,6 @@
     "release-please": "github:RuggeroVisintin/release-please"
   },
   "dependencies": {
-    "uuid": "^13.0.0"
+    "uuid": "^14.0.0"
   }
 }

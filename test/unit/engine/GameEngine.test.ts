@@ -1,4 +1,4 @@
-import { BaseSystem, GameEngine, RenderSystem } from "../../../src";
+import { CanvasDevice, DOMImageLoader, GameEngine, Renderer, RenderSystem } from "../../../src";
 import { fakeSystemClock } from "../__mocks__/FakeSystemClock";
 
 window.requestAnimationFrame = jest.fn((callback) => {
@@ -42,6 +42,21 @@ describe('/engine/GameEngine', () => {
         });
     });
 
+    describe('.constructor()', () => {
+        it('Should use the provided render system if given', () => {
+            const renderSystem = new RenderSystem(new Renderer(new CanvasDevice(), { width: 800, height: 600 }, new CanvasRenderingContext2D()), new DOMImageLoader());
+
+            gameEngine = new GameEngine({
+                framerate: 60,
+                resolution: { width: 800, height: 600 },
+                context: new CanvasRenderingContext2D(),
+                renderSystem: (renderer, imageLoader) => renderSystem
+            });
+
+            expect(gameEngine.renderSystems).toEqual([renderSystem]);
+        })
+    });
+
     describe('.run()', () => {
         it('Should update the frame based on the target framerate', () => {
             fakeSystemClock.frameTimes = [0, 16.67];
@@ -49,7 +64,7 @@ describe('/engine/GameEngine', () => {
             gameEngine.run();
             gameEngine.renderSystems.forEach(renderSystem => {
                 expect(renderSystem.update).toHaveBeenCalled();
-            }); 
+            });
             expect(gameEngine.inputSystem.update).toHaveBeenCalled();
             expect(gameEngine.physicsSystem.update).toHaveBeenCalled();
             expect(gameEngine.hierarchySystem.update).toHaveBeenCalled();
