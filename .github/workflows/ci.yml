@@ -130,6 +130,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
       pull-requests: write
       pages: write
       id-token: write
