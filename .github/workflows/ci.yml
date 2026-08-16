@@ -145,74 +145,51 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const diffPath = 'test-results/backward-compatibility/reports/api-diff-report.md';
+            const cp = require('child_process');
 
-            if (!fs.existsSync(diffPath)) {
-              console.log('No diff report found.');
-              return;
-            }
+            const diffPath = 'test-results/backward-compatibility/reports/api-diff-report.md';
+            if (!fs.existsSync(diffPath)) return;
 
             const diffText = fs.readFileSync(diffPath, 'utf8');
-            if (!diffText || diffText.trim() === '') {
-              console.log('No breaking changes found in diff.');
-              return;
-            }
+            if (!diffText || diffText.trim() === '') return;
 
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const pull_number = context.payload.pull_request.number;
-            const commit_id = context.payload.pull_request.head.sha;
-
-            // Target the API report file inside the PR diff
-            const path = 'test-results/backward-compatibility/reports/sparkengineweb.public.api.md';
-
-            // Parse unified diff hunks to find added/removed line numbers on the 'new' file side
-            let currentNewLine = 0;
-            const commentsToPost = [];
-
+            // 1. Extract changed symbol names from the diff (e.g., lines starting with - or + containing export names)
+            const changedSymbols = new Set();
             const lines = diffText.split('\n');
             for (const line of lines) {
-              if (line.startsWith('@@')) {
-                // Parse chunk header e.g. @@ -12,3 +12,5 @@
-                const match = line.match(/\+(\d+)(?:,\d+)?\s@@/);
-                if (match) {
-                  currentNewLine = parseInt(match[1], 10) - 1;
-                }
-              } else if (line.startsWith('+') && !line.startsWith('+++')) {
-                currentNewLine++;
-                commentsToPost.push({
-                  path: path,
-                  line: currentNewLine,
-                  side: 'RIGHT',
-                  body: `⚠️ **API Contract Change Detected:**\n\`\`\`diff\n${line}\n\`\`\``
-                });
-              } else if (!line.startsWith('-')) {
-                currentNewLine++;
+              // Look for API extractor lines representing declarations (e.g., nested properties or method signatures)
+              const match = line.match(/^[+-]\s+(?:(?!##)([\w]+))/);
+              if (match && match[1] && match[1].length > 3) {
+                changedSymbols.add(match[1]);
               }
             }
 
-            if (commentsToPost.length === 0) {
-              console.log('No line-level changes to comment on.');
-              return;
-            }
+            console.log("Detected changed API symbols:", Array.from(changedSymbols));
 
-            // GitHub limits bulk review comments, post them cleanly or create a review batch
-            console.log(`Posting ${commentsToPost.length} inline review comments...`);
+            // 2. Find which files in `src/` contain these symbols using git grep
+            const filesInPR = cp.execSync('git diff --name-only origin/main...HEAD').toString().split('\n').filter(f => f.startsWith('src/') && (f.endsWith('.ts') || f.endsWith('.tsx')));
 
-            for (const comment of commentsToPost.slice(0, 30)) { // Safeguard loop limit
-              try {
-                await github.rest.pulls.createReviewComment({
-                  owner,
-                  repo,
-                  pull_number,
-                  commit_id,
-                  body: comment.body,
-                  path: comment.path,
-                  line: comment.line,
-                  side: comment.side
-                });
-              } catch (err) {
-                console.log(`Failed to comment on line ${comment.line}:`, err.message);
+            for (const file of filesInPR) {
+              if (!fs.existsSync(file)) continue;
+              const content = fs.readFileSync(file, 'utf8');
+              
+              let lineNum = 1;
+              for (const fileLine of content.split('\n')) {
+                for (const symbol of changedSymbols) {
+                  // Check if the symbol is exported and modified in this file
+                  if (fileLine.includes(symbol) && (fileLine.includes('export') || fileLine.includes('interface') || fileLine.includes('class') || fileLine.includes('type'))) {
+                    
+                    // Emit a GitHub Workflow Warning Annotation directly on the source file
+                    // This automatically renders as a contextual comment in the PR "Files Changed" tab!
+                    console.log(`Annotating ${file}:${lineNum} for symbol '${symbol}'`);
+                    core.warning(`API Contract Change detected for '${symbol}'. Verify backward compatibility.`, {
+                      file: file,
+                      startLine: lineNum,
+                      title: '⚠️ API Breaking Change'
+                    });
+                  }
+                }
+                lineNum++;
               }
             }
 
