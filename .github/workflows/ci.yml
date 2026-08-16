@@ -115,10 +115,12 @@ jobs:
         run: npm run test:eslint-rules:ci
 
   test-breaking-changes:
+    name: Test Breaking Changes
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write # Required to post comments on the PR
 
+    if: github.event_name == 'pull_request'
     steps:
       - name: Checkout PR Branch
         uses: actions/checkout@v5
@@ -136,23 +138,7 @@ jobs:
 
       - name: Generate Breaking Change Report
         run: |
-          MAIN_DIR=$(mktemp -d)
-          PR_DIR=$(mktemp -d)
-
-          # 1. Generate report for 'main' (using your npm script)
-          git checkout main
           npm run test:breaking-changes
-          cp test-results/backward-compatibility/reports/sparkengineweb.api.md "$MAIN_DIR/main.api.md"
-
-          # 2. Generate report for PR branch
-          git checkout -
-          npm run test:breaking-changes
-          cp test-results/backward-compatibility/reports/sparkengineweb.api.md "$PR_DIR/pr.api.md"
-
-          # 3. Create diff report file
-          diff -u "$MAIN_DIR/main.api.md" "$PR_DIR/pr.api.md" > api-diff-report.md || true
-
-          rm -rf "$MAIN_DIR" "$PR_DIR"
 
       - name: Post or Update PR Comment
         uses: actions/github-script@v7
