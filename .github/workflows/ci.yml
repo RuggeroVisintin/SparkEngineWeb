@@ -145,52 +145,50 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const cp = require('child_process');
+            const path = 'test-results/backward-compatibility/reports/api-diff-report.md';
 
-            const diffPath = 'test-results/backward-compatibility/reports/api-diff-report.md';
-            if (!fs.existsSync(diffPath)) return;
-
-            const diffText = fs.readFileSync(diffPath, 'utf8');
-            if (!diffText || diffText.trim() === '') return;
-
-            // 1. Extract changed symbol names from the diff (e.g., lines starting with - or + containing export names)
-            const changedSymbols = new Set();
-            const lines = diffText.split('\n');
-            for (const line of lines) {
-              // Look for API extractor lines representing declarations (e.g., nested properties or method signatures)
-              const match = line.match(/^[+-]\s+(?:(?!##)([\w]+))/);
-              if (match && match[1] && match[1].length > 3) {
-                changedSymbols.add(match[1]);
-              }
+            if (!fs.existsSync(path)) {
+              console.log('No diff file found at path:', path);
+              return;
             }
 
-            console.log("Detected changed API symbols:", Array.from(changedSymbols));
+            const diffContent = fs.readFileSync(path, 'utf8');
 
-            // 2. Find which files in `src/` contain these symbols using git grep
-            const filesInPR = cp.execSync('git diff --name-only origin/main...HEAD').toString().split('\n').filter(f => f.startsWith('src/') && (f.endsWith('.ts') || f.endsWith('.tsx')));
+            if (!diffContent || diffContent.trim() === '') {
+              console.log('Diff file is empty. No breaking changes to report.');
+              return;
+            }
 
-            for (const file of filesInPR) {
-              if (!fs.existsSync(file)) continue;
-              const content = fs.readFileSync(file, 'utf8');
-              
-              let lineNum = 1;
-              for (const fileLine of content.split('\n')) {
-                for (const symbol of changedSymbols) {
-                  // Check if the symbol is exported and modified in this file
-                  if (fileLine.includes(symbol) && (fileLine.includes('export') || fileLine.includes('interface') || fileLine.includes('class') || fileLine.includes('type'))) {
-                    
-                    // Emit a GitHub Workflow Warning Annotation directly on the source file
-                    // This automatically renders as a contextual comment in the PR "Files Changed" tab!
-                    console.log(`Annotating ${file}:${lineNum} for symbol '${symbol}'`);
-                    core.warning(`API Contract Change detected for '${symbol}'. Verify backward compatibility.`, {
-                      file: file,
-                      startLine: lineNum,
-                      title: '⚠️ API Breaking Change'
-                    });
-                  }
-                }
-                lineNum++;
-              }
+            const output = `### ⚠️ API Breaking Changes Detected\n` +
+              `This Pull Request introduces changes to the public API contract:\n\n` +
+              `<details><summary>View Diff Report</summary>\n\n` +
+              '```diff\n' + diffContent + '\n```\n' +
+              `</details>`;
+
+            const prNumber = context.payload.pull_request.number;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const existingComment = comments.find(c => c.body && c.body.includes('### ⚠️ API Breaking Changes Detected'));
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: output
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: output
+              });
             }
 
   code_scan:
