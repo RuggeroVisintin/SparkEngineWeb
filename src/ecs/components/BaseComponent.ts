@@ -10,7 +10,7 @@ export class BaseComponent implements IComponent {
 
     private _container?: IEntity;
 
-    public get uuid(): string {
+    public get uuuid(): string {
         return this._uuid;
     }
 

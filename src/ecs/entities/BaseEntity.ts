@@ -79,7 +79,7 @@ export class BaseEntity implements IEntity {
      * @param uuid - the UUID of the component to remove
      */
     public removeComponent(uuid: string): void {
-        const componentIndex = this._flattenedComponents.findIndex(c => c.uuid === uuid);
+        const componentIndex = this._flattenedComponents.findIndex(c => c.uuuid === uuid);
         if (componentIndex === -1) return;
 
         const component = this._flattenedComponents[componentIndex];
@@ -87,7 +87,7 @@ export class BaseEntity implements IEntity {
         // Remove from type-based map for all types in the component's type chain
         typesOf(component).forEach(type => {
             const components = this.getComponents(type);
-            const filtered = components.filter(c => c.uuid !== uuid);
+            const filtered = components.filter(c => c.uuuid !== uuid);
             if (filtered.length > 0) {
                 this._componentsTypeMap.set(type, filtered);
             } else {

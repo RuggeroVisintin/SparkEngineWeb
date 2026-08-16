@@ -179,7 +179,7 @@ export class Scene {
     private _unregisterEntityComponentsFromSystems(entity: IEntity): void {
         this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, systems]) => {
             entity.getComponents(componentType).forEach(component => {
-                systems.forEach((system: ISystem) => system.unregisterComponent(component.uuid))
+                systems.forEach((system: ISystem) => system.unregisterComponent(component.uuuid))
             });
         });
     }

@@ -10,8 +10,7 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
         return this._isRunning;
     }
 
-    public get components(): T[] 
-    {
+    public get components(): T[] {
         return Array.from(this._components.values());
     }
 
@@ -22,9 +21,9 @@ export abstract class BaseSystem<T extends IComponent> implements ISystem {
      * @param component - The component to be added
      */
     public registerComponent(component: T): void {
-        if (this._components.has(component.uuid)) return;
+        if (this._components.has(component.uuuid)) return;
 
-        this._components.set(component.uuid, component);
+        this._components.set(component.uuuid, component);
     }
 
     /**
