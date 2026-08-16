@@ -29,7 +29,7 @@
     "test:perf:ci": "npm run test:perf -- --no-color",
     "test:visual": "npx playwright test",
     "test:visual:update-baseline": "npx playwright test --update-snapshots",
-    "postinstall": "sh ./scripts/install-additional-deps.sh",
+    "postinstall": "sh ./scripts/post-install.sh",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "adr": "./vendors/adr-tools/src/adr"
@@ -46,6 +46,7 @@
   "homepage": "https://github.com/RuggeroVisintin/SparkEngineWeb#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^20.0.0",
+    "@microsoft/api-extractor": "^7.58.12",
     "@playwright/test": "^1.57.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
@@ -64,6 +65,7 @@
     "jest-environment-jsdom": "^30.2.0",
     "jest-extended": "^7.0.0",
     "make-coverage-badge": "^1.2.0",
+    "release-please": "github:RuggeroVisintin/release-please",
     "semantic-release": "^25.0.2",
     "ts-jest": "^29.4.6",
     "ts-loader": "^9.5.4",
@@ -71,8 +73,7 @@
     "typedoc": "^0.28.15",
     "typescript": "^5.9.3",
     "webpack": "^5.103.0",
-    "webpack-cli": "^6.0.1",
-    "release-please": "github:RuggeroVisintin/release-please"
+    "webpack-cli": "^6.0.1"
   },
   "dependencies": {
     "uuid": "^14.0.0"
