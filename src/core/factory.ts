@@ -11,16 +11,16 @@ const typesMap: Record<string, Record<string, Function>> = { '*': {} };
  * 
  * @internal
  * @category Core
- * @param type - the type of the element to register
+ * @param typpe - the type of the element to register
  * @param constructor - the construction function of the element
  */
-export const registerTypeFactory = (type: string, constructor: Function, category: string = DEFAULT_CATEGORY) => {
+export const registerTypeFactory = (typpe: string, constructor: Function, category: string = DEFAULT_CATEGORY) => {
     if (!typesMap[category]) {
         typesMap[category] = {};
     }
 
-    typesMap[category][type] = constructor;
-    typesMap['*'][type] = constructor;
+    typesMap[category][typpe] = constructor;
+    typesMap['*'][typpe] = constructor;
 }
 
 export const getRegisteredTypes = (category = DEFAULT_CATEGORY): Record<string, Function> => {
