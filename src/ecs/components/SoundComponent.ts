@@ -7,7 +7,7 @@ import { Component, ComponentProps } from "./interfaces";
  * @category Components
  */
 export interface SoundComponentProps extends ComponentProps {
-    filePath: string;
+    filePath?: string;
 }
 
 /**
@@ -44,9 +44,10 @@ export class SoundComponent extends BaseComponent {
         return this._asset;
     }
 
-    private _filePath: string;
+    private _filePath?: string;
 
-    public get filePath(): string {
+    @Optional(String)
+    public get filePath(): string | undefined {
         return this._filePath;
     }
 
@@ -59,7 +60,7 @@ export class SoundComponent extends BaseComponent {
     ) {
         super();
 
-        this._filePath = props.filePath;
+        if (props.filePath) this._filePath = props.filePath;
     }
 
     /**
@@ -85,7 +86,7 @@ export class SoundComponent extends BaseComponent {
      * This method is implemented asynchronously so to not block the engine, as soon as the sound is loaded it will be played
      */
     public load(loader: SoundLoader): void {
-        loader
+        this.filePath && loader
             .load(this.filePath)
             .then(asset => {
                 this._asset = asset;
