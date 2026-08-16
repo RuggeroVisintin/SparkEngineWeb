@@ -28,6 +28,7 @@ branches:
           - "Visual Tests / Visual Tests"
           - "Performance Tests"
           - "Unit Tests"
+          - "Test Breaking Changes"
 
       enforce_admins: false
       required_linear_history: true
@@ -42,4 +43,3 @@ branches:
           - github-actions[bot]
         users: []
         teams: []
-
