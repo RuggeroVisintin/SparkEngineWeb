@@ -13,6 +13,7 @@ if [ -z "$CURRENT_BRANCH" ]; then
 fi
 
 echo "Generating report for PR branch..."
+mkdir -p "$REPORTS_DIR"
 npm run build:lib && npx api-extractor run --local
 cp "$REPORTS_DIR/sparkengineweb.api.md" "$PR_TEMP_DIR/pr.api.md"
 
@@ -25,6 +26,7 @@ echo "Generating report for 'main' code..."
 rm -rf src
 mv "$MAIN_TEMP_DIR/main-src/src" src
 
+mkdir -p "$REPORTS_DIR"
 npm run build:lib && npx api-extractor run --local
 cp "$REPORTS_DIR/sparkengineweb.api.md" "$MAIN_TEMP_DIR/main.api.md"
 
