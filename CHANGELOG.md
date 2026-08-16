@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.19.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.1...sparkengineweb-v0.19.2) (2026-08-15)
+
+
+### Features
+
+* **ecs:** add InputComponent.onInputEventCb toJson support ([feda5f6](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/feda5f682a7d634b3581d54dcaa571f9ad0a5810))
+* **ecs:** add SerializableCallbacks support to input components ([221097e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/221097e6ae7552296dae2bddde713843322b5075))
+
 ## [0.19.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.0...sparkengineweb-v0.19.1) (2026-08-10)
 
 
