@@ -140,55 +140,67 @@ jobs:
         run: |
           npm run test:breaking-changes
 
-      - name: Post or Update PR Comment
+      - name: Annotate Source Files with API Changes
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const path = 'test-results/backward-compatibility/reports/api-diff-report.md';
+            const cp = require('child_process');
 
-            if (!fs.existsSync(path)) {
-              console.log('No diff file found at path:', path);
-              return;
+            const diffPath = 'test-results/backward-compatibility/reports/api-diff-report.md';
+            if (!fs.existsSync(diffPath)) return;
+
+            const apiDiffText = fs.readFileSync(diffPath, 'utf8');
+            if (!apiDiffText || apiDiffText.trim() === '') return;
+
+            // 1. Collect exact text lines added in the API report diff (ignoring symbols like '+', '+++', etc.)
+            const addedApiLines = new Set();
+            for (const line of apiDiffText.split('\n')) {
+              if (line.startsWith('+') && !line.startsWith('+++')) {
+                const content = line.substring(1).trim();
+                // Filter out structural brackets or empty lines
+                if (content && content !== '{' && content !== '}' && content.length > 3) {
+                  addedApiLines.add(content);
+                }
+              }
             }
 
-            const diffContent = fs.readFileSync(path, 'utf8');
+            if (addedApiLines.size === 0) return;
 
-            if (!diffContent || diffContent.trim() === '') {
-              console.log('Diff file is empty. No breaking changes to report.');
-              return;
-            }
+            // 2. Stream through the actual source code PR git diff (-U0 gives exact added lines)
+            const gitDiff = cp.execSync('git diff -U0 origin/main...HEAD -- src/').toString();
 
-            const output = `### ⚠️ API Breaking Changes Detected\n` +
-              `This Pull Request introduces changes to the public API contract:\n\n` +
-              `<details><summary>View Diff Report</summary>\n\n` +
-              '```diff\n' + diffContent + '\n```\n' +
-              `</details>`;
+            let currentFile = '';
+            let currentNewLine = 0;
 
-            const prNumber = context.payload.pull_request.number;
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-            });
-
-            const existingComment = comments.find(c => c.body && c.body.includes('### ⚠️ API Breaking Changes Detected'));
-
-            if (existingComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body: output
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: output
-              });
+            for (const line of gitDiff.split('\n')) {
+              if (line.startsWith('+++ b/')) {
+                currentFile = line.substring(6).trim();
+              } else if (line.startsWith('@@')) {
+                const match = line.match(/\+(\d+)(?:,\d+)?\s@@/);
+                if (match) {
+                  currentNewLine = parseInt(match[1], 10) - 1;
+                }
+              } else if (line.startsWith('+') && !line.startsWith('+++')) {
+                currentNewLine++;
+                const sourceLine = line.substring(1).trim();
+                
+                // 3. Direct comparison: Does the source line match any added API declaration line?
+                for (const apiLine of addedApiLines) {
+                  // Check if the source code line contains the core declaration or vice versa
+                  if (sourceLine.includes(apiLine) || apiLine.includes(sourceLine)) {
+                    console.log(`Annotating ${currentFile}:${currentNewLine}`);
+                    core.warning(`API contract change introduced here. Ensure backwards compatibility.`, {
+                      file: currentFile,
+                      startLine: currentNewLine,
+                      title: '⚠️ API Breaking Change'
+                    });
+                    break;
+                  }
+                }
+              } else if (!line.startsWith('-')) {
+                if (currentNewLine > 0) currentNewLine++;
+              }
             }
 
   code_scan:
