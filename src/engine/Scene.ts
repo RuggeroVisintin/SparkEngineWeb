@@ -17,7 +17,7 @@ export interface SceneJsonProps {
  * @category Engine
  */
 export class Scene {
-    
+
     private _componentTypes = (engine: GameEngine) => ({
         ShapeComponent: engine.renderSystems,
         CameraComponent: engine.renderSystems,
@@ -89,7 +89,7 @@ export class Scene {
 
         if (this._shouldDraw) {
             this._registerEntityComponentsInSystems(entity);
-        }   
+        }
     }
 
     /**
@@ -162,7 +162,7 @@ export class Scene {
      * Disposes the scene, unregistering all entities components from the corrispective systems
      * and clearing the entities array
      */
-    public dispose(): void { 
+    public dispose(): void {
         this.entities.forEach(entity => this._unregisterEntityComponentsFromSystems(entity));
 
         this._entities = [];
@@ -177,9 +177,10 @@ export class Scene {
 
     private _unregisterEntityComponentsFromSystems(entity: IEntity): void {
         this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, systems]) => {
-            const component = entity.getComponent(componentType);
-            component && systems.forEach((system: ISystem) => system.unregisterComponent(component.uuid))
+            entity.getComponents(componentType).forEach(component => {
+                systems.forEach((system: ISystem) => system.unregisterComponent(component.uuid))
+            });
         });
     }
-        
+
 }

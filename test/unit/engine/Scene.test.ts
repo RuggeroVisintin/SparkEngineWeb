@@ -1,4 +1,4 @@
-import { GameObject, InputComponent, PrimitiveType, Rgb, Scene, SoundComponent, StaticObject, Vec2, GameEngine, RenderSystem } from "../../../src";
+import { GameObject, InputComponent, Scene, SoundComponent, StaticObject, GameEngine, RenderSystem, ShapeComponent } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
@@ -24,6 +24,7 @@ describe('/game/Scene', () => {
         });
 
         scene = new Scene();
+        scene.draw(engine);
     })
 
     describe('.draw()', () => {
@@ -284,6 +285,14 @@ describe('/game/Scene', () => {
             scene.unregisterEntity(entity.uuid);
 
             expect(engine.soundSystem.components).not.toContain(soundComponent);
+        });
+
+        it('Should unregister all entity components from their systems when multiple components of the same type are present', () => {
+            entity.addComponent(new InputComponent());
+
+            scene.unregisterEntity(entity.uuid);
+
+            expect(engine.inputSystem.components).toBeEmpty();
         });
     })
 
