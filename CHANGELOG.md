@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.2...sparkengineweb-v0.19.3) (2026-08-16)
+
+
+### Bug Fixes
+
+* **engine:** fix register/unregister entity with multiple components of same type ([#780](https://github.com/RuggeroVisintin/SparkEngineWeb/issues/780)) ([18a9d16](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/18a9d16a1b0f5a2fcaa155dcaa89af3ce660a45a))
+
 ## [0.19.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.1...sparkengineweb-v0.19.2) (2026-08-15)
 
 
