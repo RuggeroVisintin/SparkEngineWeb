@@ -152,6 +152,19 @@ describe('/game/Scene', () => {
 
                 expect(engine.soundSystem.components).toContain(soundComponent);
             });
+
+            it('Should register all entity components into their systems when multiple components of the same type are present', () => {
+                const entity = new StaticObject();
+                const inputComponent1 = new InputComponent();
+                const inputComponent2 = new InputComponent();
+                entity.addComponent(inputComponent1);
+                entity.addComponent(inputComponent2);
+
+                scene.registerEntity(entity);
+
+                expect(engine.inputSystem.components).toContain(inputComponent1);
+                expect(engine.inputSystem.components).toContain(inputComponent2);
+            });
         })
 
         describe('When scene is hidden', () => {

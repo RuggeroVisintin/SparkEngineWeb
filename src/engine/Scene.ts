@@ -170,8 +170,9 @@ export class Scene {
 
     private _registerEntityComponentsInSystems(entity: IEntity): void {
         this._currentEngine && Object.entries(this._componentTypes(this._currentEngine)).map(([componentType, systems]) => {
-            const component = entity.getComponent(componentType);
-            component && systems.forEach((system: ISystem) => system.registerComponent(component));
+            entity.getComponents(componentType).forEach(component => {
+                systems.forEach((system: ISystem) => system.registerComponent(component))
+            });
         });
     }
 
