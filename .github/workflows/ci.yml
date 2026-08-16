@@ -140,55 +140,64 @@ jobs:
         run: |
           npm run test:breaking-changes
 
-      - name: Post or Update PR Comment
+      - name: Annotate Source Files with API Changes
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
             const path = 'test-results/backward-compatibility/reports/api-diff-report.md';
 
-            if (!fs.existsSync(path)) {
-              console.log('No diff file found at path:', path);
-              return;
+            const diffPath = 'test-results/backward-compatibility/reports/api-diff-report.md';
+            if (!fs.existsSync(diffPath)) return;
+
+            const diffText = fs.readFileSync(diffPath, 'utf8');
+            if (!diffText || diffText.trim() === '') return;
+
+            // 1. Extract exact changed declarations/signatures from the unified diff (ignoring headers & metadata)
+            const changedSignatures = new Set();
+            const lines = diffText.split('\n');
+            for (const line of lines) {
+              // Match added or removed lines that represent API definitions (skip markdown headers or empty lines)
+              if ((line.startsWith('+') && !line.startsWith('+++')) || (line.startsWith('-') && !line.startsWith('---'))) {
+                const content = line.substring(1).trim();
+                // Filter out structural markdown lines, braces, or short tokens
+                if (content && !content.startsWith('#') && !content.startsWith('//') && content !== '}' && content !== '{' && content.length > 4) {
+                  // Grab the primary identifier/name token from the line (e.g., function name, property name, type name)
+                  const tokens = content.split(/[\s(:<>]+/);
+                  const identifier = tokens.find(t => t && /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(t) && !['export', 'readonly', 'public', 'private', 'protected', 'static', 'interface', 'class', 'type', 'enum', 'function', 'const', 'let', 'var'].includes(t));
+                  
+                  if (identifier) {
+                    changedSignatures.add(identifier);
+                  }
+                }
+              }
             }
 
-            const diffContent = fs.readFileSync(path, 'utf8');
+            console.log("Filtered target API identifiers:", Array.from(changedSignatures));
 
-            if (!diffContent || diffContent.trim() === '') {
-              console.log('Diff file is empty. No breaking changes to report.');
-              return;
-            }
+            // 2. Scan modified source files in the PR to find matches and annotate them
+            const filesInPR = cp.execSync('git diff --name-only origin/main...HEAD').toString().split('\n').filter(f => f.startsWith('src/') && (f.endsWith('.ts') || f.endsWith('.tsx')));
 
-            const output = `### ⚠️ API Breaking Changes Detected\n` +
-              `This Pull Request introduces changes to the public API contract:\n\n` +
-              `<details><summary>View Diff Report</summary>\n\n` +
-              '```diff\n' + diffContent + '\n```\n' +
-              `</details>`;
-
-            const prNumber = context.payload.pull_request.number;
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-            });
-
-            const existingComment = comments.find(c => c.body && c.body.includes('### ⚠️ API Breaking Changes Detected'));
-
-            if (existingComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body: output
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: output
-              });
+            for (const file of filesInPR) {
+              if (!fs.existsSync(file)) continue;
+              const fileContent = fs.readFileSync(file, 'utf8');
+              const fileLines = fileContent.split('\n');
+              
+              let lineNum = 1;
+              for (const fileLine of fileLines) {
+                for (const sig of changedSignatures) {
+                  // If the line defines or references the exact changed API signature inside a source file
+                  if (fileLine.includes(sig)) {
+                    console.log(`Annotating ${file}:${lineNum} for API change on '${sig}'`);
+                    core.warning(`API contract change detected for '${sig}'. Ensure backwards compatibility.`, {
+                      file: file,
+                      startLine: lineNum,
+                      title: '⚠️ API Breaking Change'
+                    });
+                  }
+                }
+                lineNum++;
+              }
             }
 
   code_scan:
