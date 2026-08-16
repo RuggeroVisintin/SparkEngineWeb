@@ -29,6 +29,7 @@
     "test:perf:ci": "npm run test:perf -- --no-color",
     "test:visual": "npx playwright test",
     "test:visual:update-baseline": "npx playwright test --update-snapshots",
+    "test:breaking-changes": "sh ./scripts/test-breaking-changes.sh",
     "postinstall": "sh ./scripts/post-install.sh",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
