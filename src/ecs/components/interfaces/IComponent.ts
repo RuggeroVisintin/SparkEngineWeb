@@ -7,7 +7,7 @@ export interface ComponentProps { };
  * @category Components
  */
 export interface IComponent {
-    readonly uuid: string;
+    readonly uuuid: string;
 
     getContainer(): IEntity | undefined;
     setContainer(container: IEntity): void;

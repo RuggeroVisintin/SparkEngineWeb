@@ -27,7 +27,7 @@ export class TriggerComponent extends BoundingBoxComponent {
     }
 
     protected onCollision(params: CollisionCallbackParams) {
-        if (params.collider.uuid !== this.target?.getComponent<BoundingBoxComponent>('BoundingBoxComponent')?.uuid) {
+        if (params.collider.uuid !== this.target?.getComponent<BoundingBoxComponent>('BoundingBoxComponent')?.uuuid) {
             return;
         }
 

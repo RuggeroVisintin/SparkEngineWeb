@@ -113,7 +113,7 @@ export class BoundingBoxComponent extends BaseComponent implements ICollidableCo
         return {
             aabb: [this.aabb.x, this.aabb.y, this.aabb.width, this.aabb.height],
             isContainer: this.isContainer,
-            uuid: this.uuid,
+            uuid: this.uuuid,
             velocity
         }
     }

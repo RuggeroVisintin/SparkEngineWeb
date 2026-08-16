@@ -32,7 +32,7 @@ export class RenderSystem extends BaseSystem<IDrawableComponent> implements ISys
     }
 
     public unregisterComponent(uuid: string): void {
-        if (this._camera.uuid === uuid) {
+        if (this._camera.uuuid === uuid) {
             this._camera = new CameraComponent();
         }
 
