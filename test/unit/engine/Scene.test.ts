@@ -1,4 +1,4 @@
-import { GameObject, InputComponent, PrimitiveType, Rgb, Scene, SoundComponent, StaticObject, Vec2, GameEngine, RenderSystem } from "../../../src";
+import { GameObject, InputComponent, Scene, SoundComponent, StaticObject, GameEngine, RenderSystem, ShapeComponent } from "../../../src";
 import { fetchMockData } from "../__mocks__/Fetch";
 import { defaultEntitiesScene, entitiesWithComponents } from "../__mocks__/scenes";
 
@@ -24,6 +24,7 @@ describe('/game/Scene', () => {
         });
 
         scene = new Scene();
+        scene.draw(engine);
     })
 
     describe('.draw()', () => {
@@ -150,6 +151,19 @@ describe('/game/Scene', () => {
                 scene.registerEntity(entity);
 
                 expect(engine.soundSystem.components).toContain(soundComponent);
+            });
+
+            it('Should register all entity components into their systems when multiple components of the same type are present', () => {
+                const entity = new StaticObject();
+                const inputComponent1 = new InputComponent();
+                const inputComponent2 = new InputComponent();
+                entity.addComponent(inputComponent1);
+                entity.addComponent(inputComponent2);
+
+                scene.registerEntity(entity);
+
+                expect(engine.inputSystem.components).toContain(inputComponent1);
+                expect(engine.inputSystem.components).toContain(inputComponent2);
             });
         })
 
@@ -284,6 +298,14 @@ describe('/game/Scene', () => {
             scene.unregisterEntity(entity.uuid);
 
             expect(engine.soundSystem.components).not.toContain(soundComponent);
+        });
+
+        it('Should unregister all entity components from their systems when multiple components of the same type are present', () => {
+            entity.addComponent(new InputComponent());
+
+            scene.unregisterEntity(entity.uuid);
+
+            expect(engine.inputSystem.components).toBeEmpty();
         });
     })
 

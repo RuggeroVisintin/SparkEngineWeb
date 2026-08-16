@@ -18,6 +18,7 @@ export interface IEntity {
     addComponent(component: IComponent): void;
     removeComponent(uuid: string): void;
     getComponent<T extends IComponent>(type: string): T | undefined;
+    getComponents<T extends IComponent>(type: string): T[];
 
     /**
      * Returns a Json Object representation of the Entity
