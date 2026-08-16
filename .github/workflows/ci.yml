@@ -145,13 +145,17 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const path = './api-diff-report.md';
+            const path = 'test-results/backward-compatibility/reports/api-diff-report.md';
 
-            if (!fs.existsSync(path)) return;
+            if (!fs.existsSync(path)) {
+              console.log('No diff file found at path:', path);
+              return;
+            }
+
             const diffContent = fs.readFileSync(path, 'utf8');
 
-            if (diffContent.trim() === '') {
-              console.log('No API breaking changes detected.');
+            if (!diffContent || diffContent.trim() === '') {
+              console.log('Diff file is empty. No breaking changes to report.');
               return;
             }
 
@@ -161,10 +165,12 @@ jobs:
               '```diff\n' + diffContent + '\n```\n' +
               `</details>`;
 
+            const prNumber = context.payload.pull_request.number;
+
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
+              issue_number: prNumber,
             });
 
             const existingComment = comments.find(c => c.body && c.body.includes('### ⚠️ API Breaking Changes Detected'));
@@ -180,7 +186,7 @@ jobs:
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number,
+                issue_number: prNumber,
                 body: output
               });
             }
