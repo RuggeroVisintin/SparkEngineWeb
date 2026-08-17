@@ -1,6 +1,6 @@
 import { AnimationSystem, HierarchySystem, InputSystem, PhysicsSystem, RenderSystem, SoundSystem } from "../ecs";
 import { Physx } from "../physx";
-import { CanvasDevice, ImageLoader, DOMImageLoader, KeyboardDevice } from "../platform";
+import { CanvasDevice, ImageLoader, DOMImageLoader, KeyboardDevice, SoundLoader, DOMSoundLoader } from "../platform";
 import { Renderer } from "../renderer";
 
 /**
@@ -27,9 +27,14 @@ export interface GameEngineOptions {
     physicsCycles?: number;
 
     /**
-     * The image loader to use for loading images
+     * The image loader to use for loading. If not provided, the default DOMImageLoader will be used.
      */
     imageLoader?: ImageLoader;
+
+    /**
+     * The sound loader to use for loading sounds. If not provided, the default DOMSoundLoader will be used.
+     */
+    soundLoader?: SoundLoader;
 
     /**
      * The render system to use for rendering the scene. If not provided, a default render system will be used.
@@ -66,6 +71,7 @@ export class GameEngine {
     public readonly animationSystem: AnimationSystem;
 
     public readonly imageLoader: ImageLoader;
+    public readonly soundLoader: SoundLoader;
 
     /**
      * @param config - The configuration to use for this instance of GameEngine
@@ -80,6 +86,7 @@ export class GameEngine {
         this._inputs = new KeyboardDevice();
 
         this.imageLoader = config.imageLoader ?? new DOMImageLoader();
+        this.soundLoader = config.soundLoader ?? new DOMSoundLoader();
 
         const renderSystem = config.renderSystem ? config.renderSystem(this.renderer, this.imageLoader) : new RenderSystem(this.renderer, this.imageLoader);
 
@@ -90,7 +97,7 @@ export class GameEngine {
         this.physicsSystem = new PhysicsSystem(this._physx);
         this.hierarchySystem = new HierarchySystem();
         this.inputSystem = new InputSystem(this._inputs);
-        this.soundSystem = new SoundSystem();
+        this.soundSystem = new SoundSystem(this.soundLoader);
         this.animationSystem = new AnimationSystem();
     }
 

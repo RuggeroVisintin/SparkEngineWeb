@@ -1,10 +1,10 @@
-import { SoundLoader } from "../../../../src";
+import { DOMSoundLoader } from "../../../../src";
 import '../../__mocks__';
 
-describe('platform/sfx/SoundLoader', () => {
+describe('platform/sfx/DOMSoundLoader', () => {
     describe('.load', () => {
-        it('Should return a SoundAsset once loaded', async () => {        
-            const soundLoader = new SoundLoader();
+        it('Should return a SoundAsset once loaded', async () => {
+            const soundLoader = new DOMSoundLoader();
             const soundAsset = await soundLoader.load('test.mp3');
             expect(soundAsset).toBeDefined();
         })
@@ -17,7 +17,7 @@ describe('platform/sfx/SoundLoader', () => {
                 })
             }))
 
-            const soundLoader = new SoundLoader();
+            const soundLoader = new DOMSoundLoader();
             await expect(async () => {
                 await soundLoader.load('test.mp3');
             }).rejects.toThrow('Error');

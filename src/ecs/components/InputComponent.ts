@@ -34,7 +34,6 @@ export class InputComponent extends BaseComponent {
     }
 
     private onKeyUpdate(keyStatusMap: KeyStatusMap): void {
-        console.log('onInputEventCb', this.onInputEventCb);
         if (!this.onInputEventCb) return;
 
         this.onInputEventCb.call(this, keyStatusMap);
