@@ -14,8 +14,6 @@ export class SoundSystem extends BaseSystem<SoundComponent> implements ISystem {
     }
 
     protected internalUpdate(): void {
-        // TODO: should trigger loading the sound asset if not already loaded
-
         this.components.forEach(soundComponent => {
             if (!soundComponent.isLoading && !soundComponent.isLoaded) {
                 soundComponent.load(this.soundLoader);
