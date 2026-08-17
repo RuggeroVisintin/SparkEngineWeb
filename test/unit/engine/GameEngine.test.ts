@@ -1,4 +1,4 @@
-import { CanvasDevice, DOMImageLoader, GameEngine, Renderer, RenderSystem } from "../../../src";
+import { CanvasDevice, DOMImageLoader, GameEngine, Renderer, RenderSystem, SoundAsset, SoundLoader } from "../../../src";
 import { fakeSystemClock } from "../__mocks__/FakeSystemClock";
 
 window.requestAnimationFrame = jest.fn((callback) => {
@@ -54,7 +54,29 @@ describe('/engine/GameEngine', () => {
             });
 
             expect(gameEngine.renderSystems).toEqual([renderSystem]);
-        })
+        });
+
+        it('Should use the provided SoundLoader if given', () => {
+            class CustomSoundLoader implements SoundLoader {
+                public async load(src: string): Promise<SoundAsset> {
+                    return new SoundAsset(new Audio(src));
+                }
+            }
+
+            const customSoundLoader = new CustomSoundLoader();
+
+            gameEngine = new GameEngine({
+                framerate: 60,
+                resolution: { width: 800, height: 600 },
+                context: new CanvasRenderingContext2D(),
+                additionalRenderSystems: (renderer, imageLoader) => {
+                    return [new RenderSystem(renderer, imageLoader)];
+                },
+                soundLoader: customSoundLoader
+            });
+
+            expect(gameEngine.soundLoader).toBe(customSoundLoader);
+        });
     });
 
     describe('.run()', () => {

@@ -27,9 +27,14 @@ export interface GameEngineOptions {
     physicsCycles?: number;
 
     /**
-     * The image loader to use for loading images
+     * The image loader to use for loading. If not provided, the default DOMImageLoader will be used.
      */
     imageLoader?: ImageLoader;
+
+    /**
+     * The sound loader to use for loading sounds. If not provided, the default DOMSoundLoader will be used.
+     */
+    soundLoader?: SoundLoader;
 
     /**
      * The render system to use for rendering the scene. If not provided, a default render system will be used.
@@ -81,7 +86,7 @@ export class GameEngine {
         this._inputs = new KeyboardDevice();
 
         this.imageLoader = config.imageLoader ?? new DOMImageLoader();
-        this.soundLoader = new DOMSoundLoader();
+        this.soundLoader = config.soundLoader ?? new DOMSoundLoader();
 
         const renderSystem = config.renderSystem ? config.renderSystem(this.renderer, this.imageLoader) : new RenderSystem(this.renderer, this.imageLoader);
 
