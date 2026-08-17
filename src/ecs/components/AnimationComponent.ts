@@ -1,11 +1,12 @@
 import { Rgb, WithType } from "../../core";
-import { ImageAsset, DOMImageLoader } from "../../platform";
+import { ImageAsset, ImageLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { Component } from "./interfaces";
 import { MaterialComponent, MaterialComponentProps } from "./MaterialComponent";
 
 /**
  * @category Components
+ * @public
  */
 export interface AnimationFrame {
     duration: number;
@@ -14,6 +15,7 @@ export interface AnimationFrame {
 
 /**
  * @category Components
+ * @public
  */
 export interface AnimationComponentProps {
     frames: AnimationFrame[];
@@ -21,6 +23,7 @@ export interface AnimationComponentProps {
 
 /**
  * @category Components
+ * @public
  */
 @Component('AnimationComponent')
 export class AnimationComponent extends BaseComponent {
@@ -48,7 +51,7 @@ export class AnimationComponent extends BaseComponent {
         }
     }
 
-    public loadAssets(loader: DOMImageLoader): void {
+    public loadAssets(loader: ImageLoader): void {
         for (const frame of this.frames) {
             if (frame.material?.diffuseTexturePath) {
                 const location = frame.material.diffuseTexturePath;
