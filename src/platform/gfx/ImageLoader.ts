@@ -1,6 +1,10 @@
 import { ImageAsset } from "./ImageAsset";
 
-export interface ImageLoader { 
+/**
+ * @category Platform
+ * @public
+ */
+export interface ImageLoader {
     /**
      * @param src - the source path of the asset file
      * @returns Promise<ImageAsset> - the loaded ImageAsset
