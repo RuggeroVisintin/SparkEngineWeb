@@ -82,7 +82,7 @@ describe('ecs/components/SoundComponent', () => {
             soundComponent.update();
 
             expect(soundComponent.isPlaying).toBe(true);
-        })
+        });
     })
 
     describe('.load', () => {
@@ -105,6 +105,47 @@ describe('ecs/components/SoundComponent', () => {
                 __type: 'SoundComponent',
                 filePath: 'test.mp3'
             });
+        });
+    })
+
+    describe('.filePath', () => {
+        it('Should reset the asset if the filePath is changed', async () => {
+            soundComponent.load(new DOMSoundLoader());
+            soundComponent.play();
+
+            await new Promise(resolve => setTimeout(resolve, 10));
+
+            soundComponent.filePath = 'test2.mp3';
+
+            expect(soundComponent.isLoaded).toBe(false);
+            expect(soundComponent.asset).toBe(null);
+            expect(soundComponent.isPlaying).toBe(false);
+        });
+
+        it('Should set the filePath correctly', () => {
+            soundComponent.filePath = 'test2.mp3';
+
+            expect(soundComponent.filePath).toBe('test2.mp3');
+        });
+    });
+
+    describe('.isLoaded', () => {
+        it('Should return true if the asset is loaded', (done) => {
+            soundComponent.load(new DOMSoundLoader());
+
+            // await to emulate load
+            setTimeout(() => {
+                expect(soundComponent.isLoaded).toBe(true);
+
+                done();
+            }, 10);
+        });
+
+        it('Should return false if no asset is loaded', () => {
+            const soundComponentWithoutAsset = new SoundComponent({});
+
+            expect(soundComponentWithoutAsset.isLoaded).toBe(false);
+            expect(soundComponent.isLoaded).toBe(false);
         });
     })
 })

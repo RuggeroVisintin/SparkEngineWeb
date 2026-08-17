@@ -5,6 +5,7 @@ import { Component, ComponentProps } from "./interfaces";
 
 /**
  * @category Components
+ * @public
  */
 export interface SoundComponentProps extends ComponentProps {
     filePath?: string;
@@ -14,6 +15,7 @@ export interface SoundComponentProps extends ComponentProps {
  * Represents a sound that can be played
  * 
  * @category Components
+ * @public
  */
 @Component('SoundComponent')
 export class SoundComponent extends BaseComponent {
@@ -46,9 +48,36 @@ export class SoundComponent extends BaseComponent {
 
     private _filePath?: string;
 
+    /**
+     * Sets the path of the file to load. This will reset the asset and stop the sound if it was playing
+     * 
+     * @param path - the path of the file to load
+     */
+    public set filePath(path: string) {
+        this._filePath = path;
+        this._asset = null;
+        this._isPlaying = false;
+    }
+
+    /**
+     * @returns the path of the file to load
+     * @returns undefined if no path is set
+     */
     @Optional(String)
     public get filePath(): string | undefined {
         return this._filePath;
+    }
+
+
+    /**
+     * Indicates if the sound is loaded and ready to be played
+     * 
+     * @readonly
+     * @returns true if the sound is loaded and ready to be played
+     * @returns false if the sound is not loaded or not found
+     */
+    public get isLoaded(): boolean {
+        return !!this.asset;
     }
 
     /**
