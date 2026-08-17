@@ -57,6 +57,7 @@ export class SoundComponent extends BaseComponent {
         this._filePath = path;
         this._asset = null;
         this._isPlaying = false;
+        this._isLoading = false;
     }
 
     /**
@@ -78,6 +79,19 @@ export class SoundComponent extends BaseComponent {
      */
     public get isLoaded(): boolean {
         return !!this.asset;
+    }
+
+    private _isLoading = false;
+
+    /**
+     * Indicates if the sound is currently loading
+     * 
+     * @readonly
+     * @returns true if the sound is currently loading
+     * @returns false if the sound is not loading or already loaded
+     */
+    public get isLoading(): boolean {
+        return this._isLoading;
     }
 
     /**
@@ -115,10 +129,17 @@ export class SoundComponent extends BaseComponent {
      * This method is implemented asynchronously so to not block the engine, as soon as the sound is loaded it will be played
      */
     public load(loader: SoundLoader): void {
-        this.filePath && loader
+        if (!this.filePath) return;
+
+        this._isLoading = true;
+
+        loader
             .load(this.filePath)
             .then(asset => {
+                if (asset.media.src !== this._filePath) return;
+
                 this._asset = asset;
+                this._isLoading = false;
             });
     }
 

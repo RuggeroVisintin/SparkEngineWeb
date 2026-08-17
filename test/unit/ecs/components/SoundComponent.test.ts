@@ -95,6 +95,27 @@ describe('ecs/components/SoundComponent', () => {
                 done();
             }, 10);
         });
+
+        it('Should set the isLoading flag to true while loading', (done) => {
+            soundComponent.load(new DOMSoundLoader());
+
+            expect(soundComponent.isLoading).toBe(true);
+
+            setTimeout(() => {
+                expect(soundComponent.isLoading).toBe(false);
+                done();
+            }, 10);
+        });
+
+        it('Should not load apply the loaded asset if the filePath was changed in the meantime', (done) => {
+            soundComponent.load(new DOMSoundLoader());
+            soundComponent.filePath = 'test2.mp3';
+
+            setTimeout(() => {
+                expect(soundComponent.asset).toBe(null);
+                done();
+            }, 10);
+        });
     })
 
     describe('.toJson()', () => {
@@ -126,6 +147,14 @@ describe('ecs/components/SoundComponent', () => {
             soundComponent.filePath = 'test2.mp3';
 
             expect(soundComponent.filePath).toBe('test2.mp3');
+        });
+
+        it('Should reset the loading state if the filePath is changed', () => {
+            soundComponent.load(new DOMSoundLoader());
+
+            soundComponent.filePath = 'test2.mp3';
+
+            expect(soundComponent.isLoading).toBe(false);
         });
     });
 
