@@ -4,7 +4,7 @@ import { Enum } from "../../core";
  * @category Platform
  * @internal
  */
-export class BlendMethod extends Enum<string>{
+export class BlendMethod extends Enum<string> {
     static readonly BM_Overwrite = new BlendMethod('source-over');
     static readonly BM_Add = new BlendMethod('lighter');
 }

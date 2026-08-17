@@ -2,9 +2,11 @@ import { ImageAsset } from "./ImageAsset";
 import { ImageLoader } from "./ImageLoader";
 
 /**
- * Loads a given image asset
+ * Loads a given image asset from the file system using the HTMLImageElement.
  * 
  * @category Platform
+ * 
+ * @internal
  */
 export class DOMImageLoader implements ImageLoader {
     private _assetsCache: Record<string, ImageAsset> = {};
@@ -16,7 +18,7 @@ export class DOMImageLoader implements ImageLoader {
     public async load(src: string): Promise<ImageAsset> {
         if (this._assetsCache[src]) return this._assetsCache[src];
 
-        return new Promise((resolve, reject) => {  
+        return new Promise((resolve, reject) => {
             const type = this.getTypeFromFileName(src);
 
             const image = new Image();
@@ -24,7 +26,7 @@ export class DOMImageLoader implements ImageLoader {
 
             image.onload = async () => {
                 this._assetsCache[src] = new ImageAsset(
-                    await createImageBitmap(image), 
+                    await createImageBitmap(image),
                     type
                 );
 
@@ -35,7 +37,7 @@ export class DOMImageLoader implements ImageLoader {
         });
     }
 
-    private getTypeFromFileName(fileName: string): string { 
+    private getTypeFromFileName(fileName: string): string {
         return fileName.split('.').pop() ?? '';
     }
 

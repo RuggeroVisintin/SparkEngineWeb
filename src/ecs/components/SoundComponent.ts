@@ -1,5 +1,5 @@
 import { WithType, Nullable, Optional } from "../../core";
-import { SoundAsset, DOMSoundLoader } from "../../platform";
+import { SoundAsset, SoundLoader } from "../../platform";
 import { BaseComponent } from "./BaseComponent";
 import { Component, ComponentProps } from "./interfaces";
 
@@ -85,7 +85,7 @@ export class SoundComponent extends BaseComponent {
      * Loads the sound asset using the given loader.
      * This method is implemented asynchronously so to not block the engine, as soon as the sound is loaded it will be played
      */
-    public load(loader: DOMSoundLoader): void {
+    public load(loader: SoundLoader): void {
         this.filePath && loader
             .load(this.filePath)
             .then(asset => {
