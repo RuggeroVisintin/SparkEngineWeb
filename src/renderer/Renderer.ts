@@ -46,6 +46,6 @@ export class Renderer {
             command.execute(this.ctx, this.device)
         });
 
-        this._commandBuffer = [];
+        this._commandBuffer.length = 0;
     }
 }
