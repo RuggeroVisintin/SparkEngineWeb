@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.20.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.3...sparkengineweb-v0.20.0) (2026-08-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sfx:** Changed SoundLoader to be a public interface, renamed the previous SoundLoader class to DOMSoundLoader
+* **engine:** add ability to override engine's default SoundLoader
+
+### Features
+
+* **ecs:** make SoundComponent.filePath property optional ([6b380cd](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6b380cd5efe9212a2cb9590dae776b56fc595f5f))
+* **engine:** add ability to override engine's default SoundLoader ([6b380cd](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6b380cd5efe9212a2cb9590dae776b56fc595f5f))
+
+
+### Performance Improvements
+
+* **renderer:** improve renderer performance ([23f0110](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/23f0110c8c1bcd38f2379c2e3ff66dde2e3b8521))
+
+
+### Code Refactoring
+
+* **sfx:** rename SoundLoader to DOMSoundLoader ([6b380cd](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/6b380cd5efe9212a2cb9590dae776b56fc595f5f))
+
 ## [0.19.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.2...sparkengineweb-v0.19.3) (2026-08-16)
 
 
