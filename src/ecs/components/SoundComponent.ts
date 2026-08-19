@@ -99,11 +99,11 @@ export class SoundComponent extends BaseComponent {
      * @param soundLoader - The loader to use to load the assets
      */
     public constructor(
-        props: SoundComponentProps,
+        props?: SoundComponentProps,
     ) {
         super();
 
-        if (props.filePath) this._filePath = props.filePath;
+        if (props?.filePath) this._filePath = props.filePath;
     }
 
     /**
