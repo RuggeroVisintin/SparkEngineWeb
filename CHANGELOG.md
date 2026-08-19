@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.20.0...sparkengineweb-v0.20.1) (2026-08-19)
+
+
+### Bug Fixes
+
+* **ecs:** make SoundComponent props optional ([241f98e](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/241f98ee7508680a41c801fc5ab550fe1e13ba41))
+
 ## [0.20.0](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.19.3...sparkengineweb-v0.20.0) (2026-08-18)
 
 
