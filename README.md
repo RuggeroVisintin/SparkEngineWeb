@@ -4,7 +4,7 @@
 
 ![Alt text](./assets/a_gear_icon_with_electric_spar%20(2).jpeg)
 
-Spark Engine Web is a lightweight, browser-based web game engine project for fun.
+Spark Engine Web is a lightweight, browser-based web game engine created for fun.
 
 The engine is being built to be simple and fairly performant, aiming to provide the best possible experience to game developers and contributors.
 
