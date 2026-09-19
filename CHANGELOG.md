@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.20.1...sparkengineweb-v0.20.2) (2026-09-19)
+
+
+### Features
+
+* **platform:** add id to sound assets ([72cb19b](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/72cb19b57c7f3d67fc9ec929697936195061cbb1))
+
 ## [0.20.1](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.20.0...sparkengineweb-v0.20.1) (2026-08-19)
 
 
