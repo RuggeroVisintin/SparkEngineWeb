@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We apply security patches only the latest version is patched with security updates, so make sure always to update the package.
+We only apply security patches to the latest version of the engine, so make sure to always stay on top of the changes.
 
 ## Reporting a Vulnerability
 
