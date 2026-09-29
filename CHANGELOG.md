@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.3](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.20.2...sparkengineweb-v0.20.3) (2026-09-29)
+
+
+### Features
+
+* **platform:** add standardized asset definition ([484408c](https://github.com/RuggeroVisintin/SparkEngineWeb/commit/484408cd1e75661051a7c1572363c631b5f235c5))
+
 ## [0.20.2](https://github.com/RuggeroVisintin/SparkEngineWeb/compare/sparkengineweb-v0.20.1...sparkengineweb-v0.20.2) (2026-09-19)
 
 
