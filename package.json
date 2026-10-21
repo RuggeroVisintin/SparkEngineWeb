@@ -67,7 +67,7 @@
     "jest-extended": "^7.0.0",
     "make-coverage-badge": "^1.2.0",
     "release-please": "github:RuggeroVisintin/release-please",
-    "semantic-release": "^25.0.2",
+    "semantic-release": "^25.0.9",
     "ts-jest": "^29.4.14",
     "ts-loader": "^9.6.2",
     "ts-node": "^10.9.2",
