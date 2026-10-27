@@ -50,7 +50,7 @@
     "@microsoft/api-extractor": "^7.59.4",
     "@playwright/test": "^1.57.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "@types/uuid": "^11.0.0",
     "@typescript-eslint/eslint-plugin": "^8.72.0",
     "@typescript-eslint/parser": "^8.71.1",
